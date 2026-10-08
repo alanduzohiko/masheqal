@@ -1,22 +1,30 @@
+
 package com.masheqal.app.ui.screens
 
 import android.Manifest
 import android.content.Context
-import android.content.pm.PackageManager
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Explore
+import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.Navigation
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavHostController
@@ -27,35 +35,193 @@ import kotlin.math.abs
 
 @Composable
 fun QiblaScreen(nav: NavHostController) {
-    val context=androidx.compose.ui.platform.LocalContext.current
+    val context = androidx.compose.ui.platform.LocalContext.current
     var location by remember { mutableStateOf(LocationUtils.lastKnown(context)) }
     var azimuth by remember { mutableStateOf<Float?>(null) }
     var accuracy by remember { mutableStateOf(0) }
-    val request=rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()){location=LocationUtils.lastKnown(context)}
-    DisposableEffect(Unit){
-        val sm=context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
-        val sensor=sm.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
-        val listener=object:SensorEventListener{
-            override fun onSensorChanged(e:SensorEvent){val r=FloatArray(9);val o=FloatArray(3);SensorManager.getRotationMatrixFromVector(r,e.values);SensorManager.getOrientation(r,o);azimuth=Math.toDegrees(o[0].toDouble()).toFloat().let{(it+360)%360};}
-            override fun onAccuracyChanged(s:Sensor?,a:Int){accuracy=a}
-        }
-        if(sensor!=null)sm.registerListener(listener,sensor,SensorManager.SENSOR_DELAY_UI)
-        onDispose{sm.unregisterListener(listener)}
+
+    val request = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) {
+        location = LocationUtils.lastKnown(context)
     }
-    val bearing=location?.let{QiblaCalculator.bearingFrom(it.latitude,it.longitude)}
-    Column(Modifier.fillMaxSize().padding(18.dp)){
-        Row(Modifier.fillMaxWidth(),horizontalArrangement=Arrangement.Start){IconButton(onClick={nav.popBackStack()}){Icon(Icons.Default.ArrowBack,null)};Text(stringResource(R.string.qibla),style=MaterialTheme.typography.headlineSmall,modifier=Modifier.padding(top=10.dp))}
-        Spacer(Modifier.height(40.dp))
-        if(location==null){Button(onClick={request.launch(arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION))}){Text(stringResource(R.string.set_location))}}
-        if(azimuth==null){Text(stringResource(R.string.sensor_unavailable))} else if(bearing!=null){
-            val delta=((bearing-azimuth!!+540)%360)-180
-            Box(Modifier.fillMaxWidth().weight(1f),contentAlignment=Alignment.Center){Text("${delta.toInt()}°",style=MaterialTheme.typography.displayLarge,color=MaterialTheme.colorScheme.primary)}
-            Text("${stringResource(R.string.qibla_bearing)}: ${bearing.toInt()}°  •  ${stringResource(R.string.qibla_accuracy)}: $accuracy", style=MaterialTheme.typography.bodyMedium)
+
+    DisposableEffect(Unit) {
+        val sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        val sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
+        val listener = object : SensorEventListener {
+            override fun onSensorChanged(event: SensorEvent) {
+                val rotation = FloatArray(9)
+                val orientation = FloatArray(3)
+                SensorManager.getRotationMatrixFromVector(rotation, event.values)
+                SensorManager.getOrientation(rotation, orientation)
+                azimuth = ((Math.toDegrees(orientation[0].toDouble()).toFloat() + 360f) % 360f)
+            }
+
+            override fun onAccuracyChanged(sensor: Sensor?, value: Int) {
+                accuracy = value
+            }
+        }
+        if (sensor != null) {
+            sensorManager.registerListener(listener, sensor, SensorManager.SENSOR_DELAY_UI)
+        }
+        onDispose { sensorManager.unregisterListener(listener) }
+    }
+
+    val bearing = location?.let {
+        QiblaCalculator.bearingFrom(it.latitude, it.longitude)
+    }
+    val delta = if (bearing != null && azimuth != null) {
+        ((bearing - azimuth!! + 540) % 360) - 180
+    } else {
+        null
+    }
+
+    Column(
+        Modifier.fillMaxSize().padding(16.dp)
+    ) {
+        Row(
+            Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            IconButton(onClick = { nav.popBackStack() }) {
+                Icon(Icons.Default.ArrowBack, null)
+            }
+            Icon(Icons.Default.Explore, null)
+            Spacer(Modifier.width(10.dp))
             Text(
-                if (abs(delta) < 3) stringResource(R.string.aligned)
-                else if (delta > 0) stringResource(R.string.turn_right) else stringResource(R.string.turn_left),
-                style = MaterialTheme.typography.titleMedium
+                stringResource(R.string.qibla),
+                style = MaterialTheme.typography.headlineSmall
             )
+        }
+
+        Spacer(Modifier.height(18.dp))
+
+        if (location == null) {
+            Card(
+                Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(26.dp)
+            ) {
+                Column(Modifier.padding(22.dp)) {
+                    IconBadge(Icons.Default.LocationOn, emphasized = true)
+                    Spacer(Modifier.height(12.dp))
+                    Text(
+                        stringResource(R.string.location_needed),
+                        style = MaterialTheme.typography.titleLarge
+                    )
+                    Spacer(Modifier.height(8.dp))
+                    Text(
+                        stringResource(R.string.location_ready),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Spacer(Modifier.height(14.dp))
+                    Button(
+                        onClick = {
+                            request.launch(
+                                arrayOf(
+                                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                                    Manifest.permission.ACCESS_FINE_LOCATION
+                                )
+                            )
+                        }
+                    ) {
+                        Text(stringResource(R.string.set_location))
+                    }
+                }
+            }
+        } else if (azimuth == null) {
+            Card(
+                Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(26.dp)
+            ) {
+                Column(Modifier.padding(22.dp)) {
+                    IconBadge(Icons.Default.Explore, emphasized = true)
+                    Spacer(Modifier.height(12.dp))
+                    Text(
+                        stringResource(R.string.sensor_unavailable),
+                        style = MaterialTheme.typography.titleLarge
+                    )
+                    Spacer(Modifier.height(8.dp))
+                    Text(
+                        stringResource(R.string.qibla),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
+        } else if (bearing != null && delta != null) {
+            Card(
+                Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(30.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer
+                )
+            ) {
+                Column(
+                    Modifier.fillMaxWidth().padding(vertical = 28.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        stringResource(R.string.qibla),
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                    Spacer(Modifier.height(18.dp))
+
+                    Box(
+                        Modifier
+                            .size(250.dp)
+                            .background(
+                                MaterialTheme.colorScheme.surface.copy(alpha = 0.95f),
+                                CircleShape
+                            ),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Surface(
+                            Modifier.size(210.dp),
+                            shape = CircleShape,
+                            color = MaterialTheme.colorScheme.surfaceVariant
+                        ) {}
+                        Icon(
+                            Icons.Default.Navigation,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(100.dp)
+                                .rotate(delta),
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                        Text(
+                            "${bearing.toInt()}°",
+                            style = MaterialTheme.typography.labelLarge,
+                            modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 28.dp),
+                            color = MaterialTheme.colorScheme.secondary
+                        )
+                    }
+
+                    Spacer(Modifier.height(18.dp))
+                    Text(
+                        "${abs(delta).toInt()}°",
+                        style = MaterialTheme.typography.displaySmall,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                    Text(
+                        when {
+                            abs(delta) < 3 -> stringResource(R.string.aligned)
+                            delta > 0 -> stringResource(R.string.turn_right)
+                            else -> stringResource(R.string.turn_left)
+                        },
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                    Spacer(Modifier.height(8.dp))
+                    Text(
+                        "${stringResource(R.string.qibla_accuracy)}: $accuracy",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.70f)
+                    )
+                }
+            }
         }
     }
 }
