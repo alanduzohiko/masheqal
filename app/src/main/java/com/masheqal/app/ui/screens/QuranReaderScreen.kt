@@ -1,10 +1,10 @@
-
 package com.masheqal.app.ui.screens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
@@ -36,6 +36,8 @@ fun QuranReaderScreen(
     val snackbar = remember { SnackbarHostState() }
     val context = androidx.compose.ui.platform.LocalContext.current
     val scope = rememberCoroutineScope()
+    val bookmarkLabel = stringResource(R.string.bookmark)
+    val noteLabel = stringResource(R.string.note)
 
     LaunchedEffect(surah) {
         verses = app.quran.versesOfSurah(surah)
@@ -93,7 +95,7 @@ fun QuranReaderScreen(
                         scope.launch { app.personal.setReading(surah, verse.ayah) }
                     },
                     modifier = Modifier.fillMaxWidth(),
-                    shape = androidx.compose.foundation.shape.RoundedCornerShape(24.dp)
+                    shape = RoundedCornerShape(24.dp)
                 ) {
                     Column(Modifier.padding(18.dp)) {
                         Row(
@@ -105,10 +107,7 @@ fun QuranReaderScreen(
                                 color = MaterialTheme.colorScheme.secondary,
                                 fontWeight = FontWeight.SemiBold
                             )
-                            Icon(
-                                Icons.Default.MoreHoriz,
-                                contentDescription = stringResource(R.string.more)
-                            )
+                            Icon(Icons.Default.MoreHoriz, contentDescription = null)
                         }
                         Spacer(Modifier.height(10.dp))
                         QuranText(verse.text, size = 27f)
@@ -127,9 +126,7 @@ fun QuranReaderScreen(
     }
 
     selected?.let { verse ->
-        ModalBottomSheet(
-            onDismissRequest = { selected = null }
-        ) {
+        ModalBottomSheet(onDismissRequest = { selected = null }) {
             Column(
                 Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 10.dp)
             ) {
@@ -141,46 +138,31 @@ fun QuranReaderScreen(
                 Spacer(Modifier.height(8.dp))
                 QuranText(verse.text, size = 23f)
                 Spacer(Modifier.height(14.dp))
-
                 Row(
                     Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
                     IconButton(onClick = {
-                        app.userDb.addBookmark(
-                            "ayah",
-                            "$surah:${verse.ayah}",
-                            "$surah:${verse.ayah}"
-                        )
+                        app.userDb.addBookmark("ayah", "$surah:${verse.ayah}", "$surah:${verse.ayah}")
                         selected = null
-                        scope.launch {
-                            snackbar.showSnackbar(
-                                "${stringResource(R.string.bookmark)}: $surah:${verse.ayah}"
-                            )
-                        }
+                        scope.launch { snackbar.showSnackbar("$bookmarkLabel: $surah:${verse.ayah}") }
                     }) {
-                        Icon(Icons.Default.BookmarkBorder, stringResource(R.string.bookmark))
+                        Icon(Icons.Default.BookmarkBorder, bookmarkLabel)
                     }
-
                     IconButton(onClick = {
                         noteReference = "$surah:${verse.ayah}"
                         noteText = ""
                         selected = null
                         showNote = true
                     }) {
-                        Icon(Icons.Default.Notes, stringResource(R.string.note))
+                        Icon(Icons.Default.Notes, noteLabel)
                     }
-
                     IconButton(onClick = {
-                        shareText(
-                            context,
-                            "${verse.text}\n\n${verse.translationEn.orEmpty()}\n$surah:${verse.ayah}"
-                        )
+                        shareText(context, "${verse.text}\n\n${verse.translationEn.orEmpty()}\n$surah:${verse.ayah}")
                         selected = null
                     }) {
                         Icon(Icons.Default.Share, stringResource(R.string.share))
                     }
-
                     IconButton(onClick = {
                         val uri = ShareCardUtils.createVerseCard(
                             context,
@@ -202,7 +184,7 @@ fun QuranReaderScreen(
     if (showNote) {
         AlertDialog(
             onDismissRequest = { showNote = false },
-            title = { Text(stringResource(R.string.note)) },
+            title = { Text(noteLabel) },
             text = {
                 OutlinedTextField(
                     value = noteText,
@@ -212,21 +194,15 @@ fun QuranReaderScreen(
                 )
             },
             confirmButton = {
-                TextButton(
-                    onClick = {
-                        if (noteText.isNotBlank()) {
-                            app.userDb.addNote(noteReference, noteText)
-                            scope.launch {
-                                snackbar.showSnackbar(
-                                    "${stringResource(R.string.note)}: $noteReference"
-                                )
-                            }
-                        }
-                        noteText = ""
-                        noteReference = ""
-                        showNote = false
+                TextButton(onClick = {
+                    if (noteText.isNotBlank()) {
+                        app.userDb.addNote(noteReference, noteText)
+                        scope.launch { snackbar.showSnackbar("$noteLabel: $noteReference") }
                     }
-                ) {
+                    noteText = ""
+                    noteReference = ""
+                    showNote = false
+                }) {
                     Text(stringResource(R.string.done))
                 }
             },
