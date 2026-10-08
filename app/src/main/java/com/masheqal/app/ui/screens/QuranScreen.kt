@@ -28,6 +28,7 @@ fun QuranScreen(app: MasheqalApp, nav: NavHostController) {
     var pageDialog by remember { mutableStateOf(false) }
     var juzDialog by remember { mutableStateOf(false) }
     var pageText by rememberSaveable { mutableStateOf("") }
+    val scope = rememberCoroutineScope()
 
     LaunchedEffect(Unit) {
         surahs = app.quran.loadSurahs()
@@ -241,8 +242,17 @@ fun QuranScreen(app: MasheqalApp, nav: NavHostController) {
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .clickable {
-                                    juzDialog = false
-                                    nav.navigate("quran/page/${(1 + ((juz - 1) * 604) / 30)}")
+                                    scope.launch {
+                                        val range = app.quran.loadJuzs().firstOrNull { it.number == juz }
+                                        val firstVerse = range?.let { target ->
+                                            app.quran.loadVerses().firstOrNull { it.id == target.firstGlobalAyah }
+                                        }
+                                        val targetPage = firstVerse?.let {
+                                            app.quran.pageForVerse(it.surah, it.ayah)
+                                        } ?: 1
+                                        juzDialog = false
+                                        nav.navigate("quran/page/$targetPage")
+                                    }
                                 },
                             colors = ListItemDefaults.colors(
                                 containerColor = MaterialTheme.colorScheme.surfaceVariant
