@@ -45,7 +45,7 @@ fun QuranReaderScreen(app: MasheqalApp, nav: NavHostController, surah: Int, init
             verticalArrangement=Arrangement.spacedBy(12.dp)
         ) {
             items(verses) { verse ->
-                Card(Modifier.fillMaxWidth(), onClick={ selected=verse; scope.launch { app.personal.setReading(surah,verse.ayah) } }) {
+                Card(onClick={ selected=verse; scope.launch { app.personal.setReading(surah,verse.ayah) } }, modifier=Modifier.fillMaxWidth()) {
                     Column(Modifier.padding(18.dp)) {
                         Row(Modifier.fillMaxWidth(),horizontalArrangement=Arrangement.SpaceBetween){
                             Text("$surah:${verse.ayah}",color=MaterialTheme.colorScheme.secondary,fontWeight=FontWeight.SemiBold)
@@ -67,7 +67,7 @@ fun QuranReaderScreen(app: MasheqalApp, nav: NavHostController, surah: Int, init
                 Row(Modifier.fillMaxWidth(),horizontalArrangement=Arrangement.SpaceEvenly){
                     IconButton(onClick={app.userDb.addBookmark("ayah","$surah:${verse.ayah}","$surah:${verse.ayah}");selected=null}){Icon(Icons.Default.BookmarkBorder,stringResource(R.string.bookmark))}
                     IconButton(onClick={showNote=true}){Icon(Icons.Default.Notes,stringResource(R.string.note))}
-                    IconButton(onClick={shareText("${verse.text}\n\n${verse.translationEn}\n$surah:${verse.ayah}");selected=null}){Icon(Icons.Default.Share,stringResource(R.string.share))}
+                    IconButton(onClick={shareText(context, "${verse.text}\n\n${verse.translationEn}\n$surah:${verse.ayah}");selected=null}){Icon(Icons.Default.Share,stringResource(R.string.share))}
                     IconButton(onClick={
                         val uri=ShareCardUtils.createVerseCard(context,verse.text,verse.translationEn.orEmpty(),"$surah:${verse.ayah}")
                         ShareCardUtils.shareImage(context,uri); selected=null
