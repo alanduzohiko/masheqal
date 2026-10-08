@@ -189,7 +189,7 @@ fun QiblaScreen(nav: NavHostController) {
                             contentDescription = null,
                             modifier = Modifier
                                 .size(100.dp)
-                                .rotate(delta),
+                                .rotate(delta.toFloat()),
                             tint = MaterialTheme.colorScheme.primary
                         )
                         Text(
