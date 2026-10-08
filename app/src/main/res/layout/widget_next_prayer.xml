@@ -1,5 +1,0 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:padding="16dp" android:background="#FBF8F1">
-  <TextView android:id="@+id/widget_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="مەشخەڵ" android:textStyle="bold" android:textColor="#155E4B" android:textSize="16sp" />
-  <TextView android:id="@+id/widget_prayer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Set location" android:textColor="#222222" android:textSize="15sp" />
-  <TextView android:id="@+id/widget_time" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textColor="#A9823C" android:textSize="24sp" android:textStyle="bold" />
-</LinearLayout>

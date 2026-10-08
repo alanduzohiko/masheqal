@@ -1,9 +1,0 @@
-<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
-    <shortcut android:shortcutId="quran" android:enabled="true" android:icon="@mipmap/ic_launcher" android:shortcutShortLabel="@string/quran"><intent android:action="android.intent.action.VIEW" android:data="masheqal://quran/2/255" /></shortcut>
-    <shortcut android:shortcutId="continue" android:enabled="true" android:icon="@mipmap/ic_launcher" android:shortcutShortLabel="@string/continue_quran"><intent android:action="android.intent.action.VIEW" android:data="masheqal://quran/1/1" /></shortcut>
-    <shortcut android:shortcutId="prayer" android:enabled="true" android:icon="@mipmap/ic_launcher" android:shortcutShortLabel="@string/prayer"><intent android:action="android.intent.action.VIEW" android:data="masheqal://prayer" /></shortcut>
-    <shortcut android:shortcutId="qibla" android:enabled="true" android:icon="@mipmap/ic_launcher" android:shortcutShortLabel="@string/qibla"><intent android:action="android.intent.action.VIEW" android:data="masheqal://qibla" /></shortcut>
-    <shortcut android:shortcutId="morning" android:enabled="true" android:icon="@mipmap/ic_launcher" android:shortcutShortLabel="@string/morning"><intent android:action="android.intent.action.VIEW" android:data="masheqal://adhkar/morning" /></shortcut>
-    <shortcut android:shortcutId="evening" android:enabled="true" android:icon="@mipmap/ic_launcher" android:shortcutShortLabel="@string/evening"><intent android:action="android.intent.action.VIEW" android:data="masheqal://adhkar/evening" /></shortcut>
-    <shortcut android:shortcutId="tasbih" android:enabled="true" android:icon="@mipmap/ic_launcher" android:shortcutShortLabel="@string/tasbih"><intent android:action="android.intent.action.VIEW" android:data="masheqal://tasbih" /></shortcut>
-</shortcuts>
