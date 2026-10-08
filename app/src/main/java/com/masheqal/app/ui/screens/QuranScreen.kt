@@ -12,6 +12,7 @@ import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -82,13 +83,6 @@ fun QuranScreen(app: MasheqalApp, nav: NavHostController) {
                 singleLine = true,
                 placeholder = { Text(stringResource(R.string.search_hint)) },
                 leadingIcon = { Icon(Icons.Default.Search, null) },
-                trailingIcon = {
-                    if (query.isNotBlank()) {
-                        IconButton(onClick = { query = "" }) {
-                            Icon(Icons.Default.Close, contentDescription = stringResource(R.string.cancel))
-                        }
-                    }
-                }
             )
         }
 
@@ -128,9 +122,9 @@ fun QuranScreen(app: MasheqalApp, nav: NavHostController) {
 
         items(filtered, key = { it.number }) { s ->
             Card(
-                Modifier.padding(horizontal = 16.dp).fillMaxWidth(),
-                shape = RoundedCornerShape(22.dp),
-                onClick = { nav.navigate("quran/surah/${s.number}") }
+                onClick = { nav.navigate("quran/surah/${s.number}") },
+                modifier = Modifier.padding(horizontal = 16.dp).fillMaxWidth(),
+                shape = RoundedCornerShape(22.dp)
             ) {
                 Row(
                     Modifier.padding(horizontal = 16.dp, vertical = 14.dp),
