@@ -20,4 +20,5 @@
     <string name="today">اليوم</string>
     <string name="prayer_notification_text">وقت الصلاة: %1$s</string>
     <string name="prayer_notification_channel">تنبيهات الصلاة</string>
+    <string name="keep_screen_awake">إبقاء الشاشة قيد التشغيل</string>
 </resources>

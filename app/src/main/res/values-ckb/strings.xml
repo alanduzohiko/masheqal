@@ -20,4 +20,5 @@
     <string name="today">ئەمڕۆ</string>
     <string name="prayer_notification_text">کاتی نوێژ: %1$s</string>
     <string name="prayer_notification_channel">ئاگادارکردنەوەکانی نوێژ</string>
+    <string name="keep_screen_awake">شاشەکە بەبێ خامۆشبوون بهێڵەوە</string>
 </resources>
