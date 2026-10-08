@@ -33,14 +33,16 @@ fun SettingsScreen(app: MasheqalApp, nav: NavHostController, onLanguage: (String
     val context = androidx.compose.ui.platform.LocalContext.current
     var message by remember { mutableStateOf<String?>(null) }
     var showPrivacy by remember { mutableStateOf(false) }
+    val backupExported = stringResource(R.string.backup_exported)
+    val backupRestored = stringResource(R.string.backup_restored)
     val createBackup = rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("application/json")) { uri ->
-        if (uri != null) message = BackupRepository.export(context, uri, app.userDb, settings, reading, khatmah).fold({ context.getString(R.string.backup_exported) }, { "Backup error: ${it.message}" })
+        if (uri != null) message = BackupRepository.export(context, uri, app.userDb, settings, reading, khatmah).fold({ backupExported }, { "Backup error: ${it.message}" })
     }
     val restoreBackup = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
         if (uri != null) {
             BackupRepository.restore(context, uri, app.userDb).onSuccess {
                 scope.launch { app.settings.setTheme(it.settings.theme); app.settings.setLanguage(it.settings.language); app.settings.setTasbih(it.settings.tasbihCount); app.settings.setPrayerMethod(it.settings.prayerMethod); app.settings.setMadhhab(it.settings.madhhab); app.settings.setAwake(it.settings.keepScreenAwake); app.personal.setReading(it.reading.surah,it.reading.ayah); app.personal.setKhatmah(it.khatmah.days,it.khatmah.targetPages,it.khatmah.readPages,it.khatmah.active) }; onLanguage(it.settings.language)
-                message = context.getString(R.string.backup_restored)
+                message = backupRestored
             }.onFailure { message = "Backup error: ${it.message}" }
         }
     }
