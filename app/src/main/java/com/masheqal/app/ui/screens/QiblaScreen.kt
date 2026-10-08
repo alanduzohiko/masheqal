@@ -26,7 +26,6 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat
 import androidx.navigation.NavHostController
 import com.masheqal.app.R
 import com.masheqal.app.domain.QiblaCalculator
@@ -39,11 +38,14 @@ fun QiblaScreen(nav: NavHostController) {
     var location by remember { mutableStateOf(LocationUtils.lastKnown(context)) }
     var azimuth by remember { mutableStateOf<Float?>(null) }
     var accuracy by remember { mutableStateOf(0) }
+    val scope = rememberCoroutineScope()
 
     val request = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) {
-        location = LocationUtils.lastKnown(context)
+        scope.launch {
+            location = LocationUtils.current(context) ?: LocationUtils.lastKnown(context)
+        }
     }
 
     DisposableEffect(Unit) {
