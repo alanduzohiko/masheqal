@@ -36,11 +36,14 @@ fun PrayerScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: ()
     var location by remember { mutableStateOf(LocationUtils.lastKnown(context)) }
     var times by remember { mutableStateOf<PrayerTimes?>(null) }
     val settings by app.settings.state.collectAsState(initial = com.masheqal.app.data.SettingsState())
+    val scope = rememberCoroutineScope()
 
     val permissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) {
-        location = LocationUtils.lastKnown(context)
+        scope.launch {
+            location = LocationUtils.current(context) ?: LocationUtils.lastKnown(context)
+        }
     }
 
     LaunchedEffect(location, settings.prayerMethod, settings.madhhab) {
