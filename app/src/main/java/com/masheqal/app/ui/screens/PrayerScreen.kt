@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.masheqal.app.MasheqalApp
 import com.masheqal.app.R
+import kotlinx.coroutines.launch
 import com.masheqal.app.domain.*
 import com.masheqal.app.services.PrayerNotificationScheduler
 import com.masheqal.app.util.LocationUtils
