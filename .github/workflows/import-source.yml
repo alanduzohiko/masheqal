@@ -17,24 +17,14 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          # payload-31 is the real final chunk; payload-32..46 were duplicate
-          # uploads and must not be included in the archive.
-          cat .bootstrap/payload-{01..30}.b64 | tr -d '\r\n' > /tmp/masheqal.tar.xz.b64
-          base64 -d /tmp/masheqal.tar.xz.b64 > /tmp/masheqal.tar.xz
-          test -s /tmp/masheqal.tar.xz
+          test -s .bootstrap/source.tar.xz
           rm -rf /tmp/masheqal-src
           mkdir -p /tmp/masheqal-src
-          set +e
-          xz -dc /tmp/masheqal.tar.xz > /tmp/masheqal.tar
-          xz_rc=$?
-          set -e
-          test -s /tmp/masheqal.tar
-          tar -tf /tmp/masheqal.tar > /tmp/archive-list.txt
-          grep -q "src/source/" /tmp/archive-list.txt
-          tar -xf /tmp/masheqal.tar -C /tmp/masheqal-src
+          tar -xJf .bootstrap/source.tar.xz -C /tmp/masheqal-src
+          test -d /tmp/masheqal-src/src/source
           cp -a /tmp/masheqal-src/src/source/. .
-          rm -rf .bootstrap /tmp/masheqal-src /tmp/masheqal.tar.xz /tmp/masheqal.tar.xz.b64
-          rm -f BOOTSTRAP_PLACEHOLDER.md .github/workflows/import-source.yml
+          rm -rf .bootstrap /tmp/masheqal-src
+          rm -f BOOTSTRAP_PLACEHOLDER.md IMPORT_TRIGGER.txt IMPORT_TRIGGER_2.txt .github/workflows/import-source.yml
       - name: Commit imported source
         shell: bash
         run: |
