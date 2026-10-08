@@ -1,7 +1,7 @@
 package com.masheqal.app.ui
 
 import android.content.Intent
-import androidx.compose.foundation.layout.Modifier
+import androidx.compose.ui.Modifier
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
@@ -39,7 +39,7 @@ fun MasheqalRoot(app: MasheqalApp, intent: Intent?, onRequestLocation: () -> Uni
             }
         }
     }) { padding ->
-        NavHost(nav, startDestination="home", modifier=Modifier.then(androidx.compose.ui.Modifier.padding(padding))) {
+        NavHost(nav, startDestination="home", modifier=Modifier.padding(padding)) {
             composable("home") { HomeScreen(app,nav,onRequestLocation) }
             composable("quran") { QuranScreen(app,nav) }
             composable("quran/surah/{surah}", arguments=listOf(navArgument("surah"){type=NavType.IntType})) { back -> QuranReaderScreen(app,nav,back.arguments?.getInt("surah") ?: 1,1) }

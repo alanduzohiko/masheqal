@@ -98,7 +98,7 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
         if (khatmah.active) {
             SectionTitle(stringResource(R.string.khatmah))
             val progress = (khatmah.readPages.toFloat() / khatmah.targetPages.coerceAtLeast(1)).coerceIn(0f,1f)
-            Card(Modifier.padding(horizontal = 20.dp).fillMaxWidth(), shape=RoundedCornerShape(22.dp), onClick={nav.navigate("khatmah")}) {
+            Card(onClick={nav.navigate("khatmah")}, modifier=Modifier.padding(horizontal = 20.dp).fillMaxWidth(), shape=RoundedCornerShape(22.dp)) {
                 Column(Modifier.padding(18.dp)) {
                     Row(Modifier.fillMaxWidth(),horizontalArrangement=Arrangement.SpaceBetween){Text("${khatmah.readPages}/${khatmah.targetPages} ${stringResource(R.string.page)}");Text("${(progress*100).toInt()}%",color=MaterialTheme.colorScheme.primary)}
                     Spacer(Modifier.height(8.dp)); LinearProgressIndicator(progress={progress}, modifier=Modifier.fillMaxWidth())
@@ -115,7 +115,7 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
                     Spacer(Modifier.height(8.dp)); Text("${verse.surah}:${verse.ayah}", color = MaterialTheme.colorScheme.secondary)
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
                         IconButton(onClick = { app.userDb.addBookmark("ayah", "${verse.surah}:${verse.ayah}", "${verse.surah}:${verse.ayah}") }) { Icon(Icons.Default.BookmarkBorder, stringResource(R.string.bookmark)) }
-                        IconButton(onClick = { shareText("${verse.text}\n\n${verse.translationEn}\n${verse.surah}:${verse.ayah}") }) { Icon(Icons.Default.Share, stringResource(R.string.share)) }
+                        IconButton(onClick = { shareText(context, "${verse.text}\n\n${verse.translationEn}\n${verse.surah}:${verse.ayah}") }) { Icon(Icons.Default.Share, stringResource(R.string.share)) }
                         IconButton(onClick = { val uri=ShareCardUtils.createVerseCard(context,verse.text,verse.translationEn.orEmpty(),"${verse.surah}:${verse.ayah}"); ShareCardUtils.shareImage(context,uri) }) { Icon(Icons.Default.Image, stringResource(R.string.share_image)) }
                     }
                 }
