@@ -1,0 +1,35 @@
+name: Import Masheqal Source
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Rebuild source archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat .bootstrap/payload-*.b64 | base64 -d > /tmp/masheqal.tar.xz
+          rm -rf /tmp/masheqal-src
+          mkdir -p /tmp/masheqal-src
+          tar -xJf /tmp/masheqal.tar.xz -C /tmp/masheqal-src
+          cp -a /tmp/masheqal-src/src/source/. .
+          rm -rf .bootstrap /tmp/masheqal-src /tmp/masheqal.tar.xz
+          rm -f BOOTSTRAP_PLACEHOLDER.md .github/workflows/import-source.yml
+      - name: Commit imported source
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Import Masheqal Android source" || exit 0
+          git push
