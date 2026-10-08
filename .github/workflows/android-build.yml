@@ -33,22 +33,22 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
 
       - name: Validate Gradle configuration
-        run: ./gradlew --version && ./gradlew :app:tasks --all --no-daemon
+        run: gradle --version && gradle :app:tasks --all --no-daemon
 
       - name: Validate content and resources
         run: python3 tools/validate_project.py
 
       - name: Unit tests
-        run: ./gradlew :app:testDebugUnitTest --no-daemon
+        run: gradle :app:testDebugUnitTest --no-daemon
 
       - name: Android lint
-        run: ./gradlew :app:lintDebug --no-daemon
+        run: gradle :app:lintDebug --no-daemon
 
       - name: Build installable debug APK
-        run: ./gradlew :app:assembleDebug --no-daemon
+        run: gradle :app:assembleDebug --no-daemon
 
       - name: Build unsigned release artifacts
-        run: ./gradlew :app:assembleRelease :app:bundleRelease --no-daemon
+        run: gradle :app:assembleRelease :app:bundleRelease --no-daemon
 
       - name: Upload APK/AAB artifacts
         uses: actions/upload-artifact@v4
