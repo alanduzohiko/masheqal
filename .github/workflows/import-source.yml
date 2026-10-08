@@ -24,6 +24,10 @@ jobs:
           test -d /tmp/masheqal-src/src/source
           cp -a /tmp/masheqal-src/src/source/. .
           rm -rf .bootstrap /tmp/masheqal-src
+          # GitHub Actions' token cannot push workflow files without workflows scope.
+          # Keep the source workflow out of this commit; it will be restored separately
+          # through the connected GitHub integration after the source import lands.
+          rm -f .github/workflows/android-build.yml
           rm -f BOOTSTRAP_PLACEHOLDER.md IMPORT_TRIGGER.txt IMPORT_TRIGGER_2.txt .github/workflows/import-source.yml
       - name: Commit imported source
         shell: bash
