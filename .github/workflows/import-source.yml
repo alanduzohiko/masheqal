@@ -19,9 +19,15 @@ jobs:
           set -euo pipefail
           # payload-31 is the real final chunk; payload-32..46 were duplicate
           # uploads and must not be included in the archive.
-          cat .bootstrap/payload-{01..31}.b64 > /tmp/masheqal.tar.xz.b64
+          cat .bootstrap/payload-{01..31}.b64 | tr -d '\r\n' > /tmp/masheqal.tar.xz.b64
+          encoded_len=$(wc -c < /tmp/masheqal.tar.xz.b64)
+          padding=$(( (4 - encoded_len % 4) % 4 ))
+          if [ "$padding" -gt 0 ]; then
+            printf '%*s' "$padding" '' | tr ' ' '=' >> /tmp/masheqal.tar.xz.b64
+          fi
           base64 -d /tmp/masheqal.tar.xz.b64 > /tmp/masheqal.tar.xz
           test -s /tmp/masheqal.tar.xz
+          xz -t /tmp/masheqal.tar.xz
           rm -rf /tmp/masheqal-src
           mkdir -p /tmp/masheqal-src
           tar -xJf /tmp/masheqal.tar.xz -C /tmp/masheqal-src
