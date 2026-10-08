@@ -1,4 +1,3 @@
-
 package com.masheqal.app.ui.screens
 
 import androidx.compose.foundation.layout.*
@@ -28,10 +27,7 @@ fun KhatmahScreen(app: MasheqalApp, nav: NavHostController) {
     val dailyTarget = ceil(targetPages.toDouble() / days).toInt()
 
     Column(Modifier.fillMaxSize().padding(16.dp)) {
-        Row(
-            Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
+        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
             IconButton(onClick = { nav.popBackStack() }) {
                 Icon(Icons.Default.ArrowBack, null)
             }
@@ -45,15 +41,10 @@ fun KhatmahScreen(app: MasheqalApp, nav: NavHostController) {
         Card(
             Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(28.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.primaryContainer
-            )
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
         ) {
             Column(Modifier.padding(22.dp)) {
-                Row(
-                    Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                     Text(
                         "${state.readPages} / ${targetPages}",
                         style = MaterialTheme.typography.headlineSmall,
@@ -74,7 +65,7 @@ fun KhatmahScreen(app: MasheqalApp, nav: NavHostController) {
                 )
                 Spacer(Modifier.height(12.dp))
                 Text(
-                    "${stringResource(R.string.daily_target)}: ${dailyTarget} ${stringResource(R.string.page)}",
+                    "${stringResource(R.string.daily_target)}: $dailyTarget ${stringResource(R.string.page)}",
                     color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             }
@@ -82,23 +73,25 @@ fun KhatmahScreen(app: MasheqalApp, nav: NavHostController) {
 
         Spacer(Modifier.height(18.dp))
 
-        Row(
-            Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
             Button(
-                onClick = {
-                    scope.launch { app.personal.addKhatmahPages(1) }
-                },
+                onClick = { scope.launch { app.personal.addKhatmahPages(1) } },
                 modifier = Modifier.weight(1f)
             ) {
                 Icon(Icons.Default.Add, null)
                 Spacer(Modifier.width(6.dp))
                 Text("+1 ${stringResource(R.string.page)}")
             }
+
             OutlinedButton(
                 onClick = {
-                    scope.launch { app.personal.pauseKhatmah() }
+                    scope.launch {
+                        if (state.active) {
+                            app.personal.pauseKhatmah()
+                        } else {
+                            app.personal.setKhatmah(state.days, state.targetPages, state.readPages, true)
+                        }
+                    }
                 },
                 modifier = Modifier.weight(1f)
             ) {
@@ -107,23 +100,14 @@ fun KhatmahScreen(app: MasheqalApp, nav: NavHostController) {
                     null
                 )
                 Spacer(Modifier.width(6.dp))
-                Text(
-                    if (state.active) stringResource(R.string.pause)
-                    else stringResource(R.string.resume)
-                )
+                Text(if (state.active) stringResource(R.string.pause) else stringResource(R.string.resume))
             }
         }
 
         Spacer(Modifier.height(14.dp))
 
-        Card(
-            Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(22.dp)
-        ) {
-            Row(
-                Modifier.padding(18.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
+        Card(Modifier.fillMaxWidth(), shape = RoundedCornerShape(22.dp)) {
+            Row(Modifier.padding(18.dp), verticalAlignment = Alignment.CenterVertically) {
                 IconBadge(
                     if (state.active) Icons.Default.CheckCircle else Icons.Default.PauseCircle,
                     emphasized = state.active
@@ -147,11 +131,7 @@ fun KhatmahScreen(app: MasheqalApp, nav: NavHostController) {
         Spacer(Modifier.height(12.dp))
 
         TextButton(
-            onClick = {
-                scope.launch {
-                    app.personal.setKhatmah(30, 604, 0, true)
-                }
-            },
+            onClick = { scope.launch { app.personal.setKhatmah(30, 604, 0, true) } },
             modifier = Modifier.align(Alignment.CenterHorizontally)
         ) {
             Text(stringResource(R.string.reset_khatmah))
