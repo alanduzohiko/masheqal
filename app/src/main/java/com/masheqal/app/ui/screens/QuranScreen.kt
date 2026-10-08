@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.masheqal.app.MasheqalApp
 import com.masheqal.app.R
+import kotlinx.coroutines.launch
 
 @Composable
 fun QuranScreen(app: MasheqalApp, nav: NavHostController) {
