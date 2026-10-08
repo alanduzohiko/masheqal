@@ -1,0 +1,3022 @@
+[
+  {
+    "page": 1,
+    "first_global_ayah": 1,
+    "last_global_ayah": 7
+  },
+  {
+    "page": 2,
+    "first_global_ayah": 8,
+    "last_global_ayah": 12
+  },
+  {
+    "page": 3,
+    "first_global_ayah": 13,
+    "last_global_ayah": 23
+  },
+  {
+    "page": 4,
+    "first_global_ayah": 24,
+    "last_global_ayah": 31
+  },
+  {
+    "page": 5,
+    "first_global_ayah": 32,
+    "last_global_ayah": 36
+  },
+  {
+    "page": 6,
+    "first_global_ayah": 37,
+    "last_global_ayah": 44
+  },
+  {
+    "page": 7,
+    "first_global_ayah": 45,
+    "last_global_ayah": 55
+  },
+  {
+    "page": 8,
+    "first_global_ayah": 56,
+    "last_global_ayah": 64
+  },
+  {
+    "page": 9,
+    "first_global_ayah": 65,
+    "last_global_ayah": 68
+  },
+  {
+    "page": 10,
+    "first_global_ayah": 69,
+    "last_global_ayah": 76
+  },
+  {
+    "page": 11,
+    "first_global_ayah": 77,
+    "last_global_ayah": 83
+  },
+  {
+    "page": 12,
+    "first_global_ayah": 84,
+    "last_global_ayah": 90
+  },
+  {
+    "page": 13,
+    "first_global_ayah": 91,
+    "last_global_ayah": 95
+  },
+  {
+    "page": 14,
+    "first_global_ayah": 96,
+    "last_global_ayah": 100
+  },
+  {
+    "page": 15,
+    "first_global_ayah": 101,
+    "last_global_ayah": 108
+  },
+  {
+    "page": 16,
+    "first_global_ayah": 109,
+    "last_global_ayah": 112
+  },
+  {
+    "page": 17,
+    "first_global_ayah": 113,
+    "last_global_ayah": 119
+  },
+  {
+    "page": 18,
+    "first_global_ayah": 120,
+    "last_global_ayah": 126
+  },
+  {
+    "page": 19,
+    "first_global_ayah": 127,
+    "last_global_ayah": 133
+  },
+  {
+    "page": 20,
+    "first_global_ayah": 134,
+    "last_global_ayah": 141
+  },
+  {
+    "page": 21,
+    "first_global_ayah": 142,
+    "last_global_ayah": 148
+  },
+  {
+    "page": 22,
+    "first_global_ayah": 149,
+    "last_global_ayah": 152
+  },
+  {
+    "page": 23,
+    "first_global_ayah": 153,
+    "last_global_ayah": 160
+  },
+  {
+    "page": 24,
+    "first_global_ayah": 161,
+    "last_global_ayah": 170
+  },
+  {
+    "page": 25,
+    "first_global_ayah": 171,
+    "last_global_ayah": 176
+  },
+  {
+    "page": 26,
+    "first_global_ayah": 177,
+    "last_global_ayah": 183
+  },
+  {
+    "page": 27,
+    "first_global_ayah": 184,
+    "last_global_ayah": 188
+  },
+  {
+    "page": 28,
+    "first_global_ayah": 189,
+    "last_global_ayah": 193
+  },
+  {
+    "page": 29,
+    "first_global_ayah": 194,
+    "last_global_ayah": 197
+  },
+  {
+    "page": 30,
+    "first_global_ayah": 198,
+    "last_global_ayah": 203
+  },
+  {
+    "page": 31,
+    "first_global_ayah": 204,
+    "last_global_ayah": 209
+  },
+  {
+    "page": 32,
+    "first_global_ayah": 210,
+    "last_global_ayah": 217
+  },
+  {
+    "page": 33,
+    "first_global_ayah": 218,
+    "last_global_ayah": 222
+  },
+  {
+    "page": 34,
+    "first_global_ayah": 223,
+    "last_global_ayah": 226
+  },
+  {
+    "page": 35,
+    "first_global_ayah": 227,
+    "last_global_ayah": 231
+  },
+  {
+    "page": 36,
+    "first_global_ayah": 232,
+    "last_global_ayah": 237
+  },
+  {
+    "page": 37,
+    "first_global_ayah": 238,
+    "last_global_ayah": 240
+  },
+  {
+    "page": 38,
+    "first_global_ayah": 241,
+    "last_global_ayah": 244
+  },
+  {
+    "page": 39,
+    "first_global_ayah": 245,
+    "last_global_ayah": 252
+  },
+  {
+    "page": 40,
+    "first_global_ayah": 253,
+    "last_global_ayah": 255
+  },
+  {
+    "page": 41,
+    "first_global_ayah": 256,
+    "last_global_ayah": 259
+  },
+  {
+    "page": 42,
+    "first_global_ayah": 260,
+    "last_global_ayah": 263
+  },
+  {
+    "page": 43,
+    "first_global_ayah": 264,
+    "last_global_ayah": 266
+  },
+  {
+    "page": 44,
+    "first_global_ayah": 267,
+    "last_global_ayah": 271
+  },
+  {
+    "page": 45,
+    "first_global_ayah": 272,
+    "last_global_ayah": 276
+  },
+  {
+    "page": 46,
+    "first_global_ayah": 277,
+    "last_global_ayah": 281
+  },
+  {
+    "page": 47,
+    "first_global_ayah": 282,
+    "last_global_ayah": 288
+  },
+  {
+    "page": 48,
+    "first_global_ayah": 289,
+    "last_global_ayah": 289
+  },
+  {
+    "page": 49,
+    "first_global_ayah": 290,
+    "last_global_ayah": 293
+  },
+  {
+    "page": 50,
+    "first_global_ayah": 294,
+    "last_global_ayah": 302
+  },
+  {
+    "page": 51,
+    "first_global_ayah": 303,
+    "last_global_ayah": 308
+  },
+  {
+    "page": 52,
+    "first_global_ayah": 309,
+    "last_global_ayah": 315
+  },
+  {
+    "page": 53,
+    "first_global_ayah": 316,
+    "last_global_ayah": 322
+  },
+  {
+    "page": 54,
+    "first_global_ayah": 323,
+    "last_global_ayah": 330
+  },
+  {
+    "page": 55,
+    "first_global_ayah": 331,
+    "last_global_ayah": 338
+  },
+  {
+    "page": 56,
+    "first_global_ayah": 339,
+    "last_global_ayah": 345
+  },
+  {
+    "page": 57,
+    "first_global_ayah": 346,
+    "last_global_ayah": 354
+  },
+  {
+    "page": 58,
+    "first_global_ayah": 355,
+    "last_global_ayah": 363
+  },
+  {
+    "page": 59,
+    "first_global_ayah": 364,
+    "last_global_ayah": 370
+  },
+  {
+    "page": 60,
+    "first_global_ayah": 371,
+    "last_global_ayah": 376
+  },
+  {
+    "page": 61,
+    "first_global_ayah": 377,
+    "last_global_ayah": 384
+  },
+  {
+    "page": 62,
+    "first_global_ayah": 385,
+    "last_global_ayah": 393
+  },
+  {
+    "page": 63,
+    "first_global_ayah": 394,
+    "last_global_ayah": 401
+  },
+  {
+    "page": 64,
+    "first_global_ayah": 402,
+    "last_global_ayah": 408
+  },
+  {
+    "page": 65,
+    "first_global_ayah": 409,
+    "last_global_ayah": 414
+  },
+  {
+    "page": 66,
+    "first_global_ayah": 415,
+    "last_global_ayah": 425
+  },
+  {
+    "page": 67,
+    "first_global_ayah": 426,
+    "last_global_ayah": 433
+  },
+  {
+    "page": 68,
+    "first_global_ayah": 434,
+    "last_global_ayah": 441
+  },
+  {
+    "page": 69,
+    "first_global_ayah": 442,
+    "last_global_ayah": 446
+  },
+  {
+    "page": 70,
+    "first_global_ayah": 447,
+    "last_global_ayah": 450
+  },
+  {
+    "page": 71,
+    "first_global_ayah": 451,
+    "last_global_ayah": 458
+  },
+  {
+    "page": 72,
+    "first_global_ayah": 459,
+    "last_global_ayah": 466
+  },
+  {
+    "page": 73,
+    "first_global_ayah": 467,
+    "last_global_ayah": 473
+  },
+  {
+    "page": 74,
+    "first_global_ayah": 474,
+    "last_global_ayah": 479
+  },
+  {
+    "page": 75,
+    "first_global_ayah": 480,
+    "last_global_ayah": 487
+  },
+  {
+    "page": 76,
+    "first_global_ayah": 488,
+    "last_global_ayah": 493
+  },
+  {
+    "page": 77,
+    "first_global_ayah": 494,
+    "last_global_ayah": 499
+  },
+  {
+    "page": 78,
+    "first_global_ayah": 500,
+    "last_global_ayah": 504
+  },
+  {
+    "page": 79,
+    "first_global_ayah": 505,
+    "last_global_ayah": 507
+  },
+  {
+    "page": 80,
+    "first_global_ayah": 508,
+    "last_global_ayah": 512
+  },
+  {
+    "page": 81,
+    "first_global_ayah": 513,
+    "last_global_ayah": 516
+  },
+  {
+    "page": 82,
+    "first_global_ayah": 517,
+    "last_global_ayah": 519
+  },
+  {
+    "page": 83,
+    "first_global_ayah": 520,
+    "last_global_ayah": 526
+  },
+  {
+    "page": 84,
+    "first_global_ayah": 527,
+    "last_global_ayah": 530
+  },
+  {
+    "page": 85,
+    "first_global_ayah": 531,
+    "last_global_ayah": 537
+  },
+  {
+    "page": 86,
+    "first_global_ayah": 538,
+    "last_global_ayah": 544
+  },
+  {
+    "page": 87,
+    "first_global_ayah": 545,
+    "last_global_ayah": 552
+  },
+  {
+    "page": 88,
+    "first_global_ayah": 553,
+    "last_global_ayah": 558
+  },
+  {
+    "page": 89,
+    "first_global_ayah": 559,
+    "last_global_ayah": 567
+  },
+  {
+    "page": 90,
+    "first_global_ayah": 568,
+    "last_global_ayah": 572
+  },
+  {
+    "page": 91,
+    "first_global_ayah": 573,
+    "last_global_ayah": 579
+  },
+  {
+    "page": 92,
+    "first_global_ayah": 580,
+    "last_global_ayah": 584
+  },
+  {
+    "page": 93,
+    "first_global_ayah": 585,
+    "last_global_ayah": 587
+  },
+  {
+    "page": 94,
+    "first_global_ayah": 588,
+    "last_global_ayah": 594
+  },
+  {
+    "page": 95,
+    "first_global_ayah": 595,
+    "last_global_ayah": 598
+  },
+  {
+    "page": 96,
+    "first_global_ayah": 599,
+    "last_global_ayah": 606
+  },
+  {
+    "page": 97,
+    "first_global_ayah": 607,
+    "last_global_ayah": 614
+  },
+  {
+    "page": 98,
+    "first_global_ayah": 615,
+    "last_global_ayah": 620
+  },
+  {
+    "page": 99,
+    "first_global_ayah": 621,
+    "last_global_ayah": 627
+  },
+  {
+    "page": 100,
+    "first_global_ayah": 628,
+    "last_global_ayah": 633
+  },
+  {
+    "page": 101,
+    "first_global_ayah": 634,
+    "last_global_ayah": 640
+  },
+  {
+    "page": 102,
+    "first_global_ayah": 641,
+    "last_global_ayah": 647
+  },
+  {
+    "page": 103,
+    "first_global_ayah": 648,
+    "last_global_ayah": 655
+  },
+  {
+    "page": 104,
+    "first_global_ayah": 656,
+    "last_global_ayah": 663
+  },
+  {
+    "page": 105,
+    "first_global_ayah": 664,
+    "last_global_ayah": 668
+  },
+  {
+    "page": 106,
+    "first_global_ayah": 669,
+    "last_global_ayah": 671
+  },
+  {
+    "page": 107,
+    "first_global_ayah": 672,
+    "last_global_ayah": 674
+  },
+  {
+    "page": 108,
+    "first_global_ayah": 675,
+    "last_global_ayah": 678
+  },
+  {
+    "page": 109,
+    "first_global_ayah": 679,
+    "last_global_ayah": 682
+  },
+  {
+    "page": 110,
+    "first_global_ayah": 683,
+    "last_global_ayah": 686
+  },
+  {
+    "page": 111,
+    "first_global_ayah": 687,
+    "last_global_ayah": 692
+  },
+  {
+    "page": 112,
+    "first_global_ayah": 693,
+    "last_global_ayah": 700
+  },
+  {
+    "page": 113,
+    "first_global_ayah": 701,
+    "last_global_ayah": 705
+  },
+  {
+    "page": 114,
+    "first_global_ayah": 706,
+    "last_global_ayah": 710
+  },
+  {
+    "page": 115,
+    "first_global_ayah": 711,
+    "last_global_ayah": 714
+  },
+  {
+    "page": 116,
+    "first_global_ayah": 715,
+    "last_global_ayah": 719
+  },
+  {
+    "page": 117,
+    "first_global_ayah": 720,
+    "last_global_ayah": 726
+  },
+  {
+    "page": 118,
+    "first_global_ayah": 727,
+    "last_global_ayah": 733
+  },
+  {
+    "page": 119,
+    "first_global_ayah": 734,
+    "last_global_ayah": 739
+  },
+  {
+    "page": 120,
+    "first_global_ayah": 740,
+    "last_global_ayah": 745
+  },
+  {
+    "page": 121,
+    "first_global_ayah": 746,
+    "last_global_ayah": 751
+  },
+  {
+    "page": 122,
+    "first_global_ayah": 752,
+    "last_global_ayah": 758
+  },
+  {
+    "page": 123,
+    "first_global_ayah": 759,
+    "last_global_ayah": 764
+  },
+  {
+    "page": 124,
+    "first_global_ayah": 765,
+    "last_global_ayah": 772
+  },
+  {
+    "page": 125,
+    "first_global_ayah": 773,
+    "last_global_ayah": 777
+  },
+  {
+    "page": 126,
+    "first_global_ayah": 778,
+    "last_global_ayah": 782
+  },
+  {
+    "page": 127,
+    "first_global_ayah": 783,
+    "last_global_ayah": 789
+  },
+  {
+    "page": 128,
+    "first_global_ayah": 790,
+    "last_global_ayah": 797
+  },
+  {
+    "page": 129,
+    "first_global_ayah": 798,
+    "last_global_ayah": 807
+  },
+  {
+    "page": 130,
+    "first_global_ayah": 808,
+    "last_global_ayah": 816
+  },
+  {
+    "page": 131,
+    "first_global_ayah": 817,
+    "last_global_ayah": 824
+  },
+  {
+    "page": 132,
+    "first_global_ayah": 825,
+    "last_global_ayah": 833
+  },
+  {
+    "page": 133,
+    "first_global_ayah": 834,
+    "last_global_ayah": 841
+  },
+  {
+    "page": 134,
+    "first_global_ayah": 842,
+    "last_global_ayah": 848
+  },
+  {
+    "page": 135,
+    "first_global_ayah": 849,
+    "last_global_ayah": 857
+  },
+  {
+    "page": 136,
+    "first_global_ayah": 858,
+    "last_global_ayah": 862
+  },
+  {
+    "page": 137,
+    "first_global_ayah": 863,
+    "last_global_ayah": 870
+  },
+  {
+    "page": 138,
+    "first_global_ayah": 871,
+    "last_global_ayah": 879
+  },
+  {
+    "page": 139,
+    "first_global_ayah": 880,
+    "last_global_ayah": 883
+  },
+  {
+    "page": 140,
+    "first_global_ayah": 884,
+    "last_global_ayah": 890
+  },
+  {
+    "page": 141,
+    "first_global_ayah": 891,
+    "last_global_ayah": 899
+  },
+  {
+    "page": 142,
+    "first_global_ayah": 900,
+    "last_global_ayah": 907
+  },
+  {
+    "page": 143,
+    "first_global_ayah": 908,
+    "last_global_ayah": 913
+  },
+  {
+    "page": 144,
+    "first_global_ayah": 914,
+    "last_global_ayah": 920
+  },
+  {
+    "page": 145,
+    "first_global_ayah": 921,
+    "last_global_ayah": 926
+  },
+  {
+    "page": 146,
+    "first_global_ayah": 927,
+    "last_global_ayah": 931
+  },
+  {
+    "page": 147,
+    "first_global_ayah": 932,
+    "last_global_ayah": 935
+  },
+  {
+    "page": 148,
+    "first_global_ayah": 936,
+    "last_global_ayah": 940
+  },
+  {
+    "page": 149,
+    "first_global_ayah": 941,
+    "last_global_ayah": 946
+  },
+  {
+    "page": 150,
+    "first_global_ayah": 947,
+    "last_global_ayah": 954
+  },
+  {
+    "page": 151,
+    "first_global_ayah": 955,
+    "last_global_ayah": 965
+  },
+  {
+    "page": 152,
+    "first_global_ayah": 966,
+    "last_global_ayah": 976
+  },
+  {
+    "page": 153,
+    "first_global_ayah": 977,
+    "last_global_ayah": 984
+  },
+  {
+    "page": 154,
+    "first_global_ayah": 985,
+    "last_global_ayah": 991
+  },
+  {
+    "page": 155,
+    "first_global_ayah": 992,
+    "last_global_ayah": 997
+  },
+  {
+    "page": 156,
+    "first_global_ayah": 998,
+    "last_global_ayah": 1005
+  },
+  {
+    "page": 157,
+    "first_global_ayah": 1006,
+    "last_global_ayah": 1011
+  },
+  {
+    "page": 158,
+    "first_global_ayah": 1012,
+    "last_global_ayah": 1021
+  },
+  {
+    "page": 159,
+    "first_global_ayah": 1022,
+    "last_global_ayah": 1027
+  },
+  {
+    "page": 160,
+    "first_global_ayah": 1028,
+    "last_global_ayah": 1035
+  },
+  {
+    "page": 161,
+    "first_global_ayah": 1036,
+    "last_global_ayah": 1041
+  },
+  {
+    "page": 162,
+    "first_global_ayah": 1042,
+    "last_global_ayah": 1049
+  },
+  {
+    "page": 163,
+    "first_global_ayah": 1050,
+    "last_global_ayah": 1058
+  },
+  {
+    "page": 164,
+    "first_global_ayah": 1059,
+    "last_global_ayah": 1074
+  },
+  {
+    "page": 165,
+    "first_global_ayah": 1075,
+    "last_global_ayah": 1084
+  },
+  {
+    "page": 166,
+    "first_global_ayah": 1085,
+    "last_global_ayah": 1091
+  },
+  {
+    "page": 167,
+    "first_global_ayah": 1092,
+    "last_global_ayah": 1097
+  },
+  {
+    "page": 168,
+    "first_global_ayah": 1098,
+    "last_global_ayah": 1103
+  },
+  {
+    "page": 169,
+    "first_global_ayah": 1104,
+    "last_global_ayah": 1109
+  },
+  {
+    "page": 170,
+    "first_global_ayah": 1110,
+    "last_global_ayah": 1113
+  },
+  {
+    "page": 171,
+    "first_global_ayah": 1114,
+    "last_global_ayah": 1117
+  },
+  {
+    "page": 172,
+    "first_global_ayah": 1118,
+    "last_global_ayah": 1124
+  },
+  {
+    "page": 173,
+    "first_global_ayah": 1125,
+    "last_global_ayah": 1132
+  },
+  {
+    "page": 174,
+    "first_global_ayah": 1133,
+    "last_global_ayah": 1141
+  },
+  {
+    "page": 175,
+    "first_global_ayah": 1142,
+    "last_global_ayah": 1149
+  },
+  {
+    "page": 176,
+    "first_global_ayah": 1150,
+    "last_global_ayah": 1160
+  },
+  {
+    "page": 177,
+    "first_global_ayah": 1161,
+    "last_global_ayah": 1168
+  },
+  {
+    "page": 178,
+    "first_global_ayah": 1169,
+    "last_global_ayah": 1176
+  },
+  {
+    "page": 179,
+    "first_global_ayah": 1177,
+    "last_global_ayah": 1185
+  },
+  {
+    "page": 180,
+    "first_global_ayah": 1186,
+    "last_global_ayah": 1193
+  },
+  {
+    "page": 181,
+    "first_global_ayah": 1194,
+    "last_global_ayah": 1200
+  },
+  {
+    "page": 182,
+    "first_global_ayah": 1201,
+    "last_global_ayah": 1205
+  },
+  {
+    "page": 183,
+    "first_global_ayah": 1206,
+    "last_global_ayah": 1212
+  },
+  {
+    "page": 184,
+    "first_global_ayah": 1213,
+    "last_global_ayah": 1221
+  },
+  {
+    "page": 185,
+    "first_global_ayah": 1222,
+    "last_global_ayah": 1229
+  },
+  {
+    "page": 186,
+    "first_global_ayah": 1230,
+    "last_global_ayah": 1235
+  },
+  {
+    "page": 187,
+    "first_global_ayah": 1236,
+    "last_global_ayah": 1241
+  },
+  {
+    "page": 188,
+    "first_global_ayah": 1242,
+    "last_global_ayah": 1248
+  },
+  {
+    "page": 189,
+    "first_global_ayah": 1249,
+    "last_global_ayah": 1255
+  },
+  {
+    "page": 190,
+    "first_global_ayah": 1256,
+    "last_global_ayah": 1261
+  },
+  {
+    "page": 191,
+    "first_global_ayah": 1262,
+    "last_global_ayah": 1266
+  },
+  {
+    "page": 192,
+    "first_global_ayah": 1267,
+    "last_global_ayah": 1271
+  },
+  {
+    "page": 193,
+    "first_global_ayah": 1272,
+    "last_global_ayah": 1275
+  },
+  {
+    "page": 194,
+    "first_global_ayah": 1276,
+    "last_global_ayah": 1282
+  },
+  {
+    "page": 195,
+    "first_global_ayah": 1283,
+    "last_global_ayah": 1289
+  },
+  {
+    "page": 196,
+    "first_global_ayah": 1290,
+    "last_global_ayah": 1296
+  },
+  {
+    "page": 197,
+    "first_global_ayah": 1297,
+    "last_global_ayah": 1303
+  },
+  {
+    "page": 198,
+    "first_global_ayah": 1304,
+    "last_global_ayah": 1307
+  },
+  {
+    "page": 199,
+    "first_global_ayah": 1308,
+    "last_global_ayah": 1314
+  },
+  {
+    "page": 200,
+    "first_global_ayah": 1315,
+    "last_global_ayah": 1321
+  },
+  {
+    "page": 201,
+    "first_global_ayah": 1322,
+    "last_global_ayah": 1328
+  },
+  {
+    "page": 202,
+    "first_global_ayah": 1329,
+    "last_global_ayah": 1334
+  },
+  {
+    "page": 203,
+    "first_global_ayah": 1335,
+    "last_global_ayah": 1341
+  },
+  {
+    "page": 204,
+    "first_global_ayah": 1342,
+    "last_global_ayah": 1346
+  },
+  {
+    "page": 205,
+    "first_global_ayah": 1347,
+    "last_global_ayah": 1352
+  },
+  {
+    "page": 206,
+    "first_global_ayah": 1353,
+    "last_global_ayah": 1357
+  },
+  {
+    "page": 207,
+    "first_global_ayah": 1358,
+    "last_global_ayah": 1364
+  },
+  {
+    "page": 208,
+    "first_global_ayah": 1365,
+    "last_global_ayah": 1370
+  },
+  {
+    "page": 209,
+    "first_global_ayah": 1371,
+    "last_global_ayah": 1378
+  },
+  {
+    "page": 210,
+    "first_global_ayah": 1379,
+    "last_global_ayah": 1384
+  },
+  {
+    "page": 211,
+    "first_global_ayah": 1385,
+    "last_global_ayah": 1389
+  },
+  {
+    "page": 212,
+    "first_global_ayah": 1390,
+    "last_global_ayah": 1397
+  },
+  {
+    "page": 213,
+    "first_global_ayah": 1398,
+    "last_global_ayah": 1406
+  },
+  {
+    "page": 214,
+    "first_global_ayah": 1407,
+    "last_global_ayah": 1417
+  },
+  {
+    "page": 215,
+    "first_global_ayah": 1418,
+    "last_global_ayah": 1425
+  },
+  {
+    "page": 216,
+    "first_global_ayah": 1426,
+    "last_global_ayah": 1434
+  },
+  {
+    "page": 217,
+    "first_global_ayah": 1435,
+    "last_global_ayah": 1442
+  },
+  {
+    "page": 218,
+    "first_global_ayah": 1443,
+    "last_global_ayah": 1452
+  },
+  {
+    "page": 219,
+    "first_global_ayah": 1453,
+    "last_global_ayah": 1461
+  },
+  {
+    "page": 220,
+    "first_global_ayah": 1462,
+    "last_global_ayah": 1470
+  },
+  {
+    "page": 221,
+    "first_global_ayah": 1471,
+    "last_global_ayah": 1478
+  },
+  {
+    "page": 222,
+    "first_global_ayah": 1479,
+    "last_global_ayah": 1485
+  },
+  {
+    "page": 223,
+    "first_global_ayah": 1486,
+    "last_global_ayah": 1492
+  },
+  {
+    "page": 224,
+    "first_global_ayah": 1493,
+    "last_global_ayah": 1501
+  },
+  {
+    "page": 225,
+    "first_global_ayah": 1502,
+    "last_global_ayah": 1510
+  },
+  {
+    "page": 226,
+    "first_global_ayah": 1511,
+    "last_global_ayah": 1518
+  },
+  {
+    "page": 227,
+    "first_global_ayah": 1519,
+    "last_global_ayah": 1526
+  },
+  {
+    "page": 228,
+    "first_global_ayah": 1527,
+    "last_global_ayah": 1535
+  },
+  {
+    "page": 229,
+    "first_global_ayah": 1536,
+    "last_global_ayah": 1544
+  },
+  {
+    "page": 230,
+    "first_global_ayah": 1545,
+    "last_global_ayah": 1554
+  },
+  {
+    "page": 231,
+    "first_global_ayah": 1555,
+    "last_global_ayah": 1561
+  },
+  {
+    "page": 232,
+    "first_global_ayah": 1562,
+    "last_global_ayah": 1570
+  },
+  {
+    "page": 233,
+    "first_global_ayah": 1571,
+    "last_global_ayah": 1581
+  },
+  {
+    "page": 234,
+    "first_global_ayah": 1582,
+    "last_global_ayah": 1590
+  },
+  {
+    "page": 235,
+    "first_global_ayah": 1591,
+    "last_global_ayah": 1600
+  },
+  {
+    "page": 236,
+    "first_global_ayah": 1601,
+    "last_global_ayah": 1610
+  },
+  {
+    "page": 237,
+    "first_global_ayah": 1611,
+    "last_global_ayah": 1618
+  },
+  {
+    "page": 238,
+    "first_global_ayah": 1619,
+    "last_global_ayah": 1626
+  },
+  {
+    "page": 239,
+    "first_global_ayah": 1627,
+    "last_global_ayah": 1633
+  },
+  {
+    "page": 240,
+    "first_global_ayah": 1634,
+    "last_global_ayah": 1639
+  },
+  {
+    "page": 241,
+    "first_global_ayah": 1640,
+    "last_global_ayah": 1648
+  },
+  {
+    "page": 242,
+    "first_global_ayah": 1649,
+    "last_global_ayah": 1659
+  },
+  {
+    "page": 243,
+    "first_global_ayah": 1660,
+    "last_global_ayah": 1665
+  },
+  {
+    "page": 244,
+    "first_global_ayah": 1666,
+    "last_global_ayah": 1674
+  },
+  {
+    "page": 245,
+    "first_global_ayah": 1675,
+    "last_global_ayah": 1682
+  },
+  {
+    "page": 246,
+    "first_global_ayah": 1683,
+    "last_global_ayah": 1691
+  },
+  {
+    "page": 247,
+    "first_global_ayah": 1692,
+    "last_global_ayah": 1699
+  },
+  {
+    "page": 248,
+    "first_global_ayah": 1700,
+    "last_global_ayah": 1707
+  },
+  {
+    "page": 249,
+    "first_global_ayah": 1708,
+    "last_global_ayah": 1712
+  },
+  {
+    "page": 250,
+    "first_global_ayah": 1713,
+    "last_global_ayah": 1720
+  },
+  {
+    "page": 251,
+    "first_global_ayah": 1721,
+    "last_global_ayah": 1725
+  },
+  {
+    "page": 252,
+    "first_global_ayah": 1726,
+    "last_global_ayah": 1735
+  },
+  {
+    "page": 253,
+    "first_global_ayah": 1736,
+    "last_global_ayah": 1741
+  },
+  {
+    "page": 254,
+    "first_global_ayah": 1742,
+    "last_global_ayah": 1749
+  },
+  {
+    "page": 255,
+    "first_global_ayah": 1750,
+    "last_global_ayah": 1755
+  },
+  {
+    "page": 256,
+    "first_global_ayah": 1756,
+    "last_global_ayah": 1760
+  },
+  {
+    "page": 257,
+    "first_global_ayah": 1761,
+    "last_global_ayah": 1768
+  },
+  {
+    "page": 258,
+    "first_global_ayah": 1769,
+    "last_global_ayah": 1774
+  },
+  {
+    "page": 259,
+    "first_global_ayah": 1775,
+    "last_global_ayah": 1783
+  },
+  {
+    "page": 260,
+    "first_global_ayah": 1784,
+    "last_global_ayah": 1792
+  },
+  {
+    "page": 261,
+    "first_global_ayah": 1793,
+    "last_global_ayah": 1802
+  },
+  {
+    "page": 262,
+    "first_global_ayah": 1803,
+    "last_global_ayah": 1817
+  },
+  {
+    "page": 263,
+    "first_global_ayah": 1818,
+    "last_global_ayah": 1833
+  },
+  {
+    "page": 264,
+    "first_global_ayah": 1834,
+    "last_global_ayah": 1853
+  },
+  {
+    "page": 265,
+    "first_global_ayah": 1854,
+    "last_global_ayah": 1872
+  },
+  {
+    "page": 266,
+    "first_global_ayah": 1873,
+    "last_global_ayah": 1892
+  },
+  {
+    "page": 267,
+    "first_global_ayah": 1893,
+    "last_global_ayah": 1907
+  },
+  {
+    "page": 268,
+    "first_global_ayah": 1908,
+    "last_global_ayah": 1915
+  },
+  {
+    "page": 269,
+    "first_global_ayah": 1916,
+    "last_global_ayah": 1927
+  },
+  {
+    "page": 270,
+    "first_global_ayah": 1928,
+    "last_global_ayah": 1935
+  },
+  {
+    "page": 271,
+    "first_global_ayah": 1936,
+    "last_global_ayah": 1943
+  },
+  {
+    "page": 272,
+    "first_global_ayah": 1944,
+    "last_global_ayah": 1955
+  },
+  {
+    "page": 273,
+    "first_global_ayah": 1956,
+    "last_global_ayah": 1965
+  },
+  {
+    "page": 274,
+    "first_global_ayah": 1966,
+    "last_global_ayah": 1973
+  },
+  {
+    "page": 275,
+    "first_global_ayah": 1974,
+    "last_global_ayah": 1980
+  },
+  {
+    "page": 276,
+    "first_global_ayah": 1981,
+    "last_global_ayah": 1988
+  },
+  {
+    "page": 277,
+    "first_global_ayah": 1989,
+    "last_global_ayah": 1994
+  },
+  {
+    "page": 278,
+    "first_global_ayah": 1995,
+    "last_global_ayah": 2003
+  },
+  {
+    "page": 279,
+    "first_global_ayah": 2004,
+    "last_global_ayah": 2011
+  },
+  {
+    "page": 280,
+    "first_global_ayah": 2012,
+    "last_global_ayah": 2019
+  },
+  {
+    "page": 281,
+    "first_global_ayah": 2020,
+    "last_global_ayah": 2029
+  },
+  {
+    "page": 282,
+    "first_global_ayah": 2030,
+    "last_global_ayah": 2036
+  },
+  {
+    "page": 283,
+    "first_global_ayah": 2037,
+    "last_global_ayah": 2046
+  },
+  {
+    "page": 284,
+    "first_global_ayah": 2047,
+    "last_global_ayah": 2056
+  },
+  {
+    "page": 285,
+    "first_global_ayah": 2057,
+    "last_global_ayah": 2067
+  },
+  {
+    "page": 286,
+    "first_global_ayah": 2068,
+    "last_global_ayah": 2078
+  },
+  {
+    "page": 287,
+    "first_global_ayah": 2079,
+    "last_global_ayah": 2087
+  },
+  {
+    "page": 288,
+    "first_global_ayah": 2088,
+    "last_global_ayah": 2095
+  },
+  {
+    "page": 289,
+    "first_global_ayah": 2096,
+    "last_global_ayah": 2104
+  },
+  {
+    "page": 290,
+    "first_global_ayah": 2105,
+    "last_global_ayah": 2115
+  },
+  {
+    "page": 291,
+    "first_global_ayah": 2116,
+    "last_global_ayah": 2125
+  },
+  {
+    "page": 292,
+    "first_global_ayah": 2126,
+    "last_global_ayah": 2133
+  },
+  {
+    "page": 293,
+    "first_global_ayah": 2134,
+    "last_global_ayah": 2144
+  },
+  {
+    "page": 294,
+    "first_global_ayah": 2145,
+    "last_global_ayah": 2155
+  },
+  {
+    "page": 295,
+    "first_global_ayah": 2156,
+    "last_global_ayah": 2160
+  },
+  {
+    "page": 296,
+    "first_global_ayah": 2161,
+    "last_global_ayah": 2167
+  },
+  {
+    "page": 297,
+    "first_global_ayah": 2168,
+    "last_global_ayah": 2174
+  },
+  {
+    "page": 298,
+    "first_global_ayah": 2175,
+    "last_global_ayah": 2185
+  },
+  {
+    "page": 299,
+    "first_global_ayah": 2186,
+    "last_global_ayah": 2193
+  },
+  {
+    "page": 300,
+    "first_global_ayah": 2194,
+    "last_global_ayah": 2201
+  },
+  {
+    "page": 301,
+    "first_global_ayah": 2202,
+    "last_global_ayah": 2214
+  },
+  {
+    "page": 302,
+    "first_global_ayah": 2215,
+    "last_global_ayah": 2223
+  },
+  {
+    "page": 303,
+    "first_global_ayah": 2224,
+    "last_global_ayah": 2237
+  },
+  {
+    "page": 304,
+    "first_global_ayah": 2238,
+    "last_global_ayah": 2250
+  },
+  {
+    "page": 305,
+    "first_global_ayah": 2251,
+    "last_global_ayah": 2261
+  },
+  {
+    "page": 306,
+    "first_global_ayah": 2262,
+    "last_global_ayah": 2275
+  },
+  {
+    "page": 307,
+    "first_global_ayah": 2276,
+    "last_global_ayah": 2288
+  },
+  {
+    "page": 308,
+    "first_global_ayah": 2289,
+    "last_global_ayah": 2301
+  },
+  {
+    "page": 309,
+    "first_global_ayah": 2302,
+    "last_global_ayah": 2314
+  },
+  {
+    "page": 310,
+    "first_global_ayah": 2315,
+    "last_global_ayah": 2326
+  },
+  {
+    "page": 311,
+    "first_global_ayah": 2327,
+    "last_global_ayah": 2345
+  },
+  {
+    "page": 312,
+    "first_global_ayah": 2346,
+    "last_global_ayah": 2360
+  },
+  {
+    "page": 313,
+    "first_global_ayah": 2361,
+    "last_global_ayah": 2385
+  },
+  {
+    "page": 314,
+    "first_global_ayah": 2386,
+    "last_global_ayah": 2399
+  },
+  {
+    "page": 315,
+    "first_global_ayah": 2400,
+    "last_global_ayah": 2412
+  },
+  {
+    "page": 316,
+    "first_global_ayah": 2413,
+    "last_global_ayah": 2424
+  },
+  {
+    "page": 317,
+    "first_global_ayah": 2425,
+    "last_global_ayah": 2435
+  },
+  {
+    "page": 318,
+    "first_global_ayah": 2436,
+    "last_global_ayah": 2446
+  },
+  {
+    "page": 319,
+    "first_global_ayah": 2447,
+    "last_global_ayah": 2461
+  },
+  {
+    "page": 320,
+    "first_global_ayah": 2462,
+    "last_global_ayah": 2473
+  },
+  {
+    "page": 321,
+    "first_global_ayah": 2474,
+    "last_global_ayah": 2483
+  },
+  {
+    "page": 322,
+    "first_global_ayah": 2484,
+    "last_global_ayah": 2493
+  },
+  {
+    "page": 323,
+    "first_global_ayah": 2494,
+    "last_global_ayah": 2507
+  },
+  {
+    "page": 324,
+    "first_global_ayah": 2508,
+    "last_global_ayah": 2518
+  },
+  {
+    "page": 325,
+    "first_global_ayah": 2519,
+    "last_global_ayah": 2527
+  },
+  {
+    "page": 326,
+    "first_global_ayah": 2528,
+    "last_global_ayah": 2540
+  },
+  {
+    "page": 327,
+    "first_global_ayah": 2541,
+    "last_global_ayah": 2555
+  },
+  {
+    "page": 328,
+    "first_global_ayah": 2556,
+    "last_global_ayah": 2564
+  },
+  {
+    "page": 329,
+    "first_global_ayah": 2565,
+    "last_global_ayah": 2573
+  },
+  {
+    "page": 330,
+    "first_global_ayah": 2574,
+    "last_global_ayah": 2584
+  },
+  {
+    "page": 331,
+    "first_global_ayah": 2585,
+    "last_global_ayah": 2595
+  },
+  {
+    "page": 332,
+    "first_global_ayah": 2596,
+    "last_global_ayah": 2600
+  },
+  {
+    "page": 333,
+    "first_global_ayah": 2601,
+    "last_global_ayah": 2610
+  },
+  {
+    "page": 334,
+    "first_global_ayah": 2611,
+    "last_global_ayah": 2618
+  },
+  {
+    "page": 335,
+    "first_global_ayah": 2619,
+    "last_global_ayah": 2625
+  },
+  {
+    "page": 336,
+    "first_global_ayah": 2626,
+    "last_global_ayah": 2633
+  },
+  {
+    "page": 337,
+    "first_global_ayah": 2634,
+    "last_global_ayah": 2641
+  },
+  {
+    "page": 338,
+    "first_global_ayah": 2642,
+    "last_global_ayah": 2650
+  },
+  {
+    "page": 339,
+    "first_global_ayah": 2651,
+    "last_global_ayah": 2659
+  },
+  {
+    "page": 340,
+    "first_global_ayah": 2660,
+    "last_global_ayah": 2667
+  },
+  {
+    "page": 341,
+    "first_global_ayah": 2668,
+    "last_global_ayah": 2673
+  },
+  {
+    "page": 342,
+    "first_global_ayah": 2674,
+    "last_global_ayah": 2690
+  },
+  {
+    "page": 343,
+    "first_global_ayah": 2691,
+    "last_global_ayah": 2700
+  },
+  {
+    "page": 344,
+    "first_global_ayah": 2701,
+    "last_global_ayah": 2715
+  },
+  {
+    "page": 345,
+    "first_global_ayah": 2716,
+    "last_global_ayah": 2732
+  },
+  {
+    "page": 346,
+    "first_global_ayah": 2733,
+    "last_global_ayah": 2747
+  },
+  {
+    "page": 347,
+    "first_global_ayah": 2748,
+    "last_global_ayah": 2762
+  },
+  {
+    "page": 348,
+    "first_global_ayah": 2763,
+    "last_global_ayah": 2777
+  },
+  {
+    "page": 349,
+    "first_global_ayah": 2778,
+    "last_global_ayah": 2791
+  },
+  {
+    "page": 350,
+    "first_global_ayah": 2792,
+    "last_global_ayah": 2801
+  },
+  {
+    "page": 351,
+    "first_global_ayah": 2802,
+    "last_global_ayah": 2811
+  },
+  {
+    "page": 352,
+    "first_global_ayah": 2812,
+    "last_global_ayah": 2818
+  },
+  {
+    "page": 353,
+    "first_global_ayah": 2819,
+    "last_global_ayah": 2822
+  },
+  {
+    "page": 354,
+    "first_global_ayah": 2823,
+    "last_global_ayah": 2827
+  },
+  {
+    "page": 355,
+    "first_global_ayah": 2828,
+    "last_global_ayah": 2834
+  },
+  {
+    "page": 356,
+    "first_global_ayah": 2835,
+    "last_global_ayah": 2844
+  },
+  {
+    "page": 357,
+    "first_global_ayah": 2845,
+    "last_global_ayah": 2849
+  },
+  {
+    "page": 358,
+    "first_global_ayah": 2850,
+    "last_global_ayah": 2852
+  },
+  {
+    "page": 359,
+    "first_global_ayah": 2853,
+    "last_global_ayah": 2857
+  },
+  {
+    "page": 360,
+    "first_global_ayah": 2858,
+    "last_global_ayah": 2866
+  },
+  {
+    "page": 361,
+    "first_global_ayah": 2867,
+    "last_global_ayah": 2875
+  },
+  {
+    "page": 362,
+    "first_global_ayah": 2876,
+    "last_global_ayah": 2887
+  },
+  {
+    "page": 363,
+    "first_global_ayah": 2888,
+    "last_global_ayah": 2898
+  },
+  {
+    "page": 364,
+    "first_global_ayah": 2899,
+    "last_global_ayah": 2910
+  },
+  {
+    "page": 365,
+    "first_global_ayah": 2911,
+    "last_global_ayah": 2922
+  },
+  {
+    "page": 366,
+    "first_global_ayah": 2923,
+    "last_global_ayah": 2932
+  },
+  {
+    "page": 367,
+    "first_global_ayah": 2933,
+    "last_global_ayah": 2951
+  },
+  {
+    "page": 368,
+    "first_global_ayah": 2952,
+    "last_global_ayah": 2971
+  },
+  {
+    "page": 369,
+    "first_global_ayah": 2972,
+    "last_global_ayah": 2992
+  },
+  {
+    "page": 370,
+    "first_global_ayah": 2993,
+    "last_global_ayah": 3015
+  },
+  {
+    "page": 371,
+    "first_global_ayah": 3016,
+    "last_global_ayah": 3043
+  },
+  {
+    "page": 372,
+    "first_global_ayah": 3044,
+    "last_global_ayah": 3068
+  },
+  {
+    "page": 373,
+    "first_global_ayah": 3069,
+    "last_global_ayah": 3091
+  },
+  {
+    "page": 374,
+    "first_global_ayah": 3092,
+    "last_global_ayah": 3115
+  },
+  {
+    "page": 375,
+    "first_global_ayah": 3116,
+    "last_global_ayah": 3138
+  },
+  {
+    "page": 376,
+    "first_global_ayah": 3139,
+    "last_global_ayah": 3159
+  },
+  {
+    "page": 377,
+    "first_global_ayah": 3160,
+    "last_global_ayah": 3172
+  },
+  {
+    "page": 378,
+    "first_global_ayah": 3173,
+    "last_global_ayah": 3181
+  },
+  {
+    "page": 379,
+    "first_global_ayah": 3182,
+    "last_global_ayah": 3194
+  },
+  {
+    "page": 380,
+    "first_global_ayah": 3195,
+    "last_global_ayah": 3203
+  },
+  {
+    "page": 381,
+    "first_global_ayah": 3204,
+    "last_global_ayah": 3214
+  },
+  {
+    "page": 382,
+    "first_global_ayah": 3215,
+    "last_global_ayah": 3222
+  },
+  {
+    "page": 383,
+    "first_global_ayah": 3223,
+    "last_global_ayah": 3235
+  },
+  {
+    "page": 384,
+    "first_global_ayah": 3236,
+    "last_global_ayah": 3247
+  },
+  {
+    "page": 385,
+    "first_global_ayah": 3248,
+    "last_global_ayah": 3257
+  },
+  {
+    "page": 386,
+    "first_global_ayah": 3258,
+    "last_global_ayah": 3265
+  },
+  {
+    "page": 387,
+    "first_global_ayah": 3266,
+    "last_global_ayah": 3273
+  },
+  {
+    "page": 388,
+    "first_global_ayah": 3274,
+    "last_global_ayah": 3280
+  },
+  {
+    "page": 389,
+    "first_global_ayah": 3281,
+    "last_global_ayah": 3287
+  },
+  {
+    "page": 390,
+    "first_global_ayah": 3288,
+    "last_global_ayah": 3295
+  },
+  {
+    "page": 391,
+    "first_global_ayah": 3296,
+    "last_global_ayah": 3302
+  },
+  {
+    "page": 392,
+    "first_global_ayah": 3303,
+    "last_global_ayah": 3311
+  },
+  {
+    "page": 393,
+    "first_global_ayah": 3312,
+    "last_global_ayah": 3322
+  },
+  {
+    "page": 394,
+    "first_global_ayah": 3323,
+    "last_global_ayah": 3329
+  },
+  {
+    "page": 395,
+    "first_global_ayah": 3330,
+    "last_global_ayah": 3336
+  },
+  {
+    "page": 396,
+    "first_global_ayah": 3337,
+    "last_global_ayah": 3346
+  },
+  {
+    "page": 397,
+    "first_global_ayah": 3347,
+    "last_global_ayah": 3354
+  },
+  {
+    "page": 398,
+    "first_global_ayah": 3355,
+    "last_global_ayah": 3363
+  },
+  {
+    "page": 399,
+    "first_global_ayah": 3364,
+    "last_global_ayah": 3370
+  },
+  {
+    "page": 400,
+    "first_global_ayah": 3371,
+    "last_global_ayah": 3378
+  },
+  {
+    "page": 401,
+    "first_global_ayah": 3379,
+    "last_global_ayah": 3385
+  },
+  {
+    "page": 402,
+    "first_global_ayah": 3386,
+    "last_global_ayah": 3392
+  },
+  {
+    "page": 403,
+    "first_global_ayah": 3393,
+    "last_global_ayah": 3403
+  },
+  {
+    "page": 404,
+    "first_global_ayah": 3404,
+    "last_global_ayah": 3414
+  },
+  {
+    "page": 405,
+    "first_global_ayah": 3415,
+    "last_global_ayah": 3424
+  },
+  {
+    "page": 406,
+    "first_global_ayah": 3425,
+    "last_global_ayah": 3433
+  },
+  {
+    "page": 407,
+    "first_global_ayah": 3434,
+    "last_global_ayah": 3441
+  },
+  {
+    "page": 408,
+    "first_global_ayah": 3442,
+    "last_global_ayah": 3450
+  },
+  {
+    "page": 409,
+    "first_global_ayah": 3451,
+    "last_global_ayah": 3459
+  },
+  {
+    "page": 410,
+    "first_global_ayah": 3460,
+    "last_global_ayah": 3469
+  },
+  {
+    "page": 411,
+    "first_global_ayah": 3470,
+    "last_global_ayah": 3480
+  },
+  {
+    "page": 412,
+    "first_global_ayah": 3481,
+    "last_global_ayah": 3488
+  },
+  {
+    "page": 413,
+    "first_global_ayah": 3489,
+    "last_global_ayah": 3497
+  },
+  {
+    "page": 414,
+    "first_global_ayah": 3498,
+    "last_global_ayah": 3503
+  },
+  {
+    "page": 415,
+    "first_global_ayah": 3504,
+    "last_global_ayah": 3514
+  },
+  {
+    "page": 416,
+    "first_global_ayah": 3515,
+    "last_global_ayah": 3523
+  },
+  {
+    "page": 417,
+    "first_global_ayah": 3524,
+    "last_global_ayah": 3533
+  },
+  {
+    "page": 418,
+    "first_global_ayah": 3534,
+    "last_global_ayah": 3539
+  },
+  {
+    "page": 419,
+    "first_global_ayah": 3540,
+    "last_global_ayah": 3548
+  },
+  {
+    "page": 420,
+    "first_global_ayah": 3549,
+    "last_global_ayah": 3555
+  },
+  {
+    "page": 421,
+    "first_global_ayah": 3556,
+    "last_global_ayah": 3563
+  },
+  {
+    "page": 422,
+    "first_global_ayah": 3564,
+    "last_global_ayah": 3568
+  },
+  {
+    "page": 423,
+    "first_global_ayah": 3569,
+    "last_global_ayah": 3576
+  },
+  {
+    "page": 424,
+    "first_global_ayah": 3577,
+    "last_global_ayah": 3583
+  },
+  {
+    "page": 425,
+    "first_global_ayah": 3584,
+    "last_global_ayah": 3587
+  },
+  {
+    "page": 426,
+    "first_global_ayah": 3588,
+    "last_global_ayah": 3595
+  },
+  {
+    "page": 427,
+    "first_global_ayah": 3596,
+    "last_global_ayah": 3606
+  },
+  {
+    "page": 428,
+    "first_global_ayah": 3607,
+    "last_global_ayah": 3613
+  },
+  {
+    "page": 429,
+    "first_global_ayah": 3614,
+    "last_global_ayah": 3620
+  },
+  {
+    "page": 430,
+    "first_global_ayah": 3621,
+    "last_global_ayah": 3628
+  },
+  {
+    "page": 431,
+    "first_global_ayah": 3629,
+    "last_global_ayah": 3637
+  },
+  {
+    "page": 432,
+    "first_global_ayah": 3638,
+    "last_global_ayah": 3645
+  },
+  {
+    "page": 433,
+    "first_global_ayah": 3646,
+    "last_global_ayah": 3654
+  },
+  {
+    "page": 434,
+    "first_global_ayah": 3655,
+    "last_global_ayah": 3663
+  },
+  {
+    "page": 435,
+    "first_global_ayah": 3664,
+    "last_global_ayah": 3671
+  },
+  {
+    "page": 436,
+    "first_global_ayah": 3672,
+    "last_global_ayah": 3678
+  },
+  {
+    "page": 437,
+    "first_global_ayah": 3679,
+    "last_global_ayah": 3690
+  },
+  {
+    "page": 438,
+    "first_global_ayah": 3691,
+    "last_global_ayah": 3698
+  },
+  {
+    "page": 439,
+    "first_global_ayah": 3699,
+    "last_global_ayah": 3704
+  },
+  {
+    "page": 440,
+    "first_global_ayah": 3705,
+    "last_global_ayah": 3717
+  },
+  {
+    "page": 441,
+    "first_global_ayah": 3718,
+    "last_global_ayah": 3732
+  },
+  {
+    "page": 442,
+    "first_global_ayah": 3733,
+    "last_global_ayah": 3745
+  },
+  {
+    "page": 443,
+    "first_global_ayah": 3746,
+    "last_global_ayah": 3759
+  },
+  {
+    "page": 444,
+    "first_global_ayah": 3760,
+    "last_global_ayah": 3775
+  },
+  {
+    "page": 445,
+    "first_global_ayah": 3776,
+    "last_global_ayah": 3788
+  },
+  {
+    "page": 446,
+    "first_global_ayah": 3789,
+    "last_global_ayah": 3812
+  },
+  {
+    "page": 447,
+    "first_global_ayah": 3813,
+    "last_global_ayah": 3839
+  },
+  {
+    "page": 448,
+    "first_global_ayah": 3840,
+    "last_global_ayah": 3864
+  },
+  {
+    "page": 449,
+    "first_global_ayah": 3865,
+    "last_global_ayah": 3890
+  },
+  {
+    "page": 450,
+    "first_global_ayah": 3891,
+    "last_global_ayah": 3914
+  },
+  {
+    "page": 451,
+    "first_global_ayah": 3915,
+    "last_global_ayah": 3941
+  },
+  {
+    "page": 452,
+    "first_global_ayah": 3942,
+    "last_global_ayah": 3970
+  },
+  {
+    "page": 453,
+    "first_global_ayah": 3971,
+    "last_global_ayah": 3986
+  },
+  {
+    "page": 454,
+    "first_global_ayah": 3987,
+    "last_global_ayah": 3996
+  },
+  {
+    "page": 455,
+    "first_global_ayah": 3997,
+    "last_global_ayah": 4012
+  },
+  {
+    "page": 456,
+    "first_global_ayah": 4013,
+    "last_global_ayah": 4031
+  },
+  {
+    "page": 457,
+    "first_global_ayah": 4032,
+    "last_global_ayah": 4053
+  },
+  {
+    "page": 458,
+    "first_global_ayah": 4054,
+    "last_global_ayah": 4063
+  },
+  {
+    "page": 459,
+    "first_global_ayah": 4064,
+    "last_global_ayah": 4068
+  },
+  {
+    "page": 460,
+    "first_global_ayah": 4069,
+    "last_global_ayah": 4079
+  },
+  {
+    "page": 461,
+    "first_global_ayah": 4080,
+    "last_global_ayah": 4089
+  },
+  {
+    "page": 462,
+    "first_global_ayah": 4090,
+    "last_global_ayah": 4098
+  },
+  {
+    "page": 463,
+    "first_global_ayah": 4099,
+    "last_global_ayah": 4105
+  },
+  {
+    "page": 464,
+    "first_global_ayah": 4106,
+    "last_global_ayah": 4114
+  },
+  {
+    "page": 465,
+    "first_global_ayah": 4115,
+    "last_global_ayah": 4125
+  },
+  {
+    "page": 466,
+    "first_global_ayah": 4126,
+    "last_global_ayah": 4132
+  },
+  {
+    "page": 467,
+    "first_global_ayah": 4133,
+    "last_global_ayah": 4140
+  },
+  {
+    "page": 468,
+    "first_global_ayah": 4141,
+    "last_global_ayah": 4149
+  },
+  {
+    "page": 469,
+    "first_global_ayah": 4150,
+    "last_global_ayah": 4158
+  },
+  {
+    "page": 470,
+    "first_global_ayah": 4159,
+    "last_global_ayah": 4166
+  },
+  {
+    "page": 471,
+    "first_global_ayah": 4167,
+    "last_global_ayah": 4173
+  },
+  {
+    "page": 472,
+    "first_global_ayah": 4174,
+    "last_global_ayah": 4182
+  },
+  {
+    "page": 473,
+    "first_global_ayah": 4183,
+    "last_global_ayah": 4191
+  },
+  {
+    "page": 474,
+    "first_global_ayah": 4192,
+    "last_global_ayah": 4199
+  },
+  {
+    "page": 475,
+    "first_global_ayah": 4200,
+    "last_global_ayah": 4210
+  },
+  {
+    "page": 476,
+    "first_global_ayah": 4211,
+    "last_global_ayah": 4218
+  },
+  {
+    "page": 477,
+    "first_global_ayah": 4219,
+    "last_global_ayah": 4229
+  },
+  {
+    "page": 478,
+    "first_global_ayah": 4230,
+    "last_global_ayah": 4238
+  },
+  {
+    "page": 479,
+    "first_global_ayah": 4239,
+    "last_global_ayah": 4247
+  },
+  {
+    "page": 480,
+    "first_global_ayah": 4248,
+    "last_global_ayah": 4256
+  },
+  {
+    "page": 481,
+    "first_global_ayah": 4257,
+    "last_global_ayah": 4264
+  },
+  {
+    "page": 482,
+    "first_global_ayah": 4265,
+    "last_global_ayah": 4272
+  },
+  {
+    "page": 483,
+    "first_global_ayah": 4273,
+    "last_global_ayah": 4282
+  },
+  {
+    "page": 484,
+    "first_global_ayah": 4283,
+    "last_global_ayah": 4287
+  },
+  {
+    "page": 485,
+    "first_global_ayah": 4288,
+    "last_global_ayah": 4294
+  },
+  {
+    "page": 486,
+    "first_global_ayah": 4295,
+    "last_global_ayah": 4303
+  },
+  {
+    "page": 487,
+    "first_global_ayah": 4304,
+    "last_global_ayah": 4316
+  },
+  {
+    "page": 488,
+    "first_global_ayah": 4317,
+    "last_global_ayah": 4323
+  },
+  {
+    "page": 489,
+    "first_global_ayah": 4324,
+    "last_global_ayah": 4335
+  },
+  {
+    "page": 490,
+    "first_global_ayah": 4336,
+    "last_global_ayah": 4347
+  },
+  {
+    "page": 491,
+    "first_global_ayah": 4348,
+    "last_global_ayah": 4358
+  },
+  {
+    "page": 492,
+    "first_global_ayah": 4359,
+    "last_global_ayah": 4372
+  },
+  {
+    "page": 493,
+    "first_global_ayah": 4373,
+    "last_global_ayah": 4385
+  },
+  {
+    "page": 494,
+    "first_global_ayah": 4386,
+    "last_global_ayah": 4398
+  },
+  {
+    "page": 495,
+    "first_global_ayah": 4399,
+    "last_global_ayah": 4414
+  },
+  {
+    "page": 496,
+    "first_global_ayah": 4415,
+    "last_global_ayah": 4432
+  },
+  {
+    "page": 497,
+    "first_global_ayah": 4433,
+    "last_global_ayah": 4453
+  },
+  {
+    "page": 498,
+    "first_global_ayah": 4454,
+    "last_global_ayah": 4473
+  },
+  {
+    "page": 499,
+    "first_global_ayah": 4474,
+    "last_global_ayah": 4486
+  },
+  {
+    "page": 500,
+    "first_global_ayah": 4487,
+    "last_global_ayah": 4495
+  },
+  {
+    "page": 501,
+    "first_global_ayah": 4496,
+    "last_global_ayah": 4505
+  },
+  {
+    "page": 502,
+    "first_global_ayah": 4506,
+    "last_global_ayah": 4515
+  },
+  {
+    "page": 503,
+    "first_global_ayah": 4516,
+    "last_global_ayah": 4524
+  },
+  {
+    "page": 504,
+    "first_global_ayah": 4525,
+    "last_global_ayah": 4530
+  },
+  {
+    "page": 505,
+    "first_global_ayah": 4531,
+    "last_global_ayah": 4538
+  },
+  {
+    "page": 506,
+    "first_global_ayah": 4539,
+    "last_global_ayah": 4545
+  },
+  {
+    "page": 507,
+    "first_global_ayah": 4546,
+    "last_global_ayah": 4556
+  },
+  {
+    "page": 508,
+    "first_global_ayah": 4557,
+    "last_global_ayah": 4564
+  },
+  {
+    "page": 509,
+    "first_global_ayah": 4565,
+    "last_global_ayah": 4574
+  },
+  {
+    "page": 510,
+    "first_global_ayah": 4575,
+    "last_global_ayah": 4583
+  },
+  {
+    "page": 511,
+    "first_global_ayah": 4584,
+    "last_global_ayah": 4592
+  },
+  {
+    "page": 512,
+    "first_global_ayah": 4593,
+    "last_global_ayah": 4598
+  },
+  {
+    "page": 513,
+    "first_global_ayah": 4599,
+    "last_global_ayah": 4606
+  },
+  {
+    "page": 514,
+    "first_global_ayah": 4607,
+    "last_global_ayah": 4611
+  },
+  {
+    "page": 515,
+    "first_global_ayah": 4612,
+    "last_global_ayah": 4616
+  },
+  {
+    "page": 516,
+    "first_global_ayah": 4617,
+    "last_global_ayah": 4623
+  },
+  {
+    "page": 517,
+    "first_global_ayah": 4624,
+    "last_global_ayah": 4630
+  },
+  {
+    "page": 518,
+    "first_global_ayah": 4631,
+    "last_global_ayah": 4645
+  },
+  {
+    "page": 519,
+    "first_global_ayah": 4646,
+    "last_global_ayah": 4665
+  },
+  {
+    "page": 520,
+    "first_global_ayah": 4666,
+    "last_global_ayah": 4681
+  },
+  {
+    "page": 521,
+    "first_global_ayah": 4682,
+    "last_global_ayah": 4705
+  },
+  {
+    "page": 522,
+    "first_global_ayah": 4706,
+    "last_global_ayah": 4726
+  },
+  {
+    "page": 523,
+    "first_global_ayah": 4727,
+    "last_global_ayah": 4749
+  },
+  {
+    "page": 524,
+    "first_global_ayah": 4750,
+    "last_global_ayah": 4766
+  },
+  {
+    "page": 525,
+    "first_global_ayah": 4767,
+    "last_global_ayah": 4784
+  },
+  {
+    "page": 526,
+    "first_global_ayah": 4785,
+    "last_global_ayah": 4810
+  },
+  {
+    "page": 527,
+    "first_global_ayah": 4811,
+    "last_global_ayah": 4828
+  },
+  {
+    "page": 528,
+    "first_global_ayah": 4829,
+    "last_global_ayah": 4852
+  },
+  {
+    "page": 529,
+    "first_global_ayah": 4853,
+    "last_global_ayah": 4873
+  },
+  {
+    "page": 530,
+    "first_global_ayah": 4874,
+    "last_global_ayah": 4895
+  },
+  {
+    "page": 531,
+    "first_global_ayah": 4896,
+    "last_global_ayah": 4917
+  },
+  {
+    "page": 532,
+    "first_global_ayah": 4918,
+    "last_global_ayah": 4941
+  },
+  {
+    "page": 533,
+    "first_global_ayah": 4942,
+    "last_global_ayah": 4968
+  },
+  {
+    "page": 534,
+    "first_global_ayah": 4969,
+    "last_global_ayah": 4995
+  },
+  {
+    "page": 535,
+    "first_global_ayah": 4996,
+    "last_global_ayah": 5029
+  },
+  {
+    "page": 536,
+    "first_global_ayah": 5030,
+    "last_global_ayah": 5055
+  },
+  {
+    "page": 537,
+    "first_global_ayah": 5056,
+    "last_global_ayah": 5078
+  },
+  {
+    "page": 538,
+    "first_global_ayah": 5079,
+    "last_global_ayah": 5086
+  },
+  {
+    "page": 539,
+    "first_global_ayah": 5087,
+    "last_global_ayah": 5093
+  },
+  {
+    "page": 540,
+    "first_global_ayah": 5094,
+    "last_global_ayah": 5099
+  },
+  {
+    "page": 541,
+    "first_global_ayah": 5100,
+    "last_global_ayah": 5104
+  },
+  {
+    "page": 542,
+    "first_global_ayah": 5105,
+    "last_global_ayah": 5110
+  },
+  {
+    "page": 543,
+    "first_global_ayah": 5111,
+    "last_global_ayah": 5115
+  },
+  {
+    "page": 544,
+    "first_global_ayah": 5116,
+    "last_global_ayah": 5125
+  },
+  {
+    "page": 545,
+    "first_global_ayah": 5126,
+    "last_global_ayah": 5129
+  },
+  {
+    "page": 546,
+    "first_global_ayah": 5130,
+    "last_global_ayah": 5135
+  },
+  {
+    "page": 547,
+    "first_global_ayah": 5136,
+    "last_global_ayah": 5142
+  },
+  {
+    "page": 548,
+    "first_global_ayah": 5143,
+    "last_global_ayah": 5150
+  },
+  {
+    "page": 549,
+    "first_global_ayah": 5151,
+    "last_global_ayah": 5155
+  },
+  {
+    "page": 550,
+    "first_global_ayah": 5156,
+    "last_global_ayah": 5161
+  },
+  {
+    "page": 551,
+    "first_global_ayah": 5162,
+    "last_global_ayah": 5168
+  },
+  {
+    "page": 552,
+    "first_global_ayah": 5169,
+    "last_global_ayah": 5177
+  },
+  {
+    "page": 553,
+    "first_global_ayah": 5178,
+    "last_global_ayah": 5185
+  },
+  {
+    "page": 554,
+    "first_global_ayah": 5186,
+    "last_global_ayah": 5192
+  },
+  {
+    "page": 555,
+    "first_global_ayah": 5193,
+    "last_global_ayah": 5199
+  },
+  {
+    "page": 556,
+    "first_global_ayah": 5200,
+    "last_global_ayah": 5208
+  },
+  {
+    "page": 557,
+    "first_global_ayah": 5209,
+    "last_global_ayah": 5217
+  },
+  {
+    "page": 558,
+    "first_global_ayah": 5218,
+    "last_global_ayah": 5222
+  },
+  {
+    "page": 559,
+    "first_global_ayah": 5223,
+    "last_global_ayah": 5229
+  },
+  {
+    "page": 560,
+    "first_global_ayah": 5230,
+    "last_global_ayah": 5236
+  },
+  {
+    "page": 561,
+    "first_global_ayah": 5237,
+    "last_global_ayah": 5241
+  },
+  {
+    "page": 562,
+    "first_global_ayah": 5242,
+    "last_global_ayah": 5253
+  },
+  {
+    "page": 563,
+    "first_global_ayah": 5254,
+    "last_global_ayah": 5267
+  },
+  {
+    "page": 564,
+    "first_global_ayah": 5268,
+    "last_global_ayah": 5286
+  },
+  {
+    "page": 565,
+    "first_global_ayah": 5287,
+    "last_global_ayah": 5313
+  },
+  {
+    "page": 566,
+    "first_global_ayah": 5314,
+    "last_global_ayah": 5331
+  },
+  {
+    "page": 567,
+    "first_global_ayah": 5332,
+    "last_global_ayah": 5357
+  },
+  {
+    "page": 568,
+    "first_global_ayah": 5358,
+    "last_global_ayah": 5385
+  },
+  {
+    "page": 569,
+    "first_global_ayah": 5386,
+    "last_global_ayah": 5414
+  },
+  {
+    "page": 570,
+    "first_global_ayah": 5415,
+    "last_global_ayah": 5429
+  },
+  {
+    "page": 571,
+    "first_global_ayah": 5430,
+    "last_global_ayah": 5447
+  },
+  {
+    "page": 572,
+    "first_global_ayah": 5448,
+    "last_global_ayah": 5460
+  },
+  {
+    "page": 573,
+    "first_global_ayah": 5461,
+    "last_global_ayah": 5475
+  },
+  {
+    "page": 574,
+    "first_global_ayah": 5476,
+    "last_global_ayah": 5494
+  },
+  {
+    "page": 575,
+    "first_global_ayah": 5495,
+    "last_global_ayah": 5512
+  },
+  {
+    "page": 576,
+    "first_global_ayah": 5513,
+    "last_global_ayah": 5542
+  },
+  {
+    "page": 577,
+    "first_global_ayah": 5543,
+    "last_global_ayah": 5570
+  },
+  {
+    "page": 578,
+    "first_global_ayah": 5571,
+    "last_global_ayah": 5596
+  },
+  {
+    "page": 579,
+    "first_global_ayah": 5597,
+    "last_global_ayah": 5616
+  },
+  {
+    "page": 580,
+    "first_global_ayah": 5617,
+    "last_global_ayah": 5641
+  },
+  {
+    "page": 581,
+    "first_global_ayah": 5642,
+    "last_global_ayah": 5672
+  },
+  {
+    "page": 582,
+    "first_global_ayah": 5673,
+    "last_global_ayah": 5702
+  },
+  {
+    "page": 583,
+    "first_global_ayah": 5703,
+    "last_global_ayah": 5727
+  },
+  {
+    "page": 584,
+    "first_global_ayah": 5728,
+    "last_global_ayah": 5758
+  },
+  {
+    "page": 585,
+    "first_global_ayah": 5759,
+    "last_global_ayah": 5800
+  },
+  {
+    "page": 586,
+    "first_global_ayah": 5801,
+    "last_global_ayah": 5829
+  },
+  {
+    "page": 587,
+    "first_global_ayah": 5830,
+    "last_global_ayah": 5854
+  },
+  {
+    "page": 588,
+    "first_global_ayah": 5855,
+    "last_global_ayah": 5882
+  },
+  {
+    "page": 589,
+    "first_global_ayah": 5883,
+    "last_global_ayah": 5909
+  },
+  {
+    "page": 590,
+    "first_global_ayah": 5910,
+    "last_global_ayah": 5931
+  },
+  {
+    "page": 591,
+    "first_global_ayah": 5932,
+    "last_global_ayah": 5963
+  },
+  {
+    "page": 592,
+    "first_global_ayah": 5964,
+    "last_global_ayah": 5993
+  },
+  {
+    "page": 593,
+    "first_global_ayah": 5994,
+    "last_global_ayah": 6016
+  },
+  {
+    "page": 594,
+    "first_global_ayah": 6017,
+    "last_global_ayah": 6043
+  },
+  {
+    "page": 595,
+    "first_global_ayah": 6044,
+    "last_global_ayah": 6072
+  },
+  {
+    "page": 596,
+    "first_global_ayah": 6073,
+    "last_global_ayah": 6098
+  },
+  {
+    "page": 597,
+    "first_global_ayah": 6099,
+    "last_global_ayah": 6125
+  },
+  {
+    "page": 598,
+    "first_global_ayah": 6126,
+    "last_global_ayah": 6137
+  },
+  {
+    "page": 599,
+    "first_global_ayah": 6138,
+    "last_global_ayah": 6155
+  },
+  {
+    "page": 600,
+    "first_global_ayah": 6156,
+    "last_global_ayah": 6176
+  },
+  {
+    "page": 601,
+    "first_global_ayah": 6177,
+    "last_global_ayah": 6193
+  },
+  {
+    "page": 602,
+    "first_global_ayah": 6194,
+    "last_global_ayah": 6207
+  },
+  {
+    "page": 603,
+    "first_global_ayah": 6208,
+    "last_global_ayah": 6221
+  },
+  {
+    "page": 604,
+    "first_global_ayah": 6222,
+    "last_global_ayah": 6236
+  }
+]

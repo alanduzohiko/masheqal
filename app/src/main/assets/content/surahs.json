@@ -1,0 +1,1918 @@
+[
+  {
+    "number": 1,
+    "name_ar": "الفاتحة",
+    "name_en": "Al-Faatiha",
+    "ayah_count": 7,
+    "revelation": "Meccan",
+    "first_global_ayah": 1,
+    "last_global_ayah": 7,
+    "pages": [
+      1
+    ]
+  },
+  {
+    "number": 2,
+    "name_ar": "البقرة",
+    "name_en": "Al-Baqara",
+    "ayah_count": 286,
+    "revelation": "Medinan",
+    "first_global_ayah": 8,
+    "last_global_ayah": 293,
+    "pages": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49
+    ]
+  },
+  {
+    "number": 3,
+    "name_ar": "آل عمران",
+    "name_en": "Aal-i-Imraan",
+    "ayah_count": 200,
+    "revelation": "Medinan",
+    "first_global_ayah": 294,
+    "last_global_ayah": 493,
+    "pages": [
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59,
+      60,
+      61,
+      62,
+      63,
+      64,
+      65,
+      66,
+      67,
+      68,
+      69,
+      70,
+      71,
+      72,
+      73,
+      74,
+      75,
+      76
+    ]
+  },
+  {
+    "number": 4,
+    "name_ar": "النساء",
+    "name_en": "An-Nisaa",
+    "ayah_count": 176,
+    "revelation": "Medinan",
+    "first_global_ayah": 494,
+    "last_global_ayah": 669,
+    "pages": [
+      77,
+      78,
+      79,
+      80,
+      81,
+      82,
+      83,
+      84,
+      85,
+      86,
+      87,
+      88,
+      89,
+      90,
+      91,
+      92,
+      93,
+      94,
+      95,
+      96,
+      97,
+      98,
+      99,
+      100,
+      101,
+      102,
+      103,
+      104,
+      105,
+      106
+    ]
+  },
+  {
+    "number": 5,
+    "name_ar": "المائدة",
+    "name_en": "Al-Maaida",
+    "ayah_count": 120,
+    "revelation": "Medinan",
+    "first_global_ayah": 670,
+    "last_global_ayah": 789,
+    "pages": [
+      106,
+      107,
+      108,
+      109,
+      110,
+      111,
+      112,
+      113,
+      114,
+      115,
+      116,
+      117,
+      118,
+      119,
+      120,
+      121,
+      122,
+      123,
+      124,
+      125,
+      126,
+      127
+    ]
+  },
+  {
+    "number": 6,
+    "name_ar": "الأنعام",
+    "name_en": "Al-An'aam",
+    "ayah_count": 165,
+    "revelation": "Meccan",
+    "first_global_ayah": 790,
+    "last_global_ayah": 954,
+    "pages": [
+      128,
+      129,
+      130,
+      131,
+      132,
+      133,
+      134,
+      135,
+      136,
+      137,
+      138,
+      139,
+      140,
+      141,
+      142,
+      143,
+      144,
+      145,
+      146,
+      147,
+      148,
+      149,
+      150
+    ]
+  },
+  {
+    "number": 7,
+    "name_ar": "الأعراف",
+    "name_en": "Al-A'raaf",
+    "ayah_count": 206,
+    "revelation": "Meccan",
+    "first_global_ayah": 955,
+    "last_global_ayah": 1160,
+    "pages": [
+      151,
+      152,
+      153,
+      154,
+      155,
+      156,
+      157,
+      158,
+      159,
+      160,
+      161,
+      162,
+      163,
+      164,
+      165,
+      166,
+      167,
+      168,
+      169,
+      170,
+      171,
+      172,
+      173,
+      174,
+      175,
+      176
+    ]
+  },
+  {
+    "number": 8,
+    "name_ar": "الأنفال",
+    "name_en": "Al-Anfaal",
+    "ayah_count": 75,
+    "revelation": "Medinan",
+    "first_global_ayah": 1161,
+    "last_global_ayah": 1235,
+    "pages": [
+      177,
+      178,
+      179,
+      180,
+      181,
+      182,
+      183,
+      184,
+      185,
+      186
+    ]
+  },
+  {
+    "number": 9,
+    "name_ar": "التوبة",
+    "name_en": "At-Tawba",
+    "ayah_count": 129,
+    "revelation": "Medinan",
+    "first_global_ayah": 1236,
+    "last_global_ayah": 1364,
+    "pages": [
+      187,
+      188,
+      189,
+      190,
+      191,
+      192,
+      193,
+      194,
+      195,
+      196,
+      197,
+      198,
+      199,
+      200,
+      201,
+      202,
+      203,
+      204,
+      205,
+      206,
+      207
+    ]
+  },
+  {
+    "number": 10,
+    "name_ar": "يونس",
+    "name_en": "Yunus",
+    "ayah_count": 109,
+    "revelation": "Meccan",
+    "first_global_ayah": 1365,
+    "last_global_ayah": 1473,
+    "pages": [
+      208,
+      209,
+      210,
+      211,
+      212,
+      213,
+      214,
+      215,
+      216,
+      217,
+      218,
+      219,
+      220,
+      221
+    ]
+  },
+  {
+    "number": 11,
+    "name_ar": "هود",
+    "name_en": "Hud",
+    "ayah_count": 123,
+    "revelation": "Meccan",
+    "first_global_ayah": 1474,
+    "last_global_ayah": 1596,
+    "pages": [
+      221,
+      222,
+      223,
+      224,
+      225,
+      226,
+      227,
+      228,
+      229,
+      230,
+      231,
+      232,
+      233,
+      234,
+      235
+    ]
+  },
+  {
+    "number": 12,
+    "name_ar": "يوسف",
+    "name_en": "Yusuf",
+    "ayah_count": 111,
+    "revelation": "Meccan",
+    "first_global_ayah": 1597,
+    "last_global_ayah": 1707,
+    "pages": [
+      235,
+      236,
+      237,
+      238,
+      239,
+      240,
+      241,
+      242,
+      243,
+      244,
+      245,
+      246,
+      247,
+      248
+    ]
+  },
+  {
+    "number": 13,
+    "name_ar": "الرعد",
+    "name_en": "Ar-Ra'd",
+    "ayah_count": 43,
+    "revelation": "Medinan",
+    "first_global_ayah": 1708,
+    "last_global_ayah": 1750,
+    "pages": [
+      249,
+      250,
+      251,
+      252,
+      253,
+      254,
+      255
+    ]
+  },
+  {
+    "number": 14,
+    "name_ar": "إبراهيم",
+    "name_en": "Ibraahim",
+    "ayah_count": 52,
+    "revelation": "Meccan",
+    "first_global_ayah": 1751,
+    "last_global_ayah": 1802,
+    "pages": [
+      255,
+      256,
+      257,
+      258,
+      259,
+      260,
+      261
+    ]
+  },
+  {
+    "number": 15,
+    "name_ar": "الحجر",
+    "name_en": "Al-Hijr",
+    "ayah_count": 99,
+    "revelation": "Meccan",
+    "first_global_ayah": 1803,
+    "last_global_ayah": 1901,
+    "pages": [
+      262,
+      263,
+      264,
+      265,
+      266,
+      267
+    ]
+  },
+  {
+    "number": 16,
+    "name_ar": "النحل",
+    "name_en": "An-Nahl",
+    "ayah_count": 128,
+    "revelation": "Meccan",
+    "first_global_ayah": 1902,
+    "last_global_ayah": 2029,
+    "pages": [
+      267,
+      268,
+      269,
+      270,
+      271,
+      272,
+      273,
+      274,
+      275,
+      276,
+      277,
+      278,
+      279,
+      280,
+      281
+    ]
+  },
+  {
+    "number": 17,
+    "name_ar": "الإسراء",
+    "name_en": "Al-Israa",
+    "ayah_count": 111,
+    "revelation": "Meccan",
+    "first_global_ayah": 2030,
+    "last_global_ayah": 2140,
+    "pages": [
+      282,
+      283,
+      284,
+      285,
+      286,
+      287,
+      288,
+      289,
+      290,
+      291,
+      292,
+      293
+    ]
+  },
+  {
+    "number": 18,
+    "name_ar": "الكهف",
+    "name_en": "Al-Kahf",
+    "ayah_count": 110,
+    "revelation": "Meccan",
+    "first_global_ayah": 2141,
+    "last_global_ayah": 2250,
+    "pages": [
+      293,
+      294,
+      295,
+      296,
+      297,
+      298,
+      299,
+      300,
+      301,
+      302,
+      303,
+      304
+    ]
+  },
+  {
+    "number": 19,
+    "name_ar": "مريم",
+    "name_en": "Maryam",
+    "ayah_count": 98,
+    "revelation": "Meccan",
+    "first_global_ayah": 2251,
+    "last_global_ayah": 2348,
+    "pages": [
+      305,
+      306,
+      307,
+      308,
+      309,
+      310,
+      311,
+      312
+    ]
+  },
+  {
+    "number": 20,
+    "name_ar": "طه",
+    "name_en": "Taa-Haa",
+    "ayah_count": 135,
+    "revelation": "Meccan",
+    "first_global_ayah": 2349,
+    "last_global_ayah": 2483,
+    "pages": [
+      312,
+      313,
+      314,
+      315,
+      316,
+      317,
+      318,
+      319,
+      320,
+      321
+    ]
+  },
+  {
+    "number": 21,
+    "name_ar": "الأنبياء",
+    "name_en": "Al-Anbiyaa",
+    "ayah_count": 112,
+    "revelation": "Meccan",
+    "first_global_ayah": 2484,
+    "last_global_ayah": 2595,
+    "pages": [
+      322,
+      323,
+      324,
+      325,
+      326,
+      327,
+      328,
+      329,
+      330,
+      331
+    ]
+  },
+  {
+    "number": 22,
+    "name_ar": "الحج",
+    "name_en": "Al-Hajj",
+    "ayah_count": 78,
+    "revelation": "Medinan",
+    "first_global_ayah": 2596,
+    "last_global_ayah": 2673,
+    "pages": [
+      332,
+      333,
+      334,
+      335,
+      336,
+      337,
+      338,
+      339,
+      340,
+      341
+    ]
+  },
+  {
+    "number": 23,
+    "name_ar": "المؤمنون",
+    "name_en": "Al-Muminoon",
+    "ayah_count": 118,
+    "revelation": "Meccan",
+    "first_global_ayah": 2674,
+    "last_global_ayah": 2791,
+    "pages": [
+      342,
+      343,
+      344,
+      345,
+      346,
+      347,
+      348,
+      349
+    ]
+  },
+  {
+    "number": 24,
+    "name_ar": "النور",
+    "name_en": "An-Noor",
+    "ayah_count": 64,
+    "revelation": "Medinan",
+    "first_global_ayah": 2792,
+    "last_global_ayah": 2855,
+    "pages": [
+      350,
+      351,
+      352,
+      353,
+      354,
+      355,
+      356,
+      357,
+      358,
+      359
+    ]
+  },
+  {
+    "number": 25,
+    "name_ar": "الفرقان",
+    "name_en": "Al-Furqaan",
+    "ayah_count": 77,
+    "revelation": "Meccan",
+    "first_global_ayah": 2856,
+    "last_global_ayah": 2932,
+    "pages": [
+      359,
+      360,
+      361,
+      362,
+      363,
+      364,
+      365,
+      366
+    ]
+  },
+  {
+    "number": 26,
+    "name_ar": "الشعراء",
+    "name_en": "Ash-Shu'araa",
+    "ayah_count": 227,
+    "revelation": "Meccan",
+    "first_global_ayah": 2933,
+    "last_global_ayah": 3159,
+    "pages": [
+      367,
+      368,
+      369,
+      370,
+      371,
+      372,
+      373,
+      374,
+      375,
+      376
+    ]
+  },
+  {
+    "number": 27,
+    "name_ar": "النمل",
+    "name_en": "An-Naml",
+    "ayah_count": 93,
+    "revelation": "Meccan",
+    "first_global_ayah": 3160,
+    "last_global_ayah": 3252,
+    "pages": [
+      377,
+      378,
+      379,
+      380,
+      381,
+      382,
+      383,
+      384,
+      385
+    ]
+  },
+  {
+    "number": 28,
+    "name_ar": "القصص",
+    "name_en": "Al-Qasas",
+    "ayah_count": 88,
+    "revelation": "Meccan",
+    "first_global_ayah": 3253,
+    "last_global_ayah": 3340,
+    "pages": [
+      385,
+      386,
+      387,
+      388,
+      389,
+      390,
+      391,
+      392,
+      393,
+      394,
+      395,
+      396
+    ]
+  },
+  {
+    "number": 29,
+    "name_ar": "العنكبوت",
+    "name_en": "Al-Ankaboot",
+    "ayah_count": 69,
+    "revelation": "Meccan",
+    "first_global_ayah": 3341,
+    "last_global_ayah": 3409,
+    "pages": [
+      396,
+      397,
+      398,
+      399,
+      400,
+      401,
+      402,
+      403,
+      404
+    ]
+  },
+  {
+    "number": 30,
+    "name_ar": "الروم",
+    "name_en": "Ar-Room",
+    "ayah_count": 60,
+    "revelation": "Meccan",
+    "first_global_ayah": 3410,
+    "last_global_ayah": 3469,
+    "pages": [
+      404,
+      405,
+      406,
+      407,
+      408,
+      409,
+      410
+    ]
+  },
+  {
+    "number": 31,
+    "name_ar": "لقمان",
+    "name_en": "Luqman",
+    "ayah_count": 34,
+    "revelation": "Meccan",
+    "first_global_ayah": 3470,
+    "last_global_ayah": 3503,
+    "pages": [
+      411,
+      412,
+      413,
+      414
+    ]
+  },
+  {
+    "number": 32,
+    "name_ar": "السجدة",
+    "name_en": "As-Sajda",
+    "ayah_count": 30,
+    "revelation": "Meccan",
+    "first_global_ayah": 3504,
+    "last_global_ayah": 3533,
+    "pages": [
+      415,
+      416,
+      417
+    ]
+  },
+  {
+    "number": 33,
+    "name_ar": "الأحزاب",
+    "name_en": "Al-Ahzaab",
+    "ayah_count": 73,
+    "revelation": "Medinan",
+    "first_global_ayah": 3534,
+    "last_global_ayah": 3606,
+    "pages": [
+      418,
+      419,
+      420,
+      421,
+      422,
+      423,
+      424,
+      425,
+      426,
+      427
+    ]
+  },
+  {
+    "number": 34,
+    "name_ar": "سبأ",
+    "name_en": "Saba",
+    "ayah_count": 54,
+    "revelation": "Meccan",
+    "first_global_ayah": 3607,
+    "last_global_ayah": 3660,
+    "pages": [
+      428,
+      429,
+      430,
+      431,
+      432,
+      433,
+      434
+    ]
+  },
+  {
+    "number": 35,
+    "name_ar": "فاطر",
+    "name_en": "Faatir",
+    "ayah_count": 45,
+    "revelation": "Meccan",
+    "first_global_ayah": 3661,
+    "last_global_ayah": 3705,
+    "pages": [
+      434,
+      435,
+      436,
+      437,
+      438,
+      439,
+      440
+    ]
+  },
+  {
+    "number": 36,
+    "name_ar": "يس",
+    "name_en": "Yaseen",
+    "ayah_count": 83,
+    "revelation": "Meccan",
+    "first_global_ayah": 3706,
+    "last_global_ayah": 3788,
+    "pages": [
+      440,
+      441,
+      442,
+      443,
+      444,
+      445
+    ]
+  },
+  {
+    "number": 37,
+    "name_ar": "الصافات",
+    "name_en": "As-Saaffaat",
+    "ayah_count": 182,
+    "revelation": "Meccan",
+    "first_global_ayah": 3789,
+    "last_global_ayah": 3970,
+    "pages": [
+      446,
+      447,
+      448,
+      449,
+      450,
+      451,
+      452
+    ]
+  },
+  {
+    "number": 38,
+    "name_ar": "ص",
+    "name_en": "Saad",
+    "ayah_count": 88,
+    "revelation": "Meccan",
+    "first_global_ayah": 3971,
+    "last_global_ayah": 4058,
+    "pages": [
+      453,
+      454,
+      455,
+      456,
+      457,
+      458
+    ]
+  },
+  {
+    "number": 39,
+    "name_ar": "الزمر",
+    "name_en": "Az-Zumar",
+    "ayah_count": 75,
+    "revelation": "Meccan",
+    "first_global_ayah": 4059,
+    "last_global_ayah": 4133,
+    "pages": [
+      458,
+      459,
+      460,
+      461,
+      462,
+      463,
+      464,
+      465,
+      466,
+      467
+    ]
+  },
+  {
+    "number": 40,
+    "name_ar": "غافر",
+    "name_en": "Ghaafir",
+    "ayah_count": 85,
+    "revelation": "Meccan",
+    "first_global_ayah": 4134,
+    "last_global_ayah": 4218,
+    "pages": [
+      467,
+      468,
+      469,
+      470,
+      471,
+      472,
+      473,
+      474,
+      475,
+      476
+    ]
+  },
+  {
+    "number": 41,
+    "name_ar": "فصلت",
+    "name_en": "Fussilat",
+    "ayah_count": 54,
+    "revelation": "Meccan",
+    "first_global_ayah": 4219,
+    "last_global_ayah": 4272,
+    "pages": [
+      477,
+      478,
+      479,
+      480,
+      481,
+      482
+    ]
+  },
+  {
+    "number": 42,
+    "name_ar": "الشورى",
+    "name_en": "Ash-Shura",
+    "ayah_count": 53,
+    "revelation": "Meccan",
+    "first_global_ayah": 4273,
+    "last_global_ayah": 4325,
+    "pages": [
+      483,
+      484,
+      485,
+      486,
+      487,
+      488,
+      489
+    ]
+  },
+  {
+    "number": 43,
+    "name_ar": "الزخرف",
+    "name_en": "Az-Zukhruf",
+    "ayah_count": 89,
+    "revelation": "Meccan",
+    "first_global_ayah": 4326,
+    "last_global_ayah": 4414,
+    "pages": [
+      489,
+      490,
+      491,
+      492,
+      493,
+      494,
+      495
+    ]
+  },
+  {
+    "number": 44,
+    "name_ar": "الدخان",
+    "name_en": "Ad-Dukhaan",
+    "ayah_count": 59,
+    "revelation": "Meccan",
+    "first_global_ayah": 4415,
+    "last_global_ayah": 4473,
+    "pages": [
+      496,
+      497,
+      498
+    ]
+  },
+  {
+    "number": 45,
+    "name_ar": "الجاثية",
+    "name_en": "Al-Jaathiya",
+    "ayah_count": 37,
+    "revelation": "Meccan",
+    "first_global_ayah": 4474,
+    "last_global_ayah": 4510,
+    "pages": [
+      499,
+      500,
+      501,
+      502
+    ]
+  },
+  {
+    "number": 46,
+    "name_ar": "الأحقاف",
+    "name_en": "Al-Ahqaaf",
+    "ayah_count": 35,
+    "revelation": "Meccan",
+    "first_global_ayah": 4511,
+    "last_global_ayah": 4545,
+    "pages": [
+      502,
+      503,
+      504,
+      505,
+      506
+    ]
+  },
+  {
+    "number": 47,
+    "name_ar": "محمد",
+    "name_en": "Muhammad",
+    "ayah_count": 38,
+    "revelation": "Medinan",
+    "first_global_ayah": 4546,
+    "last_global_ayah": 4583,
+    "pages": [
+      507,
+      508,
+      509,
+      510
+    ]
+  },
+  {
+    "number": 48,
+    "name_ar": "الفتح",
+    "name_en": "Al-Fath",
+    "ayah_count": 29,
+    "revelation": "Meccan",
+    "first_global_ayah": 4584,
+    "last_global_ayah": 4612,
+    "pages": [
+      511,
+      512,
+      513,
+      514,
+      515
+    ]
+  },
+  {
+    "number": 49,
+    "name_ar": "الحجرات",
+    "name_en": "Al-Hujuraat",
+    "ayah_count": 18,
+    "revelation": "Meccan",
+    "first_global_ayah": 4613,
+    "last_global_ayah": 4630,
+    "pages": [
+      515,
+      516,
+      517
+    ]
+  },
+  {
+    "number": 50,
+    "name_ar": "ق",
+    "name_en": "Qaaf",
+    "ayah_count": 45,
+    "revelation": "Meccan",
+    "first_global_ayah": 4631,
+    "last_global_ayah": 4675,
+    "pages": [
+      518,
+      519,
+      520
+    ]
+  },
+  {
+    "number": 51,
+    "name_ar": "الذاريات",
+    "name_en": "Adh-Dhaariyat",
+    "ayah_count": 60,
+    "revelation": "Meccan",
+    "first_global_ayah": 4676,
+    "last_global_ayah": 4735,
+    "pages": [
+      520,
+      521,
+      522,
+      523
+    ]
+  },
+  {
+    "number": 52,
+    "name_ar": "الطور",
+    "name_en": "At-Tur",
+    "ayah_count": 49,
+    "revelation": "Meccan",
+    "first_global_ayah": 4736,
+    "last_global_ayah": 4784,
+    "pages": [
+      523,
+      524,
+      525
+    ]
+  },
+  {
+    "number": 53,
+    "name_ar": "النجم",
+    "name_en": "An-Najm",
+    "ayah_count": 62,
+    "revelation": "Meccan",
+    "first_global_ayah": 4785,
+    "last_global_ayah": 4846,
+    "pages": [
+      526,
+      527,
+      528
+    ]
+  },
+  {
+    "number": 54,
+    "name_ar": "القمر",
+    "name_en": "Al-Qamar",
+    "ayah_count": 55,
+    "revelation": "Meccan",
+    "first_global_ayah": 4847,
+    "last_global_ayah": 4901,
+    "pages": [
+      528,
+      529,
+      530,
+      531
+    ]
+  },
+  {
+    "number": 55,
+    "name_ar": "الرحمن",
+    "name_en": "Ar-Rahmaan",
+    "ayah_count": 78,
+    "revelation": "Medinan",
+    "first_global_ayah": 4902,
+    "last_global_ayah": 4979,
+    "pages": [
+      531,
+      532,
+      533,
+      534
+    ]
+  },
+  {
+    "number": 56,
+    "name_ar": "الواقعة",
+    "name_en": "Al-Waaqia",
+    "ayah_count": 96,
+    "revelation": "Meccan",
+    "first_global_ayah": 4980,
+    "last_global_ayah": 5075,
+    "pages": [
+      534,
+      535,
+      536,
+      537
+    ]
+  },
+  {
+    "number": 57,
+    "name_ar": "الحديد",
+    "name_en": "Al-Hadid",
+    "ayah_count": 29,
+    "revelation": "Medinan",
+    "first_global_ayah": 5076,
+    "last_global_ayah": 5104,
+    "pages": [
+      537,
+      538,
+      539,
+      540,
+      541
+    ]
+  },
+  {
+    "number": 58,
+    "name_ar": "المجادلة",
+    "name_en": "Al-Mujaadila",
+    "ayah_count": 22,
+    "revelation": "Medinan",
+    "first_global_ayah": 5105,
+    "last_global_ayah": 5126,
+    "pages": [
+      542,
+      543,
+      544,
+      545
+    ]
+  },
+  {
+    "number": 59,
+    "name_ar": "الحشر",
+    "name_en": "Al-Hashr",
+    "ayah_count": 24,
+    "revelation": "Medinan",
+    "first_global_ayah": 5127,
+    "last_global_ayah": 5150,
+    "pages": [
+      545,
+      546,
+      547,
+      548
+    ]
+  },
+  {
+    "number": 60,
+    "name_ar": "الممتحنة",
+    "name_en": "Al-Mumtahana",
+    "ayah_count": 13,
+    "revelation": "Medinan",
+    "first_global_ayah": 5151,
+    "last_global_ayah": 5163,
+    "pages": [
+      549,
+      550,
+      551
+    ]
+  },
+  {
+    "number": 61,
+    "name_ar": "الصف",
+    "name_en": "As-Saff",
+    "ayah_count": 14,
+    "revelation": "Medinan",
+    "first_global_ayah": 5164,
+    "last_global_ayah": 5177,
+    "pages": [
+      551,
+      552
+    ]
+  },
+  {
+    "number": 62,
+    "name_ar": "الجمعة",
+    "name_en": "Al-Jumu'a",
+    "ayah_count": 11,
+    "revelation": "Medinan",
+    "first_global_ayah": 5178,
+    "last_global_ayah": 5188,
+    "pages": [
+      553,
+      554
+    ]
+  },
+  {
+    "number": 63,
+    "name_ar": "المنافقون",
+    "name_en": "Al-Munaafiqoon",
+    "ayah_count": 11,
+    "revelation": "Medinan",
+    "first_global_ayah": 5189,
+    "last_global_ayah": 5199,
+    "pages": [
+      554,
+      555
+    ]
+  },
+  {
+    "number": 64,
+    "name_ar": "التغابن",
+    "name_en": "At-Taghaabun",
+    "ayah_count": 18,
+    "revelation": "Medinan",
+    "first_global_ayah": 5200,
+    "last_global_ayah": 5217,
+    "pages": [
+      556,
+      557
+    ]
+  },
+  {
+    "number": 65,
+    "name_ar": "الطلاق",
+    "name_en": "At-Talaaq",
+    "ayah_count": 12,
+    "revelation": "Medinan",
+    "first_global_ayah": 5218,
+    "last_global_ayah": 5229,
+    "pages": [
+      558,
+      559
+    ]
+  },
+  {
+    "number": 66,
+    "name_ar": "التحريم",
+    "name_en": "At-Tahrim",
+    "ayah_count": 12,
+    "revelation": "Medinan",
+    "first_global_ayah": 5230,
+    "last_global_ayah": 5241,
+    "pages": [
+      560,
+      561
+    ]
+  },
+  {
+    "number": 67,
+    "name_ar": "الملك",
+    "name_en": "Al-Mulk",
+    "ayah_count": 30,
+    "revelation": "Meccan",
+    "first_global_ayah": 5242,
+    "last_global_ayah": 5271,
+    "pages": [
+      562,
+      563,
+      564
+    ]
+  },
+  {
+    "number": 68,
+    "name_ar": "القلم",
+    "name_en": "Al-Qalam",
+    "ayah_count": 52,
+    "revelation": "Meccan",
+    "first_global_ayah": 5272,
+    "last_global_ayah": 5323,
+    "pages": [
+      564,
+      565,
+      566
+    ]
+  },
+  {
+    "number": 69,
+    "name_ar": "الحاقة",
+    "name_en": "Al-Haaqqa",
+    "ayah_count": 52,
+    "revelation": "Meccan",
+    "first_global_ayah": 5324,
+    "last_global_ayah": 5375,
+    "pages": [
+      566,
+      567,
+      568
+    ]
+  },
+  {
+    "number": 70,
+    "name_ar": "المعارج",
+    "name_en": "Al-Ma'aarij",
+    "ayah_count": 44,
+    "revelation": "Meccan",
+    "first_global_ayah": 5376,
+    "last_global_ayah": 5419,
+    "pages": [
+      568,
+      569,
+      570
+    ]
+  },
+  {
+    "number": 71,
+    "name_ar": "نوح",
+    "name_en": "Nooh",
+    "ayah_count": 28,
+    "revelation": "Meccan",
+    "first_global_ayah": 5420,
+    "last_global_ayah": 5447,
+    "pages": [
+      570,
+      571
+    ]
+  },
+  {
+    "number": 72,
+    "name_ar": "الجن",
+    "name_en": "Al-Jinn",
+    "ayah_count": 28,
+    "revelation": "Meccan",
+    "first_global_ayah": 5448,
+    "last_global_ayah": 5475,
+    "pages": [
+      572,
+      573
+    ]
+  },
+  {
+    "number": 73,
+    "name_ar": "المزمل",
+    "name_en": "Al-Muzzammil",
+    "ayah_count": 20,
+    "revelation": "Meccan",
+    "first_global_ayah": 5476,
+    "last_global_ayah": 5495,
+    "pages": [
+      574,
+      575
+    ]
+  },
+  {
+    "number": 74,
+    "name_ar": "المدثر",
+    "name_en": "Al-Muddaththir",
+    "ayah_count": 56,
+    "revelation": "Meccan",
+    "first_global_ayah": 5496,
+    "last_global_ayah": 5551,
+    "pages": [
+      575,
+      576,
+      577
+    ]
+  },
+  {
+    "number": 75,
+    "name_ar": "القيامة",
+    "name_en": "Al-Qiyaama",
+    "ayah_count": 40,
+    "revelation": "Meccan",
+    "first_global_ayah": 5552,
+    "last_global_ayah": 5591,
+    "pages": [
+      577,
+      578
+    ]
+  },
+  {
+    "number": 76,
+    "name_ar": "الإنسان",
+    "name_en": "Al-Insaan",
+    "ayah_count": 31,
+    "revelation": "Medinan",
+    "first_global_ayah": 5592,
+    "last_global_ayah": 5622,
+    "pages": [
+      578,
+      579,
+      580
+    ]
+  },
+  {
+    "number": 77,
+    "name_ar": "المرسلات",
+    "name_en": "Al-Mursalaat",
+    "ayah_count": 50,
+    "revelation": "Meccan",
+    "first_global_ayah": 5623,
+    "last_global_ayah": 5672,
+    "pages": [
+      580,
+      581
+    ]
+  },
+  {
+    "number": 78,
+    "name_ar": "النبأ",
+    "name_en": "An-Naba",
+    "ayah_count": 40,
+    "revelation": "Meccan",
+    "first_global_ayah": 5673,
+    "last_global_ayah": 5712,
+    "pages": [
+      582,
+      583
+    ]
+  },
+  {
+    "number": 79,
+    "name_ar": "النازعات",
+    "name_en": "An-Naazi'aat",
+    "ayah_count": 46,
+    "revelation": "Meccan",
+    "first_global_ayah": 5713,
+    "last_global_ayah": 5758,
+    "pages": [
+      583,
+      584
+    ]
+  },
+  {
+    "number": 80,
+    "name_ar": "عبس",
+    "name_en": "Abasa",
+    "ayah_count": 42,
+    "revelation": "Meccan",
+    "first_global_ayah": 5759,
+    "last_global_ayah": 5800,
+    "pages": [
+      585
+    ]
+  },
+  {
+    "number": 81,
+    "name_ar": "التكوير",
+    "name_en": "At-Takwir",
+    "ayah_count": 29,
+    "revelation": "Meccan",
+    "first_global_ayah": 5801,
+    "last_global_ayah": 5829,
+    "pages": [
+      586
+    ]
+  },
+  {
+    "number": 82,
+    "name_ar": "الانفطار",
+    "name_en": "Al-Infitaar",
+    "ayah_count": 19,
+    "revelation": "Meccan",
+    "first_global_ayah": 5830,
+    "last_global_ayah": 5848,
+    "pages": [
+      587
+    ]
+  },
+  {
+    "number": 83,
+    "name_ar": "المطففين",
+    "name_en": "Al-Mutaffifin",
+    "ayah_count": 36,
+    "revelation": "Meccan",
+    "first_global_ayah": 5849,
+    "last_global_ayah": 5884,
+    "pages": [
+      587,
+      588,
+      589
+    ]
+  },
+  {
+    "number": 84,
+    "name_ar": "الانشقاق",
+    "name_en": "Al-Inshiqaaq",
+    "ayah_count": 25,
+    "revelation": "Meccan",
+    "first_global_ayah": 5885,
+    "last_global_ayah": 5909,
+    "pages": [
+      589
+    ]
+  },
+  {
+    "number": 85,
+    "name_ar": "البروج",
+    "name_en": "Al-Burooj",
+    "ayah_count": 22,
+    "revelation": "Meccan",
+    "first_global_ayah": 5910,
+    "last_global_ayah": 5931,
+    "pages": [
+      590
+    ]
+  },
+  {
+    "number": 86,
+    "name_ar": "الطارق",
+    "name_en": "At-Taariq",
+    "ayah_count": 17,
+    "revelation": "Meccan",
+    "first_global_ayah": 5932,
+    "last_global_ayah": 5948,
+    "pages": [
+      591
+    ]
+  },
+  {
+    "number": 87,
+    "name_ar": "الأعلى",
+    "name_en": "Al-A'laa",
+    "ayah_count": 19,
+    "revelation": "Meccan",
+    "first_global_ayah": 5949,
+    "last_global_ayah": 5967,
+    "pages": [
+      591,
+      592
+    ]
+  },
+  {
+    "number": 88,
+    "name_ar": "الغاشية",
+    "name_en": "Al-Ghaashiya",
+    "ayah_count": 26,
+    "revelation": "Meccan",
+    "first_global_ayah": 5968,
+    "last_global_ayah": 5993,
+    "pages": [
+      592
+    ]
+  },
+  {
+    "number": 89,
+    "name_ar": "الفجر",
+    "name_en": "Al-Fajr",
+    "ayah_count": 30,
+    "revelation": "Meccan",
+    "first_global_ayah": 5994,
+    "last_global_ayah": 6023,
+    "pages": [
+      593,
+      594
+    ]
+  },
+  {
+    "number": 90,
+    "name_ar": "البلد",
+    "name_en": "Al-Balad",
+    "ayah_count": 20,
+    "revelation": "Meccan",
+    "first_global_ayah": 6024,
+    "last_global_ayah": 6043,
+    "pages": [
+      594
+    ]
+  },
+  {
+    "number": 91,
+    "name_ar": "الشمس",
+    "name_en": "Ash-Shams",
+    "ayah_count": 15,
+    "revelation": "Meccan",
+    "first_global_ayah": 6044,
+    "last_global_ayah": 6058,
+    "pages": [
+      595
+    ]
+  },
+  {
+    "number": 92,
+    "name_ar": "الليل",
+    "name_en": "Al-Lail",
+    "ayah_count": 21,
+    "revelation": "Meccan",
+    "first_global_ayah": 6059,
+    "last_global_ayah": 6079,
+    "pages": [
+      595,
+      596
+    ]
+  },
+  {
+    "number": 93,
+    "name_ar": "الضحى",
+    "name_en": "Ad-Dhuhaa",
+    "ayah_count": 11,
+    "revelation": "Meccan",
+    "first_global_ayah": 6080,
+    "last_global_ayah": 6090,
+    "pages": [
+      596
+    ]
+  },
+  {
+    "number": 94,
+    "name_ar": "الشرح",
+    "name_en": "Ash-Sharh",
+    "ayah_count": 8,
+    "revelation": "Meccan",
+    "first_global_ayah": 6091,
+    "last_global_ayah": 6098,
+    "pages": [
+      596
+    ]
+  },
+  {
+    "number": 95,
+    "name_ar": "التين",
+    "name_en": "At-Tin",
+    "ayah_count": 8,
+    "revelation": "Meccan",
+    "first_global_ayah": 6099,
+    "last_global_ayah": 6106,
+    "pages": [
+      597
+    ]
+  },
+  {
+    "number": 96,
+    "name_ar": "العلق",
+    "name_en": "Al-Alaq",
+    "ayah_count": 19,
+    "revelation": "Meccan",
+    "first_global_ayah": 6107,
+    "last_global_ayah": 6125,
+    "pages": [
+      597
+    ]
+  },
+  {
+    "number": 97,
+    "name_ar": "القدر",
+    "name_en": "Al-Qadr",
+    "ayah_count": 5,
+    "revelation": "Meccan",
+    "first_global_ayah": 6126,
+    "last_global_ayah": 6130,
+    "pages": [
+      598
+    ]
+  },
+  {
+    "number": 98,
+    "name_ar": "البينة",
+    "name_en": "Al-Bayyina",
+    "ayah_count": 8,
+    "revelation": "Medinan",
+    "first_global_ayah": 6131,
+    "last_global_ayah": 6138,
+    "pages": [
+      598,
+      599
+    ]
+  },
+  {
+    "number": 99,
+    "name_ar": "الزلزلة",
+    "name_en": "Az-Zalzala",
+    "ayah_count": 8,
+    "revelation": "Meccan",
+    "first_global_ayah": 6139,
+    "last_global_ayah": 6146,
+    "pages": [
+      599
+    ]
+  },
+  {
+    "number": 100,
+    "name_ar": "العاديات",
+    "name_en": "Al-Aadiyaat",
+    "ayah_count": 11,
+    "revelation": "Meccan",
+    "first_global_ayah": 6147,
+    "last_global_ayah": 6157,
+    "pages": [
+      599,
+      600
+    ]
+  },
+  {
+    "number": 101,
+    "name_ar": "القارعة",
+    "name_en": "Al-Qaari'a",
+    "ayah_count": 11,
+    "revelation": "Meccan",
+    "first_global_ayah": 6158,
+    "last_global_ayah": 6168,
+    "pages": [
+      600
+    ]
+  },
+  {
+    "number": 102,
+    "name_ar": "التكاثر",
+    "name_en": "At-Takaathur",
+    "ayah_count": 8,
+    "revelation": "Meccan",
+    "first_global_ayah": 6169,
+    "last_global_ayah": 6176,
+    "pages": [
+      600
+    ]
+  },
+  {
+    "number": 103,
+    "name_ar": "العصر",
+    "name_en": "Al-Asr",
+    "ayah_count": 3,
+    "revelation": "Meccan",
+    "first_global_ayah": 6177,
+    "last_global_ayah": 6179,
+    "pages": [
+      601
+    ]
+  },
+  {
+    "number": 104,
+    "name_ar": "الهمزة",
+    "name_en": "Al-Humaza",
+    "ayah_count": 9,
+    "revelation": "Meccan",
+    "first_global_ayah": 6180,
+    "last_global_ayah": 6188,
+    "pages": [
+      601
+    ]
+  },
+  {
+    "number": 105,
+    "name_ar": "الفيل",
+    "name_en": "Al-Fil",
+    "ayah_count": 5,
+    "revelation": "Meccan",
+    "first_global_ayah": 6189,
+    "last_global_ayah": 6193,
+    "pages": [
+      601
+    ]
+  },
+  {
+    "number": 106,
+    "name_ar": "قريش",
+    "name_en": "Quraish",
+    "ayah_count": 4,
+    "revelation": "Meccan",
+    "first_global_ayah": 6194,
+    "last_global_ayah": 6197,
+    "pages": [
+      602
+    ]
+  },
+  {
+    "number": 107,
+    "name_ar": "الماعون",
+    "name_en": "Al-Maa'un",
+    "ayah_count": 7,
+    "revelation": "Meccan",
+    "first_global_ayah": 6198,
+    "last_global_ayah": 6204,
+    "pages": [
+      602
+    ]
+  },
+  {
+    "number": 108,
+    "name_ar": "الكوثر",
+    "name_en": "Al-Kawthar",
+    "ayah_count": 3,
+    "revelation": "Meccan",
+    "first_global_ayah": 6205,
+    "last_global_ayah": 6207,
+    "pages": [
+      602
+    ]
+  },
+  {
+    "number": 109,
+    "name_ar": "الكافرون",
+    "name_en": "Al-Kaafiroon",
+    "ayah_count": 6,
+    "revelation": "Meccan",
+    "first_global_ayah": 6208,
+    "last_global_ayah": 6213,
+    "pages": [
+      603
+    ]
+  },
+  {
+    "number": 110,
+    "name_ar": "النصر",
+    "name_en": "An-Nasr",
+    "ayah_count": 3,
+    "revelation": "Medinan",
+    "first_global_ayah": 6214,
+    "last_global_ayah": 6216,
+    "pages": [
+      603
+    ]
+  },
+  {
+    "number": 111,
+    "name_ar": "المسد",
+    "name_en": "Al-Masad",
+    "ayah_count": 5,
+    "revelation": "Meccan",
+    "first_global_ayah": 6217,
+    "last_global_ayah": 6221,
+    "pages": [
+      603
+    ]
+  },
+  {
+    "number": 112,
+    "name_ar": "الإخلاص",
+    "name_en": "Al-Ikhlaas",
+    "ayah_count": 4,
+    "revelation": "Meccan",
+    "first_global_ayah": 6222,
+    "last_global_ayah": 6225,
+    "pages": [
+      604
+    ]
+  },
+  {
+    "number": 113,
+    "name_ar": "الفلق",
+    "name_en": "Al-Falaq",
+    "ayah_count": 5,
+    "revelation": "Meccan",
+    "first_global_ayah": 6226,
+    "last_global_ayah": 6230,
+    "pages": [
+      604
+    ]
+  },
+  {
+    "number": 114,
+    "name_ar": "الناس",
+    "name_en": "An-Naas",
+    "ayah_count": 6,
+    "revelation": "Meccan",
+    "first_global_ayah": 6231,
+    "last_global_ayah": 6236,
+    "pages": [
+      604
+    ]
+  }
+]
