@@ -111,4 +111,13 @@
     <string name="reading_style_mushaf">مصحف المدينة</string>
     <string name="reading_style_text">قارئ نصي</string>
     <string name="khatmah_days">%1$d يومًا</string>
+    <string name="method_mwl">رابطة العالم الإسلامي</string>
+    <string name="method_egyptian">المصرية</string>
+    <string name="method_umm_al_qura">أم القرى</string>
+    <string name="method_karachi">كراتشي</string>
+    <string name="method_isna">ISNA</string>
+    <string name="method_tehran">طهران</string>
+    <string name="method_turkey">تركيا</string>
+    <string name="madhhab_shafi">الشافعي</string>
+    <string name="madhhab_hanafi">الحنفي</string>
 </resources>
