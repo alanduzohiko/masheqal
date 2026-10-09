@@ -69,11 +69,12 @@ assert '"${stringResource(R.string.juz)} $juz"' in quran_screen, "Juz picker mus
 
 # Kotlin delimiter sanity (comments and common string literals removed).
 def cleaned(s: str) -> str:
-    # Strip literals before comments so URLs such as https:// do not look like comments.
+    # Remove quoted strings first so URLs such as https:// do not look like comments.
     s = re.sub(r'"(?:\\.|[^"\\])*"', '""', s)
-    s = re.sub(r"'(?:\\.|[^'\\])*'", "''", s)
     s = re.sub(r"//.*", "", s)
     s = re.sub(r"/\*.*?\*/", "", s, flags=re.S)
+    # Remove char literals after comments so apostrophes in KDoc are left untouched.
+    s = re.sub(r"'(?:\\.|[^'\\])*'", "''", s)
     return s
 for file in sorted((ROOT / "app/src/main/java").rglob("*.kt")):
     stack = []
