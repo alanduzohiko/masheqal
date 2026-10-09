@@ -16,7 +16,17 @@ object PrayerTimeZoneResolver {
         if (!longitude.isFinite() || longitude !in -180.0..180.0) return null
         return withContext(Dispatchers.IO) {
             val activeEngine = engineOrNull() ?: return@withContext null
-            runCatching { activeEngine.query(latitude, longitude).orElse(null) }.getOrNull()
+            runCatching {
+                // Some source geometries overlap (for example a region polygon and a fixed-offset
+                // polygon). Prefer a named regional IANA zone over Etc/GMT/UTC fallbacks.
+                activeEngine.queryAll(latitude, longitude)
+                    .firstOrNull { zone ->
+                        !zone.id.startsWith("Etc/") &&
+                            zone.id != "UTC" &&
+                            zone.id != "GMT"
+                    }
+                    ?: activeEngine.query(latitude, longitude).orElse(null)
+            }.getOrNull()
         }
     }
 
