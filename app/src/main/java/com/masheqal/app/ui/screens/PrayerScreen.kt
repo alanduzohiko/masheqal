@@ -13,6 +13,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Explore
 import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.MyLocation
 import androidx.compose.material.icons.filled.NotificationsActive
 import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material3.*
@@ -42,17 +43,45 @@ fun PrayerScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: ()
     var today by remember { mutableStateOf(LocalDate.now()) }
     var times by remember { mutableStateOf<PrayerTimes?>(null) }
     var tomorrowFajr by remember { mutableStateOf<Double?>(null) }
+    var isRefreshingLocation by remember { mutableStateOf(false) }
+    var locationRefreshFailed by remember { mutableStateOf(false) }
     val settings by app.settings.state.collectAsState(initial = com.masheqal.app.data.SettingsState())
     val scope = rememberCoroutineScope()
     var adhanEnabled by remember { mutableStateOf(PrayerNotificationScheduler.isAdhanEnabled(context)) }
     val adhanPreviewLabel = stringResource(R.string.adhan_preview)
 
+    val refreshLocation: () -> Unit = remember(context, scope) {
+        {
+            scope.launch {
+                isRefreshingLocation = true
+                try {
+                    val live = runCatching { LocationUtils.current(context) }.getOrNull()
+                    location = live ?: LocationUtils.lastKnown(context)
+                    locationRefreshFailed = location == null
+                } finally {
+                    isRefreshingLocation = false
+                }
+            }
+        }
+    }
+
     val permissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
-    ) {
-        scope.launch {
-            location = LocationUtils.current(context) ?: LocationUtils.lastKnown(context)
+    ) { grants ->
+        if (
+            grants[Manifest.permission.ACCESS_COARSE_LOCATION] == true ||
+            grants[Manifest.permission.ACCESS_FINE_LOCATION] == true
+        ) {
+            refreshLocation()
+        } else {
+            location = LocationUtils.lastKnown(context)
+            locationRefreshFailed = location == null
         }
+    }
+
+    LaunchedEffect(Unit) {
+        // Refresh stale cached coordinates when entering the prayer screen; do not track in background.
+        refreshLocation()
     }
 
     // Keep the displayed schedule current when the app remains open across midnight.
@@ -144,8 +173,23 @@ fun PrayerScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: ()
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
-                FilledTonalIconButton(onClick = { nav.navigate("qibla") }) {
-                    Icon(Icons.Default.Explore, stringResource(R.string.qibla))
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    IconButton(
+                        onClick = { refreshLocation() },
+                        enabled = !isRefreshingLocation
+                    ) {
+                        if (isRefreshingLocation) {
+                            CircularProgressIndicator(Modifier.size(20.dp), strokeWidth = 2.dp)
+                        } else {
+                            Icon(
+                                Icons.Default.MyLocation,
+                                contentDescription = stringResource(R.string.location_refresh)
+                            )
+                        }
+                    }
+                    FilledTonalIconButton(onClick = { nav.navigate("qibla") }) {
+                        Icon(Icons.Default.Explore, stringResource(R.string.qibla))
+                    }
                 }
             }
         }
@@ -166,20 +210,29 @@ fun PrayerScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: ()
                         )
                         Spacer(Modifier.height(8.dp))
                         Text(
-                            stringResource(R.string.location_needed),
+                            stringResource(R.string.location_refresh_failed),
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                         Spacer(Modifier.height(14.dp))
-                        Button(onClick = {
-                            permissionLauncher.launch(
-                                arrayOf(
-                                    Manifest.permission.ACCESS_COARSE_LOCATION,
-                                    Manifest.permission.ACCESS_FINE_LOCATION
+                        Button(
+                            onClick = {
+                                permissionLauncher.launch(
+                                    arrayOf(
+                                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                                        Manifest.permission.ACCESS_FINE_LOCATION
+                                    )
                                 )
-                            )
-                        }) {
-                            Text(stringResource(R.string.set_location))
+                            },
+                            enabled = !isRefreshingLocation
+                        ) {
+                            if (isRefreshingLocation) {
+                                CircularProgressIndicator(Modifier.size(18.dp), strokeWidth = 2.dp)
+                                Spacer(Modifier.width(8.dp))
+                                Text(stringResource(R.string.location_refreshing))
+                            } else {
+                                Text(stringResource(R.string.set_location))
+                            }
                         }
                     }
                 }
@@ -229,6 +282,24 @@ fun PrayerScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: ()
                                     color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.70f)
                                 )
                             }
+                        }
+                        Spacer(Modifier.height(6.dp))
+                        Text(
+                            stringResource(
+                                if (location!!.isPrecise) R.string.location_accuracy
+                                else R.string.location_accuracy_approximate,
+                                location!!.accuracyMeters.toInt().coerceAtLeast(1)
+                            ),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = if (location!!.isPrecise) MaterialTheme.colorScheme.onSurfaceVariant
+                            else MaterialTheme.colorScheme.error
+                        )
+                        if (locationRefreshFailed) {
+                            Text(
+                                stringResource(R.string.location_refresh_failed),
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.error
+                            )
                         }
                         Spacer(Modifier.height(10.dp))
                         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
