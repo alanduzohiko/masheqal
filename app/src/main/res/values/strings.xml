@@ -88,4 +88,9 @@
     <string name="adhkar_repeat_note_en">Repeat guidance (English)</string>
     <string name="adhkar_merit_ar_label">Virtue (Arabic source text)</string>
     <string name="adhkar_merit_en_label">Virtue (English source text)</string>
+
+    <string name="audio_download">Download for offline listening</string>
+    <string name="audio_downloading">Downloading audio…</string>
+    <string name="audio_downloaded">Downloaded · available offline</string>
+    <string name="audio_download_failed">Audio download failed. Check the connection and try again.</string>
 </resources>
