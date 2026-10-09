@@ -93,4 +93,10 @@
     <string name="audio_downloading">Downloading audio…</string>
     <string name="audio_downloaded">Downloaded · available offline</string>
     <string name="audio_download_failed">Audio download failed. Check the connection and try again.</string>
+    <string name="brand_tagline">Your daily spiritual companion</string>
+    <string name="location_refresh">Refresh location</string>
+    <string name="location_refreshing">Finding a more accurate location…</string>
+    <string name="location_accuracy">Location accuracy ±%1$d m</string>
+    <string name="location_accuracy_approximate">Location is approximate (±%1$d m). Enable precise location for more reliable prayer times and Qibla.</string>
+    <string name="location_refresh_failed">Could not get a fresh location. Check device location services and try again.</string>
 </resources>
