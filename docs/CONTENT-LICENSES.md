@@ -10,13 +10,17 @@ The bundled Amiri Quran font is from the Debian `fonts-hosny-amiri` package and 
 
 **Holy Quran Kurdish Sorani Translation Dataset (HQKSTD)** is an alternative dataset listed on Mendeley Data V1, DOI `10.17632/byyjd7kmvd.1`, with CC BY 4.0 metadata and Kurdish/Arabic alignment. It is not the source used by the current application build. The active pipeline uses the QuranEnc publisher API described below and validates the returned verse alignment, attribution, version, and checksum before bundling it.
 
-## Morning and evening adhkar
+## Adhkar and daily supplications
 
-The app now fetches the pinned `Seen-Arabic/Morning-And-Evening-Adhkar-DB` release `v1.0.2` under its MIT license during CI. The import step verifies the license notice, aligned Arabic/English rows, source references, repeat counts, and the 34-record sequence. The current package contains Arabic text and English translations; it does **not** include Sorani translations, and the UI says so explicitly. Hisn al-Muslim, a broader dua library, Names of Allah, Tafsir, Hadith collections, transliteration and word-analysis datasets still need their own reviewed sources and rights.
+The CI import bundles 82 rows into an offline catalogue from two pinned MIT-licensed sources:
+- `Seen-Arabic/Morning-And-Evening-Adhkar-DB`, release `v1.0.2` (34 items, Arabic and English).
+- `fitrahive/dua-dhikr`, pinned commit `f42f895f914319a844c3e3c2279483cae060ea19` (10 after-salah items with source references and 38 daily-occasion supplications).
+
+The build verifies source JSON, references, repetition counts, the full MIT notices, category ids, record count, and SHA-256 checksums. Three items from the upstream after-salah list ("Tasbih", "Tahmid", and "Takbir") are excluded because the pinned data file supplies no source/reference field for them; no citation is invented. The bundled data includes Arabic text and English meanings, not Sorani translations. Independent scholar review of vocalisation, translation wording, and grading remains pending, so these sources are not represented as having completed scholarly review. The broader Hisn al-Muslim corpus, additional Dua sets, Names of Allah, Tafsir, Hadith collections and specialist Quran study datasets still need separately reviewed sources and rights.
 
 ## Quran recitation audio
 
-The player streams Surah MP3 files from the Al Quran Cloud / Islamic Network CDN (`cdn.islamic.network`) through Media3 and exposes three reciter selections in the UI. The app does not bundle these MP3 files. This is streaming-only behavior: it does not provide offline audio downloads. Before a public release, the provider's current usage/redistribution terms, service availability, and all supported edition URLs must be reviewed; the app must not claim offline audio support.
+The player streams Surah MP3 files from the Al Quran Cloud / Islamic Network CDN (`cdn.islamic.network`) through Media3 and exposes a reciter catalogue. The code now includes an app-specific `DownloadManager` destination for Surah files and checks for a completed, non-empty download before treating it as offline-ready. Actual streaming, download interruption/retry, offline playback, and storage behavior still require physical-device QA; these are not yet accepted as verified end-to-end behavior. Before a public release, review current provider terms, service availability, and edition URLs.
 
 For example, an open Hadith project (`open-hadith-data`) currently states that its structured data is CC0 but that its English translations are sourced from sunnah.com and have separate redistribution terms. Therefore the app must treat the Arabic/source fields and translations as separately licensed inputs rather than assuming the whole package is freely redistributable.
 
