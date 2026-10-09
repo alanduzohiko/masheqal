@@ -109,6 +109,7 @@ fun MasheqalRoot(
             }
         ) {
             composable("home") { HomeScreen(app, nav, onRequestLocation) }
+            composable("audio") { QuranAudioScreen(app, nav) }
             composable("quran") { QuranScreen(app, nav) }
             composable(
                 "quran/surah/{surah}",
