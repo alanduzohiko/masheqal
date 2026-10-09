@@ -52,6 +52,9 @@ jobs:
       - name: Fetch and validate the licensed morning and evening adhkar
         run: python3 tools/fetch_adhkar.py
 
+      - name: Fetch and validate the licensed 99 Names of Allah
+        run: python3 tools/fetch_names_allah.py
+
       - name: Fetch CC0-verified offline adhan audio
         run: python3 tools/fetch_adhan.py
 
