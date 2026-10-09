@@ -29,7 +29,7 @@ import java.time.LocalDate
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AdhkarScreen(app: MasheqalApp, nav: NavHostController) {
+fun AdhkarScreen(app: MasheqalApp, nav: NavHostController, initialQuery: String = "") {
     val context = LocalContext.current
     val progressStore = remember(context) { AdhkarProgressStore(context) }
     var sessionDate by remember { mutableStateOf(LocalDate.now().toString()) }
@@ -38,7 +38,7 @@ fun AdhkarScreen(app: MasheqalApp, nav: NavHostController) {
     var loading by remember { mutableStateOf(true) }
     var loadFailed by remember { mutableStateOf(false) }
     var retryNonce by remember { mutableStateOf(0) }
-    var query by rememberSaveable { mutableStateOf("") }
+    var query by rememberSaveable(initialQuery) { mutableStateOf(initialQuery) }
     val counts = remember { mutableStateMapOf<Int, Int>() }
     val categoryChoices = listOf(
         AdhkarPeriod.ALL,

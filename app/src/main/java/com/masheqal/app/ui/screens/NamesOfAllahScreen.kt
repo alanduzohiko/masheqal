@@ -38,14 +38,14 @@ private enum class NamesFilter { ALL, LEARNED, REMAINING, FAVORITES }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NamesOfAllahScreen(app: MasheqalApp, nav: NavHostController) {
+fun NamesOfAllahScreen(app: MasheqalApp, nav: NavHostController, initialQuery: String = "") {
     val context = androidx.compose.ui.platform.LocalContext.current
     val progressStore = remember(context) { NamesOfAllahProgressStore(context) }
     var packageData by remember { mutableStateOf<NamesOfAllahPackage?>(null) }
     var loading by remember { mutableStateOf(true) }
     var loadFailed by remember { mutableStateOf(false) }
     var retryNonce by remember { mutableIntStateOf(0) }
-    var query by rememberSaveable { mutableStateOf("") }
+    var query by rememberSaveable(initialQuery) { mutableStateOf(initialQuery) }
     var filter by rememberSaveable { mutableStateOf(NamesFilter.ALL) }
     val learnedByNumber = remember { mutableStateMapOf<Int, Boolean>() }
     val favoriteByNumber = remember { mutableStateMapOf<Int, Boolean>() }

@@ -10,11 +10,15 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import android.net.Uri
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.masheqal.app.MasheqalApp
 import com.masheqal.app.R
+import com.masheqal.app.data.AdhkarItem
+import com.masheqal.app.data.AllahName
+import com.masheqal.app.data.QuranRepository
 import com.masheqal.app.data.SettingsState
 import kotlinx.coroutines.delay
 
@@ -30,6 +34,8 @@ fun SearchScreen(app: MasheqalApp, nav: NavHostController, initialQuery: String 
     var quranHits by remember { mutableStateOf(emptyList<com.masheqal.app.data.SearchHit>()) }
     var bookmarkHits by remember { mutableStateOf(emptyList<com.masheqal.app.data.UserDatabase.BookmarkRecord>()) }
     var noteHits by remember { mutableStateOf(emptyList<com.masheqal.app.data.UserDatabase.NoteRecord>()) }
+    var worshipHits by remember { mutableStateOf(emptyList<AdhkarItem>()) }
+    var nameHits by remember { mutableStateOf(emptyList<AllahName>()) }
     val settings by app.settings.state.collectAsState(initial = SettingsState())
     LaunchedEffect(query) {
         if (query.isNotBlank()) {
@@ -37,9 +43,28 @@ fun SearchScreen(app: MasheqalApp, nav: NavHostController, initialQuery: String 
             quranHits=app.quran.search(query)
             bookmarkHits=app.userDb.searchBookmarks(query)
             noteHits=app.userDb.searchNotes(query)
-        } else { quranHits=emptyList(); bookmarkHits=emptyList(); noteHits=emptyList() }
+            val needle = QuranRepository.normalize(query)
+            worshipHits = runCatching { app.adhkar.loadPackage().items }
+                .getOrDefault(emptyList())
+                .filter { item ->
+                    listOf(item.titleEn, item.arabic, item.transliteration, item.translationEn, item.sourceAr, item.sourceEn)
+                        .any { QuranRepository.normalize(it).contains(needle) }
+                }
+            nameHits = runCatching { app.namesOfAllah.load().names }
+                .getOrDefault(emptyList())
+                .filter { name ->
+                    listOf(name.arabic, name.transliteration, name.meaning, name.description)
+                        .any { QuranRepository.normalize(it).contains(needle) }
+                }
+        } else {
+            quranHits=emptyList()
+            bookmarkHits=emptyList()
+            noteHits=emptyList()
+            worshipHits=emptyList()
+            nameHits=emptyList()
+        }
     }
-    val total=quranHits.size+bookmarkHits.size+noteHits.size
+    val total=quranHits.size+bookmarkHits.size+noteHits.size+worshipHits.size+nameHits.size
     Column(Modifier.fillMaxSize()) {
         Row(Modifier.fillMaxWidth().padding(12.dp),horizontalArrangement=Arrangement.spacedBy(8.dp),verticalAlignment=Alignment.CenterVertically){
             IconButton(onClick={nav.popBackStack()}){Icon(Icons.Default.ArrowBack,null)}
@@ -95,6 +120,47 @@ fun SearchScreen(app: MasheqalApp, nav: NavHostController, initialQuery: String 
                         }
                     }
                 )
+            }
+            if(worshipHits.isNotEmpty()) item {
+                Text(stringResource(R.string.search_adhkar_dua_results), style = MaterialTheme.typography.titleMedium)
+            }
+            items(worshipHits, key = { "worship-${it.order}" }) { item ->
+                val openDua = item.titleEn.isNotBlank()
+                Card(
+                    onClick = {
+                        val encoded = Uri.encode(query)
+                        nav.navigate(if (openDua) "dua/search/$encoded" else "adhkar/search/$encoded")
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                        QuranText(item.arabic, size = 22f)
+                        if (settings.language == "en") {
+                            if (item.titleEn.isNotBlank()) Text(item.titleEn, style = MaterialTheme.typography.titleSmall)
+                            Text(item.translationEn, style = MaterialTheme.typography.bodyMedium)
+                            if (item.sourceEn.isNotBlank()) Text(item.sourceEn, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        } else if (item.sourceAr.isNotBlank()) {
+                            Text(item.sourceAr, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        }
+                    }
+                }
+            }
+            if(nameHits.isNotEmpty()) item {
+                Text(stringResource(R.string.names_of_allah), style = MaterialTheme.typography.titleMedium)
+            }
+            items(nameHits, key = { "name-${it.number}" }) { name ->
+                Card(
+                    onClick = { nav.navigate("names/search/${Uri.encode(query)}") },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                        Text(name.arabic, style = MaterialTheme.typography.headlineSmall)
+                        if (settings.language == "en") {
+                            Text(name.transliteration, style = MaterialTheme.typography.titleSmall)
+                            Text(name.meaning, style = MaterialTheme.typography.bodyMedium)
+                        }
+                    }
+                }
             }
             if(noteHits.isNotEmpty()) item{Text(stringResource(R.string.notes),style=MaterialTheme.typography.titleMedium)}
             items(noteHits) { note ->

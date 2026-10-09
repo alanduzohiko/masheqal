@@ -191,8 +191,20 @@ fun MasheqalRoot(
             composable("qibla") { QiblaScreen(nav) }
             composable("tasbih") { TasbihScreen(app, nav) }
             composable("adhkar") { AdhkarScreen(app, nav) }
+            composable(
+                "adhkar/search/{query}",
+                arguments = listOf(navArgument("query") { type = NavType.StringType })
+            ) { back -> AdhkarScreen(app, nav, back.arguments?.getString("query").orEmpty()) }
             composable("dua") { DuaScreen(app, nav) }
+            composable(
+                "dua/search/{query}",
+                arguments = listOf(navArgument("query") { type = NavType.StringType })
+            ) { back -> DuaScreen(app, nav, back.arguments?.getString("query").orEmpty()) }
             composable("names") { NamesOfAllahScreen(app, nav) }
+            composable(
+                "names/search/{query}",
+                arguments = listOf(navArgument("query") { type = NavType.StringType })
+            ) { back -> NamesOfAllahScreen(app, nav, back.arguments?.getString("query").orEmpty()) }
             composable("library") { LibraryScreen(app, nav) }
             composable("saved") { SavedScreen(app, nav) }
             composable("notes") { NotesScreen(app, nav) }
