@@ -9,6 +9,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AutoStories
 import androidx.compose.material.icons.filled.Bookmark
+import androidx.compose.material.icons.filled.GraphicEq
+import androidx.compose.material.icons.filled.Headphones
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -18,6 +20,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import android.content.ComponentName
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.ui.platform.LocalContext
+import androidx.core.content.ContextCompat
+import androidx.media3.common.MediaItem
+import androidx.media3.common.MediaMetadata
+import androidx.media3.common.PlaybackException
+import androidx.media3.common.Player
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.session.MediaController
+import androidx.media3.session.SessionToken
+import com.masheqal.app.data.SurahMeta
+import com.masheqal.app.services.QuranPlaybackService
+import kotlinx.coroutines.delay
+import java.util.Locale
 import androidx.navigation.NavHostController
 import com.masheqal.app.MasheqalApp
 import com.masheqal.app.R
@@ -68,8 +86,13 @@ fun QuranScreen(app: MasheqalApp, nav: NavHostController) {
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
-                FilledTonalIconButton(onClick = { nav.navigate("search") }) {
-                    Icon(Icons.Default.Search, stringResource(R.string.search))
+                Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                    FilledTonalIconButton(onClick = { nav.navigate("audio") }) {
+                        Icon(Icons.Default.Headphones, stringResource(R.string.audio_player_title))
+                    }
+                    FilledTonalIconButton(onClick = { nav.navigate("search") }) {
+                        Icon(Icons.Default.Search, stringResource(R.string.search))
+                    }
                 }
             }
         }
