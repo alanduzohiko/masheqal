@@ -22,4 +22,11 @@
     <string name="prayer_notification_channel">ئاگادارکردنەوەکانی نوێژ</string>
     <string name="keep_screen_awake">شاشەکە بەبێ خامۆشبوون بهێڵەوە</string>
     <string name="resume">دەستپێکردنەوە</string>
+    <string name="mushaf_mode">پەڕەی مەصحەف</string>
+    <string name="text_mode">خوێندنەوەی دەقی</string>
+    <string name="mushaf_edition">مەصحەفی مەدینە · ڕیوایەتی حەفص</string>
+    <string name="mushaf_loading">پەڕەی مەصحەف دادەبەزێت…</string>
+    <string name="mushaf_load_error">نەتوانرا پەڕەکە بکرێتەوە. پەیوەندی بە ئینتەرنێتەوە بکە یان بگۆڕە بۆ خوێندنەوەی دەقی.</string>
+    <string name="mushaf_saved_offline">پەڕەکە بۆ خوێندنەوەی بێ ئینتەرنێت پاشەکەوت کرا</string>
+    <string name="mushaf_available_offline">بەبێ ئینتەرنێت بەردەستە</string>
 </resources>
