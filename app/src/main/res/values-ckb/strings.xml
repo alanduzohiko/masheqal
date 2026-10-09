@@ -143,4 +143,13 @@
     <string name="dua_source_notice">دەقی عەرەبی، واتای ئینگلیزی و سەرچاوەکان لە کۆمەڵەداتاکانی ناوبراوەوە وەرگیراون. وەرگێڕانی سۆرانی هێشتا نییە و پێداچوونەوەی زانستیی سەربەخۆش تەواو نەبووە.</string>
     <string name="dua_no_results">هیچ دوعایەک لەم گەڕان یان پۆلەدا نەدۆزرایەوە.</string>
     <string name="copied_to_clipboard">لە کلیپبۆرد کۆپی کرا</string>
+    <string name="qibla_accuracy_high">وردی بوصڵە بەرزە</string>
+    <string name="qibla_accuracy_medium">وردی بوصڵە مامناوەندە</string>
+    <string name="qibla_accuracy_low">وردی بوصڵە نزمە</string>
+    <string name="qibla_accuracy_unreliable">پێویستە بوصڵە ڕێکبخرێتەوە</string>
+    <string name="qibla_distance_km">دووری تا کەعبە: %1$.0f کم</string>
+    <string name="qibla_bearing_value">ئاڕاستەی ڕاستەقینەی قیبلە: %1$.0f°</string>
+    <string name="qibla_compass_hint">مۆبایلەکە ئاسۆیی ڕابگرە و ئەگەر بوصڵە جێگیر نەبوو بە شێوەی ژمارەی هەشت بجوڵێنە.</string>
+    <string name="qibla_location_quality">کوالێتی دیاریکردنی شوێن</string>
+    <string name="qibla_refresh_location">نوێکردنەوەی شوێنی قیبلە</string>
 </resources>
