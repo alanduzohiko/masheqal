@@ -46,11 +46,8 @@ jobs:
       - name: Validate Gradle configuration
         run: gradle --version && gradle :app:tasks --all --no-daemon
 
-      - name: Inspect licensed Sorani translation source
-        shell: bash
-        run: |
-          python3 -m pip install --disable-pip-version-check --quiet openpyxl==3.1.5
-          python3 tools/fetch_sorani_translation.py --inspect-only
+      - name: Inspect Sorani translation catalog
+        run: python3 tools/fetch_sorani_translation.py --inspect-only
 
       - name: Validate content and resources
         run: python3 tools/validate_project.py
