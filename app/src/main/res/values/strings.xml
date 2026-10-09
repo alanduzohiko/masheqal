@@ -149,4 +149,8 @@
     <string name="adhkar_no_results">No matching items. Try another word or category.</string>
     <string name="adhkar_expanded_content_title">Daily adhkar and supplications</string>
     <string name="adhkar_source_review_note">Includes Arabic and English from two MIT-licensed datasets with source references. Independent scholar review of wording and gradings is still pending. Sorani translation is not included in this package yet.</string>
+    <string name="dua_search_hint">Search the available supplications</string>
+    <string name="dua_source_notice">Arabic text, English meanings and references are copied from the cited source datasets. Sorani translations are not included yet, and independent scholarly review remains pending.</string>
+    <string name="dua_no_results">No supplications match this search or category.</string>
+    <string name="copied_to_clipboard">Copied to clipboard</string>
 </resources>
