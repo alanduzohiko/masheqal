@@ -181,4 +181,7 @@
     <string name="names_no_results">No names match this search or filter.</string>
     <string name="names_references">References</string>
     <string name="names_meaning_review_pending">English meaning review pending</string>
+    <string name="names_filter_favorites">Favorites</string>
+    <string name="names_mark_favorite">Add to favorites</string>
+    <string name="names_mark_unfavorite">Remove from favorites</string>
 </resources>
