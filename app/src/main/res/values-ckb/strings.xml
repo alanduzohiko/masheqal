@@ -139,4 +139,8 @@
     <string name="adhkar_no_results">هیچ ئەنجامێک نەدۆزرایەوە. وشە یان پۆلێکی تر تاقی بکەرەوە.</string>
     <string name="adhkar_expanded_content_title">ئەذکار و دوعاکانی ڕۆژانە</string>
     <string name="adhkar_source_review_note">دەقی عەرەبی و واتای ئینگلیزی لە دوو کۆمەڵەداتای MIT لەگەڵ سەرچاوە هاتووە. پێداچوونەوەی زانای سەربەخۆ بۆ دەق و پلەی ڕیوایەتەکان هێشتا تەواو نەبووە. وەرگێڕانی سۆرانی لەم پەکێجەدا نییە.</string>
+    <string name="dua_search_hint">گەڕان لە دوعاکانی بەردەست</string>
+    <string name="dua_source_notice">دەقی عەرەبی، واتای ئینگلیزی و سەرچاوەکان لە کۆمەڵەداتاکانی ناوبراوەوە وەرگیراون. وەرگێڕانی سۆرانی هێشتا نییە و پێداچوونەوەی زانستیی سەربەخۆش تەواو نەبووە.</string>
+    <string name="dua_no_results">هیچ دوعایەک لەم گەڕان یان پۆلەدا نەدۆزرایەوە.</string>
+    <string name="copied_to_clipboard">لە کلیپبۆرد کۆپی کرا</string>
 </resources>
