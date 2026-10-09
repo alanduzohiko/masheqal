@@ -143,9 +143,9 @@ object MushafPageStore {
             val surah = item.optInt("surahNumber", -1)
             val ayah = item.optInt("ayahNumber", -1)
             if (surah !in 1..114 || ayah < 1) continue
-            val points = MushafGeometry.parsePolygon(item.optString("polygon", ""))
-            if (points.size < 3) continue
-            regions += MushafAyahRegion(surahNumber = surah, ayahNumber = ayah, points = points)
+            val polygons = MushafGeometry.parsePolygons(item.optString("polygon", ""))
+            if (polygons.isEmpty()) continue
+            regions += MushafAyahRegion(surahNumber = surah, ayahNumber = ayah, polygons = polygons)
         }
         return regions
     }
