@@ -44,8 +44,9 @@ object PrayerNotificationScheduler {
 
         values.forEachIndexed { index, minutes ->
             if (!minutes.isFinite()) return@forEachIndexed
-            val fireAt = times.date.atStartOfDay(ZoneId.systemDefault())
-                .plusMinutes(minutes.toLong()).toInstant().toEpochMilli()
+            val fireAt = PrayerCalculator
+                .instantForLocalPrayerMinute(times.date, minutes, ZoneId.systemDefault())
+                .toEpochMilli()
             if (fireAt <= System.currentTimeMillis()) return@forEachIndexed
 
             val labelRes = intArrayOf(
@@ -96,14 +97,16 @@ object PrayerNotificationScheduler {
             AsrMadhhab.valueOf(preferences.getString("madhhab", "SHAFI")!!)
         }.getOrDefault(AsrMadhhab.SHAFI)
         val zone = ZoneId.systemDefault()
-        val offset = LocalDate.now().atStartOfDay(zone).offset.totalSeconds / 3600.0
+        val today = LocalDate.now()
+        val offset = today.atStartOfDay(zone).offset.totalSeconds / 3600.0
         scheduleToday(
             context,
             PrayerCalculator.calculate(
-                LocalDate.now(),
+                today,
                 Coordinates(latitude, longitude, offset),
                 method,
-                madhhab
+                madhhab,
+                zoneId = zone
             )
         )
     }
