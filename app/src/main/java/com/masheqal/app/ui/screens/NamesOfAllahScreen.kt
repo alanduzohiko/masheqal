@@ -1,5 +1,7 @@
 package com.masheqal.app.ui.screens
 
+import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -11,7 +13,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.School
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -29,7 +34,7 @@ import com.masheqal.app.data.AllahName
 import com.masheqal.app.data.NamesOfAllahPackage
 import com.masheqal.app.data.NamesOfAllahProgressStore
 
-private enum class NamesFilter { ALL, LEARNED, REMAINING }
+private enum class NamesFilter { ALL, LEARNED, REMAINING, FAVORITES }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -43,6 +48,7 @@ fun NamesOfAllahScreen(app: MasheqalApp, nav: NavHostController) {
     var query by rememberSaveable { mutableStateOf("") }
     var filter by rememberSaveable { mutableStateOf(NamesFilter.ALL) }
     val learnedByNumber = remember { mutableStateMapOf<Int, Boolean>() }
+    val favoriteByNumber = remember { mutableStateMapOf<Int, Boolean>() }
 
     LaunchedEffect(retryNonce) {
         loading = true
@@ -53,6 +59,7 @@ fun NamesOfAllahScreen(app: MasheqalApp, nav: NavHostController) {
                 learnedByNumber.clear()
                 loaded.names.forEach { name ->
                     learnedByNumber[name.number] = progressStore.isLearned(name.number)
+                    favoriteByNumber[name.number] = progressStore.isFavorite(name.number)
                 }
             }
             .onFailure { loadFailed = true }
@@ -68,6 +75,7 @@ fun NamesOfAllahScreen(app: MasheqalApp, nav: NavHostController) {
             NamesFilter.ALL -> true
             NamesFilter.LEARNED -> learned
             NamesFilter.REMAINING -> !learned
+            NamesFilter.FAVORITES -> favoriteByNumber[name.number] == true
         }
         val matchesQuery = normalizedQuery.isBlank() || listOf(
             name.arabic, name.transliteration, name.meaning, name.description
@@ -126,6 +134,11 @@ fun NamesOfAllahScreen(app: MasheqalApp, nav: NavHostController) {
                     selected = filter == NamesFilter.REMAINING,
                     onClick = { filter = NamesFilter.REMAINING },
                     label = { Text(stringResource(R.string.names_filter_remaining)) }
+                )
+                FilterChip(
+                    selected = filter == NamesFilter.FAVORITES,
+                    onClick = { filter = NamesFilter.FAVORITES },
+                    label = { Text(stringResource(R.string.names_filter_favorites)) }
                 )
             }
             Spacer(Modifier.height(8.dp))
@@ -215,6 +228,12 @@ fun NamesOfAllahScreen(app: MasheqalApp, nav: NavHostController) {
                         AllahNameCard(
                             name = name,
                             learned = learned,
+                            favorite = favoriteByNumber[name.number] == true,
+                            onFavoriteChange = { next ->
+                                favoriteByNumber[name.number] = next
+                                progressStore.setFavorite(name.number, next)
+                            },
+                            onShare = { shareAllahName(context, name) },
                             onLearnedChange = { next ->
                                 learnedByNumber[name.number] = next
                                 progressStore.setLearned(name.number, next)
@@ -231,6 +250,9 @@ fun NamesOfAllahScreen(app: MasheqalApp, nav: NavHostController) {
 private fun AllahNameCard(
     name: AllahName,
     learned: Boolean,
+    favorite: Boolean,
+    onFavoriteChange: (Boolean) -> Unit,
+    onShare: () -> Unit,
     onLearnedChange: (Boolean) -> Unit
 ) {
     Card(
@@ -267,7 +289,23 @@ private fun AllahNameCard(
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.SemiBold
                 )
-                Checkbox(checked = learned, onCheckedChange = onLearnedChange)
+                IconButton(
+                    onClick = { onFavoriteChange(!favorite) }
+                ) {
+                    Icon(
+                        if (favorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                        contentDescription = stringResource(
+                            if (favorite) R.string.names_mark_unfavorite else R.string.names_mark_favorite
+                        ),
+                        tint = if (favorite) MaterialTheme.colorScheme.error
+                        else MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+                Checkbox(
+                    checked = learned,
+                    onCheckedChange = onLearnedChange,
+                    modifier = Modifier.size(42.dp)
+                )
             }
 
             Spacer(Modifier.height(8.dp))
@@ -303,6 +341,29 @@ private fun AllahNameCard(
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
+            Spacer(Modifier.height(10.dp))
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                OutlinedButton(onClick = onShare) {
+                    Icon(Icons.Default.Share, contentDescription = null)
+                    Spacer(Modifier.width(6.dp))
+                    Text(stringResource(R.string.share))
+                }
+            }
         }
     }
+}
+
+private fun shareAllahName(context: Context, name: AllahName) {
+    val text = buildString {
+        append(name.arabic).append("\n")
+        append(name.transliteration).append("\n\n")
+        append(name.meaning).append("\n\n")
+        append(context.getString(R.string.names_of_allah))
+        append(" · Apache-2.0 dataset")
+    }
+    val intent = Intent(Intent.ACTION_SEND).apply {
+        type = "text/plain"
+        putExtra(Intent.EXTRA_TEXT, text)
+    }
+    context.startActivity(Intent.createChooser(intent, context.getString(R.string.share)))
 }
