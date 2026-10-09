@@ -299,7 +299,16 @@ private data class AudioEdition(val id: String, val nameResource: Int)
 
 /** Uses Al Quran Cloud's documented surah-audio CDN; this app streams and does not redistribute files. */
 object QuranAudioCatalog {
-    private val editions = mapOf("ar.alafasy" to 128, "ar.husary" to 128, "ar.minshawi" to 128)
+    private val editions = mapOf(
+        "ar.alafasy" to 128,
+        "ar.husary" to 128,
+        "ar.minshawi" to 128,
+        "ar.sudais" to 192,
+        "ar.shuraim" to 128,
+        "ar.abdulbasit" to 192,
+        "ar.ajamy" to 128,
+        "ar.hudhaify" to 128
+    )
 
     fun surahUrl(surah: Int, edition: String): String {
         require(surah in 1..114) { "Surah number must be between 1 and 114" }
@@ -338,7 +347,12 @@ fun QuranAudioScreen(app: MasheqalApp, nav: NavHostController) {
     val editions = listOf(
         AudioEdition("ar.alafasy", R.string.reciter_alafasy),
         AudioEdition("ar.husary", R.string.reciter_husary),
-        AudioEdition("ar.minshawi", R.string.reciter_minshawi)
+        AudioEdition("ar.minshawi", R.string.reciter_minshawi),
+        AudioEdition("ar.sudais", R.string.reciter_sudais),
+        AudioEdition("ar.shuraim", R.string.reciter_shuraim),
+        AudioEdition("ar.abdulbasit", R.string.reciter_abdulbasit),
+        AudioEdition("ar.ajamy", R.string.reciter_ajamy),
+        AudioEdition("ar.hudhaify", R.string.reciter_hudhaify)
     )
     var selectedEdition by rememberSaveable { mutableStateOf("ar.alafasy") }
     val activeEdition = editions.firstOrNull { it.id == selectedEdition } ?: editions.first()
