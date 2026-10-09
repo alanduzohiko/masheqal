@@ -159,4 +159,16 @@
     <string name="adhan_voice_source_beautiful">تۆمارکردنی Adam-synagda · CC0 1.0</string>
     <string name="adhan_voice_source_community">تۆمارکردنی Aishatu98 · CC0 1.0</string>
     <string name="adhan_voice_note">ئەو تۆمارە هەڵبژێرە کە لە کاتی بیرخستنەوەی نوێژدا دەنگی دەدات. ئەمە لە قاریی قورئان جیاوازە.</string>
+    <string name="names_of_allah_intro">ناوی خوای گەورە بناسە لەگەڵ نووسینی عەرەبی، خوێندنەوەی لاتینی و واتای ئینگلیزی.</string>
+    <string name="names_search_hint">بە عەرەبی یان خوێندنەوە یان واتا بگەڕێ</string>
+    <string name="names_source_notice">داتاکانی سەرچاوە بە مۆڵەتی Apache-2.0 بەکارهاتوون و بێ ئۆنلاین کار دەکەن. واتا ئینگلیزییەکان هێشتا پێداچوونەوەی زانستیی سەربەخۆیان پێوە نەکراوە؛ ئەگەر سەرچاوە ئاماژەیەکی نەداوە، ئاماژەی ساختە زیاد ناکەین. واتای سۆرانی هێشتا بەردەست نییە.</string>
+    <string name="names_learned_count">%1$d لە 99 ناو فێربوویت</string>
+    <string name="names_mark_learned">وەک فێربوون نیشانە بکە</string>
+    <string name="names_mark_unlearned">نیشانەی فێربوون لابەرە</string>
+    <string name="names_filter_all">هەموو ناوەکان</string>
+    <string name="names_filter_learned">فێربووم</string>
+    <string name="names_filter_remaining">ماوە بۆ فێربوون</string>
+    <string name="names_no_results">هیچ ناوێک لەگەڵ گەڕان یان پاڵاوتنەکە ناگونجێت.</string>
+    <string name="names_references">سەرچاوەکان</string>
+    <string name="names_meaning_review_pending">پێداچوونەوەی واتای ئینگلیزی هێشتا ماوە</string>
 </resources>
