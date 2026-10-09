@@ -288,3 +288,353 @@ fun QuranScreen(app: MasheqalApp, nav: NavHostController) {
         )
     }
 }
+
+
+private data class AudioEdition(val id: String, val nameResource: Int)
+
+/** Uses Al Quran Cloud's documented surah-audio CDN; this app streams and does not redistribute files. */
+object QuranAudioCatalog {
+    private val editions = mapOf("ar.alafasy" to 128, "ar.husary" to 128, "ar.minshawi" to 128)
+
+    fun surahUrl(surah: Int, edition: String): String {
+        require(surah in 1..114) { "Surah number must be between 1 and 114" }
+        val bitrate = editions[edition] ?: throw IllegalArgumentException("Unsupported recitation edition")
+        return "https://cdn.islamic.network/quran/audio-surah/$bitrate/$edition/$surah.mp3"
+    }
+}
+
+private fun makeAudioQueue(surahs: List<SurahMeta>, edition: String, reciter: String): List<MediaItem> =
+    surahs.map { surah ->
+        MediaItem.Builder()
+            .setMediaId("surah-${surah.number}")
+            .setUri(QuranAudioCatalog.surahUrl(surah.number, edition))
+            .setMediaMetadata(
+                MediaMetadata.Builder()
+                    .setTitle(surah.nameAr)
+                    .setDisplayTitle(surah.nameEn)
+                    .setArtist(reciter)
+                    .setAlbumTitle("مەشخەڵ · Al Quran Cloud / Islamic Network")
+                    .build()
+            )
+            .build()
+    }
+
+private fun audioTime(ms: Long): String {
+    val seconds = ms.coerceAtLeast(0L) / 1000L
+    return "%02d:%02d".format(Locale.ROOT, seconds / 60L, seconds % 60L)
+}
+
+@OptIn(UnstableApi::class)
+@Composable
+fun QuranAudioScreen(app: MasheqalApp, nav: NavHostController) {
+    val context = LocalContext.current
+    val editions = listOf(
+        AudioEdition("ar.alafasy", R.string.reciter_alafasy),
+        AudioEdition("ar.husary", R.string.reciter_husary),
+        AudioEdition("ar.minshawi", R.string.reciter_minshawi)
+    )
+    var selectedEdition by rememberSaveable { mutableStateOf("ar.alafasy") }
+    val activeEdition = editions.firstOrNull { it.id == selectedEdition } ?: editions.first()
+    val activeReciterName = stringResource(activeEdition.nameResource)
+    var surahs by remember { mutableStateOf(emptyList<SurahMeta>()) }
+    var reload by remember { mutableIntStateOf(0) }
+    var loadFailed by remember { mutableStateOf(false) }
+    var controller by remember { mutableStateOf<MediaController?>(null) }
+    var connectionFailed by remember { mutableStateOf(false) }
+    var reconnect by remember { mutableIntStateOf(0) }
+    var playbackFailed by remember { mutableStateOf(false) }
+    var currentSurah by remember { mutableIntStateOf(0) }
+    var isPlaying by remember { mutableStateOf(false) }
+    var positionMs by remember { mutableStateOf(0L) }
+    var durationMs by remember { mutableStateOf(0L) }
+
+    LaunchedEffect(app, reload) {
+        runCatching { app.quran.loadSurahs() }
+            .onSuccess { surahs = it; loadFailed = false }
+            .onFailure { loadFailed = true }
+    }
+
+    DisposableEffect(context, reconnect) {
+        var active = true
+        val token = SessionToken(context, ComponentName(context, QuranPlaybackService::class.java))
+        val future = MediaController.Builder(context, token).buildAsync()
+        future.addListener({
+            runCatching { future.get() }
+                .onSuccess { if (active) { controller = it; connectionFailed = false } }
+                .onFailure { if (active) connectionFailed = true }
+        }, ContextCompat.getMainExecutor(context))
+        onDispose {
+            active = false
+            MediaController.releaseFuture(future)
+            controller = null
+        }
+    }
+
+    val queue = remember(surahs, activeEdition, activeReciterName) {
+        makeAudioQueue(surahs, activeEdition.id, activeReciterName)
+    }
+
+    fun playSurah(number: Int) {
+        val player = controller
+        val index = surahs.indexOfFirst { it.number == number }
+        if (player == null || index < 0 || queue.isEmpty()) {
+            playbackFailed = true
+            return
+        }
+        player.setMediaItems(queue, index, 0L)
+        player.prepare()
+        player.play()
+        currentSurah = number
+        playbackFailed = false
+    }
+
+    fun selectEdition(edition: AudioEdition) {
+        if (edition.id == selectedEdition) return
+        val player = controller
+        val oldNumber = currentSurah
+        val oldPosition = player?.currentPosition?.coerceAtLeast(0L) ?: 0L
+        val wasPlaying = player?.isPlaying == true
+        selectedEdition = edition.id
+        if (player != null && oldNumber in 1..114 && surahs.isNotEmpty()) {
+            val newQueue = makeAudioQueue(surahs, edition.id, context.getString(edition.nameResource))
+            val index = surahs.indexOfFirst { it.number == oldNumber }.coerceAtLeast(0)
+            player.setMediaItems(newQueue, index, oldPosition)
+            player.prepare()
+            if (wasPlaying) player.play()
+        }
+    }
+
+    DisposableEffect(controller) {
+        val player = controller
+        if (player == null) {
+            onDispose { }
+        } else {
+            val listener = object : Player.Listener {
+                override fun onMediaItemTransition(item: MediaItem?, reason: Int) {
+                    currentSurah = item?.mediaId?.removePrefix("surah-")?.toIntOrNull() ?: 0
+                    positionMs = player.currentPosition.coerceAtLeast(0L)
+                    durationMs = player.duration.coerceAtLeast(0L)
+                    playbackFailed = false
+                }
+                override fun onIsPlayingChanged(playing: Boolean) {
+                    isPlaying = playing
+                    positionMs = player.currentPosition.coerceAtLeast(0L)
+                }
+                override fun onPlaybackStateChanged(state: Int) {
+                    durationMs = player.duration.coerceAtLeast(0L)
+                }
+                override fun onPlayerError(error: PlaybackException) {
+                    playbackFailed = true
+                    isPlaying = false
+                }
+            }
+            player.addListener(listener)
+            currentSurah = player.currentMediaItem?.mediaId?.removePrefix("surah-")?.toIntOrNull() ?: currentSurah
+            isPlaying = player.isPlaying
+            onDispose { player.removeListener(listener) }
+        }
+    }
+
+    LaunchedEffect(controller, isPlaying) {
+        val player = controller ?: return@LaunchedEffect
+        while (isPlaying) {
+            positionMs = player.currentPosition.coerceAtLeast(0L)
+            durationMs = player.duration.coerceAtLeast(0L)
+            delay(500L)
+        }
+    }
+
+    val currentMeta = surahs.firstOrNull { it.number == currentSurah }
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text(stringResource(R.string.audio_player_title)) },
+                navigationIcon = {
+                    IconButton(onClick = { nav.popBackStack() }) {
+                        Icon(Icons.Default.ArrowBack, contentDescription = null)
+                    }
+                }
+            )
+        }
+    ) { padding ->
+        LazyColumn(
+            modifier = Modifier.fillMaxSize().padding(padding),
+            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp),
+            verticalArrangement = Arrangement.spacedBy(14.dp)
+        ) {
+            item {
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(28.dp),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
+                ) {
+                    Column(Modifier.fillMaxWidth().padding(20.dp)) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Surface(
+                                modifier = Modifier.size(54.dp),
+                                shape = RoundedCornerShape(18.dp),
+                                color = MaterialTheme.colorScheme.primary
+                            ) {
+                                Box(contentAlignment = Alignment.Center) {
+                                    Icon(Icons.Default.Headphones, null,
+                                        tint = MaterialTheme.colorScheme.onPrimary, modifier = Modifier.size(28.dp))
+                                }
+                            }
+                            Spacer(Modifier.width(14.dp))
+                            Column(Modifier.weight(1f)) {
+                                Text(currentMeta?.nameAr ?: stringResource(R.string.quran),
+                                    style = MaterialTheme.typography.titleLarge)
+                                Text(currentMeta?.nameEn ?: stringResource(R.string.audio_choose_surah),
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                Text(
+                                    if (currentSurah in 1..114) "$currentSurah / 114" else stringResource(R.string.audio_ready),
+                                    style = MaterialTheme.typography.labelMedium,
+                                    color = MaterialTheme.colorScheme.primary
+                                )
+                            }
+                        }
+                        Spacer(Modifier.height(14.dp))
+                        Slider(
+                            value = if (durationMs > 0L) (positionMs.toFloat() / durationMs).coerceIn(0f, 1f) else 0f,
+                            onValueChange = { if (durationMs > 0L) positionMs = (it * durationMs).toLong() },
+                            onValueChangeFinished = { if (durationMs > 0L) controller?.seekTo(positionMs) },
+                            enabled = durationMs > 0L
+                        )
+                        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                            Text(audioTime(positionMs), style = MaterialTheme.typography.labelSmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            Text(audioTime(durationMs), style = MaterialTheme.typography.labelSmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        }
+                        Spacer(Modifier.height(6.dp))
+                        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically) {
+                            IconButton(
+                                enabled = controller != null && currentSurah > 0,
+                                onClick = {
+                                    val player = controller
+                                    if (player != null && player.currentMediaItemIndex >= 0) {
+                                        if (player.currentPosition > 5000L) player.seekTo(0L)
+                                        else if (player.hasPreviousMediaItem()) player.seekToPreviousMediaItem()
+                                    }
+                                }
+                            ) { Icon(Icons.Default.SkipPrevious, stringResource(R.string.audio_previous_surah)) }
+                            Spacer(Modifier.width(18.dp))
+                            FilledIconButton(
+                                modifier = Modifier.size(62.dp),
+                                enabled = controller != null && surahs.isNotEmpty(),
+                                onClick = {
+                                    val player = controller
+                                    if (player == null) connectionFailed = true
+                                    else if (currentSurah == 0) playSurah(1)
+                                    else if (player.isPlaying) player.pause() else player.play()
+                                }
+                            ) {
+                                Icon(
+                                    if (isPlaying) Icons.Default.Pause else Icons.Default.PlayArrow,
+                                    stringResource(if (isPlaying) R.string.pause else R.string.audio_play),
+                                    modifier = Modifier.size(30.dp)
+                                )
+                            }
+                            Spacer(Modifier.width(18.dp))
+                            IconButton(
+                                enabled = controller != null && surahs.isNotEmpty(),
+                                onClick = {
+                                    val player = controller
+                                    if (player != null && player.hasNextMediaItem()) player.seekToNextMediaItem()
+                                    else if (currentSurah == 0) playSurah(1)
+                                }
+                            ) { Icon(Icons.Default.SkipNext, stringResource(R.string.audio_next_surah)) }
+                        }
+                        Spacer(Modifier.height(10.dp))
+                        Text(stringResource(R.string.audio_source_notice),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        if (connectionFailed || playbackFailed || loadFailed) {
+                            Spacer(Modifier.height(8.dp))
+                            Text(
+                                stringResource(if (loadFailed) R.string.audio_load_error else R.string.audio_connection_error),
+                                color = MaterialTheme.colorScheme.error,
+                                style = MaterialTheme.typography.bodyMedium
+                            )
+                            TextButton(onClick = {
+                                when {
+                                    loadFailed -> reload++
+                                    connectionFailed -> { connectionFailed = false; reconnect++ }
+                                    currentSurah > 0 -> playSurah(currentSurah)
+                                }
+                            }) { Text(stringResource(R.string.audio_retry)) }
+                        } else if (controller == null) {
+                            Spacer(Modifier.height(8.dp))
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                CircularProgressIndicator(Modifier.size(16.dp), strokeWidth = 2.dp)
+                                Spacer(Modifier.width(8.dp))
+                                Text(stringResource(R.string.audio_connecting), style = MaterialTheme.typography.bodySmall)
+                            }
+                        }
+                    }
+                }
+            }
+            item {
+                Text(stringResource(R.string.audio_reciter), style = MaterialTheme.typography.titleMedium)
+                Spacer(Modifier.height(8.dp))
+                Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    editions.forEach { edition ->
+                        FilterChip(
+                            selected = edition.id == selectedEdition,
+                            onClick = { selectEdition(edition) },
+                            label = { Text(stringResource(edition.nameResource)) },
+                            leadingIcon = { if (edition.id == selectedEdition) Icon(Icons.Default.GraphicEq, null) }
+                        )
+                    }
+                }
+            }
+            item {
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                    Text(stringResource(R.string.audio_choose_surah), style = MaterialTheme.typography.titleMedium)
+                    Text("${surahs.size} / 114", style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
+            }
+            if (loadFailed) {
+                item { Text(stringResource(R.string.audio_load_error), color = MaterialTheme.colorScheme.error) }
+            } else {
+                items(surahs, key = { it.number }) { surah ->
+                    val playingThis = currentSurah == surah.number && isPlaying
+                    Card(
+                        onClick = { playSurah(surah.number) },
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(20.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = if (currentSurah == surah.number)
+                                MaterialTheme.colorScheme.secondaryContainer
+                            else MaterialTheme.colorScheme.surfaceVariant
+                        )
+                    ) {
+                        Row(Modifier.fillMaxWidth().padding(horizontal = 14.dp, vertical = 12.dp),
+                            verticalAlignment = Alignment.CenterVertically) {
+                            Surface(shape = RoundedCornerShape(12.dp),
+                                color = MaterialTheme.colorScheme.primaryContainer) {
+                                Text(surah.number.toString(),
+                                    modifier = Modifier.padding(horizontal = 11.dp, vertical = 7.dp),
+                                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                    style = MaterialTheme.typography.labelLarge)
+                            }
+                            Spacer(Modifier.width(12.dp))
+                            Column(Modifier.weight(1f)) {
+                                Text(surah.nameAr, style = MaterialTheme.typography.titleMedium)
+                                Text(surah.nameEn, style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            }
+                            Icon(if (playingThis) Icons.Default.Pause else Icons.Default.PlayArrow,
+                                contentDescription = stringResource(R.string.audio_play_surah),
+                                tint = MaterialTheme.colorScheme.primary)
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
