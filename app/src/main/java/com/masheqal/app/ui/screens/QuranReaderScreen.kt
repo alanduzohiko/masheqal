@@ -28,7 +28,6 @@ fun QuranReaderScreen(
     initialAyah: Int
 ) {
     val settings by app.settings.state.collectAsState(initial = SettingsState())
-    val versesTranslationIsSorani = settings.language == "ckb"
     var verses by remember { mutableStateOf(emptyList<com.masheqal.app.data.QuranVerse>()) }
     var selected by remember { mutableStateOf<com.masheqal.app.data.QuranVerse?>(null) }
     var noteReference by remember { mutableStateOf("") }
@@ -114,11 +113,7 @@ fun QuranReaderScreen(
                         }
                         Spacer(Modifier.height(10.dp))
                         QuranText(verse.text, size = 27f)
-                        val visibleTranslation = if (versesTranslationIsSorani) {
-                            verse.translationCkb
-                        } else {
-                            verse.translationEn
-                        }
+                        val visibleTranslation = verse.translationFor(settings.language)
                         if (!visibleTranslation.isNullOrBlank()) {
                             Spacer(Modifier.height(12.dp))
                             Text(
@@ -145,7 +140,7 @@ fun QuranReaderScreen(
                 )
                 Spacer(Modifier.height(8.dp))
                 QuranText(verse.text, size = 23f)
-                val selectedTranslation = if (versesTranslationIsSorani) verse.translationCkb else verse.translationEn
+                val selectedTranslation = verse.translationFor(settings.language)
                 if (!selectedTranslation.isNullOrBlank()) {
                     Spacer(Modifier.height(12.dp))
                     Text(selectedTranslation, style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)
