@@ -13,7 +13,15 @@ data class QuranVerse(
     val translationEn: String? = null,
     val translationCkb: String? = null,
     val translationCkbFootnotes: String? = null
-)
+) {
+    /**
+     * Uses the selected UI language without silently substituting English for a missing Sorani
+     * verse. A missing translation stays explicit so the reader never mistakes another language
+     * for the chosen one.
+     */
+    fun translationFor(language: String): String? =
+        if (language.equals("ckb", ignoreCase = true)) translationCkb else translationEn
+}
 data class QuranTranslationInfo(
     val translator: String,
     val publisher: String,
