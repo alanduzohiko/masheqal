@@ -12,7 +12,7 @@ class GlobalSearchMatcherTest {
 
     @Test
     fun matchesEnglishTranslationAndTransliterationCaseInsensitively() {
-        assertTrue(GlobalSearchMatcher.matches("mercy", listOf("Ar-Raheem", "The Most Merciful")))
+        assertTrue(GlobalSearchMatcher.matches("merciful", listOf("Ar-Raheem", "The Most Merciful")))
     }
 
     @Test
