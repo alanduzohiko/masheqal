@@ -49,7 +49,6 @@ fun ContentCenterScreen(app: MasheqalApp, nav: NavHostController) {
         R.string.tafsir,
         R.string.hadith,
         R.string.hisn,
-        R.string.names_of_allah,
         R.string.audio
     )
 
