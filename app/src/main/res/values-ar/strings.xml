@@ -120,4 +120,23 @@
     <string name="method_turkey">تركيا</string>
     <string name="madhhab_shafi">الشافعي</string>
     <string name="madhhab_hanafi">الحنفي</string>
+    <string name="adhkar_all">الكل</string>
+    <string name="adhkar_after_prayer">بعد الصلاة</string>
+    <string name="adhkar_sleep">قبل النوم</string>
+    <string name="adhkar_wake_up">عند الاستيقاظ</string>
+    <string name="adhkar_bathroom">دخول الخلاء</string>
+    <string name="adhkar_food">الطعام والشراب</string>
+    <string name="adhkar_mosque">المسجد</string>
+    <string name="adhkar_wudu">الوضوء</string>
+    <string name="adhkar_fasting">الصيام</string>
+    <string name="adhkar_home">المنزل</string>
+    <string name="adhkar_travel">السفر</string>
+    <string name="adhkar_clothing">اللباس</string>
+    <string name="adhkar_weather">الطقس</string>
+    <string name="adhkar_protection">الاستعاذة والشدة</string>
+    <string name="adhkar_general">أدعية يومية أخرى</string>
+    <string name="adhkar_search_hint">ابحث في الأذكار والأدعية</string>
+    <string name="adhkar_no_results">لا توجد عناصر مطابقة. جرّب كلمة أو فئة أخرى.</string>
+    <string name="adhkar_expanded_content_title">أذكار وأدعية يومية</string>
+    <string name="adhkar_source_review_note">تضم الحزمة نصوصًا عربية ومعاني إنجليزية من مجموعتي بيانات بترخيص MIT مع مراجعها. لم تكتمل بعد مراجعة علمية مستقلة للصياغة والتخريج. الترجمة السورانية غير متوفرة في هذه الحزمة حاليًا.</string>
 </resources>
