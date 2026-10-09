@@ -184,6 +184,22 @@ class PrayerCalculatorTest {
             "https://cdn.islamic.network/quran/audio-surah/128/ar.hudhaify/36.mp3",
             QuranAudioCatalog.surahUrl(36, "ar.hudhaify")
         )
+        assertEquals(
+            "https://cdn.islamic.network/quran/audio-surah/64/ar.minshawimujawwad/1.mp3",
+            QuranAudioCatalog.surahUrl(1, "ar.minshawimujawwad")
+        )
+        assertEquals(
+            "https://cdn.islamic.network/quran/audio-surah/192/ar.abdulbasitmujawwad/2.mp3",
+            QuranAudioCatalog.surahUrl(2, "ar.abdulbasitmujawwad")
+        )
+        assertEquals(
+            "https://cdn.islamic.network/quran/audio-surah/128/ar.muhammadayoub/3.mp3",
+            QuranAudioCatalog.surahUrl(3, "ar.muhammadayoub")
+        )
+        assertEquals(
+            "https://cdn.islamic.network/quran/audio-surah/128/ar.muhammadjibreel/4.mp3",
+            QuranAudioCatalog.surahUrl(4, "ar.muhammadjibreel")
+        )
     }
 
     @Test

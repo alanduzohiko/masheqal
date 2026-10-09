@@ -56,6 +56,10 @@
     <string name="reciter_abdulbasit">Abdul Basit Abdul Samad</string>
     <string name="reciter_ajamy">Ahmed Al-Ajamy</string>
     <string name="reciter_hudhaify">Ali Al-Hudhaify</string>
+    <string name="reciter_minshawi_mujawwad">Mohamed Siddiq Al-Minshawi (Mujawwad)</string>
+    <string name="reciter_abdulbasit_mujawwad">Abdul Basit Abdul Samad (Mujawwad)</string>
+    <string name="reciter_muhammadayoub">Muhammad Ayyub</string>
+    <string name="reciter_muhammadjibreel">Muhammad Jibreel</string>
     <string name="full_adhan_audio">Play full adhan at prayer time</string>
     <string name="full_adhan_description">Optional offline audio at Fajr, Dhuhr, Asr, Maghrib and Isha. Sunrise does not play adhan.</string>
     <string name="adhan_preview">Preview adhan</string>

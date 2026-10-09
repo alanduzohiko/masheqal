@@ -71,3 +71,8 @@ Both recordings are released under CC0 1.0 Universal. `tools/fetch_adhan.py` ver
 - **License:** MIT for the published free subset.
 - **Scope:** the app stores a small selection of city-centre names and coordinates for Baghdad, Mosul, Basra, Kirkuk, and Sulaymaniyah so manual city selection can still work when Android Geocoder is unavailable.
 - **Accuracy disclosure:** these coordinates represent approximate city centres and must not be represented as precise device location. The UI labels manual selections accordingly.
+
+
+## Additional streaming recitation editions
+
+The audio catalogue uses documented Al Quran Cloud / Islamic Network CDN edition identifiers for four additional choices: `ar.minshawimujawwad`, `ar.abdulbasitmujawwad`, `ar.muhammadayoub`, and `ar.muhammadjibreel`. The public CDN documentation lists the corresponding edition identifiers and bitrate defaults: https://alquran.cloud/cdn. The app tests the generated URLs and streams the provider's hosted files; this documentation verifies endpoint availability identifiers, not a separate copyright grant for redistributing the underlying recordings. Audio is not repackaged with the source code, and offline caching remains subject to provider and recording terms.

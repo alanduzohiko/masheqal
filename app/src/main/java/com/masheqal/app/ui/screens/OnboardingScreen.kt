@@ -70,7 +70,11 @@ fun OnboardingScreen(
         OnboardingReciter("ar.shuraim", R.string.reciter_shuraim),
         OnboardingReciter("ar.abdulbasit", R.string.reciter_abdulbasit),
         OnboardingReciter("ar.ajamy", R.string.reciter_ajamy),
-        OnboardingReciter("ar.hudhaify", R.string.reciter_hudhaify)
+        OnboardingReciter("ar.hudhaify", R.string.reciter_hudhaify),
+        OnboardingReciter("ar.minshawimujawwad", R.string.reciter_minshawi_mujawwad),
+        OnboardingReciter("ar.abdulbasitmujawwad", R.string.reciter_abdulbasit_mujawwad),
+        OnboardingReciter("ar.muhammadayoub", R.string.reciter_muhammadayoub),
+        OnboardingReciter("ar.muhammadjibreel", R.string.reciter_muhammadjibreel)
     )
     var reciter by rememberSaveable {
         mutableStateOf(

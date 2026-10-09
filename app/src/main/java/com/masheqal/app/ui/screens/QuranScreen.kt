@@ -318,7 +318,11 @@ object QuranAudioCatalog {
         "ar.shuraim" to 128,
         "ar.abdulbasit" to 192,
         "ar.ajamy" to 128,
-        "ar.hudhaify" to 128
+        "ar.hudhaify" to 128,
+        "ar.minshawimujawwad" to 64,
+        "ar.abdulbasitmujawwad" to 192,
+        "ar.muhammadayoub" to 128,
+        "ar.muhammadjibreel" to 128
     )
 
     fun surahUrl(surah: Int, edition: String): String {
@@ -375,7 +379,11 @@ fun QuranAudioScreen(app: MasheqalApp, nav: NavHostController) {
         AudioEdition("ar.shuraim", R.string.reciter_shuraim),
         AudioEdition("ar.abdulbasit", R.string.reciter_abdulbasit),
         AudioEdition("ar.ajamy", R.string.reciter_ajamy),
-        AudioEdition("ar.hudhaify", R.string.reciter_hudhaify)
+        AudioEdition("ar.hudhaify", R.string.reciter_hudhaify),
+        AudioEdition("ar.minshawimujawwad", R.string.reciter_minshawi_mujawwad),
+        AudioEdition("ar.abdulbasitmujawwad", R.string.reciter_abdulbasit_mujawwad),
+        AudioEdition("ar.muhammadayoub", R.string.reciter_muhammadayoub),
+        AudioEdition("ar.muhammadjibreel", R.string.reciter_muhammadjibreel)
     )
     var selectedEdition by rememberSaveable {
         mutableStateOf(
