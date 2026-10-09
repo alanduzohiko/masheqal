@@ -80,6 +80,22 @@ assert hashlib.sha256(adhkar_path.read_bytes()).hexdigest() == adhkar_manifest.g
 assert hashlib.sha256(adhkar_license_path.read_bytes()).hexdigest() == adhkar_manifest.get("licenseSha256")
 assert "MIT License" in adhkar_license_path.read_text(encoding="utf-8")
 assert "Copyright (c) 2024 Seen Arabic" in adhkar_license_path.read_text(encoding="utf-8")
+
+# Adhan audio must be fetched from Commons only after the publisher's CC0 metadata is checked.
+adhan_path = RES / "raw" / "adhan.ogg"
+adhan_manifest_path = CONTENT / "adhan_audio_manifest.json"
+assert adhan_path.is_file(), "CC0 adhan audio asset was not generated"
+assert adhan_manifest_path.is_file(), "Adhan source/license manifest is missing"
+adhan_manifest = json.loads(adhan_manifest_path.read_text(encoding="utf-8"))
+adhan_bytes = adhan_path.read_bytes()
+assert 0 < len(adhan_bytes) <= 2 * 1024 * 1024, "Adhan audio asset is empty or too large"
+assert hashlib.sha256(adhan_bytes).hexdigest() == adhan_manifest.get("sha256"), "Adhan asset checksum differs from its manifest"
+assert hashlib.sha1(adhan_bytes).hexdigest() == adhan_manifest.get("sha1"), "Adhan asset SHA-1 differs from upstream metadata"
+assert adhan_manifest.get("source") == "Wikimedia Commons"
+assert adhan_manifest.get("sourceFile") == "File:Adhan.ogg"
+assert adhan_manifest.get("license") == "CC0 1.0 Universal"
+assert "publicdomain/zero/1.0" in adhan_manifest.get("licenseUrl", "")
+assert adhan_manifest.get("author") and adhan_manifest.get("byteCount") == len(adhan_bytes)
 for name, expected, key in [("quran_page_ranges.json", 604, "page"), ("quran_juz_ranges.json", 30, "juz")]:
     ranges = load(name)
     assert len(ranges) == expected
