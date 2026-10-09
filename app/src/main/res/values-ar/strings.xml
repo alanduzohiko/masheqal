@@ -159,4 +159,16 @@
     <string name="adhan_voice_source_beautiful">تسجيل آدم-سيناغدا · CC0 1.0</string>
     <string name="adhan_voice_source_community">تسجيل Aishatu98 · CC0 1.0</string>
     <string name="adhan_voice_note">اختر التسجيل الذي سيُشغَّل مع تذكيرات الصلاة. هذا اختيار مستقل عن قارئ القرآن.</string>
+    <string name="names_of_allah_intro">تعرّف إلى أسماء الله الحسنى التسعة والتسعين مع النص العربي والنقل الصوتي والمعاني الإنجليزية.</string>
+    <string name="names_search_hint">ابحث بالعربية أو النقل الصوتي أو المعنى</string>
+    <string name="names_source_notice">بيانات المصدر بترخيص Apache-2.0 ومتاحة دون اتصال. ما زالت المعاني الإنجليزية بحاجة إلى مراجعة علمية مستقلة؛ ولا نختلق مراجع إذا لم يقدّمها المصدر. المعاني السورانية غير متوفرة بعد.</string>
+    <string name="names_learned_count">حفظت %1$d من 99</string>
+    <string name="names_mark_learned">تحديد الاسم كمحفوظ</string>
+    <string name="names_mark_unlearned">إلغاء تحديد الحفظ</string>
+    <string name="names_filter_all">كل الأسماء</string>
+    <string name="names_filter_learned">المحفوظة</string>
+    <string name="names_filter_remaining">للحفظ</string>
+    <string name="names_no_results">لا توجد أسماء تطابق البحث أو عامل التصفية.</string>
+    <string name="names_references">المراجع</string>
+    <string name="names_meaning_review_pending">مراجعة المعنى الإنجليزي معلّقة</string>
 </resources>
