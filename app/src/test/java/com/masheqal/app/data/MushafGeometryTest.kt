@@ -71,6 +71,8 @@ class MushafGeometryTest {
     fun viewBoxMappingRoundTripsCanvasAndDocumentCoordinates() {
         val box = MushafViewBox(-53.31f, -198.48f, 345f, 550f)
         val document = box.mapCanvasPoint(123f, 321f, 345f, 550f)!!
-        assertEquals(MushafPoint(123f, 321f), box.mapDocumentPoint(document.x, document.y, 345f, 550f))
+        val canvas = box.mapDocumentPoint(document.x, document.y, 345f, 550f)!!
+        assertEquals(123f, canvas.x, 0.001f)
+        assertEquals(321f, canvas.y, 0.001f)
     }
 }
