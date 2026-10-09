@@ -38,13 +38,16 @@ import com.masheqal.app.R
 import com.masheqal.app.domain.QiblaCalculator
 import com.masheqal.app.util.CurrentLocation
 import com.masheqal.app.util.LocationUtils
+import com.masheqal.app.util.LocationChoiceStore
+import com.masheqal.app.util.PlaceLookup
 import kotlinx.coroutines.launch
 import kotlin.math.abs
 
 @Composable
 fun QiblaScreen(nav: NavHostController) {
     val context = androidx.compose.ui.platform.LocalContext.current
-    var location by remember { mutableStateOf(LocationUtils.lastKnown(context)) }
+    var location by remember { mutableStateOf(LocationChoiceStore.loadManual(context) ?: LocationUtils.lastKnown(context)) }
+    var placeLabel by remember { mutableStateOf(location?.placeName) }
     var azimuth by remember { mutableStateOf<Float?>(null) }
     var sensorAccuracy by remember { mutableIntStateOf(SensorManager.SENSOR_STATUS_UNRELIABLE) }
     var locationRefreshing by remember { mutableStateOf(false) }
@@ -57,8 +60,14 @@ fun QiblaScreen(nav: NavHostController) {
                 locationRefreshing = true
                 try {
                     val fresh = runCatching { LocationUtils.current(context) }.getOrNull()
-                    location = fresh ?: LocationUtils.lastKnown(context)
-                    locationRefreshFailed = location == null
+                    val cached = fresh ?: LocationUtils.lastKnown(context)
+                    if (cached != null) {
+                        LocationChoiceStore.clearManual(context)
+                        location = cached
+                    } else {
+                        location = LocationChoiceStore.loadManual(context)
+                    }
+                    locationRefreshFailed = cached == null && location == null
                 } finally {
                     locationRefreshing = false
                 }
@@ -75,12 +84,25 @@ fun QiblaScreen(nav: NavHostController) {
         ) {
             refreshLocation()
         } else {
-            location = LocationUtils.lastKnown(context)
-            locationRefreshFailed = true
+            location = LocationChoiceStore.loadManual(context) ?: LocationUtils.lastKnown(context)
+            locationRefreshFailed = location == null
         }
     }
 
-    LaunchedEffect(Unit) { refreshLocation() }
+    LaunchedEffect(Unit) {
+        val manual = LocationChoiceStore.loadManual(context)
+        if (manual != null) location = manual else refreshLocation()
+    }
+
+    LaunchedEffect(location?.latitude, location?.longitude, location?.placeName) {
+        val current = location
+        placeLabel = current?.placeName
+        if (current != null && current.placeName.isNullOrBlank()) {
+            placeLabel = runCatching {
+                PlaceLookup.reverseGeocode(context, current.latitude, current.longitude)?.displayName
+            }.getOrNull()
+        }
+    }
 
     DisposableEffect(Unit) {
         val sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
@@ -360,6 +382,7 @@ fun QiblaScreen(nav: NavHostController) {
             Spacer(Modifier.height(12.dp))
             LocationQualityCard(
                 location = current,
+                placeName = placeLabel,
                 refreshFailed = locationRefreshFailed,
                 refreshing = locationRefreshing,
                 onRefresh = refreshLocation
@@ -372,6 +395,7 @@ fun QiblaScreen(nav: NavHostController) {
 @Composable
 private fun LocationQualityCard(
     location: CurrentLocation,
+    placeName: String?,
     refreshFailed: Boolean,
     refreshing: Boolean,
     onRefresh: () -> Unit
@@ -397,7 +421,12 @@ private fun LocationQualityCard(
             }
             Spacer(Modifier.height(5.dp))
             Text(
-                stringResource(
+                placeName ?: stringResource(R.string.location_city_unavailable),
+                style = MaterialTheme.typography.bodyMedium
+            )
+            Text(
+                if (location.isManual) stringResource(R.string.location_manual_accuracy)
+                else stringResource(
                     if (location.isPrecise) R.string.location_accuracy
                     else R.string.location_accuracy_approximate,
                     location.accuracyMeters.toInt().coerceAtLeast(1)

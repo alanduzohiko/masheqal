@@ -95,6 +95,16 @@
     <string name="audio_download_failed">Audio download failed. Check the connection and try again.</string>
     <string name="brand_tagline">Your daily spiritual companion</string>
     <string name="location_refresh">Refresh location</string>
+    <string name="choose_city">Choose city manually</string>
+    <string name="search_city">City or town</string>
+    <string name="city_search_hint">Search for a city or town. Android's place lookup may require internet access.</string>
+    <string name="search_city_action">Find city</string>
+    <string name="city_not_found">No matching place was found. Check the spelling or connection and try again.</string>
+    <string name="choose_city_result_hint">Use this city's coordinates for prayer times and Qibla</string>
+    <string name="location_city_unavailable">City name could not be resolved. You can choose a city manually.</string>
+    <string name="location_manual_accuracy">Using selected city-centre coordinates; this is less precise than device GPS.</string>
+    <string name="use_device_location">Use device location</string>
+    <string name="location_timezone_fallback">Could not resolve the city's time zone; prayer times are temporarily using the device time zone.</string>
     <string name="location_refreshing">Finding a more accurate location…</string>
     <string name="location_accuracy">Location accuracy ±%1$d m</string>
     <string name="location_accuracy_approximate">Location is approximate (±%1$d m). Enable precise location for more reliable prayer times and Qibla.</string>

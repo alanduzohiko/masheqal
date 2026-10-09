@@ -11,6 +11,8 @@
 ## What is genuinely implemented in this foundation
 
 - Native Android app shell; no WebView/PWA/browser wrapper.
+- City-name reverse lookup and manual city selection using Android Geocoder; selected cities are stored locally.
+- Offline IANA time-zone lookup from city/device coordinates, with an explicit device-zone fallback notice.
 - Original مەشخەڵ visual identity, launcher icon, theme tokens and RTL support.
 - Arabic (`ar`) and English (`en`) UI resources; Sorani is deferred from the current release scope.
 - Bundled Quran Arabic in Uthmani-compatible text form, 114 surahs / 6236 ayahs.

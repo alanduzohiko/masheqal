@@ -85,6 +85,16 @@
     <string name="audio_download_failed">فشل تنزيل التلاوة. تحقق من الاتصال ثم أعد المحاولة.</string>
     <string name="brand_tagline">رفيقك الروحي اليومي</string>
     <string name="location_refresh">تحديث الموقع</string>
+    <string name="choose_city">اختيار المدينة يدويًا</string>
+    <string name="search_city">المدينة أو البلدة</string>
+    <string name="city_search_hint">ابحث عن مدينة أو بلدة. قد تحتاج خدمة تحديد الأماكن في Android إلى الإنترنت.</string>
+    <string name="search_city_action">البحث عن المدينة</string>
+    <string name="city_not_found">لم نعثر على مكان مطابق. تحقق من كتابة الاسم أو الاتصال ثم حاول مجددًا.</string>
+    <string name="choose_city_result_hint">استخدم إحداثيات هذه المدينة لمواقيت الصلاة والقبلة</string>
+    <string name="location_city_unavailable">تعذر تحديد اسم المدينة. يمكنك اختيار المدينة يدويًا.</string>
+    <string name="location_manual_accuracy">تُستخدم إحداثيات مركز المدينة المختارة؛ وهي أقل دقة من GPS الجهاز.</string>
+    <string name="use_device_location">استخدام موقع الجهاز</string>
+    <string name="location_timezone_fallback">تعذر تحديد المنطقة الزمنية للمدينة؛ تُستخدم منطقة الجهاز مؤقتًا.</string>
     <string name="location_refreshing">جارٍ البحث عن موقع أدق…</string>
     <string name="location_accuracy">دقة الموقع ±%1$d متر</string>
     <string name="location_accuracy_approximate">الموقع تقريبي (±%1$d متر). فعّل الموقع الدقيق لتحسين مواقيت الصلاة والقبلة.</string>

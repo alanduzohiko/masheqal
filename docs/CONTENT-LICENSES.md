@@ -55,3 +55,11 @@ The app provides a separate adhan-recording selector (distinct from the Quran re
 - **Community Adhan:** [Wikimedia Commons — File:Muslim_calling_to_prayer.ogg](https://commons.wikimedia.org/wiki/File:Muslim_calling_to_prayer.ogg), author Aishatu98.
 
 Both recordings are released under CC0 1.0 Universal. `tools/fetch_adhan.py` verifies the live Commons license metadata, expected media host, MIME type, file size, upstream SHA-1, and the generated local SHA-256 on each CI build. It records individual manifests and fails closed if any condition changes. The selected recording is saved locally and is used for adhan previews and prayer reminders; sunrise alerts do not invoke the adhan.
+
+
+## Offline time-zone lookup
+
+- **Library:** `net.iakovlev:timeshape:2026b.29`; application code is MIT-licensed by the upstream project.
+- **Boundary data:** based on timezone-boundary-builder / OpenStreetMap data and distributed under the Open Data Commons Open Database License (ODbL) 1.0.
+- **Runtime behavior:** coordinates are resolved on-device against the bundled geographic data; the app does not send coordinates to a third-party time-zone API. The resolver is cached in process and the selected IANA zone ID is stored with prayer reminder configuration for rescheduling.
+- **Fallback:** if offline engine initialization or lookup fails, the app temporarily uses the device time zone and exposes a notice. The source and license must remain acknowledged in release packaging.

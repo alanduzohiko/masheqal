@@ -21,7 +21,7 @@ object PrayerNotificationScheduler {
     private const val CHANNEL = "prayer"
     private const val CHANNEL_ADHAN = "prayer_adhan"
 
-    fun scheduleToday(context: Context, times: PrayerTimes) {
+    fun scheduleToday(context: Context, times: PrayerTimes, zoneId: ZoneId = configuredZone(context)) {
         val manager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         for (index in 0..5) {
             val existingIntent = Intent(context, PrayerAlarmReceiver::class.java)
@@ -40,12 +40,13 @@ object PrayerNotificationScheduler {
         )
         context.getSharedPreferences(PREF, Context.MODE_PRIVATE).edit()
             .putString("date", times.date.toString())
+            .putString("timeZoneId", zoneId.id)
             .apply()
 
         values.forEachIndexed { index, minutes ->
             if (!minutes.isFinite()) return@forEachIndexed
             val fireAt = PrayerCalculator
-                .instantForLocalPrayerMinute(times.date, minutes, ZoneId.systemDefault())
+                .instantForLocalPrayerMinute(times.date, minutes, zoneId)
                 .toEpochMilli()
             if (fireAt <= System.currentTimeMillis()) return@forEachIndexed
 
@@ -96,8 +97,8 @@ object PrayerNotificationScheduler {
         val madhhab = runCatching {
             AsrMadhhab.valueOf(preferences.getString("madhhab", "SHAFI")!!)
         }.getOrDefault(AsrMadhhab.SHAFI)
-        val zone = ZoneId.systemDefault()
-        val today = LocalDate.now()
+        val zone = configuredZone(context)
+        val today = LocalDate.now(zone)
         val offset = today.atStartOfDay(zone).offset.totalSeconds / 3600.0
         scheduleToday(
             context,
@@ -107,7 +108,8 @@ object PrayerNotificationScheduler {
                 method,
                 madhhab,
                 zoneId = zone
-            )
+            ),
+            zone
         )
     }
 
@@ -116,14 +118,22 @@ object PrayerNotificationScheduler {
         lat: Double,
         lon: Double,
         method: PrayerMethod,
-        madhhab: AsrMadhhab
+        madhhab: AsrMadhhab,
+        zoneId: ZoneId = ZoneId.systemDefault()
     ) {
         context.getSharedPreferences(PREF, Context.MODE_PRIVATE).edit()
             .putString("lat", lat.toString())
             .putString("lon", lon.toString())
             .putString("method", method.name)
             .putString("madhhab", madhhab.name)
+            .putString("timeZoneId", zoneId.id)
             .apply()
+    }
+
+    private fun configuredZone(context: Context): ZoneId {
+        val name = context.getSharedPreferences(PREF, Context.MODE_PRIVATE)
+            .getString("timeZoneId", null)
+        return name?.let { runCatching { ZoneId.of(it) }.getOrNull() } ?: ZoneId.systemDefault()
     }
 
     fun createChannel(context: Context) {

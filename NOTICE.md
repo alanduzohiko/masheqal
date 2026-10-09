@@ -10,3 +10,8 @@ Upstream maintainer: Seiied-Mohammad-Javad Razavian.
 
 ## Source code
 Original مەشخەڵ source code in this repository is licensed under Apache-2.0 as declared by `LICENSE`. Third-party data and font licensing above remain separate.
+
+
+## Time-zone boundary data
+
+The app bundles Timeshape (`net.iakovlev:timeshape:2026b.29`) for offline coordinate-to-time-zone lookup. Its code is MIT-licensed; the bundled time-zone boundary data derives from timezone-boundary-builder / OpenStreetMap and is licensed under ODbL 1.0. See `docs/CONTENT-LICENSES.md`.

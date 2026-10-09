@@ -22,6 +22,9 @@ import com.masheqal.app.MasheqalApp
 import com.masheqal.app.R
 import com.masheqal.app.domain.*
 import com.masheqal.app.util.LocationUtils
+import com.masheqal.app.util.LocationChoiceStore
+import com.masheqal.app.util.PlaceLookup
+import com.masheqal.app.util.PrayerTimeZoneResolver
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -39,26 +42,66 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
     val reading by app.personal.reading.collectAsState(initial = com.masheqal.app.data.ReadingPosition())
     val khatmah by app.personal.khatmah.collectAsState(initial = com.masheqal.app.data.KhatmahState())
     val settings by app.settings.state.collectAsState(initial = com.masheqal.app.data.SettingsState())
-    var location by remember { mutableStateOf(LocationUtils.lastKnown(context)) }
+    var location by remember { mutableStateOf(LocationChoiceStore.loadManual(context) ?: LocationUtils.lastKnown(context)) }
+    var placeLabel by remember { mutableStateOf(location?.placeName) }
+    var prayerZone by remember { mutableStateOf(ZoneId.systemDefault()) }
+    var timezoneLookupFailed by remember { mutableStateOf(false) }
     var today by remember { mutableStateOf(LocalDate.now()) }
     var prayerTimes by remember { mutableStateOf<PrayerTimes?>(null) }
     var tomorrowFajr by remember { mutableStateOf<Double?>(null) }
 
     LaunchedEffect(Unit) {
-        location = LocationUtils.lastKnown(context)
+        val manual = LocationChoiceStore.loadManual(context)
+        if (manual != null) {
+            location = manual
+        } else {
+            location = LocationUtils.lastKnown(context)
+            // Refresh once on screen entry; never track movement in the background.
+            val liveLocation = runCatching { LocationUtils.current(context) }.getOrNull()
+            if (LocationChoiceStore.loadManual(context) == null && liveLocation != null) {
+                location = liveLocation
+            }
+        }
     }
 
-    LaunchedEffect(Unit) {
-        // Update once after showing the cached fix; never track movement in the background.
-        val liveLocation = runCatching { LocationUtils.current(context) }.getOrNull()
-        if (liveLocation != null) location = liveLocation
+    LaunchedEffect(location?.latitude, location?.longitude, location?.placeName) {
+        val current = location
+        placeLabel = current?.placeName
+        if (current != null && current.placeName.isNullOrBlank()) {
+            placeLabel = runCatching {
+                PlaceLookup.reverseGeocode(context, current.latitude, current.longitude)?.displayName
+            }.getOrNull()
+        }
+    }
+
+    LaunchedEffect(location?.latitude, location?.longitude) {
+        val current = location
+        if (current == null) {
+            prayerZone = ZoneId.systemDefault()
+            timezoneLookupFailed = false
+        } else {
+            val resolvedZone = runCatching {
+                PrayerTimeZoneResolver.resolve(current.latitude, current.longitude)
+            }.getOrNull()
+            if (resolvedZone != null) {
+                prayerZone = resolvedZone
+                timezoneLookupFailed = false
+                val localDate = LocalDate.now(resolvedZone)
+                if (today != localDate) today = localDate
+            } else {
+                prayerZone = ZoneId.systemDefault()
+                timezoneLookupFailed = true
+                val fallbackDate = LocalDate.now(prayerZone)
+                if (today != fallbackDate) today = fallbackDate
+            }
+        }
     }
 
     // Refresh date-dependent dashboard data without requiring the user to reopen the app.
-    LaunchedEffect(Unit) {
+    LaunchedEffect(prayerZone) {
         while (true) {
             delay(30_000L)
-            val currentDate = LocalDate.now()
+            val currentDate = LocalDate.now(prayerZone)
             if (currentDate != today) today = currentDate
         }
     }
@@ -70,9 +113,9 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
         }
     }
 
-    LaunchedEffect(location, settings.prayerMethod, settings.madhhab, today) {
+    LaunchedEffect(location, settings.prayerMethod, settings.madhhab, today, prayerZone) {
         location?.let { c ->
-            val zone = ZoneId.systemDefault()
+            val zone = prayerZone
             val offset = today.atStartOfDay(zone).offset.totalSeconds / 3600.0
             val method = PrayerMethod.valueOf(settings.prayerMethod)
             val madhhab = AsrMadhhab.valueOf(settings.madhhab)
@@ -102,7 +145,7 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
             PrayerCandidate(stringResource(R.string.maghrib), p.maghrib),
             PrayerCandidate(stringResource(R.string.isha), p.isha)
         )
-        val now = ZonedDateTime.now().let { it.hour * 60.0 + it.minute + it.second / 60.0 }
+        val now = ZonedDateTime.now(prayerZone).let { it.hour * 60.0 + it.minute + it.second / 60.0 }
         PrayerCalculator.selectNextPrayer(now, rows.map { it.name to it.minutes }, tomorrowFajr)
             ?.let { PrayerCandidate(it.first, it.second) }
     }
@@ -183,13 +226,13 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
                         }
 
                         if (candidate != null) {
-                            val now = ZonedDateTime.now()
+                            val now = ZonedDateTime.now(prayerZone)
                             var countdown by remember(candidate.name, candidate.minutes) {
                                 mutableStateOf(countdownText(candidate.minutes, now))
                             }
                             LaunchedEffect(candidate.name, candidate.minutes) {
                                 while (true) {
-                                    countdown = countdownText(candidate.minutes, ZonedDateTime.now())
+                                    countdown = countdownText(candidate.minutes, ZonedDateTime.now(prayerZone))
                                     delay(1000)
                                 }
                             }
@@ -210,10 +253,26 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
                             }
                             Spacer(Modifier.height(8.dp))
                             Text(
-                                stringResource(R.string.location_ready),
+                                placeLabel ?: stringResource(R.string.location_city_unavailable),
                                 style = MaterialTheme.typography.bodySmall,
-                                color = Color.White.copy(alpha = 0.72f)
+                                color = Color.White.copy(alpha = 0.88f)
                             )
+                            if (location?.isManual == true) {
+                                Spacer(Modifier.height(3.dp))
+                                Text(
+                                    stringResource(R.string.location_manual_accuracy),
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = Color.White.copy(alpha = 0.72f)
+                                )
+                            }
+                            if (timezoneLookupFailed) {
+                                Spacer(Modifier.height(3.dp))
+                                Text(
+                                    stringResource(R.string.location_timezone_fallback),
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = Color.White.copy(alpha = 0.92f)
+                                )
+                            }
                         } else {
                             Spacer(Modifier.height(10.dp))
                             Text(

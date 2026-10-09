@@ -4,6 +4,7 @@ package com.masheqal.app.ui.screens
 import android.content.Intent
 import androidx.core.content.ContextCompat
 import android.Manifest
+import android.content.pm.PackageManager
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
@@ -31,6 +32,9 @@ import com.masheqal.app.domain.*
 import com.masheqal.app.services.PrayerNotificationScheduler
 import com.masheqal.app.services.QuranPlaybackService
 import com.masheqal.app.util.LocationUtils
+import com.masheqal.app.util.LocationChoiceStore
+import com.masheqal.app.util.PlaceLookup
+import com.masheqal.app.util.PrayerTimeZoneResolver
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -39,7 +43,11 @@ import kotlinx.coroutines.delay
 @Composable
 fun PrayerScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -> Unit) {
     val context = androidx.compose.ui.platform.LocalContext.current
-    var location by remember { mutableStateOf(LocationUtils.lastKnown(context)) }
+    var location by remember { mutableStateOf(LocationChoiceStore.loadManual(context) ?: LocationUtils.lastKnown(context)) }
+    var placeLabel by remember { mutableStateOf(location?.placeName) }
+    var showCityPicker by remember { mutableStateOf(false) }
+    var prayerZone by remember { mutableStateOf(ZoneId.systemDefault()) }
+    var timezoneLookupFailed by remember { mutableStateOf(false) }
     var today by remember { mutableStateOf(LocalDate.now()) }
     var times by remember { mutableStateOf<PrayerTimes?>(null) }
     var tomorrowFajr by remember { mutableStateOf<Double?>(null) }
@@ -50,14 +58,26 @@ fun PrayerScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: ()
     var adhanEnabled by remember { mutableStateOf(PrayerNotificationScheduler.isAdhanEnabled(context)) }
     val adhanPreviewLabel = stringResource(R.string.adhan_preview)
 
-    val refreshLocation: () -> Unit = remember(context, scope) {
-        {
+    val refreshLocation: (Boolean) -> Unit = remember(context, scope) {
+        { useDeviceLocation ->
             scope.launch {
                 isRefreshingLocation = true
                 try {
-                    val live = runCatching { LocationUtils.current(context) }.getOrNull()
-                    location = live ?: LocationUtils.lastKnown(context)
-                    locationRefreshFailed = location == null
+                    if (useDeviceLocation) {
+                        val live = runCatching { LocationUtils.current(context) }.getOrNull()
+                        val cached = live ?: LocationUtils.lastKnown(context)
+                        if (cached != null) {
+                            LocationChoiceStore.clearManual(context)
+                            location = cached
+                            locationRefreshFailed = false
+                        } else {
+                            location = LocationChoiceStore.loadManual(context)
+                            locationRefreshFailed = true
+                        }
+                    } else {
+                        location = LocationChoiceStore.loadManual(context) ?: LocationUtils.lastKnown(context)
+                        locationRefreshFailed = location == null
+                    }
                 } finally {
                     isRefreshingLocation = false
                 }
@@ -72,31 +92,78 @@ fun PrayerScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: ()
             grants[Manifest.permission.ACCESS_COARSE_LOCATION] == true ||
             grants[Manifest.permission.ACCESS_FINE_LOCATION] == true
         ) {
-            refreshLocation()
+            refreshLocation(true)
         } else {
-            location = LocationUtils.lastKnown(context)
+            location = LocationChoiceStore.loadManual(context) ?: LocationUtils.lastKnown(context)
             locationRefreshFailed = location == null
         }
     }
 
+    fun requestDeviceLocation() {
+        val hasPermission =
+            ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+        if (hasPermission) {
+            refreshLocation(true)
+        } else {
+            permissionLauncher.launch(
+                arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
+            )
+        }
+    }
+
     LaunchedEffect(Unit) {
-        // Refresh stale cached coordinates when entering the prayer screen; do not track in background.
-        refreshLocation()
+        // Preserve a selected city; only get a GPS fix when no manual place has been saved.
+        val manual = LocationChoiceStore.loadManual(context)
+        if (manual != null) location = manual else refreshLocation(true)
+    }
+
+    LaunchedEffect(location?.latitude, location?.longitude, location?.placeName) {
+        val current = location
+        placeLabel = current?.placeName
+        if (current != null && current.placeName.isNullOrBlank()) {
+            placeLabel = runCatching {
+                PlaceLookup.reverseGeocode(context, current.latitude, current.longitude)?.displayName
+            }.getOrNull()
+        }
+    }
+
+    LaunchedEffect(location?.latitude, location?.longitude) {
+        val current = location
+        if (current == null) {
+            prayerZone = ZoneId.systemDefault()
+            timezoneLookupFailed = false
+        } else {
+            val resolvedZone = runCatching {
+                PrayerTimeZoneResolver.resolve(current.latitude, current.longitude)
+            }.getOrNull()
+            if (resolvedZone != null) {
+                prayerZone = resolvedZone
+                timezoneLookupFailed = false
+                val localDate = LocalDate.now(resolvedZone)
+                if (today != localDate) today = localDate
+            } else {
+                prayerZone = ZoneId.systemDefault()
+                timezoneLookupFailed = true
+                val fallbackDate = LocalDate.now(prayerZone)
+                if (today != fallbackDate) today = fallbackDate
+            }
+        }
     }
 
     // Keep the displayed schedule current when the app remains open across midnight.
-    LaunchedEffect(Unit) {
+    LaunchedEffect(prayerZone) {
         while (true) {
             delay(30_000L)
-            val currentDate = LocalDate.now()
+            val currentDate = LocalDate.now(prayerZone)
             if (currentDate != today) today = currentDate
         }
     }
 
-    LaunchedEffect(location, settings.prayerMethod, settings.madhhab, today) {
+    LaunchedEffect(location, settings.prayerMethod, settings.madhhab, today, prayerZone) {
         location?.let { c ->
-            val zone = ZoneId.systemDefault()
-            val offset = ZonedDateTime.now(zone).offset.totalSeconds / 3600.0
+            val zone = prayerZone
+            val offset = today.atStartOfDay(zone).offset.totalSeconds / 3600.0
             val method = PrayerMethod.valueOf(settings.prayerMethod)
             val madhhab = AsrMadhhab.valueOf(settings.madhhab)
             val coordinates = Coordinates(c.latitude, c.longitude, offset)
@@ -125,7 +192,8 @@ fun PrayerScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: ()
                 c.latitude,
                 c.longitude,
                 method,
-                madhhab
+                madhhab,
+                zone
             )
         }
     }
@@ -175,7 +243,7 @@ fun PrayerScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: ()
                 }
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     IconButton(
-                        onClick = { refreshLocation() },
+                        onClick = { requestDeviceLocation() },
                         enabled = !isRefreshingLocation
                     ) {
                         if (isRefreshingLocation) {
@@ -216,14 +284,7 @@ fun PrayerScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: ()
                         )
                         Spacer(Modifier.height(14.dp))
                         Button(
-                            onClick = {
-                                permissionLauncher.launch(
-                                    arrayOf(
-                                        Manifest.permission.ACCESS_COARSE_LOCATION,
-                                        Manifest.permission.ACCESS_FINE_LOCATION
-                                    )
-                                )
-                            },
+                            onClick = { requestDeviceLocation() },
                             enabled = !isRefreshingLocation
                         ) {
                             if (isRefreshingLocation) {
@@ -233,6 +294,9 @@ fun PrayerScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: ()
                             } else {
                                 Text(stringResource(R.string.set_location))
                             }
+                        }
+                        TextButton(onClick = { showCityPicker = true }) {
+                            Text(stringResource(R.string.choose_city))
                         }
                     }
                 }
@@ -268,11 +332,11 @@ fun PrayerScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: ()
                             if (next != null) {
                                 Spacer(Modifier.width(12.dp))
                                 var countdown by remember(next.first, next.second) {
-                                    mutableStateOf(countdownText(next.second))
+                                    mutableStateOf(countdownText(next.second, prayerZone))
                                 }
                                 LaunchedEffect(next.first, next.second) {
                                     while (true) {
-                                        countdown = countdownText(next.second)
+                                        countdown = countdownText(next.second, prayerZone)
                                         delay(1000)
                                     }
                                 }
@@ -285,15 +349,36 @@ fun PrayerScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: ()
                         }
                         Spacer(Modifier.height(6.dp))
                         Text(
-                            stringResource(
-                                if (location!!.isPrecise) R.string.location_accuracy
-                                else R.string.location_accuracy_approximate,
-                                location!!.accuracyMeters.toInt().coerceAtLeast(1)
-                            ),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = if (location!!.isPrecise) MaterialTheme.colorScheme.onSurfaceVariant
-                            else MaterialTheme.colorScheme.error
+                            placeLabel ?: stringResource(R.string.location_city_unavailable),
+                            style = MaterialTheme.typography.titleSmall,
+                            color = MaterialTheme.colorScheme.onPrimaryContainer
                         )
+                        Spacer(Modifier.height(4.dp))
+                        if (location!!.isManual) {
+                            Text(
+                                stringResource(R.string.location_manual_accuracy),
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        } else {
+                            Text(
+                                stringResource(
+                                    if (location!!.isPrecise) R.string.location_accuracy
+                                    else R.string.location_accuracy_approximate,
+                                    location!!.accuracyMeters.toInt().coerceAtLeast(1)
+                                ),
+                                style = MaterialTheme.typography.bodySmall,
+                                color = if (location!!.isPrecise) MaterialTheme.colorScheme.onSurfaceVariant
+                                else MaterialTheme.colorScheme.error
+                            )
+                        }
+                        if (timezoneLookupFailed) {
+                            Text(
+                                stringResource(R.string.location_timezone_fallback),
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.error
+                            )
+                        }
                         if (locationRefreshFailed) {
                             Text(
                                 stringResource(R.string.location_refresh_failed),
@@ -315,13 +400,26 @@ fun PrayerScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: ()
                                     c.latitude,
                                     c.longitude,
                                     PrayerMethod.valueOf(settings.prayerMethod),
-                                    AsrMadhhab.valueOf(settings.madhhab)
+                                    AsrMadhhab.valueOf(settings.madhhab),
+                                    prayerZone
                                 )
-                                PrayerNotificationScheduler.scheduleToday(context, times!!)
+                                PrayerNotificationScheduler.scheduleToday(context, times!!, prayerZone)
                             }) {
                                 Icon(Icons.Default.NotificationsActive, null)
                                 Spacer(Modifier.width(6.dp))
                                 Text(stringResource(R.string.schedule_reminders))
+                            }
+                        }
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            TextButton(onClick = { showCityPicker = true }) {
+                                Text(stringResource(R.string.choose_city))
+                            }
+                            TextButton(onClick = { requestDeviceLocation() }) {
+                                Text(stringResource(R.string.use_device_location))
                             }
                         }
                     }
@@ -431,6 +529,18 @@ fun PrayerScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: ()
             }
         }
     }
+
+    if (showCityPicker) {
+        CityPickerDialog(
+            onDismiss = { showCityPicker = false },
+            onPlaceSelected = { selected ->
+                location = LocationChoiceStore.saveManual(context, selected)
+                placeLabel = selected.displayName
+                locationRefreshFailed = false
+                showCityPicker = false
+            }
+        )
+    }
 }
 
 private fun formatMinutes(v: Double): String {
@@ -438,8 +548,8 @@ private fun formatMinutes(v: Double): String {
     return "%02d:%02d".format((total / 60) % 24, total % 60)
 }
 
-private fun countdownText(target: Double): String {
-    val now = ZonedDateTime.now()
+private fun countdownText(target: Double, zoneId: ZoneId = ZoneId.systemDefault()): String {
+    val now = ZonedDateTime.now(zoneId)
     val current = now.hour * 60.0 + now.minute + now.second / 60.0
     var diff = target - current
     if (diff <= 0) diff += 1440.0
