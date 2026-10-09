@@ -81,6 +81,52 @@ assert hashlib.sha256(adhkar_license_path.read_bytes()).hexdigest() == adhkar_ma
 assert "MIT License" in adhkar_license_path.read_text(encoding="utf-8")
 assert "Copyright (c) 2024 Seen Arabic" in adhkar_license_path.read_text(encoding="utf-8")
 
+# Extended daily adhkar / Dua collection from two MIT-licensed sources.
+all_adhkar_path = CONTENT / "adhkar_all.json"
+all_manifest_path = CONTENT / "adhkar_all_manifest.json"
+all_licenses_path = CONTENT / "adhkar_all_source_LICENSES.txt"
+assert all_adhkar_path.is_file(), "combined daily adhkar content was not generated"
+assert all_manifest_path.is_file(), "combined daily adhkar manifest is missing"
+assert all_licenses_path.is_file(), "full source licenses must be distributed with combined content"
+all_adhkar = load("adhkar_all.json")
+all_manifest = load("adhkar_all_manifest.json")
+all_licenses = all_licenses_path.read_text(encoding="utf-8")
+assert len(all_adhkar) == 82, f"Expected 82 source-attributed adhkar/dua records, got {len(all_adhkar)}"
+assert [row.get("order") for row in all_adhkar] == list(range(1, 83)), "Combined adhkar ids must be unique and contiguous"
+allowed_adhkar_categories = {
+    "morning_evening", "morning", "evening", "after_prayer", "sleep", "wake_up",
+    "bathroom", "food", "mosque", "wudu", "fasting", "home", "travel", "clothing",
+    "weather", "protection", "general"
+}
+for row in all_adhkar:
+    order = row.get("order")
+    assert row.get("categoryId") in allowed_adhkar_categories, f"Invalid adhkar category at {order}"
+    assert isinstance(row.get("arabic"), str) and row["arabic"].strip(), f"Missing Arabic dhikr at {order}"
+    assert isinstance(row.get("translationEn"), str) and row["translationEn"].strip(), f"Missing English meaning at {order}"
+    assert isinstance(row.get("sourceEn"), str) and row["sourceEn"].strip(), f"Missing reference at adhkar order {order}"
+    assert isinstance(row.get("repeatCount"), int) and 1 <= row["repeatCount"] <= 1000, f"Invalid repeat count at {order}"
+    assert row.get("type") in (0, 1, 2, 3), f"Invalid type at adhkar order {order}"
+assert all_manifest.get("source") == "Combined licensed adhkar datasets"
+assert all_manifest.get("license") == "MIT (both source datasets)"
+assert all_manifest.get("recordCount") == len(all_adhkar)
+assert all_manifest.get("languageCoverage") == ["Arabic", "English"]
+assert all_manifest.get("soraniTranslationIncluded") is False, "Do not mislabel English meanings as Sorani"
+assert all_manifest.get("scholarReviewStatus") == "pending", "Independent religious review status must remain explicit"
+assert hashlib.sha256(all_adhkar_path.read_bytes()).hexdigest() == all_manifest.get("contentSha256")
+assert hashlib.sha256(all_licenses_path.read_bytes()).hexdigest() == all_manifest.get("licenseSha256")
+assert "Copyright (c) 2024 Seen Arabic" in all_licenses
+assert "Copyright (c) 2023 Fitrahive" in all_licenses
+assert all_manifest.get("sourceRef", "").endswith("f42f895f914319a844c3e3c2279483cae060ea19")
+source_rows = all_manifest.get("sources", [])
+assert len(source_rows) == 2
+assert source_rows[0].get("source") == "Seen-Arabic/Morning-And-Evening-Adhkar-DB"
+assert source_rows[0].get("license") == "MIT"
+assert source_rows[1].get("source") == "fitrahive/dua-dhikr"
+assert source_rows[1].get("license") == "MIT"
+assert source_rows[1].get("sourceRef") == "f42f895f914319a844c3e3c2279483cae060ea19"
+skipped_no_reference = {row.get("title") for row in all_manifest.get("skippedRecords", [])}
+assert skipped_no_reference == {"Tasbih", "Tahmid", "Takbir"}, "Do not silently add source-less adhkar"
+
 # Adhan audio must be fetched from Commons only after the publisher's CC0 metadata is checked.
 adhan_path = RES / "raw" / "adhan.ogg"
 adhan_manifest_path = CONTENT / "adhan_audio_manifest.json"
