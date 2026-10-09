@@ -56,4 +56,12 @@
     <string name="adhkar_count_one">تسجيل +1</string>
     <string name="adhkar_load_error">تعذّر تحميل حزمة الأذكار. حاول مرة أخرى.</string>
     <string name="adhkar_retry">إعادة المحاولة</string>
+    <string name="quran_translation_source_title">مصدر الترجمة السورانية وتغطيتها</string>
+    <string name="quran_translation_source_unavailable">تعذّر قراءة بيانات مصدر الترجمة.</string>
+    <string name="quran_translation_translator">المترجم</string>
+    <string name="quran_translation_publisher">الناشر</string>
+    <string name="quran_translation_version">إصدار المصدر</string>
+    <string name="quran_translation_updated">تاريخ تحديث المصدر</string>
+    <string name="quran_translation_covered_verses">الآيات التي تتوفر لها ترجمة</string>
+    <string name="quran_translation_missing_verses">الآيات التي تفتقر إلى ترجمة</string>
 </resources>
