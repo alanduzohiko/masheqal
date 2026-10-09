@@ -4,11 +4,19 @@ package com.masheqal.app.ui
 import android.content.Intent
 import android.content.ComponentName
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.core.content.ContextCompat
 import androidx.media3.common.MediaItem
@@ -36,6 +44,7 @@ import androidx.navigation.navArgument
 import com.masheqal.app.MasheqalApp
 import com.masheqal.app.R
 import com.masheqal.app.ui.screens.*
+import kotlinx.coroutines.delay
 
 private data class NavItem(
     val route: String,
@@ -63,7 +72,14 @@ fun MasheqalRoot(
     val current by nav.currentBackStackEntryAsState()
     val baseRoute = (current?.destination?.route ?: "home").substringBefore("/")
     val showBar = items.any { it.route == baseRoute }
+    var showBrandIntro by remember { mutableStateOf(true) }
 
+    LaunchedEffect(Unit) {
+        delay(1_450L)
+        showBrandIntro = false
+    }
+
+    Box(Modifier.fillMaxSize()) {
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
         bottomBar = {
@@ -176,6 +192,15 @@ fun MasheqalRoot(
             composable("calendar") { CalendarScreen(nav) }
         }
     }
+    AnimatedVisibility(
+        visible = showBrandIntro,
+        enter = fadeIn(animationSpec = tween(260)),
+        exit = fadeOut(animationSpec = tween(380)),
+        modifier = Modifier.fillMaxSize()
+    ) {
+        BrandIntro()
+    }
+    }
 
     LaunchedEffect(intent) {
         val uri = intent?.data
@@ -205,6 +230,95 @@ fun MasheqalRoot(
     }
 }
 
+
+
+
+@Composable
+private fun BrandIntro() {
+    var revealed by remember { mutableStateOf(false) }
+    LaunchedEffect(Unit) { revealed = true }
+
+    val logoScale by animateFloatAsState(
+        targetValue = if (revealed) 1f else 0.78f,
+        animationSpec = tween(720),
+        label = "brand-logo-scale"
+    )
+    val haloScale by animateFloatAsState(
+        targetValue = if (revealed) 1f else 0.86f,
+        animationSpec = tween(980),
+        label = "brand-halo-scale"
+    )
+    val logoAlpha by animateFloatAsState(
+        targetValue = if (revealed) 1f else 0.15f,
+        animationSpec = tween(600),
+        label = "brand-logo-alpha"
+    )
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFF082B24))
+            .clickable(onClick = {}),
+        contentAlignment = Alignment.Center
+    ) {
+        Box(
+            modifier = Modifier
+                .size(270.dp)
+                .scale(haloScale)
+                .border(1.dp, Color(0x55D6B66E), CircleShape)
+        )
+        Box(
+            modifier = Modifier
+                .size(224.dp)
+                .scale(haloScale)
+                .border(1.dp, Color(0x3376B6A0), CircleShape)
+        )
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Box(contentAlignment = Alignment.Center) {
+                Box(
+                    Modifier
+                        .size(172.dp)
+                        .background(Color(0x1AD6B66E), CircleShape)
+                        .border(1.dp, Color(0x66D6B66E), CircleShape)
+                )
+                Icon(
+                    painter = painterResource(R.drawable.ic_masheqal),
+                    contentDescription = null,
+                    tint = Color.Unspecified,
+                    modifier = Modifier
+                        .size(118.dp)
+                        .graphicsLayer {
+                            scaleX = logoScale
+                            scaleY = logoScale
+                            alpha = logoAlpha
+                        }
+                )
+            }
+            Spacer(Modifier.height(22.dp))
+            Text(
+                text = androidx.compose.ui.res.stringResource(R.string.app_name),
+                style = MaterialTheme.typography.displaySmall,
+                color = Color(0xFFFFF8E9),
+                fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold
+            )
+            Spacer(Modifier.height(8.dp))
+            Text(
+                text = androidx.compose.ui.res.stringResource(R.string.brand_tagline),
+                style = MaterialTheme.typography.bodyMedium,
+                color = Color(0xFFD6B66E)
+            )
+            Spacer(Modifier.height(30.dp))
+            LinearProgressIndicator(
+                modifier = Modifier.width(88.dp),
+                color = Color(0xFFD6B66E),
+                trackColor = Color(0x3376B6A0)
+            )
+        }
+    }
+}
 
 @androidx.annotation.OptIn(markerClass = [androidx.media3.common.util.UnstableApi::class])
 @Composable
