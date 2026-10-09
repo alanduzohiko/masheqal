@@ -84,9 +84,9 @@ class QuranPlaybackService : MediaSessionService() {
         const val ACTION_PLAY_ADHAN = "com.masheqal.app.action.PLAY_ADHAN"
         const val EXTRA_PRAYER_NAME = "com.masheqal.app.extra.PRAYER_NAME"
         const val EXTRA_ADHAN_VOICE_ID = "com.masheqal.app.extra.ADHAN_VOICE_ID"
-        const ADHAN_PREFERENCES = "masheqal_adhan_preferences"
-        const ADHAN_VOICE_KEY = "voice"
-        const DEFAULT_ADHAN_VOICE = "beautiful_adhan"
-        const ADHAN_VOICE_COMMUNITY = "community_adhan"
+        const val ADHAN_PREFERENCES = "masheqal_adhan_preferences"
+        const val ADHAN_VOICE_KEY = "voice"
+        const val DEFAULT_ADHAN_VOICE = "beautiful_adhan"
+        const val ADHAN_VOICE_COMMUNITY = "community_adhan"
     }
 }
