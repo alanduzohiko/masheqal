@@ -157,7 +157,7 @@ fun MasheqalRoot(
                 "quran/surah/{surah}",
                 arguments = listOf(navArgument("surah") { type = NavType.IntType })
             ) { back ->
-                QuranReaderScreen(app, nav, back.arguments?.getInt("surah") ?: 1, 1)
+                QuranReferencePageRoute(app, nav, back.arguments?.getInt("surah") ?: 1, 1)
             }
             composable(
                 "quran/ref/{surah}/{ayah}",
@@ -166,7 +166,7 @@ fun MasheqalRoot(
                     navArgument("ayah") { type = NavType.IntType }
                 )
             ) { back ->
-                QuranReaderScreen(
+                QuranReferencePageRoute(
                     app,
                     nav,
                     back.arguments?.getInt("surah") ?: 1,

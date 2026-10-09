@@ -218,3 +218,58 @@ fun QuranPageScreen(app: MasheqalApp, nav: NavHostController, page: Int) {
         }
     }
 }
+
+
+/**
+ * Compatibility entry point for saved references, external search results and older deep links.
+ * It resolves the reference into the actual page of the pinned Mushaf rather than opening the
+ * legacy verse-card reader.
+ */
+@Composable
+fun QuranReferencePageRoute(
+    app: MasheqalApp,
+    nav: NavHostController,
+    surah: Int,
+    ayah: Int
+) {
+    var page by remember(surah, ayah) { mutableIntStateOf(0) }
+    var failed by remember(surah, ayah) { mutableStateOf(false) }
+    var retry by remember(surah, ayah) { mutableIntStateOf(0) }
+
+    LaunchedEffect(surah, ayah, retry) {
+        page = 0
+        failed = false
+        val result = runCatching {
+            val safeSurah = surah.coerceIn(1, 114)
+            val surahVerses = app.quran.versesOfSurah(safeSurah)
+            val targetAyah = surahVerses.firstOrNull { it.ayah == ayah } ?: surahVerses.firstOrNull()
+                ?: error("Quran surah data is unavailable")
+            app.quran.pageForVerse(safeSurah, targetAyah.ayah).coerceIn(1, 604)
+        }
+        result.onSuccess { page = it }.onFailure { failed = true }
+    }
+
+    if (page in 1..604) {
+        QuranPageScreen(app, nav, page)
+    } else {
+        Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            if (failed) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                    modifier = Modifier.padding(24.dp)
+                ) {
+                    Text(
+                        stringResource(R.string.mushaf_load_error),
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                    Button(onClick = { retry++ }) {
+                        Text(stringResource(R.string.retry))
+                    }
+                }
+            } else {
+                CircularProgressIndicator()
+            }
+        }
+    }
+}
