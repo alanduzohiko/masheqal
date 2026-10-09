@@ -22,4 +22,11 @@
     <string name="prayer_notification_channel">تنبيهات الصلاة</string>
     <string name="keep_screen_awake">إبقاء الشاشة قيد التشغيل</string>
     <string name="resume">استئناف</string>
+    <string name="mushaf_mode">صفحة المصحف</string>
+    <string name="text_mode">القراءة النصية</string>
+    <string name="mushaf_edition">مصحف المدينة · رواية حفص</string>
+    <string name="mushaf_loading">جارٍ تحميل صفحة المصحف…</string>
+    <string name="mushaf_load_error">تعذر تحميل الصفحة. اتصل بالإنترنت أو انتقل إلى القراءة النصية.</string>
+    <string name="mushaf_saved_offline">حُفظت الصفحة للقراءة دون إنترنت</string>
+    <string name="mushaf_available_offline">متاحة دون إنترنت</string>
 </resources>
