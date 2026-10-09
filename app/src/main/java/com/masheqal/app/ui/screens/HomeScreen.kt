@@ -48,6 +48,12 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
         location = LocationUtils.lastKnown(context)
     }
 
+    LaunchedEffect(Unit) {
+        // Update once after showing the cached fix; never track movement in the background.
+        val liveLocation = runCatching { LocationUtils.current(context) }.getOrNull()
+        if (liveLocation != null) location = liveLocation
+    }
+
     // Refresh date-dependent dashboard data without requiring the user to reopen the app.
     LaunchedEffect(Unit) {
         while (true) {
