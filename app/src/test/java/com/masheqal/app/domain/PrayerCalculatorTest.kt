@@ -123,6 +123,19 @@ class PrayerCalculatorTest {
             .onSuccess { throw AssertionError("An invalid UTC offset was accepted") }
     }
     @Test
+    fun qiblaDistanceIsZeroAtKaabaAndPlausibleFromSulaymaniyah() {
+        assertEquals(0.0, QiblaCalculator.distanceFromKm(21.422487, 39.826206), 0.001)
+        val sulaymaniyahDistance = QiblaCalculator.distanceFromKm(35.56, 45.43)
+        assertTrue(sulaymaniyahDistance in 1_000.0..3_000.0)
+    }
+
+    @Test
+    fun qiblaDistanceRejectsInvalidCoordinates() {
+        runCatching { QiblaCalculator.distanceFromKm(91.0, 45.0) }
+            .onSuccess { throw AssertionError("Invalid Qibla distance latitude was accepted") }
+    }
+
+    @Test
     fun qiblaDirectionConvertsMagneticHeadingToTrueNorthAndWrapsAtNorth() {
         assertEquals(
             -10.0,
