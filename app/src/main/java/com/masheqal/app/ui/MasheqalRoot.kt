@@ -60,6 +60,13 @@ fun MasheqalRoot(
     onRequestLocation: () -> Unit,
     onLanguage: (String) -> Unit
 ) {
+    val context = LocalContext.current
+    val startDestination = remember {
+        if (
+            context.getSharedPreferences("masheqal_onboarding", android.content.Context.MODE_PRIVATE)
+                .getBoolean("complete", false)
+        ) "home" else "onboarding"
+    }
     val nav = rememberNavController()
     val isRtl = LocalLayoutDirection.current == LayoutDirection.Rtl
     val items = listOf(
@@ -111,7 +118,7 @@ fun MasheqalRoot(
     ) { padding ->
         NavHost(
             navController = nav,
-            startDestination = "home",
+            startDestination = startDestination,
             modifier = Modifier.padding(padding),
             enterTransition = {
                 fadeIn(animationSpec = tween(220)) +
@@ -142,6 +149,7 @@ fun MasheqalRoot(
                     )
             }
         ) {
+            composable("onboarding") { OnboardingScreen(app, nav, onLanguage) }
             composable("home") { HomeScreen(app, nav, onRequestLocation) }
             composable("audio") { QuranAudioScreen(app, nav) }
             composable("quran") { QuranScreen(app, nav) }
