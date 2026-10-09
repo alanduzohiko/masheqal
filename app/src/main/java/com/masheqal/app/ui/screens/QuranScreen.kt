@@ -15,6 +15,8 @@ import androidx.compose.material.icons.filled.SkipNext
 import androidx.compose.material.icons.filled.SkipPrevious
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.GraphicEq
+import androidx.compose.material.icons.filled.Download
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Headphones
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
@@ -26,6 +28,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import android.content.ComponentName
+import android.content.Context
+import android.net.Uri
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.ui.platform.LocalContext
@@ -38,6 +42,8 @@ import androidx.media3.common.util.UnstableApi
 import androidx.media3.session.MediaController
 import androidx.media3.session.SessionToken
 import com.masheqal.app.data.SurahMeta
+import com.masheqal.app.data.OfflineAudioDownloads
+import com.masheqal.app.data.OfflineAudioStatus
 import com.masheqal.app.services.QuranPlaybackService
 import kotlinx.coroutines.delay
 import java.util.Locale
@@ -318,11 +324,17 @@ object QuranAudioCatalog {
 }
 
 @UnstableApi
-private fun makeAudioQueue(surahs: List<SurahMeta>, edition: String, reciter: String): List<MediaItem> =
-    surahs.map { surah ->
+private fun makeAudioQueue(
+    context: Context,
+    surahs: List<SurahMeta>,
+    edition: String,
+    reciter: String
+): List<MediaItem> = surahs.map { surah ->
+        val local = OfflineAudioDownloads.readyFileOrNull(context, edition, surah.number)
+        val uri = local?.let(Uri::fromFile) ?: Uri.parse(QuranAudioCatalog.surahUrl(surah.number, edition))
         MediaItem.Builder()
             .setMediaId("surah-${surah.number}")
-            .setUri(QuranAudioCatalog.surahUrl(surah.number, edition))
+            .setUri(uri)
             .setMediaMetadata(
                 MediaMetadata.Builder()
                     .setTitle(surah.nameAr)
@@ -344,6 +356,9 @@ private fun audioTime(ms: Long): String {
 @Composable
 fun QuranAudioScreen(app: MasheqalApp, nav: NavHostController) {
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    var downloadRefresh by remember { mutableIntStateOf(0) }
+    var downloadError by remember { mutableStateOf(false) }
     val editions = listOf(
         AudioEdition("ar.alafasy", R.string.reciter_alafasy),
         AudioEdition("ar.husary", R.string.reciter_husary),
@@ -391,8 +406,8 @@ fun QuranAudioScreen(app: MasheqalApp, nav: NavHostController) {
         }
     }
 
-    val queue = remember(surahs, activeEdition, activeReciterName) {
-        makeAudioQueue(surahs, activeEdition.id, activeReciterName)
+    val queue = remember(surahs, activeEdition, activeReciterName, downloadRefresh) {
+        makeAudioQueue(context, surahs, activeEdition.id, activeReciterName)
     }
 
     fun playSurah(number: Int) {
@@ -417,7 +432,7 @@ fun QuranAudioScreen(app: MasheqalApp, nav: NavHostController) {
         val wasPlaying = player?.isPlaying == true
         selectedEdition = edition.id
         if (player != null && oldNumber in 1..114 && surahs.isNotEmpty()) {
-            val newQueue = makeAudioQueue(surahs, edition.id, reciterName)
+            val newQueue = makeAudioQueue(context, surahs, edition.id, reciterName)
             val index = surahs.indexOfFirst { it.number == oldNumber }.coerceAtLeast(0)
             player.setMediaItems(newQueue, index, oldPosition)
             player.prepare()
@@ -572,6 +587,17 @@ fun QuranAudioScreen(app: MasheqalApp, nav: NavHostController) {
                         Text(stringResource(R.string.audio_source_notice),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        if (downloadError) {
+                            Spacer(Modifier.height(8.dp))
+                            Text(
+                                stringResource(R.string.audio_download_failed),
+                                color = MaterialTheme.colorScheme.error,
+                                style = MaterialTheme.typography.bodySmall
+                            )
+                            TextButton(onClick = { downloadError = false }) {
+                                Text(stringResource(R.string.done))
+                            }
+                        }
                         if (connectionFailed || playbackFailed || loadFailed) {
                             Spacer(Modifier.height(8.dp))
                             Text(
@@ -625,8 +651,16 @@ fun QuranAudioScreen(app: MasheqalApp, nav: NavHostController) {
             } else {
                 items(surahs, key = { it.number }) { surah ->
                     val playingThis = currentSurah == surah.number && isPlaying
+                    val offlineStatus = remember(downloadRefresh, activeEdition.id, surah.number) {
+                        OfflineAudioDownloads.status(context, activeEdition.id, surah.number)
+                    }
+                    val downloadDescription = when (offlineStatus) {
+                        OfflineAudioStatus.READY -> stringResource(R.string.audio_downloaded)
+                        OfflineAudioStatus.DOWNLOADING -> stringResource(R.string.audio_downloading)
+                        OfflineAudioStatus.FAILED -> stringResource(R.string.audio_download_failed)
+                        OfflineAudioStatus.NOT_DOWNLOADED -> stringResource(R.string.audio_download)
+                    }
                     Card(
-                        onClick = { playSurah(surah.number) },
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(20.dp),
                         colors = CardDefaults.cardColors(
@@ -635,8 +669,11 @@ fun QuranAudioScreen(app: MasheqalApp, nav: NavHostController) {
                             else MaterialTheme.colorScheme.surfaceVariant
                         )
                     ) {
-                        Row(Modifier.fillMaxWidth().padding(horizontal = 14.dp, vertical = 12.dp),
-                            verticalAlignment = Alignment.CenterVertically) {
+                        Row(
+                            Modifier.fillMaxWidth().clickable { playSurah(surah.number) }
+                                .padding(start = 14.dp, top = 8.dp, bottom = 8.dp, end = 8.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
                             Surface(shape = RoundedCornerShape(12.dp),
                                 color = MaterialTheme.colorScheme.primaryContainer) {
                                 Text(surah.number.toString(),
@@ -650,9 +687,52 @@ fun QuranAudioScreen(app: MasheqalApp, nav: NavHostController) {
                                 Text(surah.nameEn, style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant)
                             }
-                            Icon(if (playingThis) Icons.Default.Pause else Icons.Default.PlayArrow,
+                            IconButton(
+                                enabled = offlineStatus != OfflineAudioStatus.DOWNLOADING &&
+                                    offlineStatus != OfflineAudioStatus.READY,
+                                onClick = {
+                                    downloadError = false
+                                    runCatching {
+                                        OfflineAudioDownloads.enqueue(
+                                            context, activeEdition.id, surah.number,
+                                            surah.nameAr, activeReciterName
+                                        )
+                                    }.onSuccess {
+                                        downloadRefresh++
+                                        scope.launch {
+                                            while (
+                                                OfflineAudioDownloads.status(context, activeEdition.id, surah.number) ==
+                                                OfflineAudioStatus.DOWNLOADING
+                                            ) {
+                                                delay(1000L)
+                                                downloadRefresh++
+                                            }
+                                            downloadRefresh++
+                                            if (
+                                                OfflineAudioDownloads.status(context, activeEdition.id, surah.number) ==
+                                                OfflineAudioStatus.FAILED
+                                            ) downloadError = true
+                                        }
+                                    }.onFailure {
+                                        downloadError = true
+                                    }
+                                }
+                            ) {
+                                when (offlineStatus) {
+                                    OfflineAudioStatus.READY ->
+                                        Icon(Icons.Default.CheckCircle, contentDescription = downloadDescription,
+                                            tint = MaterialTheme.colorScheme.primary)
+                                    OfflineAudioStatus.DOWNLOADING ->
+                                        CircularProgressIndicator(Modifier.size(20.dp), strokeWidth = 2.dp)
+                                    else ->
+                                        Icon(Icons.Default.Download, contentDescription = downloadDescription)
+                                }
+                            }
+                            Icon(
+                                if (playingThis) Icons.Default.Pause else Icons.Default.PlayArrow,
                                 contentDescription = stringResource(R.string.audio_play_surah),
-                                tint = MaterialTheme.colorScheme.primary)
+                                tint = MaterialTheme.colorScheme.primary
+                            )
                         }
                     }
                 }
