@@ -142,6 +142,23 @@ assert adhan_manifest.get("sourceFile") == "File:Beautiful_adhan.ogg"
 assert adhan_manifest.get("license") == "CC0 1.0 Universal"
 assert "publicdomain/zero/1.0" in adhan_manifest.get("licenseUrl", "")
 assert adhan_manifest.get("author") and adhan_manifest.get("byteCount") == len(adhan_bytes)
+
+# The selectable alternate Adhan recording has its own license and checksum manifest.
+community_adhan_path = RES / "raw" / "adhan_community.ogg"
+community_adhan_manifest_path = CONTENT / "adhan_community_manifest.json"
+assert community_adhan_path.is_file(), "alternate CC0 adhan recording was not generated"
+assert community_adhan_manifest_path.is_file(), "alternate adhan provenance manifest is missing"
+community_adhan_manifest = json.loads(community_adhan_manifest_path.read_text(encoding="utf-8"))
+community_adhan_bytes = community_adhan_path.read_bytes()
+assert 0 < len(community_adhan_bytes) <= 2 * 1024 * 1024, "Alternate adhan audio is empty or too large"
+assert hashlib.sha256(community_adhan_bytes).hexdigest() == community_adhan_manifest.get("sha256"), "Alternate adhan SHA-256 mismatch"
+assert hashlib.sha1(community_adhan_bytes).hexdigest() == community_adhan_manifest.get("sha1"), "Alternate adhan SHA-1 mismatch"
+assert community_adhan_manifest.get("source") == "Wikimedia Commons"
+assert community_adhan_manifest.get("sourceFile") == "File:Muslim_calling_to_prayer.ogg"
+assert community_adhan_manifest.get("license") == "CC0 1.0 Universal"
+assert "publicdomain/zero/1.0" in community_adhan_manifest.get("licenseUrl", "")
+assert community_adhan_manifest.get("author") and community_adhan_manifest.get("byteCount") == len(community_adhan_bytes)
+
 for name, expected, key in [("quran_page_ranges.json", 604, "page"), ("quran_juz_ranges.json", 30, "juz")]:
     ranges = load(name)
     assert len(ranges) == expected
