@@ -39,6 +39,11 @@
     <string name="reciter_abdulbasit">عبد الباسط عبد الصمد</string>
     <string name="reciter_ajamy">أحمد بن علي العجمي</string>
     <string name="reciter_hudhaify">علي بن عبدالرحمن الحذيفي</string>
+    <string name="full_adhan_audio">تشغيل الأذان كاملًا عند دخول وقت الصلاة</string>
+    <string name="full_adhan_description">صوت أذان يعمل دون إنترنت للفجر والظهر والعصر والمغرب والعشاء عند تفعيله. لا يُشغّل الأذان عند الشروق.</string>
+    <string name="adhan_preview">معاينة الأذان</string>
+    <string name="adhan_audio_name">صوت الأذان</string>
+    <string name="prayer_adhan_channel">تنبيهات الصلاة مع الأذان</string>
     <string name="audio_source_notice">البث من Al Quran Cloud / Islamic Network. يلزم اتصال بالإنترنت وتبقى حقوق التسجيل لأصحابها.</string>
     <string name="audio_choose_surah">اختر سورة</string>
     <string name="audio_ready">جاهز للاستماع</string>
