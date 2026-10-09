@@ -50,6 +50,36 @@ assert ckb_manifest.get("version") and ckb_manifest.get("lastUpdate"), "Sorani v
 assert ckb_manifest.get("attribution") and ckb_manifest.get("publisher") == "QuranEnc.com", "Sorani publisher attribution is mandatory"
 assert int(ckb_manifest.get("canonicalAyahCount", 0)) == 6236
 assert int(ckb_manifest.get("translatedAyahCount", -1)) == 6236 - len(missing_ckb)
+
+# Licensed morning/evening adhkar integrity and attribution.
+adhkar_path = CONTENT / "adhkar_morning_evening.json"
+adhkar_manifest_path = CONTENT / "adhkar_morning_evening_manifest.json"
+adhkar_license_path = CONTENT / "adhkar_source_LICENSE.txt"
+assert adhkar_path.is_file(), "licensed adhkar dataset was not generated"
+assert adhkar_manifest_path.is_file(), "adhkar provenance manifest is missing"
+assert adhkar_license_path.is_file(), "upstream MIT license must be shipped with the app"
+adhkar = load("adhkar_morning_evening.json")
+adhkar_manifest = load("adhkar_morning_evening_manifest.json")
+assert len(adhkar) == 34, f"Expected 34 pinned adhkar records, got {len(adhkar)}"
+assert [row.get("order") for row in adhkar] == list(range(1, 35)), "Adhkar order must be unique and contiguous"
+for row in adhkar:
+    order = row["order"]
+    assert isinstance(row.get("arabic"), str) and row["arabic"].strip(), f"Missing Arabic dhikr at {order}"
+    assert isinstance(row.get("translationEn"), str) and row["translationEn"].strip(), f"Missing English meaning at {order}"
+    assert isinstance(row.get("sourceAr"), str) and row["sourceAr"].strip(), f"Missing source reference at {order}"
+    assert isinstance(row.get("sourceEn"), str) and row["sourceEn"].strip(), f"Missing English source reference at {order}"
+    assert isinstance(row.get("repeatCount"), int) and 1 <= row["repeatCount"] <= 1000, f"Invalid repeat count at {order}"
+    assert row.get("type") in (0, 1, 2), f"Invalid morning/evening selector at {order}"
+assert adhkar_manifest.get("source") == "Seen-Arabic/Morning-And-Evening-Adhkar-DB"
+assert adhkar_manifest.get("sourceRef") == "v1.0.2", "Adhkar upstream version must remain pinned"
+assert adhkar_manifest.get("license") == "MIT"
+assert adhkar_manifest.get("licenseCopyright") == "Copyright (c) 2024 Seen Arabic"
+assert adhkar_manifest.get("recordCount") == 34
+assert adhkar_manifest.get("soraniTranslationIncluded") is False, "Do not mislabel English meanings as Sorani"
+assert hashlib.sha256(adhkar_path.read_bytes()).hexdigest() == adhkar_manifest.get("contentSha256")
+assert hashlib.sha256(adhkar_license_path.read_bytes()).hexdigest() == adhkar_manifest.get("licenseSha256")
+assert "MIT License" in adhkar_license_path.read_text(encoding="utf-8")
+assert "Copyright (c) 2024 Seen Arabic" in adhkar_license_path.read_text(encoding="utf-8")
 for name, expected, key in [("quran_page_ranges.json", 604, "page"), ("quran_juz_ranges.json", 30, "juz")]:
     ranges = load(name)
     assert len(ranges) == expected
