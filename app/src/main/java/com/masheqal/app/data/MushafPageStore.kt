@@ -4,6 +4,8 @@ import android.content.Context
 import com.caverock.androidsvg.SVG
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import java.io.ByteArrayInputStream
@@ -90,6 +92,37 @@ object MushafPageStore {
 
     fun cachedPageCount(context: Context): Int =
         pageDirectory(context).listFiles()?.count { it.isFile && it.name.endsWith(".svg.gz") } ?: 0
+
+    /** Number of pages with both validly-written SVG and ayah-region cache files present. */
+    fun cachedOfflinePageCount(context: Context): Int = (1..604).count { page ->
+        val svg = svgFile(context, page)
+        val polygons = polygonFile(context, page)
+        svg.isFile && svg.length() in 1..MAX_TRANSFER_BYTES.toLong() &&
+            polygons.isFile && polygons.length() in 1..MAX_POLYGON_TRANSFER_BYTES.toLong()
+    }
+
+    /**
+     * Downloads and validates the complete Hafs/KFQC Mushaf plus the ayah tap maps.
+     * Pages are processed sequentially to avoid loading many large SVGs into memory at once.
+     * Cancellation is checked between page requests; completed pages remain cached if cancelled.
+     */
+    suspend fun downloadAll(
+        context: Context,
+        onProgress: (completedPages: Int, totalPages: Int) -> Unit
+    ): Int {
+        var completed = 0
+        for (page in 1..604) {
+            currentCoroutineContext().ensureActive()
+            val loaded = load(context, page)
+            if (loaded.ayahRegions.isEmpty()) {
+                throw IOException("Ayah-region metadata is unavailable for Mushaf page $page")
+            }
+            currentCoroutineContext().ensureActive()
+            completed = page
+            onProgress(completed, 604)
+        }
+        return completed
+    }
 
     private fun pageUrl(page: Int, extension: String): String =
         "https://cdn.quran.ws/svg/pages/$VERSION/hafs-kfqc/%03d.%s".format(Locale.US, page, extension)

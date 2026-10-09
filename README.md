@@ -21,6 +21,7 @@
 - Quran search with Arabic normalization, diacritic-insensitive matching and reference parsing (`2:255`, `2 255`, `2-255`).
 - Surah explorer and exact-ayah reader with saved reading position.
 - Page view with 604 page ranges and 30 Juz ranges derived from the bundled Quran package metadata.
+- Official Madinah Mushaf SVG page reader with tap-to-select ayah regions, visual selected-ayah highlighting, bookmark/copy/share/English-meaning actions, and an optional all-604-page offline download with progress and cancellation.
 - Bookmark and private-note persistence in a dedicated SQLite database.
 - Khatmah page progress with local persistence.
 - Prayer calculation engine with multiple common methods, madhhab selection and a high-latitude rule parameter.

@@ -26,6 +26,13 @@
     <string name="text_mode">القراءة النصية</string>
     <string name="mushaf_edition">مصحف المدينة · رواية حفص</string>
     <string name="mushaf_ayah_actions_need_connection">اتصل بالإنترنت مرة لتحميل مناطق الضغط على آيات هذه الصفحة.</string>
+    <string name="mushaf_offline_title">قراءة المصحف كاملًا دون إنترنت</string>
+    <string name="mushaf_offline_description">احفظ صور الصفحات الـ604 وخرائط الضغط على الآيات في الهاتف. التنزيل كبير ويُنصح باستخدام Wi-Fi.</string>
+    <string name="mushaf_offline_count">الصفحات المتاحة دون إنترنت: %1$d من 604</string>
+    <string name="mushaf_offline_start">تنزيل جميع الصفحات</string>
+    <string name="mushaf_offline_cancel">إلغاء التنزيل</string>
+    <string name="mushaf_offline_complete">جميع الصفحات متاحة دون إنترنت</string>
+    <string name="mushaf_offline_error">تعذّر تنزيل بعض الصفحات أو بيانات الآيات. تحقق من الاتصال وحاول مجددًا؛ الصفحات المكتملة محفوظة.</string>
     <string name="ayah_options">خيارات الآية</string>
     <string name="english_translation">الترجمة الإنجليزية</string>
     <string name="hide_translation">إخفاء الترجمة</string>
@@ -119,7 +126,7 @@
     <string name="onboarding_location_unavailable">لم يتم تحديد الموقع بعد. يمكنك المتابعة وإعداده لاحقًا.</string>
     <string name="onboarding_reading_description">اختر طريقة عرض القرآن والقارئ الذي تريد أن يكون جاهزًا أولًا.</string>
     <string name="onboarding_mushaf_style">طريقة عرض القرآن الافتراضية</string>
-    <string name="onboarding_mushaf_description">صفحات مصحف المدينة أو قارئ نصي متصل.</string>
+    <string name="onboarding_mushaf_description">اقرأ صفحات مصحف المدينة الرسمية مع إمكانية تحديد الآيات وحفظ الصفحات للقراءة دون إنترنت.</string>
     <string name="onboarding_text_description">اقرأ القرآن كنص متصل مع خيارات الترجمة.</string>
     <string name="onboarding_reciter_description">سيُحفظ القارئ المفضل على هذا الهاتف.</string>
     <string name="onboarding_khatmah_description">يمكنك بدء خطة خاصة لإتمام القرآن، وتعديلها لاحقًا.</string>

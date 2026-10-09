@@ -44,7 +44,10 @@ import androidx.media3.session.SessionToken
 import com.masheqal.app.data.SurahMeta
 import com.masheqal.app.data.OfflineAudioDownloads
 import com.masheqal.app.data.OfflineAudioStatus
+import com.masheqal.app.data.MushafPageStore
 import com.masheqal.app.services.QuranPlaybackService
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import java.util.Locale
 import androidx.navigation.NavHostController
@@ -54,12 +57,20 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun QuranScreen(app: MasheqalApp, nav: NavHostController) {
+    val context = LocalContext.current
     var surahs by remember { mutableStateOf(emptyList<com.masheqal.app.data.SurahMeta>()) }
     var query by rememberSaveable { mutableStateOf("") }
     var pageDialog by remember { mutableStateOf(false) }
     var juzDialog by remember { mutableStateOf(false) }
     var pageText by rememberSaveable { mutableStateOf("") }
     val scope = rememberCoroutineScope()
+    var offlineReadyPages by remember(context) {
+        mutableIntStateOf(MushafPageStore.cachedOfflinePageCount(context))
+    }
+    var offlineProgressPages by remember { mutableIntStateOf(offlineReadyPages) }
+    var offlineDownloading by remember { mutableStateOf(false) }
+    var offlineDownloadFailed by remember { mutableStateOf(false) }
+    var offlineJob by remember { mutableStateOf<Job?>(null) }
 
     LaunchedEffect(Unit) {
         surahs = app.quran.loadSurahs()
@@ -142,6 +153,99 @@ fun QuranScreen(app: MasheqalApp, nav: NavHostController) {
                     Icon(Icons.Default.Bookmark, null)
                     Spacer(Modifier.width(6.dp))
                     Text(stringResource(R.string.juz))
+                }
+            }
+        }
+
+        item {
+            Card(
+                modifier = Modifier.padding(horizontal = 16.dp).fillMaxWidth(),
+                shape = RoundedCornerShape(22.dp)
+            ) {
+                Column(
+                    Modifier.padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(10.dp)
+                    ) {
+                        Icon(
+                            if (offlineReadyPages == 604) Icons.Default.CheckCircle else Icons.Default.Download,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                        Column(Modifier.weight(1f)) {
+                            Text(
+                                stringResource(R.string.mushaf_offline_title),
+                                style = MaterialTheme.typography.titleMedium
+                            )
+                            Text(
+                                stringResource(R.string.mushaf_offline_description),
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                    }
+                    Text(
+                        stringResource(
+                            R.string.mushaf_offline_count,
+                            if (offlineDownloading) offlineProgressPages else offlineReadyPages
+                        ),
+                        style = MaterialTheme.typography.labelLarge
+                    )
+                    if (offlineDownloading) {
+                        LinearProgressIndicator(
+                            progress = offlineProgressPages.coerceIn(0, 604) / 604f,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
+                    if (offlineDownloadFailed) {
+                        Text(
+                            stringResource(R.string.mushaf_offline_error),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.error
+                        )
+                    }
+                    Button(
+                        onClick = {
+                            if (offlineDownloading) {
+                                offlineJob?.cancel()
+                            } else {
+                                offlineJob = scope.launch {
+                                    offlineDownloading = true
+                                    offlineDownloadFailed = false
+                                    offlineProgressPages = offlineReadyPages
+                                    try {
+                                        MushafPageStore.downloadAll(context) { completed, _ ->
+                                            offlineProgressPages = completed
+                                        }
+                                    } catch (cancelled: CancellationException) {
+                                        throw cancelled
+                                    } catch (_: Exception) {
+                                        offlineDownloadFailed = true
+                                    } finally {
+                                        offlineReadyPages = MushafPageStore.cachedOfflinePageCount(context)
+                                        offlineProgressPages = offlineReadyPages
+                                        offlineDownloading = false
+                                        offlineJob = null
+                                    }
+                                }
+                            }
+                        },
+                        enabled = offlineDownloading || offlineReadyPages < 604,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(
+                            stringResource(
+                                when {
+                                    offlineDownloading -> R.string.mushaf_offline_cancel
+                                    offlineReadyPages == 604 -> R.string.mushaf_offline_complete
+                                    else -> R.string.mushaf_offline_start
+                                }
+                            )
+                        )
+                    }
                 }
             }
         }

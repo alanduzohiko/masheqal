@@ -36,6 +36,13 @@
     <string name="text_mode">Text reading</string>
     <string name="mushaf_edition">Madinah Mushaf · Hafs narration</string>
     <string name="mushaf_ayah_actions_need_connection">Connect once to load ayah touch regions for this page.</string>
+    <string name="mushaf_offline_title">Read the whole Mushaf offline</string>
+    <string name="mushaf_offline_description">Save all 604 page images and ayah touch maps on this phone. A large download; Wi-Fi is recommended.</string>
+    <string name="mushaf_offline_count">%1$d of 604 pages ready offline</string>
+    <string name="mushaf_offline_start">Download all pages</string>
+    <string name="mushaf_offline_cancel">Cancel download</string>
+    <string name="mushaf_offline_complete">All pages are ready offline</string>
+    <string name="mushaf_offline_error">Some page or ayah files could not be downloaded. Check your connection and retry; completed pages remain saved.</string>
     <string name="ayah_options">Ayah options</string>
     <string name="english_translation">English translation</string>
     <string name="hide_translation">Hide translation</string>
@@ -129,7 +136,7 @@
     <string name="onboarding_location_unavailable">Location is not set yet. You can continue and configure it later.</string>
     <string name="onboarding_reading_description">Choose the Quran view you prefer and the reciter you want ready first.</string>
     <string name="onboarding_mushaf_style">Default Quran view</string>
-    <string name="onboarding_mushaf_description">Use the Madinah Mushaf page layout or a continuous text reader.</string>
+    <string name="onboarding_mushaf_description">Read the official Madinah Mushaf page by page, with selectable ayat and offline caching.</string>
     <string name="onboarding_text_description">Read Quran as continuous text with translation controls.</string>
     <string name="onboarding_reciter_description">Your preferred reciter will be remembered on this phone.</string>
     <string name="onboarding_khatmah_description">Optionally begin a private Quran completion plan. This can be changed later.</string>
