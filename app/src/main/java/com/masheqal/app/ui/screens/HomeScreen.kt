@@ -42,6 +42,7 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
     var location by remember { mutableStateOf(LocationUtils.lastKnown(context)) }
     var today by remember { mutableStateOf(LocalDate.now()) }
     var prayerTimes by remember { mutableStateOf<PrayerTimes?>(null) }
+    var tomorrowFajr by remember { mutableStateOf<Double?>(null) }
 
     LaunchedEffect(Unit) {
         location = LocationUtils.lastKnown(context)
@@ -66,14 +67,24 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
     LaunchedEffect(location, settings.prayerMethod, settings.madhhab, today) {
         location?.let { c ->
             val zone = ZoneId.systemDefault()
-            val offset = ZonedDateTime.now(zone).offset.totalSeconds / 3600.0
-            prayerTimes = PrayerCalculator.calculate(
-                today,
-                Coordinates(c.latitude, c.longitude, offset),
-                PrayerMethod.valueOf(settings.prayerMethod),
-                AsrMadhhab.valueOf(settings.madhhab),
-                zoneId = zone
-            )
+            val offset = today.atStartOfDay(zone).offset.totalSeconds / 3600.0
+            val method = PrayerMethod.valueOf(settings.prayerMethod)
+            val madhhab = AsrMadhhab.valueOf(settings.madhhab)
+            val coordinates = Coordinates(c.latitude, c.longitude, offset)
+            val currentSchedule = PrayerCalculator.calculate(today, coordinates, method, madhhab, zoneId = zone)
+            val tomorrow = today.plusDays(1)
+            val tomorrowOffset = tomorrow.atStartOfDay(zone).offset.totalSeconds / 3600.0
+            val nextFajr = runCatching {
+                PrayerCalculator.calculate(
+                    tomorrow,
+                    coordinates.copy(timezoneOffsetHours = tomorrowOffset),
+                    method,
+                    madhhab,
+                    zoneId = zone
+                ).fajr
+            }.getOrNull()
+            prayerTimes = currentSchedule
+            tomorrowFajr = nextFajr
         }
     }
 
@@ -86,7 +97,8 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
             PrayerCandidate(stringResource(R.string.isha), p.isha)
         )
         val now = ZonedDateTime.now().let { it.hour * 60.0 + it.minute + it.second / 60.0 }
-        rows.firstOrNull { it.minutes >= now } ?: rows.firstOrNull()
+        PrayerCalculator.selectNextPrayer(now, rows.map { it.name to it.minutes }, tomorrowFajr)
+            ?.let { PrayerCandidate(it.first, it.second) }
     }
 
     val date = today
