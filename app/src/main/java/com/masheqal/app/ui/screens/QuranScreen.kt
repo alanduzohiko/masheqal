@@ -157,7 +157,12 @@ fun QuranScreen(app: MasheqalApp, nav: NavHostController) {
 
         items(filtered, key = { it.number }) { s ->
             Card(
-                onClick = { nav.navigate("quran/surah/${s.number}") },
+                onClick = {
+                    scope.launch {
+                        val page = app.quran.pageForVerse(s.number, 1)
+                        nav.navigate("quran/page/$page")
+                    }
+                },
                 modifier = Modifier.padding(horizontal = 16.dp).fillMaxWidth(),
                 shape = RoundedCornerShape(22.dp)
             ) {

@@ -32,12 +32,14 @@ import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.Locale
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 private data class PrayerCandidate(val name: String, val minutes: Double)
 
 @Composable
 fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -> Unit) {
     val context = androidx.compose.ui.platform.LocalContext.current
+    val scope = rememberCoroutineScope()
     var daily by remember { mutableStateOf<com.masheqal.app.data.QuranVerse?>(null) }
     val reading by app.personal.reading.collectAsState(initial = com.masheqal.app.data.ReadingPosition())
     val khatmah by app.personal.khatmah.collectAsState(initial = com.masheqal.app.data.KhatmahState())
@@ -307,7 +309,10 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
                 stringResource(R.string.continue_quran),
                 stringResource(R.string.open_quran)
             ) {
-                nav.navigate("quran/ref/${reading.surah}/${reading.ayah}")
+                scope.launch {
+                    val page = app.quran.pageForVerse(reading.surah, reading.ayah)
+                    nav.navigate("quran/page/$page")
+                }
             }
         }
 
@@ -333,7 +338,10 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
                     }
                     FilledTonalIconButton(
                         onClick = {
-                            nav.navigate("quran/ref/${reading.surah}/${reading.ayah}")
+                            scope.launch {
+                                val page = app.quran.pageForVerse(reading.surah, reading.ayah)
+                                nav.navigate("quran/page/$page")
+                            }
                         }
                     ) {
                         Icon(Icons.Default.PlayArrow, stringResource(R.string.open_quran))
