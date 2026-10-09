@@ -32,4 +32,11 @@
     <string name="prayer_notification_channel">Prayer reminders</string>
     <string name="keep_screen_awake">Keep screen awake</string>
     <string name="resume">Resume</string>
+    <string name="mushaf_mode">Mushaf page</string>
+    <string name="text_mode">Text reading</string>
+    <string name="mushaf_edition">Madinah Mushaf · Hafs narration</string>
+    <string name="mushaf_loading">Loading Mushaf page…</string>
+    <string name="mushaf_load_error">This page could not be loaded. Connect to the internet or switch to text reading.</string>
+    <string name="mushaf_saved_offline">Page saved for offline reading</string>
+    <string name="mushaf_available_offline">Available offline</string>
 </resources>
