@@ -42,7 +42,7 @@ def main() -> None:
     license_name = html.unescape(metadata.get("LicenseShortName", {}).get("value", "")).strip()
     license_url = html.unescape(metadata.get("LicenseUrl", {}).get("value", "")).strip()
     author = html.unescape(metadata.get("Artist", {}).get("value", "")).strip()
-    if license_name not in {"CC0 1.0 Universal", "CC0 1.0"}:
+    if license_name not in {"CC0", "CC0 1.0", "CC0 1.0 Universal"}:
         raise RuntimeError(f"Refusing to bundle adhan audio under unapproved license: {license_name!r}")
     if "creativecommons.org/publicdomain/zero/1.0" not in license_url:
         raise RuntimeError(f"Unexpected CC0 license URL: {license_url!r}")
