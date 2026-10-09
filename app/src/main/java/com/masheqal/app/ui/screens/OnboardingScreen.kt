@@ -125,11 +125,13 @@ fun OnboardingScreen(
                 .edit().putString("reading_mode", mushafStyle).apply()
             context.getSharedPreferences("masheqal_onboarding", Context.MODE_PRIVATE)
                 .edit().putBoolean("complete", true).apply()
-            onLanguage(language)
             nav.navigate("home") {
                 popUpTo("onboarding") { inclusive = true }
                 launchSingleTop = true
             }
+            // Apply locale after persisting the completed wizard and moving to Home so an
+            // Activity recreation cannot strand the user on a half-finished setup screen.
+            onLanguage(language)
         }
     }
 
