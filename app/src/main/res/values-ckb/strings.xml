@@ -89,4 +89,26 @@
     <string name="location_accuracy">وردی شوێن ±%1$d مەتر</string>
     <string name="location_accuracy_approximate">شوێنەکە نزیکەییە (±%1$d مەتر). بۆ کاتی نوێژ و قیبڵەی وردتر، شوێنی ورد چالاک بکە.</string>
     <string name="location_refresh_failed">شوێنی نوێ وەرنەگیرا. خزمەتگوزاری شوێنی ئامێر بپشکنە و دووبارە هەوڵبدە.</string>
+    <string name="onboarding_welcome">هاوڕێیەکی باشتر بۆ ڕۆژانی ئایینی تۆ</string>
+    <string name="onboarding_intro">زمان، ڕێکخستنی نوێژ، شێوازی خوێندنەوەی قورئان و قاری هەڵبژێرە. دەتوانیت هەر کاتێک ئەم هەڵبژاردنانە بگۆڕیت.</string>
+    <string name="onboarding_language_description">ئەو زمانە هەڵبژێرە کە بە ئاسانی پێی دەخوێنیتەوە.</string>
+    <string name="onboarding_prayer_description">شێوازی حساب و مەزهەب دیاری بکە. شوێنی نوێ و ورد، کاتی نوێژ و قیبڵە باشتر دەکات.</string>
+    <string name="onboarding_location_title">شوێنی ئێستا</string>
+    <string name="onboarding_location_unavailable">شوێن هێشتا دیاری نەکراوە. دەتوانیت بەردەوام بیت و دواتر ڕێکی بخەیت.</string>
+    <string name="onboarding_reading_description">شێوازی خوێندنەوەی قورئان و ئەو قارییە هەڵبژێرە کە دەتەوێت لە سەرەتا ئامادە بێت.</string>
+    <string name="onboarding_mushaf_style">شێوازی سەرەتایی قورئان</string>
+    <string name="onboarding_mushaf_description">پەڕەکانی مصحەفی مەدینە یان خوێندنەوەی دەقی بەردەوام.</string>
+    <string name="onboarding_text_description">قورئان بە دەقی بەردەوام و کۆنترۆڵی وەرگێڕان بخوێنەوە.</string>
+    <string name="onboarding_reciter_description">قاریی دڵخوازت لەم تەلەفۆنەدا دەپارێزرێت.</string>
+    <string name="onboarding_khatmah_description">ئەگەر بتەوێت، پلانی تەواوکردنی قورئان دەست پێ بکە. دواتر دەتوانیت بیگۆڕیت.</string>
+    <string name="onboarding_enable_khatmah">دەستپێکردنی پلانی خەتم</string>
+    <string name="onboarding_finish_description">هەڵبژاردنەکانت لەم ئامێرەدا دەپارێزرێن. پێویستت بە هەژمار نییە.</string>
+    <string name="onboarding_step">هەنگاوی %1$d لە %2$d</string>
+    <string name="continue_setup">بەردەوام بە</string>
+    <string name="skip_setup">تێپەڕاندنی ڕێکخستن</string>
+    <string name="back_step">گەڕانەوە</string>
+    <string name="use_current_location">بەکارهێنانی شوێنی ئێستا</string>
+    <string name="reading_style_mushaf">مصحەفی مەدینە</string>
+    <string name="reading_style_text">خوێندنەوەی دەقی</string>
+    <string name="khatmah_days">%1$d ڕۆژ</string>
 </resources>
