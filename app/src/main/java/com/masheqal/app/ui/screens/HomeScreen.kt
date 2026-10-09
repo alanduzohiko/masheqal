@@ -23,6 +23,7 @@ import com.masheqal.app.R
 import com.masheqal.app.domain.*
 import com.masheqal.app.util.LocationUtils
 import java.time.LocalDate
+import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -64,12 +65,14 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
 
     LaunchedEffect(location, settings.prayerMethod, settings.madhhab, today) {
         location?.let { c ->
-            val offset = ZonedDateTime.now().offset.totalSeconds / 3600.0
+            val zone = ZoneId.systemDefault()
+            val offset = ZonedDateTime.now(zone).offset.totalSeconds / 3600.0
             prayerTimes = PrayerCalculator.calculate(
                 today,
                 Coordinates(c.latitude, c.longitude, offset),
                 PrayerMethod.valueOf(settings.prayerMethod),
-                AsrMadhhab.valueOf(settings.madhhab)
+                AsrMadhhab.valueOf(settings.madhhab),
+                zoneId = zone
             )
         }
     }
