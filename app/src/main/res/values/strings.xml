@@ -99,4 +99,26 @@
     <string name="location_accuracy">Location accuracy ±%1$d m</string>
     <string name="location_accuracy_approximate">Location is approximate (±%1$d m). Enable precise location for more reliable prayer times and Qibla.</string>
     <string name="location_refresh_failed">Could not get a fresh location. Check device location services and try again.</string>
+    <string name="onboarding_welcome">A more thoughtful daily companion for your faith</string>
+    <string name="onboarding_intro">Choose your language, prayer preferences, Quran view and reciter. You can change these choices at any time.</string>
+    <string name="onboarding_language_description">Choose the language that feels natural to you.</string>
+    <string name="onboarding_prayer_description">Set your prayer calculation and madhhab. A fresh, precise location improves prayer times and Qibla.</string>
+    <string name="onboarding_location_title">Current location</string>
+    <string name="onboarding_location_unavailable">Location is not set yet. You can continue and configure it later.</string>
+    <string name="onboarding_reading_description">Choose the Quran view you prefer and the reciter you want ready first.</string>
+    <string name="onboarding_mushaf_style">Default Quran view</string>
+    <string name="onboarding_mushaf_description">Use the Madinah Mushaf page layout or a continuous text reader.</string>
+    <string name="onboarding_text_description">Read Quran as continuous text with translation controls.</string>
+    <string name="onboarding_reciter_description">Your preferred reciter will be remembered on this phone.</string>
+    <string name="onboarding_khatmah_description">Optionally begin a private Quran completion plan. This can be changed later.</string>
+    <string name="onboarding_enable_khatmah">Start a Khatmah plan</string>
+    <string name="onboarding_finish_description">Your preferences are saved on this device. Nothing here requires an account.</string>
+    <string name="onboarding_step">Step %1$d of %2$d</string>
+    <string name="continue_setup">Continue</string>
+    <string name="skip_setup">Skip setup</string>
+    <string name="back_step">Back</string>
+    <string name="use_current_location">Use current location</string>
+    <string name="reading_style_mushaf">Madinah Mushaf</string>
+    <string name="reading_style_text">Text reader</string>
+    <string name="khatmah_days">%1$d days</string>
 </resources>
