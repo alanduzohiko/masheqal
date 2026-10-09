@@ -358,6 +358,9 @@ fun QuranAudioScreen(app: MasheqalApp, nav: NavHostController) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     var downloadRefresh by remember { mutableIntStateOf(0) }
+    var queueRefresh by remember { mutableIntStateOf(0) }
+    var selectedDownload by remember { mutableStateOf<Pair<String, Int>?>(null) }
+    var showReciterMenu by remember { mutableStateOf(false) }
     var downloadError by remember { mutableStateOf(false) }
     val editions = listOf(
         AudioEdition("ar.alafasy", R.string.reciter_alafasy),
@@ -369,7 +372,12 @@ fun QuranAudioScreen(app: MasheqalApp, nav: NavHostController) {
         AudioEdition("ar.ajamy", R.string.reciter_ajamy),
         AudioEdition("ar.hudhaify", R.string.reciter_hudhaify)
     )
-    var selectedEdition by rememberSaveable { mutableStateOf("ar.alafasy") }
+    var selectedEdition by rememberSaveable {
+        mutableStateOf(
+            context.getSharedPreferences("masheqal_audio_preferences", Context.MODE_PRIVATE)
+                .getString("reciter", "ar.alafasy") ?: "ar.alafasy"
+        )
+    }
     val activeEdition = editions.firstOrNull { it.id == selectedEdition } ?: editions.first()
     val activeReciterName = stringResource(activeEdition.nameResource)
     var surahs by remember { mutableStateOf(emptyList<SurahMeta>()) }
@@ -406,7 +414,7 @@ fun QuranAudioScreen(app: MasheqalApp, nav: NavHostController) {
         }
     }
 
-    val queue = remember(surahs, activeEdition, activeReciterName, downloadRefresh) {
+    val queue = remember(surahs, activeEdition, activeReciterName, queueRefresh) {
         makeAudioQueue(context, surahs, activeEdition.id, activeReciterName)
     }
 
@@ -431,6 +439,10 @@ fun QuranAudioScreen(app: MasheqalApp, nav: NavHostController) {
         val oldPosition = player?.currentPosition?.coerceAtLeast(0L) ?: 0L
         val wasPlaying = player?.isPlaying == true
         selectedEdition = edition.id
+        context.getSharedPreferences("masheqal_audio_preferences", Context.MODE_PRIVATE)
+            .edit()
+            .putString("reciter", edition.id)
+            .apply()
         if (player != null && oldNumber in 1..114 && surahs.isNotEmpty()) {
             val newQueue = makeAudioQueue(context, surahs, edition.id, reciterName)
             val index = surahs.indexOfFirst { it.number == oldNumber }.coerceAtLeast(0)
@@ -477,6 +489,32 @@ fun QuranAudioScreen(app: MasheqalApp, nav: NavHostController) {
             positionMs = player.currentPosition.coerceAtLeast(0L)
             durationMs = player.duration.coerceAtLeast(0L)
             delay(500L)
+        }
+    }
+
+    LaunchedEffect(selectedDownload) {
+        val target = selectedDownload ?: return@LaunchedEffect
+        var missingChecks = 0
+        while (true) {
+            delay(1_000L)
+            downloadRefresh++
+            when (OfflineAudioDownloads.status(context, target.first, target.second)) {
+                OfflineAudioStatus.DOWNLOADING -> missingChecks = 0
+                OfflineAudioStatus.READY -> {
+                    if (selectedEdition == target.first) queueRefresh++
+                    selectedDownload = null
+                    break
+                }
+                OfflineAudioStatus.NOT_DOWNLOADED, OfflineAudioStatus.FAILED -> {
+                    // DownloadManager can take a moment to publish the new row after enqueue.
+                    missingChecks++
+                    if (missingChecks >= 5) {
+                        downloadError = true
+                        selectedDownload = null
+                        break
+                    }
+                }
+            }
         }
     }
 
@@ -531,6 +569,42 @@ fun QuranAudioScreen(app: MasheqalApp, nav: NavHostController) {
                             }
                         }
                         Spacer(Modifier.height(14.dp))
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                stringResource(R.string.audio_reciter),
+                                style = MaterialTheme.typography.labelLarge
+                            )
+                            Box {
+                                OutlinedButton(onClick = { showReciterMenu = true }) {
+                                    Text(activeReciterName, maxLines = 1)
+                                    Icon(Icons.Default.ExpandMore, contentDescription = null)
+                                }
+                                DropdownMenu(
+                                    expanded = showReciterMenu,
+                                    onDismissRequest = { showReciterMenu = false }
+                                ) {
+                                    editions.forEach { edition ->
+                                        val editionName = stringResource(edition.nameResource)
+                                        DropdownMenuItem(
+                                            text = { Text(editionName) },
+                                            leadingIcon = {
+                                                if (edition.id == selectedEdition) {
+                                                    Icon(Icons.Default.CheckCircle, contentDescription = null)
+                                                }
+                                            },
+                                            onClick = {
+                                                selectEdition(edition, editionName)
+                                                showReciterMenu = false
+                                            }
+                                        )
+                                    }
+                                }
+                            }
+                        }
                         Slider(
                             value = if (durationMs > 0L) (positionMs.toFloat() / durationMs).coerceIn(0f, 1f) else 0f,
                             onValueChange = { if (durationMs > 0L) positionMs = (it * durationMs).toLong() },
@@ -699,20 +773,7 @@ fun QuranAudioScreen(app: MasheqalApp, nav: NavHostController) {
                                         )
                                     }.onSuccess {
                                         downloadRefresh++
-                                        scope.launch {
-                                            while (
-                                                OfflineAudioDownloads.status(context, activeEdition.id, surah.number) ==
-                                                OfflineAudioStatus.DOWNLOADING
-                                            ) {
-                                                delay(1000L)
-                                                downloadRefresh++
-                                            }
-                                            downloadRefresh++
-                                            if (
-                                                OfflineAudioDownloads.status(context, activeEdition.id, surah.number) ==
-                                                OfflineAudioStatus.FAILED
-                                            ) downloadError = true
-                                        }
+                                        selectedDownload = activeEdition.id to surah.number
                                     }.onFailure {
                                         downloadError = true
                                     }
