@@ -1,13 +1,16 @@
 package com.masheqal.app.ui.screens
 
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -35,7 +38,27 @@ fun AdhkarScreen(app: MasheqalApp, nav: NavHostController) {
     var loading by remember { mutableStateOf(true) }
     var loadFailed by remember { mutableStateOf(false) }
     var retryNonce by remember { mutableStateOf(0) }
+    var query by rememberSaveable { mutableStateOf("") }
     val counts = remember { mutableStateMapOf<Int, Int>() }
+    val categoryChoices = listOf(
+        AdhkarPeriod.ALL,
+        AdhkarPeriod.MORNING,
+        AdhkarPeriod.EVENING,
+        AdhkarPeriod.AFTER_PRAYER,
+        AdhkarPeriod.SLEEP,
+        AdhkarPeriod.WAKE_UP,
+        AdhkarPeriod.BATHROOM,
+        AdhkarPeriod.FOOD,
+        AdhkarPeriod.MOSQUE,
+        AdhkarPeriod.WUDU,
+        AdhkarPeriod.FASTING,
+        AdhkarPeriod.HOME,
+        AdhkarPeriod.TRAVEL,
+        AdhkarPeriod.CLOTHING,
+        AdhkarPeriod.WEATHER,
+        AdhkarPeriod.PROTECTION,
+        AdhkarPeriod.GENERAL
+    )
 
     LaunchedEffect(Unit) {
         while (true) {
@@ -60,9 +83,15 @@ fun AdhkarScreen(app: MasheqalApp, nav: NavHostController) {
         loading = false
     }
 
-    val visibleItems = packageData?.items.orEmpty().filter { it.appliesTo(period) }
-    val totalTarget = visibleItems.sumOf { it.repeatCount }
-    val completed = visibleItems.sumOf { counts[it.order] ?: 0 }
+    val categoryItems = packageData?.items.orEmpty().filter { it.appliesTo(period) }
+    val normalizedQuery = query.trim().lowercase()
+    val visibleItems = categoryItems.filter { item ->
+        normalizedQuery.isBlank() || listOf(
+            item.titleEn, item.arabic, item.translationEn, item.sourceEn, item.sourceAr
+        ).any { it.lowercase().contains(normalizedQuery) }
+    }
+    val totalTarget = categoryItems.sumOf { it.repeatCount }
+    val completed = categoryItems.sumOf { counts[it.order] ?: 0 }
     val progress = if (totalTarget == 0) 0f else (completed.toFloat() / totalTarget).coerceIn(0f, 1f)
 
     Scaffold(
@@ -90,25 +119,36 @@ fun AdhkarScreen(app: MasheqalApp, nav: NavHostController) {
             Modifier.fillMaxSize().padding(insets).padding(horizontal = 16.dp)
         ) {
             Row(
-                Modifier.fillMaxWidth().padding(top = 8.dp),
-                horizontalArrangement = Arrangement.spacedBy(10.dp)
+                Modifier.fillMaxWidth()
+                    .padding(top = 8.dp)
+                    .horizontalScroll(rememberScrollState()),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                FilterChip(
-                    selected = period == AdhkarPeriod.MORNING,
-                    onClick = { period = AdhkarPeriod.MORNING },
-                    label = { Text(stringResource(R.string.morning)) },
-                    leadingIcon = { Icon(Icons.Default.WbSunny, contentDescription = null) },
-                    modifier = Modifier.weight(1f)
-                )
-                FilterChip(
-                    selected = period == AdhkarPeriod.EVENING,
-                    onClick = { period = AdhkarPeriod.EVENING },
-                    label = { Text(stringResource(R.string.evening)) },
-                    leadingIcon = { Icon(Icons.Default.NightsStay, contentDescription = null) },
-                    modifier = Modifier.weight(1f)
-                )
+                categoryChoices.forEach { category ->
+                    FilterChip(
+                        selected = period == category,
+                        onClick = { period = category },
+                        label = { Text(adhkarCategoryLabel(category)) }
+                    )
+                }
             }
 
+            Spacer(Modifier.height(10.dp))
+            OutlinedTextField(
+                value = query,
+                onValueChange = { query = it },
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true,
+                placeholder = { Text(stringResource(R.string.adhkar_search_hint)) },
+                leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
+                trailingIcon = {
+                    if (query.isNotBlank()) {
+                        IconButton(onClick = { query = "" }) {
+                            Icon(Icons.Default.Close, contentDescription = stringResource(R.string.clear))
+                        }
+                    }
+                }
+            )
             Spacer(Modifier.height(10.dp))
             LinearProgressIndicator(
                 progress = { progress },
@@ -151,13 +191,13 @@ fun AdhkarScreen(app: MasheqalApp, nav: NavHostController) {
                         ) {
                             Column(Modifier.padding(16.dp)) {
                                 Text(
-                                    stringResource(R.string.adhkar_bundled_title),
+                                    stringResource(R.string.adhkar_expanded_content_title),
                                     style = MaterialTheme.typography.titleMedium,
                                     fontWeight = FontWeight.SemiBold
                                 )
                                 Spacer(Modifier.height(5.dp))
                                 Text(
-                                    stringResource(R.string.adhkar_bundled_notice),
+                                    stringResource(R.string.adhkar_source_review_note),
                                     style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.colorScheme.onSecondaryContainer
                                 )
@@ -173,6 +213,17 @@ fun AdhkarScreen(app: MasheqalApp, nav: NavHostController) {
                         }
                     }
 
+                    if (visibleItems.isEmpty()) {
+                        item(key = "no-adhkar-results") {
+                            Text(
+                                stringResource(R.string.adhkar_no_results),
+                                modifier = Modifier.fillMaxWidth().padding(24.dp),
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                textAlign = TextAlign.Center
+                            )
+                        }
+                    }
                     items(visibleItems, key = { it.order }) { item ->
                         AdhkarCard(
                             item = item,
@@ -192,6 +243,32 @@ fun AdhkarScreen(app: MasheqalApp, nav: NavHostController) {
             }
         }
     }
+}
+
+
+
+@Composable
+private fun adhkarCategoryLabel(category: AdhkarPeriod): String {
+    val resource = when (category) {
+        AdhkarPeriod.ALL -> R.string.adhkar_all
+        AdhkarPeriod.MORNING -> R.string.morning
+        AdhkarPeriod.EVENING -> R.string.evening
+        AdhkarPeriod.AFTER_PRAYER -> R.string.adhkar_after_prayer
+        AdhkarPeriod.SLEEP -> R.string.adhkar_sleep
+        AdhkarPeriod.WAKE_UP -> R.string.adhkar_wake_up
+        AdhkarPeriod.BATHROOM -> R.string.adhkar_bathroom
+        AdhkarPeriod.FOOD -> R.string.adhkar_food
+        AdhkarPeriod.MOSQUE -> R.string.adhkar_mosque
+        AdhkarPeriod.WUDU -> R.string.adhkar_wudu
+        AdhkarPeriod.FASTING -> R.string.adhkar_fasting
+        AdhkarPeriod.HOME -> R.string.adhkar_home
+        AdhkarPeriod.TRAVEL -> R.string.adhkar_travel
+        AdhkarPeriod.CLOTHING -> R.string.adhkar_clothing
+        AdhkarPeriod.WEATHER -> R.string.adhkar_weather
+        AdhkarPeriod.PROTECTION -> R.string.adhkar_protection
+        AdhkarPeriod.GENERAL -> R.string.adhkar_general
+    }
+    return stringResource(resource)
 }
 
 @Composable
@@ -224,6 +301,14 @@ private fun AdhkarCard(
                 )
             }
 
+            if (item.titleEn.isNotBlank()) {
+                Spacer(Modifier.height(8.dp))
+                Text(
+                    item.titleEn,
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.SemiBold
+                )
+            }
             Spacer(Modifier.height(10.dp))
             Text(
                 item.arabic,
@@ -279,10 +364,11 @@ private fun AdhkarCard(
                 }
             }
 
-            if (item.sourceAr.isNotBlank()) {
+            val visibleSource = item.sourceAr.ifBlank { item.sourceEn }
+            if (visibleSource.isNotBlank()) {
                 Spacer(Modifier.height(10.dp))
                 Text(
-                    "${stringResource(R.string.adhkar_source_label)}: ${item.sourceAr}",
+                    "${stringResource(R.string.adhkar_source_label)}: $visibleSource",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
