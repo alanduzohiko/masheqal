@@ -30,4 +30,20 @@
     <string name="mushaf_saved_offline">حُفظت الصفحة للقراءة دون إنترنت</string>
     <string name="mushaf_available_offline">متاحة دون إنترنت</string>
     <string name="retry">إعادة المحاولة</string>
+    <string name="audio_player_title">الاستماع إلى القرآن</string>
+    <string name="reciter_alafasy">مشاري راشد العفاسي</string>
+    <string name="reciter_husary">محمود خليل الحصري</string>
+    <string name="reciter_minshawi">محمد صديق المنشاوي</string>
+    <string name="audio_source_notice">البث من Al Quran Cloud / Islamic Network. يلزم اتصال بالإنترنت وتبقى حقوق التسجيل لأصحابها.</string>
+    <string name="audio_choose_surah">اختر سورة</string>
+    <string name="audio_ready">جاهز للاستماع</string>
+    <string name="audio_previous_surah">السورة السابقة</string>
+    <string name="audio_next_surah">السورة التالية</string>
+    <string name="audio_play">تشغيل</string>
+    <string name="audio_play_surah">استمع إلى السورة</string>
+    <string name="audio_connection_error">تعذر الاتصال بمشغل الصوت. حاول مجددًا.</string>
+    <string name="audio_load_error">تعذر تحميل قائمة السور.</string>
+    <string name="audio_retry">إعادة المحاولة</string>
+    <string name="audio_connecting">جارٍ الاتصال بمشغل الصوت…</string>
+    <string name="audio_reciter">القارئ</string>
 </resources>
