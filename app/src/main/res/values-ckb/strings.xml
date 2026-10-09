@@ -47,4 +47,13 @@
     <string name="audio_connecting">پەیوەستبوون بە یاریزانی دەنگ…</string>
     <string name="audio_reciter">قاری</string>
     <string name="translation_unavailable">وەرگێڕانی سۆرانی بۆ ئەم ئایەتە بەردەست نییە.</string>
+    <string name="adhkar_bundled_title">ئەذکاری بەیانی و ئێوارە بەردەستن</string>
+    <string name="adhkar_bundled_status">ناوەڕۆکی عەرەبی و وەرگێڕانی ئینگلیزی تێدایە</string>
+    <string name="adhkar_bundled_notice">ئەم پەکێجەی پشتڕاستکراو ئەذکارە عەرەبییەکان و وەرگێڕانی ئینگلیزی لەخۆدەگرێت. وەرگێڕانی سۆرانی هێشتا لەم پەکێجەدا بەردەست نییە.</string>
+    <string name="adhkar_translation_en_label">وەرگێڕانی ئینگلیزی</string>
+    <string name="adhkar_source_label">سەرچاوە</string>
+    <string name="adhkar_progress_label">%1$d لە %2$d دووبارەکردنەوە</string>
+    <string name="adhkar_count_one">ژماردن +1</string>
+    <string name="adhkar_load_error">نەتوانرا پەکێجی ئەذکار بخوێندرێتەوە. تکایە دووبارە هەوڵبدە.</string>
+    <string name="adhkar_retry">دووبارە هەوڵبدە</string>
 </resources>
