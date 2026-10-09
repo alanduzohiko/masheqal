@@ -43,3 +43,11 @@ No religious content is inserted merely to make a screen appear complete. Every 
 - **In-app attribution:** generated from the selected translation title and API-reported version; QuranEnc.com is always shown.
 - **Integrity:** each row maps to canonical 1–6,236 ids and surah/ayah coordinates. A build-time validator checks row count, publisher, version, update value and SHA-256 of the generated text asset.
 - **Delivery:** the publisher API is queried by cloud CI; generated content is bundled in the APK, so the translation remains available offline after installation.
+
+
+## Offline adhan audio
+
+- **Source:** [Wikimedia Commons — File:Adhan.ogg](https://commons.wikimedia.org/wiki/File:Adhan.ogg).
+- **License:** CC0 1.0 Universal, verified against the file's live Wikimedia Commons metadata by `tools/fetch_adhan.py` on each CI build.
+- **Use:** one copy is bundled into the APK for offline preview and optional full-length adhan playback at Fajr, Dhuhr, Asr, Maghrib and Isha. Sunrise alerts do not invoke the adhan.
+- **Integrity:** CI records and checks the upstream SHA-1 plus local SHA-256; it fails closed if the upstream license, host, size, or checksum no longer matches expectations.
