@@ -301,9 +301,10 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
                         Spacer(Modifier.height(12.dp))
                         QuranText(verse.text, size = 26f)
                         Spacer(Modifier.height(14.dp))
-                        if (!verse.translationEn.isNullOrBlank()) {
+                        val visibleTranslation = verse.translationFor(settings.language)
+                        if (!visibleTranslation.isNullOrBlank()) {
                             Text(
-                                verse.translationEn.orEmpty(),
+                                visibleTranslation.orEmpty(),
                                 style = MaterialTheme.typography.bodyLarge,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
@@ -325,7 +326,7 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
                             IconButton(onClick = {
                                 shareText(
                                     context,
-                                    "${verse.text}\n\n${verse.translationEn.orEmpty()}\n${verse.surah}:${verse.ayah}"
+                                    "${verse.text}\n\n${visibleTranslation.orEmpty()}\n${verse.surah}:${verse.ayah}"
                                 )
                             }) {
                                 Icon(Icons.Default.Share, stringResource(R.string.share))
@@ -334,7 +335,7 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
                                 val uri = ShareCardUtils.createVerseCard(
                                     context,
                                     verse.text,
-                                    verse.translationEn.orEmpty(),
+                                    visibleTranslation.orEmpty(),
                                     "${verse.surah}:${verse.ayah}"
                                 )
                                 ShareCardUtils.shareImage(context, uri)
