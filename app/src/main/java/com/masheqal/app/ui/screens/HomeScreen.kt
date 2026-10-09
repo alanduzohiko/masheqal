@@ -446,6 +446,25 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
                         nav.navigate("audio")
                     }
                 }
+                Row(
+                    Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    FeatureCard(
+                        stringResource(R.string.names_of_allah),
+                        icon = Icons.Default.AutoAwesome,
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        nav.navigate("names")
+                    }
+                    FeatureCard(
+                        stringResource(R.string.adhkar),
+                        icon = Icons.Default.Spa,
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        nav.navigate("adhkar")
+                    }
+                }
             }
         }
     }
