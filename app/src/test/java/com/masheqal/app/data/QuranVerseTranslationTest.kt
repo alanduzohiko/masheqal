@@ -15,6 +15,21 @@ class QuranVerseTranslationTest {
     )
 
     @Test
+    fun parsesQuranReferencesWithWesternArabicAndPersianDigits() {
+        assertEquals(2 to 255, QuranRepository.parseReferenceText("2:255"))
+        assertEquals(2 to 255, QuranRepository.parseReferenceText("٢:٢٥٥"))
+        assertEquals(2 to 255, QuranRepository.parseReferenceText("۲ ۲۵۵"))
+        assertEquals(2 to 255, QuranRepository.parseReferenceText("٢：٢٥٥"))
+    }
+
+    @Test
+    fun rejectsMalformedOrOutOfRangeQuranReferences() {
+        assertNull(QuranRepository.parseReferenceText("115:1"))
+        assertNull(QuranRepository.parseReferenceText("2:0"))
+        assertNull(QuranRepository.parseReferenceText("two:255"))
+    }
+
+    @Test
     fun soraniInterfaceSelectsSoraniTranslation() {
         assertEquals("واتای سۆرانی", verse.translationFor("ckb"))
         assertEquals("واتای سۆرانی", verse.translationFor("CKB"))
