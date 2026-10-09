@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fetch the Commons Adhan.ogg only after checking its public-domain license metadata."""
+"""Fetch the Commons Beautiful_adhan.ogg only after checking its public-domain license metadata."""
 from __future__ import annotations
 
 import hashlib
@@ -12,7 +12,7 @@ import urllib.request
 ROOT = Path(__file__).resolve().parents[1]
 TARGET = ROOT / "app/src/main/res/raw/adhan.ogg"
 MANIFEST = ROOT / "app/src/main/assets/content/adhan_audio_manifest.json"
-FILE_PAGE = "https://commons.wikimedia.org/wiki/File:Adhan.ogg"
+FILE_PAGE = "https://commons.wikimedia.org/wiki/File:Beautiful_adhan.ogg"
 API = "https://commons.wikimedia.org/w/api.php"
 MAX_BYTES = 2 * 1024 * 1024
 USER_AGENT = "MasheqalAndroidBuild/1.0 (https://github.com/alanduzohiko/masheqal)"
@@ -27,7 +27,7 @@ def request_json(url: str) -> dict:
 def main() -> None:
     params = urllib.parse.urlencode({
         "action": "query",
-        "titles": "File:Adhan.ogg",
+        "titles": "File:Beautiful_adhan.ogg",
         "prop": "imageinfo",
         "iiprop": "url|sha1|size|mime|extmetadata",
         "format": "json",
@@ -36,7 +36,7 @@ def main() -> None:
     payload = request_json(API + "?" + params)
     pages = payload.get("query", {}).get("pages", [])
     if not pages or "imageinfo" not in pages[0]:
-        raise RuntimeError("Wikimedia Commons did not return source metadata for File:Adhan.ogg")
+        raise RuntimeError("Wikimedia Commons did not return source metadata for File:Beautiful_adhan.ogg")
     info = pages[0]["imageinfo"][0]
     metadata = info.get("extmetadata", {})
     license_name = html.unescape(metadata.get("LicenseShortName", {}).get("value", "")).strip()
@@ -65,7 +65,7 @@ def main() -> None:
     TARGET.write_bytes(audio)
     manifest = {
         "source": "Wikimedia Commons",
-        "sourceFile": "File:Adhan.ogg",
+        "sourceFile": "File:Beautiful_adhan.ogg",
         "sourceUrl": FILE_PAGE,
         "mediaUrl": source_url,
         "author": author,
