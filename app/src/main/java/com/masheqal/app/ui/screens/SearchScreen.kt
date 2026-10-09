@@ -43,18 +43,21 @@ fun SearchScreen(app: MasheqalApp, nav: NavHostController, initialQuery: String 
             quranHits=app.quran.search(query)
             bookmarkHits=app.userDb.searchBookmarks(query)
             noteHits=app.userDb.searchNotes(query)
-            val needle = QuranRepository.normalize(query)
             worshipHits = runCatching { app.adhkar.loadPackage().items }
                 .getOrDefault(emptyList())
                 .filter { item ->
-                    listOf(item.titleEn, item.arabic, item.transliteration, item.translationEn, item.sourceAr, item.sourceEn)
-                        .any { QuranRepository.normalize(it).contains(needle) }
+                    GlobalSearchMatcher.matches(
+                        query,
+                        listOf(item.titleEn, item.arabic, item.transliteration, item.translationEn, item.sourceAr, item.sourceEn)
+                    )
                 }
             nameHits = runCatching { app.namesOfAllah.load().names }
                 .getOrDefault(emptyList())
                 .filter { name ->
-                    listOf(name.arabic, name.transliteration, name.meaning, name.description)
-                        .any { QuranRepository.normalize(it).contains(needle) }
+                    GlobalSearchMatcher.matches(
+                        query,
+                        listOf(name.arabic, name.transliteration, name.meaning, name.description)
+                    )
                 }
         } else {
             quranHits=emptyList()

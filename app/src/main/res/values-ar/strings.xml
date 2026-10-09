@@ -209,4 +209,5 @@
     <string name="audio_connection_failed">مشغّل الصوت غير متاح. افتح مشغّل القرآن ثم حاول مجددًا.</string>
     <string name="audio_playback_failed">تعذّر تشغيل التلاوة. تحقق من الاتصال ثم أعد المحاولة.</string>
     <string name="search_adhkar_dua_results">الأذكار والأدعية</string>
+    <string name="dhikr_label">الذِّكر</string>
 </resources>
