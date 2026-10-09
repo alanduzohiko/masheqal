@@ -15,7 +15,7 @@
 
 1. Current release scope deliberately includes Arabic and English only; Sorani UI and Quran translation are deferred, not selectable, and not required by CI.
 2. Tafsir, Hadith and a complete independently licensed Hisn al-Muslim corpus remain gated pending source/license/content review; the currently bundled Adhkar, Dua, Names and audio paths require their own acceptance tests.
-3. The primary reader opens the pinned Madinah Mushaf page artwork. Per-page JSON hit regions support an ayah action panel; remaining work includes upstream manifest SHA-256 validation, downloading all 604 pages for offline use, visual alignment QA on the opening pages, and additional actions such as tafsir and audio controls.
+3. The primary reader opens pinned Madinah Mushaf page artwork. Per-page JSON hit regions, selected-ayah highlighting, an ayah action panel (bookmark/copy/share/English meaning), retry for missing region metadata, and an optional progress/cancel downloader for all 604 pages plus JSON metadata are implemented in code. Remaining acceptance includes upstream manifest SHA-256 validation, real-device offline-download interruption/storage QA, visual alignment review, and additional tafsir/audio-from-ayah actions.
 4. The existing prayer calculator is custom and has not yet passed reference-based accuracy tests.
 5. Media3/MediaSession groundwork exists, but a complete reciter selection, playback, background, lock-screen and verified audio-source flow has not been acceptance-tested.
 6. Navigation previously had no authored route transition system; an RTL-aware, reduced-distance fade/slide transition was added on this branch. This alone does not satisfy overall visual QA.
@@ -26,11 +26,20 @@
 - **Sorani scope:** the UI option, runtime Quran loading/search path, and CI asset-fetch step are disabled for this release. The build must succeed without any Sorani dataset. Any future enablement requires a deliberate scope change plus current source, license, verse-alignment and UI QA.
 - **Adhkar and daily Dua:** the CI build combines 82 records from two pinned MIT datasets: 34 morning/evening items, 10 after-salah items with a source citation, and 38 daily-occasion supplications. The app supports search/category filters and locally persisted daily counters; independent scholarly review and Sorani meanings remain pending.
 - **99 Names of Allah:** CI bundles 99 ordered records under the attributed Apache-2.0 dataset provenance and ships the complete license notice. The app supports Arabic/transliteration/English search, learned/not-learned filtering and local learning progress. English-meaning scholarly review is explicitly pending; references missing from the dataset are not invented.
-- **Mushaf:** the primary page reader always displays version-pinned Madinah Mushaf (Hafs) SVG artwork; the text-reader toggle has been removed from onboarding and the page toolbar. SVG pages and ayah-region JSON are cached after successful fetches. Tapping a mapped region opens options to bookmark, copy, share, and explicitly display its English meaning. The complete 604-page offline bundle, upstream manifest SHA-256 validation, selected-ayah page highlight, tafsir and audio-from-ayah actions remain unimplemented or unverified.
+- **Mushaf:** the primary page reader displays version-pinned Madinah Mushaf (Hafs) SVG artwork; the text-reader toggle is removed from onboarding and the page toolbar. Both supported ayah-region JSON formats are parsed. Tapping a mapped region highlights the selected ayah and opens options to bookmark, copy, share, and display its English meaning. A user-triggered downloader iterates all 604 pages and region JSON with progress/cancellation and retains completed cache on interruption. Upstream manifest SHA-256 validation, real-device download/storage/visual QA, tafsir and audio-from-ayah actions remain outstanding or unverified.
 - **Prayer times and Qibla:** the app requests a fresh GPS/network fix, rejects stale/invalid locations and surfaces estimated accuracy. The Qibla page has an animated compass, true-north correction, bearing and great-circle distance. City-by-city prayer reference comparison and on-device sensor/time-zone/location verification remain part of acceptance.
 - **Audio:** the Media3 player exposes twelve Quran recitation choices, selected reciter persistence and a per-surah DownloadManager path. Two CC0-verified adhan recordings can be selected and previewed separately from Quran reciters, and prayer alarms use the saved adhan voice. Provider behavior and actual playback/download/offline use on a physical device still need verification.
 - **First-run and home experience:** there is an animated branded intro, a four-step setup flow, and Home shortcuts to Dua, Names of Allah, adhkar and Quran audio. This is not a substitute for visual QA on several phone sizes or accessibility/RTL review.
 - **Still not accepted:** Tafsir, Hadith, a complete independently licensed Hisn al-Muslim collection, Sorani meanings for adhkar/dua/names, full Mushaf offline mode, and complete in-device UI accessibility/RTL review.
+
+
+## Latest CI evidence — 9 October 2026
+
+- Commit: [`c7ceccaecb7f09a0fc189799bcb22ba051716f21`](https://github.com/alanduzohiko/masheqal/commit/c7ceccaecb7f09a0fc189799bcb22ba051716f21) on `product-v2/foundation-rebuild`.
+- Workflow: [run #244](https://github.com/alanduzohiko/masheqal/actions/runs/37996956735) — **success**.
+- Successful steps: content/resource validation, unit tests, Android lint, installable debug APK build/upload, unsigned release artifact build, and artifact upload.
+- Artifacts: `masheqal-debug-apk` and `masheqal-android-artifacts` were created. Their existence does not mean the APK was downloaded, inspected, or installed on a phone.
+- Not performed by this run: physical-device/emulator functional tests, visual QA, end-to-end audio/provider testing, full offline-download QA, or final release signing.
 
 ## State definitions
 

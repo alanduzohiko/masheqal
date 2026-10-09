@@ -51,10 +51,25 @@ The user can use a connected GitHub account to host this project and run the wor
 No private signing key is included. The debug APK is installable for testing. Release APK/AAB outputs are intentionally unsigned until the owner's private keystore is supplied through a secure CI secret. Never put a keystore or credentials into source control.
 
 
-## Product V2 work (in progress)
+## Product V2 work — current verified state
 
-- RTL-aware Compose navigation transitions.
-- Localized Gregorian date in Home.
-- The Quran page reader now has a true Madinah Mushaf SVG mode, an alternate text/English reading mode, and compressed page caching for pages already visited.
-- Mushaf artwork uses the pinned `quran-ws/quran-svg` release `v1.1.1`. The first view needs internet; each successfully viewed page is then stored for offline access. Full 604-page offline download, ayah hit-testing/highlighting, and page-manifest SHA-256 enforcement are not yet complete.
-- See `docs/IMPLEMENTATION-CHECKLIST.md` for the full 177-section acceptance tracker. This branch is not yet a publish-ready release.
+Latest checked branch commit: `c7ceccaecb7f09a0fc189799bcb22ba051716f21` (9 October 2026). The matching GitHub Actions workflow completed successfully: unit tests, Android lint, installable debug APK build, unsigned release artifact build, and artifact uploads all passed. This is build/CI evidence, not physical-device acceptance.
+
+- Quran page navigation resolves the legacy surah/ayah routes to the relevant Mushaf page. The reader uses pinned Madinah Mushaf SVG artwork and supports parsing the two ayah-region JSON formats used by the source.
+- Tapping a mapped ayah region opens an action sheet; the selected ayah is highlighted. Available actions include bookmark, copy, share, and explicitly displayed English meaning. Missing ayah-region metadata can be retried.
+- The app now has an optional downloader for all 604 Mushaf pages plus their ayah-region metadata, with progress and cancellation. Successfully cached pages are retained if a download is interrupted. This feature still needs real-device network, storage, cancellation, and visual-alignment QA.
+- Quran recitation choices were expanded to twelve. Source/licensing checks and CI validation do not, by themselves, prove playback, background operation, each provider URL, or offline downloads work on a real phone.
+- A native prayer engine adapter and reference-vector/unit-test coverage exist. Independent city-by-city prayer verification, current-location/geocoder/time-zone edge cases, sensor checks, and scheduled-notification behavior still need device-level acceptance.
+- The codebase includes Arabic/English resources, an animated intro, onboarding, local bookmarks/notes and reading progress, Qibla, adhkar/dua/Names content paths, tasbih, khatmah, backup/restore and other native foundations. Their complete screen-by-screen visual, language, persistence, and accessibility acceptance has not been demonstrated.
+
+### Important limits — not a finished release
+
+- Upstream Mushaf manifest SHA-256 integrity validation has not been completed.
+- Full 604-page offline download has been implemented in code but has not been confirmed end-to-end on a physical device.
+- Physical-device installation and UI review were not performed by this workflow. Do not treat CI success as a phone test.
+- Tafsir and Hadith libraries, a complete independently licensed Hisn al-Muslim corpus, Sorani UI/content, and several advanced Quran study functions remain deferred or gated.
+- Audio provider playback/download reliability, background/lock-screen behavior, adhan alarms across reboot/time-zone changes, and notification permissions need real-device acceptance.
+- Detailed Arabic/English screen coverage, visual QA across phone sizes, accessibility/font scaling, and all-settings persistence still require verification.
+- Release artifacts produced by CI are unsigned; store distribution requires the owner's signing key configured securely, never committed to the repository.
+
+See `docs/IMPLEMENTATION-CHECKLIST.md` for the acceptance tracker and remaining evidence requirements.
