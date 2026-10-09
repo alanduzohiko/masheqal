@@ -42,15 +42,23 @@ class QuranPlaybackService : MediaSessionService() {
         if (intent?.action == ACTION_PLAY_ADHAN) {
             val prayerName = intent.getStringExtra(EXTRA_PRAYER_NAME)
                 ?: getString(R.string.prayer)
+            val preferences = getSharedPreferences(ADHAN_PREFERENCES, MODE_PRIVATE)
+            val voiceId = intent.getStringExtra(EXTRA_ADHAN_VOICE_ID)
+                ?: preferences.getString(ADHAN_VOICE_KEY, DEFAULT_ADHAN_VOICE)
+                ?: DEFAULT_ADHAN_VOICE
+            val (audioResource, voiceLabel) = when (voiceId) {
+                ADHAN_VOICE_COMMUNITY -> R.raw.adhan_community to R.string.adhan_voice_community
+                else -> R.raw.adhan to R.string.adhan_voice_beautiful
+            }
             val metadata = MediaMetadata.Builder()
                 .setTitle(prayerName)
                 .setDisplayTitle(prayerName)
-                .setArtist(getString(R.string.adhan_audio_name))
+                .setArtist(getString(voiceLabel))
                 .setAlbumTitle(getString(R.string.app_name))
                 .build()
             val adhan = MediaItem.Builder()
                 .setMediaId("adhan-${System.currentTimeMillis()}")
-                .setUri("android.resource://$packageName/${R.raw.adhan}")
+                .setUri("android.resource://$packageName/$audioResource")
                 .setMediaMetadata(metadata)
                 .build()
             player.setMediaItem(adhan)
@@ -75,5 +83,10 @@ class QuranPlaybackService : MediaSessionService() {
     companion object {
         const val ACTION_PLAY_ADHAN = "com.masheqal.app.action.PLAY_ADHAN"
         const val EXTRA_PRAYER_NAME = "com.masheqal.app.extra.PRAYER_NAME"
+        const val EXTRA_ADHAN_VOICE_ID = "com.masheqal.app.extra.ADHAN_VOICE_ID"
+        const ADHAN_PREFERENCES = "masheqal_adhan_preferences"
+        const ADHAN_VOICE_KEY = "voice"
+        const DEFAULT_ADHAN_VOICE = "beautiful_adhan"
+        const ADHAN_VOICE_COMMUNITY = "community_adhan"
     }
 }
