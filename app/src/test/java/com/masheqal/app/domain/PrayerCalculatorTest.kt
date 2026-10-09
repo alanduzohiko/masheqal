@@ -43,6 +43,21 @@ class PrayerCalculatorTest {
     }
 
     @Test
+    fun nextPrayerAfterIshaUsesTomorrowFajrTime() {
+        val prayers = listOf(
+            "Fajr" to 300.0,
+            "Dhuhr" to 730.0,
+            "Asr" to 930.0,
+            "Maghrib" to 1100.0,
+            "Isha" to 1200.0
+        )
+        assertEquals("Dhuhr" to 730.0, PrayerCalculator.selectNextPrayer(700.0, prayers, 290.0))
+        assertEquals("Isha" to 1200.0, PrayerCalculator.selectNextPrayer(1190.0, prayers, 290.0))
+        assertEquals("Fajr" to 290.0, PrayerCalculator.selectNextPrayer(1300.0, prayers, 290.0))
+        assertNull(PrayerCalculator.selectNextPrayer(1300.0, prayers, null))
+    }
+
+    @Test
     fun asrChangesWithMadhhabButStaysBeforeMaghrib() {
         val date = LocalDate.of(2026, 10, 8)
         val shafi = PrayerCalculator.calculate(date, sulaymaniyah, PrayerMethod.MWL, AsrMadhhab.SHAFI)
