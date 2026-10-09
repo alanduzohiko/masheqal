@@ -37,6 +37,9 @@ object PlaceLookup {
     suspend fun searchByName(context: Context, query: String): List<PlaceMatch> {
         val cleanQuery = query.trim()
         if (cleanQuery.isEmpty()) return emptyList()
+        // Keep a small, transparent offline fallback for common Iraqi cities. If there is no
+        // local match, use Android Geocoder for a broader world-wide search.
+        IraqOfflineCityCatalog.search(cleanQuery).takeIf { it.isNotEmpty() }?.let { return it }
         return getAddresses(context) { geocoder ->
             searchAddresses(geocoder, cleanQuery)
         }.mapNotNull(::toPlaceMatch)

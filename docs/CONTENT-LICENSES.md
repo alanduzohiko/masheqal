@@ -63,3 +63,11 @@ Both recordings are released under CC0 1.0 Universal. `tools/fetch_adhan.py` ver
 - **Boundary data:** based on timezone-boundary-builder / OpenStreetMap data and distributed under the Open Data Commons Open Database License (ODbL) 1.0.
 - **Runtime behavior:** coordinates are resolved on-device against the bundled geographic data; the app does not send coordinates to a third-party time-zone API. The resolver is cached in process and the selected IANA zone ID is stored with prayer reminder configuration for rescheduling.
 - **Fallback:** if offline engine initialization or lookup fails, the app temporarily uses the device time zone and exposes a notice. The source and license must remain acknowledged in release packaging.
+
+
+## Offline city fallback catalog
+
+- **Source:** SimpleMaps, [Iraq Cities Database](https://simplemaps.com/data/iq-cities), free subset of prominent Iraqi cities.
+- **License:** MIT for the published free subset.
+- **Scope:** the app stores a small selection of city-centre names and coordinates for Baghdad, Mosul, Basra, Kirkuk, and Sulaymaniyah so manual city selection can still work when Android Geocoder is unavailable.
+- **Accuracy disclosure:** these coordinates represent approximate city centres and must not be represented as precise device location. The UI labels manual selections accordingly.

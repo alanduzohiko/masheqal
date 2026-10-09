@@ -12,6 +12,7 @@
 
 - Native Android app shell; no WebView/PWA/browser wrapper.
 - City-name reverse lookup and manual city selection using Android Geocoder; selected cities are stored locally.
+- A small offline fallback catalog for five major Iraqi cities when Android geocoding is unavailable; these use approximate city-centre coordinates, not GPS precision.
 - Offline IANA time-zone lookup from city/device coordinates, with an explicit device-zone fallback notice.
 - Original مەشخەڵ visual identity, launcher icon, theme tokens and RTL support.
 - Arabic (`ar`) and English (`en`) UI resources; Sorani is deferred from the current release scope.
