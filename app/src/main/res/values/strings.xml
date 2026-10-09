@@ -121,4 +121,13 @@
     <string name="reading_style_mushaf">Madinah Mushaf</string>
     <string name="reading_style_text">Text reader</string>
     <string name="khatmah_days">%1$d days</string>
+    <string name="method_mwl">Muslim World League</string>
+    <string name="method_egyptian">Egyptian</string>
+    <string name="method_umm_al_qura">Umm al-Qura</string>
+    <string name="method_karachi">Karachi</string>
+    <string name="method_isna">ISNA</string>
+    <string name="method_tehran">Tehran</string>
+    <string name="method_turkey">Turkey</string>
+    <string name="madhhab_shafi">Shafi</string>
+    <string name="madhhab_hanafi">Hanafi</string>
 </resources>
