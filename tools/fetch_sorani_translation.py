@@ -22,7 +22,7 @@ API = "https://quranenc.com/api/v1"
 MAX_RESPONSE_BYTES = 4 * 1024 * 1024
 TIMEOUT_SECONDS = 25
 LICENSE = "QuranEnc.com terms: verbatim republication with publisher/source, version and transcript attribution; retain exact translation content and update to latest issued version."
-ATTRIBUTION = "Translation: Burhan Muhammad-Amin (Tafsiri Asan) — via QuranEnc.com"
+DEFAULT_ATTRIBUTION = "Translation published by QuranEnc.com"
 
 
 def get_json(url: str) -> Any:
@@ -241,17 +241,22 @@ def export_translation(output_dir: Path) -> None:
     content_path = output_dir / "quran_ckb_translation.json"
     content_bytes = (json.dumps(records, ensure_ascii=False, separators=(",", ":")) + "\n").encode("utf-8")
     content_path.write_bytes(content_bytes)
+    source_label = str(chosen.get("title") or key).strip()
+    lower_source = " ".join(str(chosen.get(k, "")) for k in ("key", "title", "description")).lower()
+    if "burhan" in lower_source or "tafsiri asan" in lower_source:
+        source_label = "Burhan Muhammad-Amin (Tafsiri Asan)"
+    attribution = f"Translation: {source_label} — via QuranEnc.com; version {version}"
     manifest = {
         "source": "QuranEnc.com official API",
         "endpoint": f"{API}/translation/sura/{key}/{{surah}}",
         "publisher": "QuranEnc.com",
-        "translator": str(chosen.get("title") or "Sorani translator as listed by QuranEnc.com"),
+        "translator": source_label,
         "language": "ckb",
         "translationKey": key,
         "version": version,
         "lastUpdate": last_update,
         "fetchedAtUtc": datetime.now(timezone.utc).isoformat(),
-        "attribution": ATTRIBUTION,
+        "attribution": attribution or DEFAULT_ATTRIBUTION,
         "licenseTerms": LICENSE,
         "canonicalAyahCount": 6236,
         "translatedAyahCount": sum(1 for row in records if row["text"]),
