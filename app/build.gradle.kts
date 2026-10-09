@@ -44,6 +44,10 @@ android {
 dependencies {
     implementation(libs.adhan)
     implementation(libs.androidsvg)
+    implementation(libs.timeshape) {
+        exclude(group = "com.github.luben", module = "zstd-jni")
+    }
+    implementation("com.github.luben:zstd-jni:1.5.7-11@aar")
     val composeBom = platform("androidx.compose:compose-bom:2026.09.00")
     implementation(composeBom)
     androidTestImplementation(composeBom)

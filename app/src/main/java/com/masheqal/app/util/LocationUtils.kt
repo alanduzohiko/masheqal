@@ -21,7 +21,10 @@ data class CurrentLocation(
     val longitude: Double,
     val accuracyMeters: Float = Float.POSITIVE_INFINITY,
     val timestampMillis: Long = 0L,
-    val provider: String? = null
+    val provider: String? = null,
+    val placeName: String? = null,
+    val countryName: String? = null,
+    val isManual: Boolean = false
 ) {
     val isPrecise: Boolean
         get() = accuracyMeters.isFinite() && accuracyMeters <= LocationFixPolicy.PRECISE_ACCURACY_METERS
