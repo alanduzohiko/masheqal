@@ -49,6 +49,11 @@
     <string name="reciter_abdulbasit">Abdul Basit Abdul Samad</string>
     <string name="reciter_ajamy">Ahmed Al-Ajamy</string>
     <string name="reciter_hudhaify">Ali Al-Hudhaify</string>
+    <string name="full_adhan_audio">Play full adhan at prayer time</string>
+    <string name="full_adhan_description">Optional offline audio at Fajr, Dhuhr, Asr, Maghrib and Isha. Sunrise does not play adhan.</string>
+    <string name="adhan_preview">Preview adhan</string>
+    <string name="adhan_audio_name">Adhan audio</string>
+    <string name="prayer_adhan_channel">Prayer reminders with adhan</string>
     <string name="audio_source_notice">Streams by Al Quran Cloud / Islamic Network. Internet connection required; rights remain with recording holders.</string>
     <string name="audio_choose_surah">Choose a surah</string>
     <string name="audio_ready">Ready to listen</string>
