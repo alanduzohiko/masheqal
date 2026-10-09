@@ -27,6 +27,7 @@ private data class LibraryRow(
 @Composable
 fun LibraryScreen(app: MasheqalApp, nav: NavHostController) {
     val items = listOf(
+        LibraryRow(R.string.audio, R.string.audio_source_notice, Icons.Default.Headphones, "audio"),
         LibraryRow(R.string.saved, R.string.bookmarks, Icons.Default.Bookmark, "saved"),
         LibraryRow(R.string.notes, R.string.notes, Icons.Default.Notes, "notes"),
         LibraryRow(R.string.khatmah, R.string.quran, Icons.Default.AutoStories, "khatmah"),
