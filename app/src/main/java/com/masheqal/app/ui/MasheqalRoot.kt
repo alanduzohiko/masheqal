@@ -2,6 +2,13 @@
 package com.masheqal.app.ui
 
 import android.content.Intent
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.core.tween
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -30,6 +37,7 @@ fun MasheqalRoot(
     onLanguage: (String) -> Unit
 ) {
     val nav = rememberNavController()
+    val isRtl = LocalLayoutDirection.current == LayoutDirection.Rtl
     val items = listOf(
         NavItem("home", Icons.Default.Home, androidx.compose.ui.res.stringResource(R.string.home)),
         NavItem("quran", Icons.Default.MenuBook, androidx.compose.ui.res.stringResource(R.string.quran)),
@@ -70,7 +78,35 @@ fun MasheqalRoot(
         NavHost(
             navController = nav,
             startDestination = "home",
-            modifier = Modifier.padding(padding)
+            modifier = Modifier.padding(padding),
+            enterTransition = {
+                fadeIn(animationSpec = tween(220)) +
+                    slideInHorizontally(
+                        initialOffsetX = { width -> if (isRtl) -width / 18 else width / 18 },
+                        animationSpec = tween(220)
+                    )
+            },
+            exitTransition = {
+                fadeOut(animationSpec = tween(150)) +
+                    slideOutHorizontally(
+                        targetOffsetX = { width -> if (isRtl) width / 24 else -width / 24 },
+                        animationSpec = tween(150)
+                    )
+            },
+            popEnterTransition = {
+                fadeIn(animationSpec = tween(180)) +
+                    slideInHorizontally(
+                        initialOffsetX = { width -> if (isRtl) width / 18 else -width / 18 },
+                        animationSpec = tween(180)
+                    )
+            },
+            popExitTransition = {
+                fadeOut(animationSpec = tween(140)) +
+                    slideOutHorizontally(
+                        targetOffsetX = { width -> if (isRtl) -width / 24 else width / 24 },
+                        animationSpec = tween(140)
+                    )
+            }
         ) {
             composable("home") { HomeScreen(app, nav, onRequestLocation) }
             composable("quran") { QuranScreen(app, nav) }
