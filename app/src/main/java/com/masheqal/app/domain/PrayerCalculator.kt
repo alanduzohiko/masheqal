@@ -16,6 +16,7 @@ import kotlin.math.roundToInt
 import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.sin
+import kotlin.math.sqrt
 import kotlin.math.tan
 
 /**
@@ -184,6 +185,20 @@ object QiblaCalculator {
         val y = sin(deltaLongitude)
         val x = cos(phi1) * tan(phi2) - sin(phi1) * cos(deltaLongitude)
         return ((Math.toDegrees(atan2(y, x)) + 360.0) % 360.0)
+    }
+
+    /** Great-circle distance to the Kaaba in kilometres, using a mean Earth radius. */
+    fun distanceFromKm(lat: Double, lon: Double): Double {
+        require(lat.isFinite() && lat in -90.0..90.0) { "Latitude out of range" }
+        require(lon.isFinite() && lon in -180.0..180.0) { "Longitude out of range" }
+        val phi1 = Math.toRadians(lat)
+        val phi2 = Math.toRadians(KAABA_LAT)
+        val deltaPhi = phi2 - phi1
+        val deltaLambda = Math.toRadians(KAABA_LON - lon)
+        val sinLat = sin(deltaPhi / 2.0)
+        val sinLon = sin(deltaLambda / 2.0)
+        val h = (sinLat * sinLat + cos(phi1) * cos(phi2) * sinLon * sinLon).coerceIn(0.0, 1.0)
+        return 6371.0088 * 2.0 * atan2(sqrt(h), sqrt(1.0 - h))
     }
 
     /**
