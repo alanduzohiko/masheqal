@@ -74,4 +74,8 @@
     <string name="quran_translation_updated">Source updated</string>
     <string name="quran_translation_covered_verses">Verses with translation</string>
     <string name="quran_translation_missing_verses">Verses missing a translation</string>
+    <string name="adhkar_repeat_note_ar">Repeat guidance (Arabic)</string>
+    <string name="adhkar_repeat_note_en">Repeat guidance (English)</string>
+    <string name="adhkar_merit_ar_label">Virtue (Arabic source text)</string>
+    <string name="adhkar_merit_en_label">Virtue (English source text)</string>
 </resources>
