@@ -156,4 +156,23 @@ object QiblaCalculator {
         val x = cos(phi1) * tan(phi2) - sin(phi1) * cos(deltaLongitude)
         return ((Math.toDegrees(atan2(y, x)) + 360.0) % 360.0)
     }
+
+    /**
+     * Converts a magnetic compass heading to a signed turn toward the true-north Qibla bearing.
+     * Positive means clockwise/right; negative means counter-clockwise/left.
+     */
+    fun signedDeltaFromMagneticHeading(
+        trueBearingDegrees: Double,
+        magneticAzimuthDegrees: Double,
+        magneticDeclinationDegrees: Double
+    ): Double {
+        require(
+            trueBearingDegrees.isFinite() &&
+                magneticAzimuthDegrees.isFinite() &&
+                magneticDeclinationDegrees.isFinite()
+        ) { "Qibla heading values must be finite" }
+        val bearing = ((trueBearingDegrees % 360.0) + 360.0) % 360.0
+        val trueHeading = ((magneticAzimuthDegrees + magneticDeclinationDegrees) % 360.0 + 360.0) % 360.0
+        return ((bearing - trueHeading + 540.0) % 360.0) - 180.0
+    }
 }
