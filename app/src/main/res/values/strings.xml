@@ -56,4 +56,5 @@
     <string name="audio_retry">Retry</string>
     <string name="audio_connecting">Connecting to the audio player…</string>
     <string name="audio_reciter">Reciter</string>
+    <string name="translation_unavailable">The selected translation is unavailable for this verse.</string>
 </resources>
