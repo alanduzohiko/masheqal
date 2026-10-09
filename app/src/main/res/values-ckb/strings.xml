@@ -152,4 +152,11 @@
     <string name="qibla_compass_hint">مۆبایلەکە ئاسۆیی ڕابگرە و ئەگەر بوصڵە جێگیر نەبوو بە شێوەی ژمارەی هەشت بجوڵێنە.</string>
     <string name="qibla_location_quality">کوالێتی دیاریکردنی شوێن</string>
     <string name="qibla_refresh_location">نوێکردنەوەی شوێنی قیبلە</string>
+    <string name="adhan_voice">دەنگی بانگ</string>
+    <string name="adhan_voice_beautiful">بانگی جوان</string>
+    <string name="adhan_voice_community">بانگ بە تۆمارکردنێکی تر</string>
+    <string name="adhan_voice_preview">پێشبینینی دەنگ</string>
+    <string name="adhan_voice_source_beautiful">تۆمارکردنی Adam-synagda · CC0 1.0</string>
+    <string name="adhan_voice_source_community">تۆمارکردنی Aishatu98 · CC0 1.0</string>
+    <string name="adhan_voice_note">ئەو تۆمارە هەڵبژێرە کە لە کاتی بیرخستنەوەی نوێژدا دەنگی دەدات. ئەمە لە قاریی قورئان جیاوازە.</string>
 </resources>
