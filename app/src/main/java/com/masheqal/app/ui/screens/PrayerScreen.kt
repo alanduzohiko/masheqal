@@ -31,6 +31,7 @@ import com.masheqal.app.services.PrayerNotificationScheduler
 import com.masheqal.app.services.QuranPlaybackService
 import com.masheqal.app.util.LocationUtils
 import java.time.LocalDate
+import java.time.ZoneId
 import java.time.ZonedDateTime
 import kotlinx.coroutines.delay
 
@@ -64,14 +65,16 @@ fun PrayerScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: ()
 
     LaunchedEffect(location, settings.prayerMethod, settings.madhhab, today) {
         location?.let { c ->
-            val offset = ZonedDateTime.now().offset.totalSeconds / 3600.0
+            val zone = ZoneId.systemDefault()
+            val offset = ZonedDateTime.now(zone).offset.totalSeconds / 3600.0
             val method = PrayerMethod.valueOf(settings.prayerMethod)
             val madhhab = AsrMadhhab.valueOf(settings.madhhab)
             times = PrayerCalculator.calculate(
                 today,
                 Coordinates(c.latitude, c.longitude, offset),
                 method,
-                madhhab
+                madhhab,
+                zoneId = zone
             )
             PrayerNotificationScheduler.storeConfig(
                 context,
