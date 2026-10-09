@@ -1,6 +1,8 @@
 
 package com.masheqal.app.ui.screens
 
+import android.content.Intent
+import androidx.core.content.ContextCompat
 import android.Manifest
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -26,6 +28,7 @@ import com.masheqal.app.R
 import kotlinx.coroutines.launch
 import com.masheqal.app.domain.*
 import com.masheqal.app.services.PrayerNotificationScheduler
+import com.masheqal.app.services.QuranPlaybackService
 import com.masheqal.app.util.LocationUtils
 import java.time.LocalDate
 import java.time.ZonedDateTime
@@ -38,6 +41,8 @@ fun PrayerScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: ()
     var times by remember { mutableStateOf<PrayerTimes?>(null) }
     val settings by app.settings.state.collectAsState(initial = com.masheqal.app.data.SettingsState())
     val scope = rememberCoroutineScope()
+    var adhanEnabled by remember { mutableStateOf(PrayerNotificationScheduler.isAdhanEnabled(context)) }
+    val adhanPreviewLabel = stringResource(R.string.adhan_preview)
 
     val permissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
@@ -219,6 +224,51 @@ fun PrayerScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: ()
                                 Spacer(Modifier.width(6.dp))
                                 Text(stringResource(R.string.schedule_reminders))
                             }
+                        }
+                    }
+                }
+            }
+
+            item {
+                Card(
+                    Modifier.padding(horizontal = 16.dp).fillMaxWidth(),
+                    shape = RoundedCornerShape(22.dp)
+                ) {
+                    Column(Modifier.padding(16.dp)) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Column(Modifier.weight(1f)) {
+                                Text(
+                                    stringResource(R.string.full_adhan_audio),
+                                    style = MaterialTheme.typography.titleMedium
+                                )
+                                Spacer(Modifier.height(4.dp))
+                                Text(
+                                    stringResource(R.string.full_adhan_description),
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                            Switch(
+                                checked = adhanEnabled,
+                                onCheckedChange = { enabled ->
+                                    adhanEnabled = enabled
+                                    PrayerNotificationScheduler.setAdhanEnabled(context, enabled)
+                                }
+                            )
+                        }
+                        Spacer(Modifier.height(8.dp))
+                        OutlinedButton(
+                            onClick = {
+                                val playbackIntent = Intent(context, QuranPlaybackService::class.java)
+                                    .setAction(QuranPlaybackService.ACTION_PLAY_ADHAN)
+                                    .putExtra(QuranPlaybackService.EXTRA_PRAYER_NAME, adhanPreviewLabel)
+                                runCatching { ContextCompat.startForegroundService(context, playbackIntent) }
+                            },
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Icon(Icons.Default.NotificationsActive, contentDescription = null)
+                            Spacer(Modifier.width(8.dp))
+                            Text(stringResource(R.string.adhan_preview))
                         }
                     }
                 }
