@@ -12,6 +12,10 @@ import java.time.LocalDate
 import java.time.ZoneOffset
 import java.util.Date
 import kotlin.math.roundToInt
+import kotlin.math.atan2
+import kotlin.math.cos
+import kotlin.math.sin
+import kotlin.math.tan
 
 /**
  * Adapter for the upstream Adhan Java calculation engine.
@@ -79,7 +83,7 @@ object PrayerCalculator {
                 AsrMadhhab.SHAFI -> AdhanMadhab.SHAFI
                 AsrMadhhab.HANAFI -> AdhanMadhab.HANAFI
             }
-            highLatitudeRule = when (highLatitudeRule) {
+            this.highLatitudeRule = when (highLatitudeRule) {
                 // The upstream engine always bounds twilight calculations at high latitude.
                 // NONE has no upstream equivalent, so use the engine's documented safe fallback.
                 HighLatitudeRule.MIDDLE_OF_NIGHT, HighLatitudeRule.NONE ->
@@ -113,5 +117,21 @@ object PrayerCalculator {
             maghrib = localMinute("Maghrib", engine.maghrib),
             isha = localMinute("Isha", engine.isha)
         )
+    }
+}
+
+object QiblaCalculator {
+    private const val KAABA_LAT = 21.422487
+    private const val KAABA_LON = 39.826206
+
+    fun bearingFrom(lat: Double, lon: Double): Double {
+        require(lat.isFinite() && lat in -90.0..90.0) { "Latitude out of range" }
+        require(lon.isFinite() && lon in -180.0..180.0) { "Longitude out of range" }
+        val phi1 = Math.toRadians(lat)
+        val phi2 = Math.toRadians(KAABA_LAT)
+        val deltaLongitude = Math.toRadians(KAABA_LON - lon)
+        val y = sin(deltaLongitude)
+        val x = cos(phi1) * tan(phi2) - sin(phi1) * cos(deltaLongitude)
+        return ((Math.toDegrees(atan2(y, x)) + 360.0) % 360.0)
     }
 }
