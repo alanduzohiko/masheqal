@@ -51,7 +51,9 @@ No religious content is inserted merely to make a screen appear complete. Every 
 
 ## Offline adhan audio
 
-- **Source:** [Wikimedia Commons — File:Beautiful_adhan.ogg](https://commons.wikimedia.org/wiki/File:Beautiful_adhan.ogg).
-- **License:** CC0 1.0 Universal, verified against the file's live Wikimedia Commons metadata by `tools/fetch_adhan.py` on each CI build.
-- **Use:** one copy is bundled into the APK for offline preview and optional full-length adhan playback at Fajr, Dhuhr, Asr, Maghrib and Isha. Sunrise alerts do not invoke the adhan.
-- **Integrity:** CI records and checks the upstream SHA-1 plus local SHA-256; it fails closed if the upstream license, host, size, or checksum no longer matches expectations.
+The app provides a separate adhan-recording selector (distinct from the Quran reciter picker) in first-run setup and Settings. Users can preview and choose between:
+
+- **Beautiful Adhan:** [Wikimedia Commons — File:Beautiful_adhan.ogg](https://commons.wikimedia.org/wiki/File:Beautiful_adhan.ogg), author Adam-synagda.
+- **Community Adhan:** [Wikimedia Commons — File:Muslim_calling_to_prayer.ogg](https://commons.wikimedia.org/wiki/File:Muslim_calling_to_prayer.ogg), author Aishatu98.
+
+Both recordings are released under CC0 1.0 Universal. `tools/fetch_adhan.py` verifies the live Commons license metadata, expected media host, MIME type, file size, upstream SHA-1, and the generated local SHA-256 on each CI build. It records individual manifests and fails closed if any condition changes. The selected recording is saved locally and is used for adhan previews and prayer reminders; sunrise alerts do not invoke the adhan.
