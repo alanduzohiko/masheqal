@@ -210,4 +210,15 @@
     <string name="audio_playback_failed">تعذّر تشغيل التلاوة. تحقق من الاتصال ثم أعد المحاولة.</string>
     <string name="search_adhkar_dua_results">الأذكار والأدعية</string>
     <string name="dhikr_label">الذِّكر</string>
+    <string name="reciter_nasser_alqatami">ناصر القطامي</string>
+    <string name="reciter_yasser_aldossari">ياسر الدوسري</string>
+    <string name="reciter_sudais_shuraim">تلاوة مشتركة: عبدالرحمن السديس وسعود الشريم ونعيم سلطان</string>
+    <string name="reciter_abdullah_basfar">عبدالله بصفر</string>
+    <string name="reciter_bandar_balila">بندر بليلة</string>
+    <string name="reciter_ahmad_alhawashy">أحمد الحواشي</string>
+    <string name="reciter_mahmoud_albanna">محمود علي البنا</string>
+    <string name="reciter_ibrahim_alahdar">إبراهيم الأخضر</string>
+    <string name="reciter_mohamed_maabad">محمد معبد</string>
+    <string name="reciter_yasser_almazroyee">ياسر المزروعي</string>
+    <string name="ayah_audio_reciter_label">تلاوة الآية بصوت: %1$s</string>
 </resources>

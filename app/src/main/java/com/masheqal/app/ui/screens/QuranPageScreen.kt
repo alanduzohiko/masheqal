@@ -49,6 +49,7 @@ fun QuranPageScreen(app: MasheqalApp, nav: NavHostController, page: Int) {
     var playingMediaId by remember { mutableStateOf<String?>(null) }
     var isAudioPlaying by remember { mutableStateOf(false) }
     var repeatAyah by rememberSaveable { mutableStateOf(false) }
+    val ayahAudioReciterName = stringResource(R.string.reciter_alafasy)
 
     DisposableEffect(context, audioConnectionAttempt) {
         var active = true
@@ -202,10 +203,9 @@ fun QuranPageScreen(app: MasheqalApp, nav: NavHostController, page: Int) {
                             } else if (playingMediaId == ayahMediaId && controller.isPlaying) {
                                 controller.pause()
                             } else {
-                                val selectedEdition = context.getSharedPreferences(
-                                    "masheqal_audio_preferences",
-                                    Context.MODE_PRIVATE
-                                ).getString("reciter", "ar.alafasy") ?: "ar.alafasy"
+                                // By-surah and by-ayah audio catalogues are distinct upstream.
+                                // Use Alafasy here until other editions are verified for verse audio.
+                                val selectedEdition = "ar.alafasy"
                                 if (playingMediaId != ayahMediaId) {
                                     val item = MediaItem.Builder()
                                         .setMediaId(ayahMediaId)
@@ -214,7 +214,7 @@ fun QuranPageScreen(app: MasheqalApp, nav: NavHostController, page: Int) {
                                             MediaMetadata.Builder()
                                                 .setTitle("${verse.surah}:${verse.ayah}")
                                                 .setDisplayTitle("Quran ${verse.surah}:${verse.ayah}")
-                                                .setArtist("Al Quran Cloud")
+                                                .setArtist(ayahAudioReciterName)
                                                 .setAlbumTitle("مەشخەڵ")
                                                 .build()
                                         )
@@ -251,6 +251,11 @@ fun QuranPageScreen(app: MasheqalApp, nav: NavHostController, page: Int) {
                         leadingIcon = { Icon(Icons.Default.Repeat, contentDescription = null) }
                     )
                 }
+                Text(
+                    stringResource(R.string.ayah_audio_reciter_label, ayahAudioReciterName),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
                 if (audioController == null && !audioConnectionFailed) {
                     Text(
                         stringResource(R.string.audio_connecting),

@@ -12,6 +12,19 @@ class QuranAudioCatalogTest {
         )
     }
 
+    @Test
+    fun buildsSurahUrlForLiveVerifiedNasserAlQatamiEdition() {
+        assertEquals(
+            "https://cdn.islamic.network/quran/audio-surah/128/ar.nasseralqatami/1.mp3",
+            QuranAudioCatalog.surahUrl(1, "ar.nasseralqatami")
+        )
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun rejectsSurahEditionNotInLiveVerifiedCatalogue() {
+        QuranAudioCatalog.surahUrl(1, "ar.husary")
+    }
+
     @Test(expected = IllegalArgumentException::class)
     fun rejectsAyahNumbersOutsideQuranRange() {
         QuranAudioCatalog.ayahUrl(6237, "ar.alafasy")
@@ -20,5 +33,10 @@ class QuranAudioCatalogTest {
     @Test(expected = IllegalArgumentException::class)
     fun rejectsUnknownAudioEdition() {
         QuranAudioCatalog.ayahUrl(1, "ar.unknown")
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun rejectsSurahOnlyEditionForVerseAudio() {
+        QuranAudioCatalog.ayahUrl(1, "ar.nasseralqatami")
     }
 }

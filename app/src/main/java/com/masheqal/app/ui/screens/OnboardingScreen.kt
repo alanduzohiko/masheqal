@@ -64,22 +64,24 @@ fun OnboardingScreen(
     var khatmahDays by rememberSaveable { mutableIntStateOf(30) }
     val reciters = listOf(
         OnboardingReciter("ar.alafasy", R.string.reciter_alafasy),
-        OnboardingReciter("ar.husary", R.string.reciter_husary),
-        OnboardingReciter("ar.minshawi", R.string.reciter_minshawi),
-        OnboardingReciter("ar.sudais", R.string.reciter_sudais),
-        OnboardingReciter("ar.shuraim", R.string.reciter_shuraim),
-        OnboardingReciter("ar.abdulbasit", R.string.reciter_abdulbasit),
-        OnboardingReciter("ar.ajamy", R.string.reciter_ajamy),
-        OnboardingReciter("ar.hudhaify", R.string.reciter_hudhaify),
-        OnboardingReciter("ar.minshawimujawwad", R.string.reciter_minshawi_mujawwad),
-        OnboardingReciter("ar.abdulbasitmujawwad", R.string.reciter_abdulbasit_mujawwad),
-        OnboardingReciter("ar.muhammadayoub", R.string.reciter_muhammadayoub),
-        OnboardingReciter("ar.muhammadjibreel", R.string.reciter_muhammadjibreel)
+        OnboardingReciter("ar.nasseralqatami", R.string.reciter_nasser_alqatami),
+        OnboardingReciter("ar.yasseraldossari", R.string.reciter_yasser_aldossari),
+        OnboardingReciter("ar.saudalshuraim", R.string.reciter_shuraim),
+        OnboardingReciter("ar.sudaisshuraymnaeemsultan", R.string.reciter_sudais_shuraim),
+        OnboardingReciter("ar.abdullahbasfar", R.string.reciter_abdullah_basfar),
+        OnboardingReciter("ar.bandarbalila", R.string.reciter_bandar_balila),
+        OnboardingReciter("ar.ahmadalhawashy", R.string.reciter_ahmad_alhawashy),
+        OnboardingReciter("ar.mahmoudalialbanna", R.string.reciter_mahmoud_albanna),
+        OnboardingReciter("ar.ibrahimalakhdar", R.string.reciter_ibrahim_alahdar),
+        OnboardingReciter("ar.mohamedmaabad", R.string.reciter_mohamed_maabad),
+        OnboardingReciter("ar.yasseralmazroyee", R.string.reciter_yasser_almazroyee)
     )
     var reciter by rememberSaveable {
         mutableStateOf(
             context.getSharedPreferences("masheqal_audio_preferences", Context.MODE_PRIVATE)
-                .getString("reciter", "ar.alafasy") ?: "ar.alafasy"
+                .getString("reciter", null)
+                ?.takeIf { savedId -> reciters.any { it.id == savedId } }
+                ?: reciters.first().id
         )
     }
     var adhanVoice by rememberSaveable {

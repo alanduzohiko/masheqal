@@ -416,18 +416,21 @@ private data class AudioEdition(val id: String, val nameResource: Int)
 object QuranAudioCatalog {
     private val editions = mapOf(
         "ar.alafasy" to 128,
-        "ar.husary" to 128,
-        "ar.minshawi" to 128,
-        "ar.sudais" to 192,
-        "ar.shuraim" to 128,
-        "ar.abdulbasit" to 192,
-        "ar.ajamy" to 128,
-        "ar.hudhaify" to 128,
-        "ar.minshawimujawwad" to 64,
-        "ar.abdulbasitmujawwad" to 192,
-        "ar.muhammadayoub" to 128,
-        "ar.muhammadjibreel" to 128
+        "ar.nasseralqatami" to 128,
+        "ar.yasseraldossari" to 128,
+        "ar.saudalshuraim" to 128,
+        "ar.sudaisshuraymnaeemsultan" to 128,
+        "ar.abdullahbasfar" to 128,
+        "ar.bandarbalila" to 128,
+        "ar.ahmadalhawashy" to 128,
+        "ar.mahmoudalialbanna" to 128,
+        "ar.ibrahimalakhdar" to 128,
+        "ar.mohamedmaabad" to 128,
+        "ar.yasseralmazroyee" to 128
     )
+
+    // Surah-level and verse-level catalogues are separate in the upstream service.
+    private val ayahEditions = mapOf("ar.alafasy" to 128)
 
     fun surahUrl(surah: Int, edition: String): String {
         require(surah in 1..114) { "Surah number must be between 1 and 114" }
@@ -438,7 +441,7 @@ object QuranAudioCatalog {
     /** URL for the provider's verse-level audio endpoint; ayahNumber is the global 1..6236 index. */
     fun ayahUrl(ayahNumber: Int, edition: String): String {
         require(ayahNumber in 1..6236) { "Global ayah number must be between 1 and 6236" }
-        val bitrate = editions[edition] ?: throw IllegalArgumentException("Unsupported recitation edition")
+        val bitrate = ayahEditions[edition] ?: throw IllegalArgumentException("Unsupported verse-level recitation edition")
         return "https://cdn.islamic.network/quran/audio/$bitrate/$edition/$ayahNumber.mp3"
     }
 }
@@ -484,22 +487,24 @@ fun QuranAudioScreen(app: MasheqalApp, nav: NavHostController) {
     var downloadError by remember { mutableStateOf(false) }
     val editions = listOf(
         AudioEdition("ar.alafasy", R.string.reciter_alafasy),
-        AudioEdition("ar.husary", R.string.reciter_husary),
-        AudioEdition("ar.minshawi", R.string.reciter_minshawi),
-        AudioEdition("ar.sudais", R.string.reciter_sudais),
-        AudioEdition("ar.shuraim", R.string.reciter_shuraim),
-        AudioEdition("ar.abdulbasit", R.string.reciter_abdulbasit),
-        AudioEdition("ar.ajamy", R.string.reciter_ajamy),
-        AudioEdition("ar.hudhaify", R.string.reciter_hudhaify),
-        AudioEdition("ar.minshawimujawwad", R.string.reciter_minshawi_mujawwad),
-        AudioEdition("ar.abdulbasitmujawwad", R.string.reciter_abdulbasit_mujawwad),
-        AudioEdition("ar.muhammadayoub", R.string.reciter_muhammadayoub),
-        AudioEdition("ar.muhammadjibreel", R.string.reciter_muhammadjibreel)
+        AudioEdition("ar.nasseralqatami", R.string.reciter_nasser_alqatami),
+        AudioEdition("ar.yasseraldossari", R.string.reciter_yasser_aldossari),
+        AudioEdition("ar.saudalshuraim", R.string.reciter_shuraim),
+        AudioEdition("ar.sudaisshuraymnaeemsultan", R.string.reciter_sudais_shuraim),
+        AudioEdition("ar.abdullahbasfar", R.string.reciter_abdullah_basfar),
+        AudioEdition("ar.bandarbalila", R.string.reciter_bandar_balila),
+        AudioEdition("ar.ahmadalhawashy", R.string.reciter_ahmad_alhawashy),
+        AudioEdition("ar.mahmoudalialbanna", R.string.reciter_mahmoud_albanna),
+        AudioEdition("ar.ibrahimalakhdar", R.string.reciter_ibrahim_alahdar),
+        AudioEdition("ar.mohamedmaabad", R.string.reciter_mohamed_maabad),
+        AudioEdition("ar.yasseralmazroyee", R.string.reciter_yasser_almazroyee)
     )
     var selectedEdition by rememberSaveable {
         mutableStateOf(
             context.getSharedPreferences("masheqal_audio_preferences", Context.MODE_PRIVATE)
-                .getString("reciter", "ar.alafasy") ?: "ar.alafasy"
+                .getString("reciter", null)
+                ?.takeIf { savedId -> editions.any { it.id == savedId } }
+                ?: editions.first().id
         )
     }
     val activeEdition = editions.firstOrNull { it.id == selectedEdition } ?: editions.first()

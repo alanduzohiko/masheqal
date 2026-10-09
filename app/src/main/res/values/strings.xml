@@ -220,4 +220,15 @@
     <string name="audio_playback_failed">Could not play this recitation. Check the connection and try again.</string>
     <string name="search_adhkar_dua_results">Adhkar &amp; supplications</string>
     <string name="dhikr_label">Dhikr</string>
+    <string name="reciter_nasser_alqatami">Nasser Al-Qatami</string>
+    <string name="reciter_yasser_aldossari">Yasser Al-Dosari</string>
+    <string name="reciter_sudais_shuraim">Sudais, Shuraim &amp; Naeem Sultan (joint recitation)</string>
+    <string name="reciter_abdullah_basfar">Abdullah Basfar</string>
+    <string name="reciter_bandar_balila">Bandar Baleela</string>
+    <string name="reciter_ahmad_alhawashy">Ahmad Al-Hawashi</string>
+    <string name="reciter_mahmoud_albanna">Mahmoud Ali Al-Banna</string>
+    <string name="reciter_ibrahim_alahdar">Ibrahim Al-Akhdar</string>
+    <string name="reciter_mohamed_maabad">Mohamed Maabad</string>
+    <string name="reciter_yasser_almazroyee">Yasser Al-Mazroyee</string>
+    <string name="ayah_audio_reciter_label">Ayah recitation: %1$s</string>
 </resources>
