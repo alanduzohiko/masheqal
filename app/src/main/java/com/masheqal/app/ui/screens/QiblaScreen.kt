@@ -3,6 +3,7 @@ package com.masheqal.app.ui.screens
 
 import android.Manifest
 import android.content.Context
+import android.hardware.GeomagneticField
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -94,8 +95,23 @@ fun QiblaScreen(nav: NavHostController) {
     val bearing = location?.let {
         QiblaCalculator.bearingFrom(it.latitude, it.longitude)
     }
+    // Sensor azimuth is magnetic; QiblaCalculator returns a true-north bearing.
+    val magneticDeclination = remember(location) {
+        location?.let {
+            GeomagneticField(
+                it.latitude.toFloat(),
+                it.longitude.toFloat(),
+                0f,
+                System.currentTimeMillis()
+            ).declination.toDouble()
+        } ?: 0.0
+    }
     val delta = if (bearing != null && azimuth != null) {
-        ((bearing - azimuth!! + 540) % 360) - 180
+        QiblaCalculator.signedDeltaFromMagneticHeading(
+            trueBearingDegrees = bearing,
+            magneticAzimuthDegrees = azimuth!!.toDouble(),
+            magneticDeclinationDegrees = magneticDeclination
+        )
     } else {
         null
     }
