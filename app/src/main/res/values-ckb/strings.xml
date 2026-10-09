@@ -64,4 +64,8 @@
     <string name="quran_translation_updated">نوێکردنەوەی سەرچاوە</string>
     <string name="quran_translation_covered_verses">ژمارەی ئایەتە وەرگێڕدراوەکان</string>
     <string name="quran_translation_missing_verses">ئایەتەکانی بێ وەرگێڕان</string>
+    <string name="adhkar_repeat_note_ar">ڕێنمایی دووبارەکردنەوە (عەرەبی)</string>
+    <string name="adhkar_repeat_note_en">ڕێنمایی دووبارەکردنەوە (ئینگلیزی)</string>
+    <string name="adhkar_merit_ar_label">فەزڵ (دەقی عەرەبیی سەرچاوە)</string>
+    <string name="adhkar_merit_en_label">فەزڵ (دەقی ئینگلیزیی سەرچاوە)</string>
 </resources>
