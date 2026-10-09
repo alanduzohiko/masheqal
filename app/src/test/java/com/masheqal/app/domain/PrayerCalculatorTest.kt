@@ -3,6 +3,7 @@ package com.masheqal.app.domain
 import java.time.LocalDate
 import java.time.ZoneId
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import com.masheqal.app.ui.screens.QuranAudioCatalog
