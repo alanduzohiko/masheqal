@@ -64,4 +64,8 @@
     <string name="quran_translation_updated">تاريخ تحديث المصدر</string>
     <string name="quran_translation_covered_verses">الآيات التي تتوفر لها ترجمة</string>
     <string name="quran_translation_missing_verses">الآيات التي تفتقر إلى ترجمة</string>
+    <string name="adhkar_repeat_note_ar">بيان التكرار (عربي)</string>
+    <string name="adhkar_repeat_note_en">بيان التكرار (إنجليزي)</string>
+    <string name="adhkar_merit_ar_label">الفضل (النص العربي من المصدر)</string>
+    <string name="adhkar_merit_en_label">الفضل (النص الإنجليزي من المصدر)</string>
 </resources>
