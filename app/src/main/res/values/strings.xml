@@ -44,6 +44,11 @@
     <string name="reciter_alafasy">Mishary Rashid Alafasy</string>
     <string name="reciter_husary">Mahmoud Khalil Al-Husary</string>
     <string name="reciter_minshawi">Mohamed Siddiq Al-Minshawi</string>
+    <string name="reciter_sudais">Abdul Rahman Al-Sudais</string>
+    <string name="reciter_shuraim">Saud Al-Shuraim</string>
+    <string name="reciter_abdulbasit">Abdul Basit Abdul Samad</string>
+    <string name="reciter_ajamy">Ahmed Al-Ajamy</string>
+    <string name="reciter_hudhaify">Ali Al-Hudhaify</string>
     <string name="audio_source_notice">Streams by Al Quran Cloud / Islamic Network. Internet connection required; rights remain with recording holders.</string>
     <string name="audio_choose_surah">Choose a surah</string>
     <string name="audio_ready">Ready to listen</string>
