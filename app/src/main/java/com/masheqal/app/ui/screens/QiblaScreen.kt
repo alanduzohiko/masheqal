@@ -48,6 +48,7 @@ fun QiblaScreen(nav: NavHostController) {
     val context = androidx.compose.ui.platform.LocalContext.current
     var location by remember { mutableStateOf(LocationChoiceStore.loadManual(context) ?: LocationUtils.lastKnown(context)) }
     var placeLabel by remember { mutableStateOf(location?.placeName) }
+    var showCityPicker by remember { mutableStateOf(false) }
     var azimuth by remember { mutableStateOf<Float?>(null) }
     var sensorAccuracy by remember { mutableIntStateOf(SensorManager.SENSOR_STATUS_UNRELIABLE) }
     var locationRefreshing by remember { mutableStateOf(false) }
@@ -212,6 +213,9 @@ fun QiblaScreen(nav: NavHostController) {
                         },
                         modifier = Modifier.fillMaxWidth()
                     ) { Text(stringResource(R.string.set_location)) }
+                    TextButton(onClick = { showCityPicker = true }) {
+                        Text(stringResource(R.string.choose_city))
+                    }
                     if (locationRefreshFailed) {
                         Text(
                             stringResource(R.string.location_refresh_failed),
@@ -389,6 +393,18 @@ fun QiblaScreen(nav: NavHostController) {
             )
         }
         Spacer(Modifier.height(24.dp))
+    }
+
+    if (showCityPicker) {
+        CityPickerDialog(
+            onDismiss = { showCityPicker = false },
+            onPlaceSelected = { selected ->
+                location = LocationChoiceStore.saveManual(context, selected)
+                placeLabel = selected.displayName
+                locationRefreshFailed = false
+                showCityPicker = false
+            }
+        )
     }
 }
 

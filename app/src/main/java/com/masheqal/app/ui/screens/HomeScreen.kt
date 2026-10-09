@@ -233,7 +233,7 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
                             var countdown by remember(candidate.name, candidate.minutes) {
                                 mutableStateOf(countdownText(candidate.minutes, now))
                             }
-                            LaunchedEffect(candidate.name, candidate.minutes) {
+                            LaunchedEffect(candidate.name, candidate.minutes, prayerZone) {
                                 while (true) {
                                     countdown = countdownText(candidate.minutes, ZonedDateTime.now(prayerZone))
                                     delay(1000)

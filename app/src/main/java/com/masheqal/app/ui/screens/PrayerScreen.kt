@@ -358,7 +358,7 @@ fun PrayerScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: ()
                                 var countdown by remember(next.first, next.second) {
                                     mutableStateOf(countdownText(next.second, prayerZone))
                                 }
-                                LaunchedEffect(next.first, next.second) {
+                                LaunchedEffect(next.first, next.second, prayerZone) {
                                     while (true) {
                                         countdown = countdownText(next.second, prayerZone)
                                         delay(1000)
