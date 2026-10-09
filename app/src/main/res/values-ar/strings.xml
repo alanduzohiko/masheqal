@@ -152,4 +152,11 @@
     <string name="qibla_compass_hint">أبقِ الهاتف أفقيًا وحرّكه على شكل رقم ثمانية إذا كان اتجاه البوصلة غير مستقر.</string>
     <string name="qibla_location_quality">جودة تحديد الموقع</string>
     <string name="qibla_refresh_location">تحديث موقع القبلة</string>
+    <string name="adhan_voice">صوت الأذان</string>
+    <string name="adhan_voice_beautiful">أذان جميل</string>
+    <string name="adhan_voice_community">أذان من تسجيل مستقل</string>
+    <string name="adhan_voice_preview">معاينة الصوت</string>
+    <string name="adhan_voice_source_beautiful">تسجيل آدم-سيناغدا · CC0 1.0</string>
+    <string name="adhan_voice_source_community">تسجيل Aishatu98 · CC0 1.0</string>
+    <string name="adhan_voice_note">اختر التسجيل الذي سيُشغَّل مع تذكيرات الصلاة. هذا اختيار مستقل عن قارئ القرآن.</string>
 </resources>
