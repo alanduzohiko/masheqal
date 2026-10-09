@@ -70,7 +70,9 @@ def fetch_voice(voice: dict) -> dict:
     expected_size = int(info.get("size", 0))
     if expected_size <= 0 or expected_size > MAX_BYTES:
         raise RuntimeError(f"{voice['title']} size is missing or exceeds the 2 MiB safety limit")
-    if not str(info.get("mime", "")).startswith("audio/"):
+    # Wikimedia Commons commonly labels Ogg Vorbis audio as application/ogg.
+    mime_type = str(info.get("mime", "")).lower()
+    if not (mime_type.startswith("audio/") or mime_type == "application/ogg"):
         raise RuntimeError(f"Unexpected non-audio MIME type for {voice['title']}: {info.get('mime')!r}")
     source_url = info.get("url", "")
     if not source_url.startswith("https://upload.wikimedia.org/wikipedia/commons/"):
