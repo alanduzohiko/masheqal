@@ -308,6 +308,7 @@ object QuranAudioCatalog {
     }
 }
 
+@UnstableApi
 private fun makeAudioQueue(surahs: List<SurahMeta>, edition: String, reciter: String): List<MediaItem> =
     surahs.map { surah ->
         MediaItem.Builder()
@@ -329,7 +330,8 @@ private fun audioTime(ms: Long): String {
     return "%02d:%02d".format(Locale.ROOT, seconds / 60L, seconds % 60L)
 }
 
-@OptIn(UnstableApi::class, ExperimentalMaterial3Api::class)
+@UnstableApi
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun QuranAudioScreen(app: MasheqalApp, nav: NavHostController) {
     val context = LocalContext.current
