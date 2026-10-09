@@ -40,7 +40,7 @@ No religious content is inserted merely to make a screen appear complete. Every 
 
 - **Source:** `quran-ws/quran-svg`, immutable CDN release `v1.1.1`, edition `hafs-kfqc` (Madinah Mushaf / Hafs).
 - **Page artwork terms:** King Fahd Glorious Qur'an Printing Complex terms permit digital publishing, software, media and website use. The terms remain those of the publisher; the app does not claim ownership of the page artwork.
-- **Ayah polygon/metadata layer:** CC BY 4.0 for the repository's contribution; attribution inside a product is waived per its `NOTICE.md`. The first implementation renders page SVG only and does not yet use ayah polygons for tap/highlight.
+- **Ayah polygon/metadata layer:** CC BY 4.0 for the repository's contribution; attribution inside a product is waived per its `NOTICE.md`. The reader fetches per-page JSON polygon metadata, caches it locally, and uses hit-testing to open an ayah action panel (bookmark, explicit English-translation display, copy and share). If the JSON sidecar cannot be obtained, the page remains readable but tapping ayahs is unavailable until a connection succeeds.
 - **Source references:** https://github.com/quran-ws/quran-svg and https://quran.ws/docs/reference/quran-svg/
 - **Delivery behavior:** SVG pages are fetched over HTTPS on first view and cached compressed in app-private storage. Therefore each visited page works offline afterward; this is not yet a complete 604-page offline bundle and must not be described as such.
 - **Renderer:** AndroidSVG (`com.caverock:androidsvg-aar:1.4`), Apache-2.0.

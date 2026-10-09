@@ -35,10 +35,15 @@
     <string name="mushaf_mode">Mushaf page</string>
     <string name="text_mode">Text reading</string>
     <string name="mushaf_edition">Madinah Mushaf · Hafs narration</string>
+    <string name="mushaf_ayah_actions_need_connection">Connect once to load ayah touch regions for this page.</string>
+    <string name="ayah_options">Ayah options</string>
+    <string name="english_translation">English translation</string>
+    <string name="hide_translation">Hide translation</string>
+    <string name="copy_ayah">Copy ayah</string>
     <string name="previous_page">Previous Mushaf page</string>
     <string name="next_page">Next Mushaf page</string>
     <string name="mushaf_loading">Loading Mushaf page…</string>
-    <string name="mushaf_load_error">This page could not be loaded. Connect to the internet or switch to text reading.</string>
+    <string name="mushaf_load_error">This page could not be loaded. Check your connection and try again.</string>
     <string name="mushaf_saved_offline">Page saved for offline reading</string>
     <string name="mushaf_available_offline">Available offline</string>
     <string name="retry">Retry</string>
