@@ -192,6 +192,7 @@ fun MasheqalRoot(
             composable("tasbih") { TasbihScreen(app, nav) }
             composable("adhkar") { AdhkarScreen(app, nav) }
             composable("dua") { DuaScreen(app, nav) }
+            composable("names") { NamesOfAllahScreen(app, nav) }
             composable("library") { LibraryScreen(app, nav) }
             composable("saved") { SavedScreen(app, nav) }
             composable("notes") { NotesScreen(app, nav) }
