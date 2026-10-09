@@ -23,7 +23,7 @@ object OfflineAudioDownloads {
     private const val PREFS = "masheqal_offline_audio"
     private const val KEY_PREFIX = "download_"
 
-    private fun key(edition: String, surah: Int) = "$"+"KEY_PREFIX$"+"edition:$"+"surah"
+    private fun key(edition: String, surah: Int) = KEY_PREFIX + edition + ":" + surah
 
     fun enqueue(
         context: Context,
