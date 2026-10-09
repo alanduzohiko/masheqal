@@ -24,6 +24,7 @@ data class CurrentLocation(
     val provider: String? = null,
     val placeName: String? = null,
     val countryName: String? = null,
+    val countryCode: String? = null,
     val isManual: Boolean = false
 ) {
     val isPrecise: Boolean

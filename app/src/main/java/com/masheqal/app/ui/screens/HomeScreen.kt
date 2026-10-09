@@ -69,19 +69,22 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
         placeLabel = current?.placeName
         if (current != null && current.placeName.isNullOrBlank()) {
             placeLabel = runCatching {
-                PlaceLookup.reverseGeocode(context, current.latitude, current.longitude)?.displayName
+                PlaceLookup.reverseGeocode(context, current.latitude, current.longitude)?.let { match ->
+                    location = current.copy(placeName = match.displayName, countryName = match.countryName, countryCode = match.countryCode)
+                    match.displayName
+                }
             }.getOrNull()
         }
     }
 
-    LaunchedEffect(location?.latitude, location?.longitude) {
+    LaunchedEffect(location?.latitude, location?.longitude, location?.countryCode) {
         val current = location
         if (current == null) {
             prayerZone = ZoneId.systemDefault()
             timezoneLookupFailed = false
         } else {
             val resolvedZone = runCatching {
-                PrayerTimeZoneResolver.resolve(current.latitude, current.longitude)
+                PrayerTimeZoneResolver.resolve(current.latitude, current.longitude, current.countryCode)
             }.getOrNull()
             if (resolvedZone != null) {
                 prayerZone = resolvedZone

@@ -16,7 +16,8 @@ data class PlaceMatch(
     val longitude: Double,
     val cityName: String,
     val regionName: String? = null,
-    val countryName: String? = null
+    val countryName: String? = null,
+    val countryCode: String? = null
 ) {
     val displayName: String
         get() = PlaceLabelFormatter.format(cityName, regionName, countryName)
@@ -98,7 +99,7 @@ object PlaceLookup {
         val region = sequenceOf(address.adminArea, address.subAdminArea)
             .mapNotNull { it?.trim()?.takeIf(String::isNotEmpty) }
             .firstOrNull { !it.equals(city, ignoreCase = true) }
-        return PlaceMatch(address.latitude, address.longitude, city, region, country)
+        return PlaceMatch(address.latitude, address.longitude, city, region, country, address.countryCode?.uppercase(Locale.ROOT))
     }
 }
 
@@ -109,6 +110,7 @@ object LocationChoiceStore {
     private const val KEY_LONGITUDE = "longitude"
     private const val KEY_LABEL = "label"
     private const val KEY_COUNTRY = "country"
+    private const val KEY_COUNTRY_CODE = "countryCode"
 
     fun loadManual(context: Context): CurrentLocation? {
         val prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
@@ -126,6 +128,7 @@ object LocationChoiceStore {
             provider = "manual",
             placeName = label,
             countryName = prefs.getString(KEY_COUNTRY, null),
+            countryCode = prefs.getString(KEY_COUNTRY_CODE, null),
             isManual = true
         )
     }
@@ -140,6 +143,7 @@ object LocationChoiceStore {
             .putString(KEY_LONGITUDE, place.longitude.toString())
             .putString(KEY_LABEL, place.displayName)
             .putString(KEY_COUNTRY, place.countryName)
+            .putString(KEY_COUNTRY_CODE, place.countryCode?.uppercase(Locale.ROOT))
             .apply()
         return loadManual(context) ?: error("Saved city could not be read back")
     }
