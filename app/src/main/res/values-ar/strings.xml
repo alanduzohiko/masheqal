@@ -47,4 +47,13 @@
     <string name="audio_connecting">جارٍ الاتصال بمشغل الصوت…</string>
     <string name="audio_reciter">القارئ</string>
     <string name="translation_unavailable">الترجمة المختارة غير متاحة لهذه الآية.</string>
+    <string name="adhkar_bundled_title">أذكار الصباح والمساء متاحة</string>
+    <string name="adhkar_bundled_status">محتوى عربي وترجمة إنجليزية مضمّنان</string>
+    <string name="adhkar_bundled_notice">تتضمن هذه الحزمة الموثّقة الأذكار بالعربية وترجمتها الإنجليزية. الترجمة السورانية غير متوفرة في هذه الحزمة بعد.</string>
+    <string name="adhkar_translation_en_label">الترجمة الإنجليزية</string>
+    <string name="adhkar_source_label">المصدر</string>
+    <string name="adhkar_progress_label">أُنجز %1$d من %2$d تكرارًا</string>
+    <string name="adhkar_count_one">تسجيل +1</string>
+    <string name="adhkar_load_error">تعذّر تحميل حزمة الأذكار. حاول مرة أخرى.</string>
+    <string name="adhkar_retry">إعادة المحاولة</string>
 </resources>
