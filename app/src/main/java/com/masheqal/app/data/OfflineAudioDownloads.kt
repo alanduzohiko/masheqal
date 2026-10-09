@@ -2,7 +2,6 @@ package com.masheqal.app.data
 
 import android.app.DownloadManager
 import android.content.Context
-import android.net.Uri
 import android.os.Environment
 import com.masheqal.app.ui.screens.QuranAudioCatalog
 import java.io.File
@@ -36,6 +35,8 @@ object OfflineAudioDownloads {
         val target = targetFile(context, edition, surah)
         val parent = target.parentFile ?: error("Offline audio directory is unavailable")
         check(parent.exists() || parent.mkdirs()) { "Could not create the offline audio folder" }
+        val relativePath = "Masheqal/recitations/" +
+            edition.replace('.', '-') + "-" + surah.toString().padStart(3, '0') + ".mp3"
 
         val manager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
         val request = DownloadManager.Request(Uri.parse(url))
@@ -45,7 +46,7 @@ object OfflineAudioDownloads {
             .setAllowedOverMetered(true)
             .setAllowedOverRoaming(false)
             .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-            .setDestinationUri(Uri.fromFile(target))
+            .setDestinationInExternalFilesDir(context, Environment.DIRECTORY_MUSIC, relativePath)
 
         val id = manager.enqueue(request)
         context.applicationContext.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
