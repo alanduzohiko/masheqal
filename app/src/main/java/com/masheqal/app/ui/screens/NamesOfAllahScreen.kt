@@ -77,9 +77,10 @@ fun NamesOfAllahScreen(app: MasheqalApp, nav: NavHostController, initialQuery: S
             NamesFilter.REMAINING -> !learned
             NamesFilter.FAVORITES -> favoriteByNumber[name.number] == true
         }
-        val matchesQuery = normalizedQuery.isBlank() || listOf(
-            name.arabic, name.transliteration, name.meaning, name.description
-        ).any { it.lowercase().contains(normalizedQuery) }
+        val matchesQuery = normalizedQuery.isBlank() || GlobalSearchMatcher.matches(
+            query,
+            listOf(name.arabic, name.transliteration, name.meaning, name.description)
+        )
         matchesFilter && matchesQuery
     }
 

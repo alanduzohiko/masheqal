@@ -86,9 +86,10 @@ fun AdhkarScreen(app: MasheqalApp, nav: NavHostController, initialQuery: String 
     val categoryItems = packageData?.items.orEmpty().filter { it.appliesTo(period) }
     val normalizedQuery = query.trim().lowercase()
     val visibleItems = categoryItems.filter { item ->
-        normalizedQuery.isBlank() || listOf(
-            item.titleEn, item.arabic, item.translationEn, item.sourceEn, item.sourceAr
-        ).any { it.lowercase().contains(normalizedQuery) }
+        normalizedQuery.isBlank() || GlobalSearchMatcher.matches(
+            query,
+            listOf(item.titleEn, item.arabic, item.transliteration, item.translationEn, item.sourceEn, item.sourceAr)
+        )
     }
     val totalTarget = categoryItems.sumOf { it.repeatCount }
     val completed = categoryItems.sumOf { counts[it.order] ?: 0 }

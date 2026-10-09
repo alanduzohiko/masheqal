@@ -80,9 +80,10 @@ fun DuaScreen(
     val normalizedQuery = query.trim().lowercase()
     val visibleDuas = sourceDuas.filter { item ->
         val matchesCategory = category == AdhkarPeriod.ALL || item.categoryId == category.categoryId
-        val matchesQuery = normalizedQuery.isBlank() || listOf(
-            item.titleEn, item.arabic, item.transliteration, item.translationEn, item.sourceEn
-        ).any { it.lowercase().contains(normalizedQuery) }
+        val matchesQuery = normalizedQuery.isBlank() || GlobalSearchMatcher.matches(
+            query,
+            listOf(item.titleEn, item.arabic, item.transliteration, item.translationEn, item.sourceEn, item.sourceAr)
+        )
         matchesCategory && matchesQuery
     }
 
