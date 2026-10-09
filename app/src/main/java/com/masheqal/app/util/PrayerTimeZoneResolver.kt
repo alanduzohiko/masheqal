@@ -19,20 +19,28 @@ object PrayerTimeZoneResolver {
     private val engineLock = Any()
     private val engines = LinkedHashMap<String, TimeZoneEngine>(4, 0.75f, true)
 
+    internal fun hasValidCoordinates(latitude: Double, longitude: Double): Boolean =
+        latitude.isFinite() && latitude in -90.0..90.0 &&
+            longitude.isFinite() && longitude in -180.0..180.0
+
+    internal fun normalizeCountryCode(countryCode: String?): String? =
+        countryCode?.trim()?.uppercase(Locale.ROOT)
+            ?.takeIf { it.matches(Regex("[A-Z]{2}")) }
+
+    internal fun chooseRegionalZone(zones: List<ZoneId>): ZoneId? =
+        zones.firstOrNull { zone ->
+            !zone.id.startsWith("Etc/") && zone.id != "UTC" && zone.id != "GMT"
+        } ?: zones.firstOrNull()
+
     suspend fun resolve(latitude: Double, longitude: Double, countryCode: String?): ZoneId? {
-        if (!latitude.isFinite() || latitude !in -90.0..90.0) return null
-        if (!longitude.isFinite() || longitude !in -180.0..180.0) return null
-        val country = countryCode?.trim()?.uppercase(Locale.ROOT)
-            ?.takeIf { it.matches(Regex("[A-Z]{2}")) } ?: return null
+        if (!hasValidCoordinates(latitude, longitude)) return null
+        val country = normalizeCountryCode(countryCode) ?: return null
 
         return withContext(Dispatchers.IO) {
             val engine = engineForCountry(country) ?: return@withContext null
             runCatching {
                 // Some boundary sources overlap. Prefer a named regional IANA zone to Etc/GMT.
-                engine.queryAll(latitude, longitude)
-                    .firstOrNull { zone ->
-                        !zone.id.startsWith("Etc/") && zone.id != "UTC" && zone.id != "GMT"
-                    }
+                chooseRegionalZone(engine.queryAll(latitude, longitude))
                     ?: engine.query(latitude, longitude).orElse(null)
             }.getOrNull()
         }

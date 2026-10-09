@@ -1,24 +1,37 @@
 package com.masheqal.app.util
 
-import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.time.ZoneId
 
 class PrayerTimeZoneResolverTest {
     @Test
-    fun resolvesKnownWorldCoordinatesWithinTheReportedCountry() = runBlocking {
-        assertEquals(ZoneId.of("Asia/Baghdad"), PrayerTimeZoneResolver.resolve(35.56, 45.43, "IQ"))
-        assertEquals(ZoneId.of("Europe/London"), PrayerTimeZoneResolver.resolve(51.5074, -0.1278, "GB"))
-        assertEquals(ZoneId.of("America/New_York"), PrayerTimeZoneResolver.resolve(40.7128, -74.0060, "US"))
+    fun prefersNamedRegionalZoneWhenTimezoneBoundariesOverlap() {
+        val selected = PrayerTimeZoneResolver.chooseRegionalZone(
+            listOf(ZoneId.of("Etc/GMT-3"), ZoneId.of("Asia/Baghdad"))
+        )
+        assertEquals(ZoneId.of("Asia/Baghdad"), selected)
     }
 
     @Test
-    fun rejectsInvalidCoordinatesAndUnknownCountry() = runBlocking {
-        assertNull(PrayerTimeZoneResolver.resolve(91.0, 0.0, "IQ"))
-        assertNull(PrayerTimeZoneResolver.resolve(0.0, 181.0, "IQ"))
-        assertNull(PrayerTimeZoneResolver.resolve(35.56, 45.43, null))
-        assertNull(PrayerTimeZoneResolver.resolve(35.56, 45.43, "???"))
+    fun fallsBackToOnlyAvailableZoneWhenNoRegionalZoneExists() {
+        assertEquals(
+            ZoneId.of("Etc/GMT-3"),
+            PrayerTimeZoneResolver.chooseRegionalZone(listOf(ZoneId.of("Etc/GMT-3")))
+        )
+        assertNull(PrayerTimeZoneResolver.chooseRegionalZone(emptyList()))
+    }
+
+    @Test
+    fun validatesCoordinatesAndCountryCodeWithoutAndroidRuntime() {
+        assertTrue(PrayerTimeZoneResolver.hasValidCoordinates(35.56, 45.43))
+        assertFalse(PrayerTimeZoneResolver.hasValidCoordinates(91.0, 0.0))
+        assertFalse(PrayerTimeZoneResolver.hasValidCoordinates(0.0, Double.NaN))
+        assertEquals("IQ", PrayerTimeZoneResolver.normalizeCountryCode(" iq "))
+        assertNull(PrayerTimeZoneResolver.normalizeCountryCode(null))
+        assertNull(PrayerTimeZoneResolver.normalizeCountryCode("???"))
     }
 }
