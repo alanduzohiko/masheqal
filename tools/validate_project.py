@@ -61,6 +61,12 @@ for name, expected, key in [("quran_page_ranges.json", 604, "page"), ("quran_juz
         cursor = r["last_global_ayah"] + 1
     assert cursor == 6237
 
+# Guard against visible replacement placeholders and broken Quran page routes.
+quran_screen = (ROOT / "app/src/main/java/com/masheqal/app/ui/screens/QuranScreen.kt").read_text(encoding="utf-8")
+assert "§" not in quran_screen, "Unresolved placeholder marker in QuranScreen.kt"
+assert 'nav.navigate("quran/page/$page")' in quran_screen, "Page picker must navigate to the selected Mushaf page"
+assert '"${stringResource(R.string.juz)} $juz"' in quran_screen, "Juz picker must render the selected juz number"
+
 # Kotlin delimiter sanity (comments and common string literals removed).
 def cleaned(s: str) -> str:
     s = re.sub(r"//.*", "", s)
