@@ -107,6 +107,37 @@ class PrayerCalculatorTest {
             .onSuccess { throw AssertionError("An invalid UTC offset was accepted") }
     }
     @Test
+    fun qiblaDirectionConvertsMagneticHeadingToTrueNorthAndWrapsAtNorth() {
+        assertEquals(
+            -10.0,
+            QiblaCalculator.signedDeltaFromMagneticHeading(
+                trueBearingDegrees = 90.0,
+                magneticAzimuthDegrees = 90.0,
+                magneticDeclinationDegrees = 10.0
+            ),
+            0.0001
+        )
+        assertEquals(
+            5.0,
+            QiblaCalculator.signedDeltaFromMagneticHeading(
+                trueBearingDegrees = 5.0,
+                magneticAzimuthDegrees = 350.0,
+                magneticDeclinationDegrees = 10.0
+            ),
+            0.0001
+        )
+        assertEquals(
+            -5.0,
+            QiblaCalculator.signedDeltaFromMagneticHeading(
+                trueBearingDegrees = 355.0,
+                magneticAzimuthDegrees = 0.0,
+                magneticDeclinationDegrees = 0.0
+            ),
+            0.0001
+        )
+    }
+
+    @Test
     fun audioCatalogBuildsCanonicalSurahStreamingUrls() {
         assertEquals(
             "https://cdn.islamic.network/quran/audio-surah/128/ar.alafasy/1.mp3",
