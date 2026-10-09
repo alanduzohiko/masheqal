@@ -66,4 +66,12 @@
     <string name="adhkar_count_one">Count +1</string>
     <string name="adhkar_load_error">The adhkar package could not be loaded. Please try again.</string>
     <string name="adhkar_retry">Retry</string>
+    <string name="quran_translation_source_title">Sorani translation source and coverage</string>
+    <string name="quran_translation_source_unavailable">Translation source metadata could not be read.</string>
+    <string name="quran_translation_translator">Translator</string>
+    <string name="quran_translation_publisher">Publisher</string>
+    <string name="quran_translation_version">Source version</string>
+    <string name="quran_translation_updated">Source updated</string>
+    <string name="quran_translation_covered_verses">Verses with translation</string>
+    <string name="quran_translation_missing_verses">Verses missing a translation</string>
 </resources>
