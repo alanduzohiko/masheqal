@@ -40,4 +40,20 @@
     <string name="mushaf_saved_offline">Page saved for offline reading</string>
     <string name="mushaf_available_offline">Available offline</string>
     <string name="retry">Retry</string>
+    <string name="audio_player_title">Listen to Quran</string>
+    <string name="reciter_alafasy">Mishary Rashid Alafasy</string>
+    <string name="reciter_husary">Mahmoud Khalil Al-Husary</string>
+    <string name="reciter_minshawi">Mohamed Siddiq Al-Minshawi</string>
+    <string name="audio_source_notice">Streams by Al Quran Cloud / Islamic Network. Internet connection required; rights remain with recording holders.</string>
+    <string name="audio_choose_surah">Choose a surah</string>
+    <string name="audio_ready">Ready to listen</string>
+    <string name="audio_previous_surah">Previous surah</string>
+    <string name="audio_next_surah">Next surah</string>
+    <string name="audio_play">Play</string>
+    <string name="audio_play_surah">Play surah</string>
+    <string name="audio_connection_error">Could not connect to the audio player. Try again.</string>
+    <string name="audio_load_error">Could not load the surah list.</string>
+    <string name="audio_retry">Retry</string>
+    <string name="audio_connecting">Connecting to the audio player…</string>
+    <string name="audio_reciter">Reciter</string>
 </resources>
