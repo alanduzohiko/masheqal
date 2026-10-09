@@ -56,4 +56,12 @@
     <string name="adhkar_count_one">ژماردن +1</string>
     <string name="adhkar_load_error">نەتوانرا پەکێجی ئەذکار بخوێندرێتەوە. تکایە دووبارە هەوڵبدە.</string>
     <string name="adhkar_retry">دووبارە هەوڵبدە</string>
+    <string name="quran_translation_source_title">سەرچاوە و ڕادەی وەرگێڕانی سۆرانی</string>
+    <string name="quran_translation_source_unavailable">نەتوانرا زانیاریی سەرچاوەی وەرگێڕان بخوێندرێتەوە.</string>
+    <string name="quran_translation_translator">وەرگێڕ</string>
+    <string name="quran_translation_publisher">بڵاوکەرەوە</string>
+    <string name="quran_translation_version">وەشانی سەرچاوە</string>
+    <string name="quran_translation_updated">نوێکردنەوەی سەرچاوە</string>
+    <string name="quran_translation_covered_verses">ژمارەی ئایەتە وەرگێڕدراوەکان</string>
+    <string name="quran_translation_missing_verses">ئایەتەکانی بێ وەرگێڕان</string>
 </resources>
