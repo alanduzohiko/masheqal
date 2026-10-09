@@ -149,7 +149,7 @@ fun MasheqalRoot(
             composable("prayer") { PrayerScreen(app, nav, onRequestLocation) }
             composable("qibla") { QiblaScreen(nav) }
             composable("tasbih") { TasbihScreen(app, nav) }
-            composable("adhkar") { AdhkarScreen(nav) }
+            composable("adhkar") { AdhkarScreen(app, nav) }
             composable("library") { LibraryScreen(app, nav) }
             composable("saved") { SavedScreen(app, nav) }
             composable("notes") { NotesScreen(app, nav) }
