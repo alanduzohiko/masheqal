@@ -5,7 +5,24 @@ import org.json.JSONArray
 import java.text.Normalizer
 
 
-data class QuranVerse(val id: Int, val surah: Int, val ayah: Int, val text: String, val translationEn: String? = null)
+data class QuranVerse(
+    val id: Int,
+    val surah: Int,
+    val ayah: Int,
+    val text: String,
+    val translationEn: String? = null,
+    val translationCkb: String? = null,
+    val translationCkbFootnotes: String? = null
+)
+data class QuranTranslationInfo(
+    val translator: String,
+    val publisher: String,
+    val version: String,
+    val lastUpdate: String,
+    val attribution: String,
+    val translatedAyahCount: Int,
+    val missingAyahs: List<String>
+)
 data class SurahMeta(val number: Int, val nameAr: String, val nameEn: String, val ayahCount: Int, val revelation: String)
 data class SearchHit(val verse: QuranVerse, val matchedField: String)
 data class QuranRange(val number: Int, val firstGlobalAyah: Int, val lastGlobalAyah: Int)
@@ -15,12 +32,20 @@ class QuranRepository(private val context: Context) {
     @Volatile private var surahs: List<SurahMeta>? = null
     @Volatile private var pages: List<QuranRange>? = null
     @Volatile private var juzs: List<QuranRange>? = null
+    @Volatile private var soraniInfo: QuranTranslationInfo? = null
 
     suspend fun loadSurahs(): List<SurahMeta> = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
         surahs ?: synchronized(this@QuranRepository) {
             surahs ?: readSurahs().also { surahs = it }
         }
     }
+
+    suspend fun loadSoraniTranslationInfo(): QuranTranslationInfo =
+        kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+            soraniInfo ?: synchronized(this@QuranRepository) {
+                soraniInfo ?: readSoraniTranslationInfo().also { soraniInfo = it }
+            }
+        }
 
     suspend fun loadVerses(): List<QuranVerse> = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
         verses ?: synchronized(this@QuranRepository) {
@@ -55,11 +80,15 @@ class QuranRepository(private val context: Context) {
         return loadVerses().asSequence()
             .mapNotNull { verse ->
                 val ar = normalize(verse.text)
+                val ckb = normalize(verse.translationCkb.orEmpty())
                 val en = normalize(verse.translationEn.orEmpty())
                 when {
                     ar == nq -> SearchHit(verse, "exact Arabic")
                     ar.startsWith(nq) -> SearchHit(verse, "Arabic prefix")
                     ar.contains(nq) -> SearchHit(verse, "Arabic")
+                    ckb == nq -> SearchHit(verse, "exact Sorani")
+                    ckb.startsWith(nq) -> SearchHit(verse, "Sorani prefix")
+                    ckb.contains(nq) -> SearchHit(verse, "Sorani")
                     en == nq -> SearchHit(verse, "exact English")
                     en.startsWith(nq) -> SearchHit(verse, "English prefix")
                     en.contains(nq) -> SearchHit(verse, "English")
@@ -106,17 +135,60 @@ class QuranRepository(private val context: Context) {
     private fun readVerses(): List<QuranVerse> {
         val arText = context.assets.open("content/quran_ar_uthmani.json").bufferedReader().use { it.readText() }
         val enText = context.assets.open("content/quran_en_translation.json").bufferedReader().use { it.readText() }
+        val ckbText = context.assets.open("content/quran_ckb_translation.json").bufferedReader().use { it.readText() }
         val ar = JSONArray(arText)
         val en = JSONArray(enText)
-        require(ar.length() == 6236 && en.length() == 6236) { "Quran package integrity check failed" }
+        val ckb = JSONArray(ckbText)
+        require(ar.length() == 6236 && en.length() == 6236 && ckb.length() == 6236) {
+            "Quran package integrity check failed"
+        }
         return buildList(ar.length()) {
             for (i in 0 until ar.length()) {
                 val a = ar.getJSONObject(i)
                 val e = en.getJSONObject(i)
-                require(a.getInt("id") == e.getInt("id") && a.getInt("surah") == e.getInt("surah") && a.getInt("ayah") == e.getInt("ayah")) { "Translation mapping integrity failed at $i" }
-                add(QuranVerse(a.getInt("id"), a.getInt("surah"), a.getInt("ayah"), a.getString("text"), e.getString("text")))
+                val k = ckb.getJSONObject(i)
+                require(
+                    a.getInt("id") == e.getInt("id") && a.getInt("surah") == e.getInt("surah") &&
+                        a.getInt("ayah") == e.getInt("ayah") &&
+                        a.getInt("id") == k.getInt("id") && a.getInt("surah") == k.getInt("surah") &&
+                        a.getInt("ayah") == k.getInt("ayah")
+                ) { "Translation mapping integrity failed at global ayah $i" }
+                val sorani = k.optString("text", "")
+                require(sorani.isNotBlank() || k.optBoolean("missing", false)) {
+                    "Empty Sorani translation must be explicitly marked missing at global ayah ${a.getInt("id")}"
+                }
+                add(
+                    QuranVerse(
+                        id = a.getInt("id"),
+                        surah = a.getInt("surah"),
+                        ayah = a.getInt("ayah"),
+                        text = a.getString("text"),
+                        translationEn = e.getString("text"),
+                        translationCkb = sorani.takeIf { it.isNotBlank() },
+                        translationCkbFootnotes = k.optString("footnotes", "").takeIf { it.isNotBlank() }
+                    )
+                )
             }
         }
+    }
+
+    private fun readSoraniTranslationInfo(): QuranTranslationInfo {
+        val manifestText = context.assets.open("content/quran_ckb_manifest.json")
+            .bufferedReader().use { it.readText() }
+        val o = org.json.JSONObject(manifestText)
+        val missingJson = o.optJSONArray("missingAyahs") ?: org.json.JSONArray()
+        val missing = buildList(missingJson.length()) {
+            for (i in 0 until missingJson.length()) add(missingJson.getString(i))
+        }
+        return QuranTranslationInfo(
+            translator = o.optString("translator", ""),
+            publisher = o.optString("publisher", "QuranEnc.com"),
+            version = o.optString("version", ""),
+            lastUpdate = o.optString("lastUpdate", ""),
+            attribution = o.optString("attribution", "QuranEnc.com"),
+            translatedAyahCount = o.optInt("translatedAyahCount", 0),
+            missingAyahs = missing
+        )
     }
 
     companion object {
