@@ -38,6 +38,9 @@ import com.masheqal.app.util.PlaceLookup
 import com.masheqal.app.util.PrayerTimeZoneResolver
 import java.time.LocalDate
 import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
+import java.util.Locale
 import java.time.ZonedDateTime
 import kotlinx.coroutines.delay
 
@@ -202,6 +205,12 @@ fun PrayerScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: ()
         }
     }
 
+    val formattedDate = remember(today) {
+        DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
+            .withLocale(Locale.getDefault())
+            .format(today)
+    }
+
     val allRows = times?.let {
         listOf(
             stringResource(R.string.fajr) to it.fajr,
@@ -240,7 +249,7 @@ fun PrayerScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: ()
                 Column {
                     Text(stringResource(R.string.prayer), style = MaterialTheme.typography.headlineMedium)
                     Text(
-                        today.toString(),
+                        formattedDate,
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
