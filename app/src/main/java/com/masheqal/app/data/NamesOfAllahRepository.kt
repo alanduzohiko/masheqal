@@ -129,4 +129,16 @@ class NamesOfAllahProgressStore(context: Context) {
     }
 
     fun countLearned(): Int = (1..99).count { isLearned(it) }
+
+    fun isFavorite(number: Int): Boolean {
+        require(number in 1..99)
+        return preferences.getBoolean("favorite_$number", false)
+    }
+
+    fun setFavorite(number: Int, favorite: Boolean) {
+        require(number in 1..99)
+        preferences.edit().putBoolean("favorite_$number", favorite).apply()
+    }
+
+    fun countFavorites(): Int = (1..99).count { isFavorite(it) }
 }
