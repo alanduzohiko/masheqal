@@ -83,4 +83,10 @@
     <string name="audio_downloading">جارٍ تنزيل التلاوة…</string>
     <string name="audio_downloaded">تم التنزيل · متاح دون إنترنت</string>
     <string name="audio_download_failed">فشل تنزيل التلاوة. تحقق من الاتصال ثم أعد المحاولة.</string>
+    <string name="brand_tagline">رفيقك الروحي اليومي</string>
+    <string name="location_refresh">تحديث الموقع</string>
+    <string name="location_refreshing">جارٍ البحث عن موقع أدق…</string>
+    <string name="location_accuracy">دقة الموقع ±%1$d متر</string>
+    <string name="location_accuracy_approximate">الموقع تقريبي (±%1$d متر). فعّل الموقع الدقيق لتحسين مواقيت الصلاة والقبلة.</string>
+    <string name="location_refresh_failed">تعذر الحصول على موقع حديث. تحقق من خدمات الموقع ثم حاول مجددًا.</string>
 </resources>
