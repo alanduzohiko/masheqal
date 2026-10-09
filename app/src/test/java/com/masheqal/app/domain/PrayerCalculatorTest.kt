@@ -4,6 +4,7 @@ import java.time.LocalDate
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import com.masheqal.app.ui.screens.QuranAudioCatalog
 
 class PrayerCalculatorTest {
     private val sulaymaniyah = Coordinates(35.56, 45.43, 3.0)
@@ -66,4 +67,26 @@ class PrayerCalculatorTest {
         runCatching { PrayerCalculator.calculate(date, Coordinates(35.0, 45.0, 15.0)) }
             .onSuccess { throw AssertionError("An invalid UTC offset was accepted") }
     }
+    @Test
+    fun audioCatalogBuildsCanonicalSurahStreamingUrls() {
+        assertEquals(
+            "https://cdn.islamic.network/quran/audio-surah/128/ar.alafasy/1.mp3",
+            QuranAudioCatalog.surahUrl(1, "ar.alafasy")
+        )
+        assertEquals(
+            "https://cdn.islamic.network/quran/audio-surah/128/ar.minshawi/114.mp3",
+            QuranAudioCatalog.surahUrl(114, "ar.minshawi")
+        )
+    }
+
+    @Test
+    fun audioCatalogRejectsInvalidSurahAndUnknownReciter() {
+        runCatching { QuranAudioCatalog.surahUrl(0, "ar.alafasy") }
+            .onSuccess { throw AssertionError("Surah 0 must be rejected") }
+        runCatching { QuranAudioCatalog.surahUrl(115, "ar.alafasy") }
+            .onSuccess { throw AssertionError("Surah 115 must be rejected") }
+        runCatching { QuranAudioCatalog.surahUrl(1, "unknown.reciter") }
+            .onSuccess { throw AssertionError("Unknown audio edition must be rejected") }
+    }
+
 }
