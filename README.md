@@ -45,3 +45,12 @@ The user can use a connected GitHub account to host this project and run the wor
 ## Release signing
 
 No private signing key is included. The debug APK is installable for testing. Release APK/AAB outputs are intentionally unsigned until the owner's private keystore is supplied through a secure CI secret. Never put a keystore or credentials into source control.
+
+
+## Product V2 work (in progress)
+
+- RTL-aware Compose navigation transitions.
+- Localized Gregorian date in Home.
+- The Quran page reader now has a true Madinah Mushaf SVG mode, an alternate text/English reading mode, and compressed page caching for pages already visited.
+- Mushaf artwork uses the pinned `quran-ws/quran-svg` release `v1.1.1`. The first view needs internet; each successfully viewed page is then stored for offline access. Full 604-page offline download, ayah hit-testing/highlighting, and page-manifest SHA-256 enforcement are not yet complete.
+- See `docs/IMPLEMENTATION-CHECKLIST.md` for the full 177-section acceptance tracker. This branch is not yet a publish-ready release.
