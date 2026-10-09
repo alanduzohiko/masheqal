@@ -95,7 +95,7 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
                     Text(stringResource(R.string.app_name), style = MaterialTheme.typography.headlineMedium)
                     Spacer(Modifier.height(3.dp))
                     Text(
-                        $gregorianDate  •  ${hijri.day}/${hijri.month}/${hijri.year},
+                        "$gregorianDate  •  ${hijri.day}/${hijri.month}/${hijri.year}",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
