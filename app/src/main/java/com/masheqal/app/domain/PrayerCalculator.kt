@@ -9,6 +9,7 @@ import com.batoulapps.adhan.PrayerTimes as AdhanPrayerTimes
 import com.batoulapps.adhan.data.DateComponents as AdhanDateComponents
 import java.time.Instant
 import java.time.LocalDate
+import java.time.ZoneId
 import java.time.ZoneOffset
 import java.util.Date
 import kotlin.math.roundToInt
@@ -60,7 +61,8 @@ object PrayerCalculator {
         c: Coordinates,
         method: PrayerMethod = PrayerMethod.MWL,
         madhhab: AsrMadhhab = AsrMadhhab.SHAFI,
-        highLatitudeRule: HighLatitudeRule = HighLatitudeRule.ONE_SEVENTH
+        highLatitudeRule: HighLatitudeRule = HighLatitudeRule.ONE_SEVENTH,
+        zoneId: ZoneId? = null
     ): PrayerTimes {
         require(c.latitude.isFinite() && c.latitude in -90.0..90.0) { "Latitude out of range" }
         require(c.longitude.isFinite() && c.longitude in -180.0..180.0) { "Longitude out of range" }
@@ -104,8 +106,15 @@ object PrayerCalculator {
             checkNotNull(value) {
                 "The prayer-time engine could not calculate $name for $date at ${c.latitude}, ${c.longitude}"
             }
-            val local = Instant.ofEpochMilli(value.time).atOffset(offset)
-            return local.hour * 60.0 + local.minute
+            val instant = Instant.ofEpochMilli(value.time)
+            val zone = zoneId
+            return if (zone != null) {
+                val local = instant.atZone(zone)
+                local.hour * 60.0 + local.minute
+            } else {
+                val local = instant.atOffset(offset)
+                local.hour * 60.0 + local.minute
+            }
         }
 
         return PrayerTimes(
@@ -117,6 +126,19 @@ object PrayerCalculator {
             maghrib = localMinute("Maghrib", engine.maghrib),
             isha = localMinute("Isha", engine.isha)
         )
+    }
+
+    /**
+     * Resolves a prayer's local wall-clock minute to an instant in the selected time zone.
+     * This avoids treating a civil day as exactly 1,440 elapsed minutes on daylight-saving days.
+     */
+    fun instantForLocalPrayerMinute(date: LocalDate, prayerMinute: Double, zoneId: ZoneId): Instant {
+        require(prayerMinute.isFinite() && prayerMinute >= 0.0 && prayerMinute < 1440.0) {
+            "Prayer minute must be within the local day"
+        }
+        val roundedMinute = prayerMinute.roundToInt()
+        require(roundedMinute in 0 until 1440) { "Rounded prayer minute must be within the local day" }
+        return date.atStartOfDay().plusMinutes(roundedMinute.toLong()).atZone(zoneId).toInstant()
     }
 }
 
