@@ -38,6 +38,7 @@ import kotlinx.coroutines.delay
 fun PrayerScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -> Unit) {
     val context = androidx.compose.ui.platform.LocalContext.current
     var location by remember { mutableStateOf(LocationUtils.lastKnown(context)) }
+    var today by remember { mutableStateOf(LocalDate.now()) }
     var times by remember { mutableStateOf<PrayerTimes?>(null) }
     val settings by app.settings.state.collectAsState(initial = com.masheqal.app.data.SettingsState())
     val scope = rememberCoroutineScope()
@@ -52,13 +53,22 @@ fun PrayerScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: ()
         }
     }
 
-    LaunchedEffect(location, settings.prayerMethod, settings.madhhab) {
+    // Keep the displayed schedule current when the app remains open across midnight.
+    LaunchedEffect(Unit) {
+        while (true) {
+            delay(30_000L)
+            val currentDate = LocalDate.now()
+            if (currentDate != today) today = currentDate
+        }
+    }
+
+    LaunchedEffect(location, settings.prayerMethod, settings.madhhab, today) {
         location?.let { c ->
             val offset = ZonedDateTime.now().offset.totalSeconds / 3600.0
             val method = PrayerMethod.valueOf(settings.prayerMethod)
             val madhhab = AsrMadhhab.valueOf(settings.madhhab)
             times = PrayerCalculator.calculate(
-                LocalDate.now(),
+                today,
                 Coordinates(c.latitude, c.longitude, offset),
                 method,
                 madhhab
@@ -111,7 +121,7 @@ fun PrayerScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: ()
                 Column {
                     Text(stringResource(R.string.prayer), style = MaterialTheme.typography.headlineMedium)
                     Text(
-                        LocalDate.now().toString(),
+                        today.toString(),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
