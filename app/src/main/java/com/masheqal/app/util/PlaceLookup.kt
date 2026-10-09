@@ -77,6 +77,7 @@ object PlaceLookup {
             runCatching { geocoder.getFromLocationName(query, MAX_RESULTS) ?: emptyList() }.getOrDefault(emptyList())
         }
 
+    @androidx.annotation.RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private suspend fun callbackGeocode(start: (Geocoder.GeocodeListener) -> Unit): List<Address> =
         suspendCancellableCoroutine { continuation ->
             try {
