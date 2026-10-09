@@ -15,12 +15,15 @@ data class QuranVerse(
     val translationCkbFootnotes: String? = null
 ) {
     /**
-     * Uses the selected UI language without silently substituting English for a missing Sorani
-     * verse. A missing translation stays explicit so the reader never mistakes another language
-     * for the chosen one.
+     * Return only a translation that matches the explicitly selected language.
+     * Arabic is the source Quran text, not a reason to silently show English meaning.
+     * Missing translations stay absent rather than being replaced with another language.
      */
-    fun translationFor(language: String): String? =
-        if (language.equals("ckb", ignoreCase = true)) translationCkb else translationEn
+    fun translationFor(language: String): String? = when (language.lowercase()) {
+        "ckb" -> translationCkb
+        "en" -> translationEn
+        else -> null
+    }
 }
 data class QuranTranslationInfo(
     val translator: String,
@@ -103,42 +106,9 @@ class QuranRepository(private val context: Context) {
                     else -> null
                 }
             }
-            .take(limit)
+            .take(limit.coerceAtLeast(0))
             .toList()
     }
-
-    fun parseReference(raw: String): Pair<Int, Int>? {
-        val q = raw.trim().replace('：', ':').replace('－', '-')
-        val m = Regex("^(\\d{1,3})\\s*[:\\- ]\\s*(\\d{1,3})$").find(q) ?: return null
-        val s = m.groupValues[1].toIntOrNull() ?: return null
-        val a = m.groupValues[2].toIntOrNull() ?: return null
-        if (s !in 1..114 || a < 1) return null
-        return s to a
-    }
-
-    private fun readSurahs(): List<SurahMeta> {
-        val text = context.assets.open("content/surahs.json").bufferedReader().use { it.readText() }
-        val array = JSONArray(text)
-        return buildList(array.length()) {
-            for (i in 0 until array.length()) {
-                val o = array.getJSONObject(i)
-                add(SurahMeta(o.getInt("number"), o.getString("name_ar"), o.getString("name_en"), o.getInt("ayah_count"), o.getString("revelation")))
-            }
-        }
-    }
-
-    private fun readRanges(path: String, key: String): List<QuranRange> {
-        val text = context.assets.open(path).bufferedReader().use { it.readText() }
-        val array = JSONArray(text)
-        return buildList(array.length()) {
-            for (i in 0 until array.length()) {
-                val o=array.getJSONObject(i)
-                add(QuranRange(o.getInt(key),o.getInt("first_global_ayah"),o.getInt("last_global_ayah")))
-            }
-        }
-    }
-
-    private fun globalRangeFor(ranges: List<QuranRange>, globalAyah: Int): Int = ranges.firstOrNull { globalAyah in it.firstGlobalAyah..it.lastGlobalAyah }?.number ?: 1
 
     private fun readVerses(): List<QuranVerse> {
         val arText = context.assets.open("content/quran_ar_uthmani.json").bufferedReader().use { it.readText() }
@@ -184,32 +154,52 @@ class QuranRepository(private val context: Context) {
         val manifestText = context.assets.open("content/quran_ckb_manifest.json")
             .bufferedReader().use { it.readText() }
         val o = org.json.JSONObject(manifestText)
-        val missingJson = o.optJSONArray("missingAyahs") ?: org.json.JSONArray()
-        val missing = buildList(missingJson.length()) {
-            for (i in 0 until missingJson.length()) add(missingJson.getString(i))
-        }
+        val missing = o.getJSONArray("missingAyahs")
         return QuranTranslationInfo(
             translator = o.optString("translator", ""),
-            publisher = o.optString("publisher", "QuranEnc.com"),
+            publisher = o.optString("publisher", ""),
             version = o.optString("version", ""),
             lastUpdate = o.optString("lastUpdate", ""),
-            attribution = o.optString("attribution", "QuranEnc.com"),
+            attribution = o.optString("attribution", ""),
             translatedAyahCount = o.optInt("translatedAyahCount", 0),
-            missingAyahs = missing
+            missingAyahs = buildList(missing.length()) {
+                for (i in 0 until missing.length()) add(missing.getString(i))
+            }
         )
     }
 
-    companion object {
-        fun normalize(input: String): String {
-            val folded = input
-                .replace('أ', 'ا').replace('إ', 'ا').replace('آ', 'ا')
-                .replace('ى', 'ي').replace('ئ', 'ي').replace('ؤ', 'و').replace('ة', 'ه')
-                .replace("ٱ", "ا")
-            return Normalizer.normalize(folded.lowercase(), Normalizer.Form.NFD)
-                .replace("\\p{M}+".toRegex(), "")
-                .replace("ـ", "")
-                .replace("[\\s\\p{Punct}]+".toRegex(), " ")
-                .trim()
+    private fun readSurahs(): List<SurahMeta> {
+        val json = JSONArray(context.assets.open("content/quran_surahs.json").bufferedReader().use { it.readText() })
+        return buildList(json.length()) {
+            for (i in 0 until json.length()) {
+                val o = json.getJSONObject(i)
+                add(SurahMeta(o.getInt("number"), o.getString("nameAr"), o.getString("nameEn"), o.getInt("ayahCount"), o.optString("revelation", "")))
+            }
         }
     }
+
+    private fun readRanges(path: String, key: String): List<QuranRange> {
+        val json = JSONArray(context.assets.open(path).bufferedReader().use { it.readText() })
+        return buildList(json.length()) {
+            for (i in 0 until json.length()) {
+                val o = json.getJSONObject(i)
+                add(QuranRange(o.getInt(key), o.getInt("firstGlobalAyah"), o.getInt("lastGlobalAyah")))
+            }
+        }
+    }
+
+    private fun globalRangeFor(ranges: List<QuranRange>, globalAyah: Int): Int =
+        ranges.firstOrNull { globalAyah in it.firstGlobalAyah..it.lastGlobalAyah }?.number ?: 1
+
+    private fun parseReference(query: String): Pair<Int, Int>? {
+        val match = Regex("""^(\d{1,3})\s*[:：,.-]\s*(\d{1,3})$""").matchEntire(query.trim()) ?: return null
+        val surah = match.groupValues[1].toIntOrNull() ?: return null
+        val ayah = match.groupValues[2].toIntOrNull() ?: return null
+        return if (surah in 1..114 && ayah > 0) surah to ayah else null
+    }
+
+    private fun normalize(value: String): String = Normalizer.normalize(value, Normalizer.Form.NFKC)
+        .replace(Regex("[\\u064B-\\u065F\\u0670]"), "")
+        .replace("ـ", "")
+        .lowercase()
 }
