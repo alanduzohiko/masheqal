@@ -17,11 +17,13 @@ import androidx.navigation.NavHostController
 import com.masheqal.app.MasheqalApp
 import com.masheqal.app.R
 import com.masheqal.app.data.QuranVerse
+import com.masheqal.app.data.SettingsState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun QuranPageScreen(app: MasheqalApp, nav: NavHostController, page: Int) {
     val currentPage = page.coerceIn(1, 604)
+    val settings by app.settings.state.collectAsState(initial = SettingsState())
     var verses by remember { mutableStateOf(emptyList<QuranVerse>()) }
     var currentJuz by remember { mutableStateOf(1) }
     var showTranslation by remember { mutableStateOf(false) }
@@ -111,11 +113,21 @@ fun QuranPageScreen(app: MasheqalApp, nav: NavHostController, page: Int) {
                             modifier = Modifier.fillMaxWidth()
                         )
                         if (showTranslation) {
-                            Text(
-                                verse.translationEn.orEmpty(),
-                                style = MaterialTheme.typography.bodyMedium,
-                                modifier = Modifier.padding(top = 8.dp)
-                            )
+                            val visibleTranslation = verse.translationFor(settings.language)
+                            if (!visibleTranslation.isNullOrBlank()) {
+                                Text(
+                                    visibleTranslation,
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    modifier = Modifier.padding(top = 8.dp)
+                                )
+                            } else {
+                                Text(
+                                    stringResource(R.string.translation_unavailable),
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    modifier = Modifier.padding(top = 8.dp)
+                                )
+                            }
                         }
                     }
                 }
