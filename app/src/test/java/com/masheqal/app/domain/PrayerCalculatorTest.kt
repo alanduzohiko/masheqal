@@ -77,6 +77,14 @@ class PrayerCalculatorTest {
             "https://cdn.islamic.network/quran/audio-surah/128/ar.minshawi/114.mp3",
             QuranAudioCatalog.surahUrl(114, "ar.minshawi")
         )
+        assertEquals(
+            "https://cdn.islamic.network/quran/audio-surah/192/ar.sudais/12.mp3",
+            QuranAudioCatalog.surahUrl(12, "ar.sudais")
+        )
+        assertEquals(
+            "https://cdn.islamic.network/quran/audio-surah/128/ar.hudhaify/36.mp3",
+            QuranAudioCatalog.surahUrl(36, "ar.hudhaify")
+        )
     }
 
     @Test
