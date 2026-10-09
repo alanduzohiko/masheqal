@@ -43,12 +43,13 @@ fun QuranPageScreen(app: MasheqalApp, nav: NavHostController, page: Int) {
     var showEnglishMeaning by remember(selectedAyah?.id) { mutableStateOf(false) }
     var audioController by remember { mutableStateOf<MediaController?>(null) }
     var audioConnectionFailed by remember { mutableStateOf(false) }
+    var audioConnectionAttempt by remember { mutableIntStateOf(0) }
     var audioPlaybackFailed by remember { mutableStateOf(false) }
     var playingMediaId by remember { mutableStateOf<String?>(null) }
     var isAudioPlaying by remember { mutableStateOf(false) }
     var repeatAyah by rememberSaveable { mutableStateOf(false) }
 
-    DisposableEffect(context) {
+    DisposableEffect(context, audioConnectionAttempt) {
         var active = true
         val token = SessionToken(context, ComponentName(context, QuranPlaybackService::class.java))
         val future = MediaController.Builder(context, token).buildAsync()
@@ -58,8 +59,6 @@ fun QuranPageScreen(app: MasheqalApp, nav: NavHostController, page: Int) {
                     if (active) {
                         audioController = it
                         audioConnectionFailed = false
-                    } else {
-                        MediaController.releaseFuture(future)
                     }
                 }
                 .onFailure {
@@ -259,11 +258,19 @@ fun QuranPageScreen(app: MasheqalApp, nav: NavHostController, page: Int) {
                     )
                 }
                 if (audioConnectionFailed) {
-                    Text(
-                        stringResource(R.string.audio_connection_failed),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.error
-                    )
+                    Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                        Text(
+                            stringResource(R.string.audio_connection_failed),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.error
+                        )
+                        TextButton(onClick = {
+                            audioConnectionFailed = false
+                            audioConnectionAttempt++
+                        }) {
+                            Text(stringResource(R.string.retry))
+                        }
+                    }
                 }
                 if (audioPlaybackFailed) {
                     Text(

@@ -216,7 +216,6 @@
     <string name="play_selected_ayah">Play ayah</string>
     <string name="pause_selected_ayah">Pause</string>
     <string name="repeat_selected_ayah">Repeat ayah</string>
-    <string name="audio_connecting">Connecting to Quran audio…</string>
     <string name="audio_connection_failed">Audio player is unavailable. Open the audio player again and retry.</string>
     <string name="audio_playback_failed">Could not play this recitation. Check the connection and try again.</string>
 </resources>
