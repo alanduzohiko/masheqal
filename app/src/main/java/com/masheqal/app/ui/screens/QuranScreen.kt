@@ -395,7 +395,7 @@ fun QuranAudioScreen(app: MasheqalApp, nav: NavHostController) {
         playbackFailed = false
     }
 
-    fun selectEdition(edition: AudioEdition) {
+    fun selectEdition(edition: AudioEdition, reciterName: String) {
         if (edition.id == selectedEdition) return
         val player = controller
         val oldNumber = currentSurah
@@ -403,7 +403,7 @@ fun QuranAudioScreen(app: MasheqalApp, nav: NavHostController) {
         val wasPlaying = player?.isPlaying == true
         selectedEdition = edition.id
         if (player != null && oldNumber in 1..114 && surahs.isNotEmpty()) {
-            val newQueue = makeAudioQueue(surahs, edition.id, context.getString(edition.nameResource))
+            val newQueue = makeAudioQueue(surahs, edition.id, reciterName)
             val index = surahs.indexOfFirst { it.number == oldNumber }.coerceAtLeast(0)
             player.setMediaItems(newQueue, index, oldPosition)
             player.prepare()
@@ -589,10 +589,11 @@ fun QuranAudioScreen(app: MasheqalApp, nav: NavHostController) {
                 Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()),
                     horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     editions.forEach { edition ->
+                        val editionName = stringResource(edition.nameResource)
                         FilterChip(
                             selected = edition.id == selectedEdition,
-                            onClick = { selectEdition(edition) },
-                            label = { Text(stringResource(edition.nameResource)) },
+                            onClick = { selectEdition(edition, editionName) },
+                            label = { Text(editionName) },
                             leadingIcon = { if (edition.id == selectedEdition) Icon(Icons.Default.GraphicEq, null) }
                         )
                     }
