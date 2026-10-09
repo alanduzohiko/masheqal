@@ -1,0 +1,109 @@
+package com.masheqal.app.ui.screens
+
+import android.graphics.RectF
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import com.caverock.androidsvg.SVG
+import com.masheqal.app.R
+import com.masheqal.app.data.MushafPageStore
+import kotlinx.coroutines.CancellationException
+
+private data class MushafUiState(
+    val svg: SVG? = null,
+    val loading: Boolean = true,
+    val fromCache: Boolean = false,
+    val failed: Boolean = false
+)
+
+@Composable
+internal fun MushafPageImage(page: Int, modifier: Modifier = Modifier) {
+    val context = LocalContext.current.applicationContext
+    var retry by remember(page) { mutableIntStateOf(0) }
+    var state by remember(page) { mutableStateOf(MushafUiState()) }
+
+    LaunchedEffect(page, retry) {
+        state = MushafUiState(loading = true)
+        try {
+            val loaded = MushafPageStore.load(context, page)
+            state = MushafUiState(svg = loaded.svg, loading = false, fromCache = loaded.fromCache)
+        } catch (cancelled: CancellationException) {
+            throw cancelled
+        } catch (_: Exception) {
+            state = MushafUiState(loading = false, failed = true)
+        }
+    }
+
+    Column(
+        modifier = modifier
+            .background(MaterialTheme.colorScheme.surface)
+            .padding(horizontal = 8.dp, vertical = 8.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        val svg = state.svg
+        if (svg != null) {
+            Canvas(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f, fill = false)
+                    .aspectRatio(345f / 550f)
+            ) {
+                drawIntoCanvas { canvas ->
+                    svg.renderToCanvas(
+                        canvas.nativeCanvas,
+                        RectF(0f, 0f, size.width, size.height)
+                    )
+                }
+            }
+            Text(
+                text = stringResource(
+                    if (state.fromCache) R.string.mushaf_available_offline
+                    else R.string.mushaf_saved_offline
+                ),
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(top = 6.dp)
+            )
+        } else if (state.loading) {
+            CircularProgressIndicator()
+            Text(
+                text = stringResource(R.string.mushaf_loading),
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.padding(top = 12.dp)
+            )
+        } else if (state.failed) {
+            Text(
+                text = stringResource(R.string.mushaf_load_error),
+                style = MaterialTheme.typography.bodyMedium
+            )
+            Button(onClick = { retry++ }, modifier = Modifier.padding(top = 12.dp)) {
+                Text(stringResource(R.string.retry))
+            }
+        }
+    }
+}
