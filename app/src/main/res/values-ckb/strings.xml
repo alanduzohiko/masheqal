@@ -78,4 +78,9 @@
     <string name="adhkar_repeat_note_en">ڕێنمایی دووبارەکردنەوە (ئینگلیزی)</string>
     <string name="adhkar_merit_ar_label">فەزڵ (دەقی عەرەبیی سەرچاوە)</string>
     <string name="adhkar_merit_en_label">فەزڵ (دەقی ئینگلیزیی سەرچاوە)</string>
+
+    <string name="audio_download">بۆ گوێگرتن بەبێ ئینتەرنێت دایبگرە</string>
+    <string name="audio_downloading">تلاوەتەکە دادەبەزێت…</string>
+    <string name="audio_downloaded">داگیرا · بەبێ ئینتەرنێت بەردەستە</string>
+    <string name="audio_download_failed">داگرتنی دەنگ سەرکەوتوو نەبوو. پەیوەندی ئینتەرنێت بپشکنە و دووبارە هەوڵبدە.</string>
 </resources>
