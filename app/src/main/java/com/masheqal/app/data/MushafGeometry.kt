@@ -31,7 +31,7 @@ data class MushafAyahRegion(
 /** Small geometry helpers used to map taps on the rendered SVG to the pinned page metadata. */
 object MushafGeometry {
     private val numberPattern = """[-+]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][-+]?\d+)?"""
-    private val viewBoxRegex = Regex("""viewBox\s*=\s*["']\s*($numberPattern)[,\s]+($numberPattern)[,\s]+($numberPattern)[,\s]+($numberPattern)\s*["']""")
+    private val viewBoxRegex = Regex("viewBox\\s*=\\s*[\"']\\s*($numberPattern)[,\\s]+($numberPattern)[,\\s]+($numberPattern)[,\\s]+($numberPattern)\\s*[\"']")
 
     fun parseViewBox(svgText: String): MushafViewBox? {
         val match = viewBoxRegex.find(svgText) ?: return null
