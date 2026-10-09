@@ -83,4 +83,10 @@
     <string name="audio_downloading">تلاوەتەکە دادەبەزێت…</string>
     <string name="audio_downloaded">داگیرا · بەبێ ئینتەرنێت بەردەستە</string>
     <string name="audio_download_failed">داگرتنی دەنگ سەرکەوتوو نەبوو. پەیوەندی ئینتەرنێت بپشکنە و دووبارە هەوڵبدە.</string>
+    <string name="brand_tagline">هاوڕێی ڕۆژانەی ڕۆحی تۆ</string>
+    <string name="location_refresh">نوێکردنەوەی شوێن</string>
+    <string name="location_refreshing">گەڕان بەدوای شوێنێکی وردتر…</string>
+    <string name="location_accuracy">وردی شوێن ±%1$d مەتر</string>
+    <string name="location_accuracy_approximate">شوێنەکە نزیکەییە (±%1$d مەتر). بۆ کاتی نوێژ و قیبڵەی وردتر، شوێنی ورد چالاک بکە.</string>
+    <string name="location_refresh_failed">شوێنی نوێ وەرنەگیرا. خزمەتگوزاری شوێنی ئامێر بپشکنە و دووبارە هەوڵبدە.</string>
 </resources>
