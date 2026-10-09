@@ -173,32 +173,28 @@ class PrayerCalculatorTest {
             QuranAudioCatalog.surahUrl(1, "ar.alafasy")
         )
         assertEquals(
-            "https://cdn.islamic.network/quran/audio-surah/128/ar.minshawi/114.mp3",
-            QuranAudioCatalog.surahUrl(114, "ar.minshawi")
+            "https://cdn.islamic.network/quran/audio-surah/128/ar.nasseralqatami/114.mp3",
+            QuranAudioCatalog.surahUrl(114, "ar.nasseralqatami")
         )
         assertEquals(
-            "https://cdn.islamic.network/quran/audio-surah/192/ar.sudais/12.mp3",
-            QuranAudioCatalog.surahUrl(12, "ar.sudais")
+            "https://cdn.islamic.network/quran/audio-surah/128/ar.yasseraldossari/12.mp3",
+            QuranAudioCatalog.surahUrl(12, "ar.yasseraldossari")
         )
         assertEquals(
-            "https://cdn.islamic.network/quran/audio-surah/128/ar.hudhaify/36.mp3",
-            QuranAudioCatalog.surahUrl(36, "ar.hudhaify")
+            "https://cdn.islamic.network/quran/audio-surah/128/ar.saudalshuraim/36.mp3",
+            QuranAudioCatalog.surahUrl(36, "ar.saudalshuraim")
         )
         assertEquals(
-            "https://cdn.islamic.network/quran/audio-surah/64/ar.minshawimujawwad/1.mp3",
-            QuranAudioCatalog.surahUrl(1, "ar.minshawimujawwad")
+            "https://cdn.islamic.network/quran/audio-surah/128/ar.sudaisshuraymnaeemsultan/1.mp3",
+            QuranAudioCatalog.surahUrl(1, "ar.sudaisshuraymnaeemsultan")
         )
         assertEquals(
-            "https://cdn.islamic.network/quran/audio-surah/192/ar.abdulbasitmujawwad/2.mp3",
-            QuranAudioCatalog.surahUrl(2, "ar.abdulbasitmujawwad")
+            "https://cdn.islamic.network/quran/audio-surah/128/ar.mahmoudalialbanna/2.mp3",
+            QuranAudioCatalog.surahUrl(2, "ar.mahmoudalialbanna")
         )
         assertEquals(
-            "https://cdn.islamic.network/quran/audio-surah/128/ar.muhammadayoub/3.mp3",
-            QuranAudioCatalog.surahUrl(3, "ar.muhammadayoub")
-        )
-        assertEquals(
-            "https://cdn.islamic.network/quran/audio-surah/128/ar.muhammadjibreel/4.mp3",
-            QuranAudioCatalog.surahUrl(4, "ar.muhammadjibreel")
+            "https://cdn.islamic.network/quran/audio-surah/128/ar.yasseralmazroyee/3.mp3",
+            QuranAudioCatalog.surahUrl(3, "ar.yasseralmazroyee")
         )
     }
 
