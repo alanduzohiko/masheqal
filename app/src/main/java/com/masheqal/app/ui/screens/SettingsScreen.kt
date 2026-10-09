@@ -41,6 +41,7 @@ fun SettingsScreen(app: MasheqalApp, nav: NavHostController, onLanguage: (String
     val adhanPreviewLabel = stringResource(R.string.adhan_preview)
     val backupExported = stringResource(R.string.backup_exported)
     val backupRestored = stringResource(R.string.backup_restored)
+    val backupError = stringResource(R.string.backup_error)
 
     val createBackup = rememberLauncherForActivityResult(
         ActivityResultContracts.CreateDocument("application/json")
@@ -48,7 +49,7 @@ fun SettingsScreen(app: MasheqalApp, nav: NavHostController, onLanguage: (String
         if (uri != null) {
             message = BackupRepository.export(
                 context, uri, app.userDb, settings, reading, khatmah
-            ).fold({ backupExported }, { context.getString(R.string.backup_error) })
+            ).fold({ backupExported }, { backupError })
         }
     }
 
@@ -76,7 +77,7 @@ fun SettingsScreen(app: MasheqalApp, nav: NavHostController, onLanguage: (String
                     onLanguage(backup.settings.language)
                     message = backupRestored
                 }
-                .onFailure { message = context.getString(R.string.backup_error) }
+                .onFailure { message = backupError }
         }
     }
 
