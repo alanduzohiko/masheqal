@@ -10,8 +10,10 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.masheqal.app.MasheqalApp
@@ -27,6 +29,7 @@ fun QuranReaderScreen(
     surah: Int,
     initialAyah: Int
 ) {
+    val isRtl = LocalLayoutDirection.current == LayoutDirection.Rtl
     val settings by app.settings.state.collectAsState(initial = SettingsState())
     var verses by remember { mutableStateOf(emptyList<com.masheqal.app.data.QuranVerse>()) }
     var selected by remember { mutableStateOf<com.masheqal.app.data.QuranVerse?>(null) }
@@ -70,7 +73,10 @@ fun QuranReaderScreen(
                 },
                 navigationIcon = {
                     IconButton(onClick = { nav.popBackStack() }) {
-                        Icon(Icons.Default.ArrowBack, null)
+                        Icon(
+                            if (isRtl) Icons.Default.ArrowForward else Icons.Default.ArrowBack,
+                            contentDescription = null
+                        )
                     }
                 },
                 actions = {
