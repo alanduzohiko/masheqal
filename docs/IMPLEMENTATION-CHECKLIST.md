@@ -41,6 +41,8 @@
 - Artifacts: `masheqal-debug-apk` and `masheqal-android-artifacts` were created. Their existence does not mean the APK was downloaded, inspected, or installed on a phone.
 - Not performed by this run: physical-device/emulator functional tests, visual QA, end-to-end audio/provider testing, full offline-download QA, or final release signing.
 
+- **Ayah-level audio (new):** the Mushaf ayah sheet now offers play/pause and repeat for the selected verse using the active, saved reciter. URL generation for the provider's global-ayah endpoint has unit coverage. Real-source availability, provider permissions/terms, and phone playback remain external acceptance checks.
+
 ## State definitions
 
 - **Not verified** — no durable evidence recorded.

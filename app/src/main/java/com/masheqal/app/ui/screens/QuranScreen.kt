@@ -434,6 +434,13 @@ object QuranAudioCatalog {
         val bitrate = editions[edition] ?: throw IllegalArgumentException("Unsupported recitation edition")
         return "https://cdn.islamic.network/quran/audio-surah/$bitrate/$edition/$surah.mp3"
     }
+
+    /** URL for the provider's verse-level audio endpoint; ayahNumber is the global 1..6236 index. */
+    fun ayahUrl(ayahNumber: Int, edition: String): String {
+        require(ayahNumber in 1..6236) { "Global ayah number must be between 1 and 6236" }
+        val bitrate = editions[edition] ?: throw IllegalArgumentException("Unsupported recitation edition")
+        return "https://cdn.islamic.network/quran/audio/$bitrate/$edition/$ayahNumber.mp3"
+    }
 }
 
 @UnstableApi

@@ -1,5 +1,7 @@
 package com.masheqal.app.ui.screens
 
+import android.content.ComponentName
+import android.content.Context
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -12,12 +14,22 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
+import androidx.media3.common.MediaItem
+import androidx.media3.common.MediaMetadata
+import androidx.media3.common.PlaybackException
+import androidx.media3.common.Player
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.session.MediaController
+import androidx.media3.session.SessionToken
 import androidx.navigation.NavHostController
 import com.masheqal.app.MasheqalApp
 import com.masheqal.app.R
 import com.masheqal.app.data.QuranVerse
+import com.masheqal.app.services.QuranPlaybackService
 import kotlinx.coroutines.launch
 
+@androidx.annotation.OptIn(markerClass = [UnstableApi::class])
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun QuranPageScreen(app: MasheqalApp, nav: NavHostController, page: Int) {
@@ -29,6 +41,64 @@ fun QuranPageScreen(app: MasheqalApp, nav: NavHostController, page: Int) {
     var currentJuz by remember { mutableStateOf(1) }
     var selectedAyah by remember { mutableStateOf<QuranVerse?>(null) }
     var showEnglishMeaning by remember(selectedAyah?.id) { mutableStateOf(false) }
+    var audioController by remember { mutableStateOf<MediaController?>(null) }
+    var audioConnectionFailed by remember { mutableStateOf(false) }
+    var audioPlaybackFailed by remember { mutableStateOf(false) }
+    var playingMediaId by remember { mutableStateOf<String?>(null) }
+    var isAudioPlaying by remember { mutableStateOf(false) }
+    var repeatAyah by rememberSaveable { mutableStateOf(false) }
+
+    DisposableEffect(context) {
+        var active = true
+        val token = SessionToken(context, ComponentName(context, QuranPlaybackService::class.java))
+        val future = MediaController.Builder(context, token).buildAsync()
+        future.addListener({
+            runCatching { future.get() }
+                .onSuccess {
+                    if (active) {
+                        audioController = it
+                        audioConnectionFailed = false
+                    } else {
+                        MediaController.releaseFuture(future)
+                    }
+                }
+                .onFailure {
+                    if (active) audioConnectionFailed = true
+                }
+        }, ContextCompat.getMainExecutor(context))
+        onDispose {
+            active = false
+            MediaController.releaseFuture(future)
+            audioController = null
+        }
+    }
+
+    DisposableEffect(audioController) {
+        val controller = audioController
+        if (controller == null) {
+            onDispose { }
+        } else {
+            val listener = object : Player.Listener {
+                override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
+                    playingMediaId = mediaItem?.mediaId
+                    isAudioPlaying = controller.isPlaying
+                }
+
+                override fun onIsPlayingChanged(isPlaying: Boolean) {
+                    isAudioPlaying = isPlaying
+                }
+
+                override fun onPlayerError(error: PlaybackException) {
+                    audioPlaybackFailed = true
+                    isAudioPlaying = false
+                }
+            }
+            controller.addListener(listener)
+            playingMediaId = controller.currentMediaItem?.mediaId
+            isAudioPlaying = controller.isPlaying
+            onDispose { controller.removeListener(listener) }
+        }
+    }
 
     LaunchedEffect(currentPage) {
         verses = app.quran.versesOfPage(currentPage)
@@ -116,6 +186,92 @@ fun QuranPageScreen(app: MasheqalApp, nav: NavHostController, page: Int) {
                     style = MaterialTheme.typography.labelLarge
                 )
                 QuranText(verse.text, size = 27f)
+
+                Row(
+                    Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    val ayahMediaId = "ayah-${verse.id}"
+                    val isThisAyahPlaying = playingMediaId == ayahMediaId && isAudioPlaying
+                    FilledTonalButton(
+                        onClick = {
+                            val controller = audioController
+                            if (controller == null) {
+                                audioConnectionFailed = true
+                            } else if (playingMediaId == ayahMediaId && controller.isPlaying) {
+                                controller.pause()
+                            } else {
+                                val selectedEdition = context.getSharedPreferences(
+                                    "masheqal_audio_preferences",
+                                    Context.MODE_PRIVATE
+                                ).getString("reciter", "ar.alafasy") ?: "ar.alafasy"
+                                if (playingMediaId != ayahMediaId) {
+                                    val item = MediaItem.Builder()
+                                        .setMediaId(ayahMediaId)
+                                        .setUri(QuranAudioCatalog.ayahUrl(verse.id, selectedEdition))
+                                        .setMediaMetadata(
+                                            MediaMetadata.Builder()
+                                                .setTitle("${verse.surah}:${verse.ayah}")
+                                                .setDisplayTitle("Quran ${verse.surah}:${verse.ayah}")
+                                                .setArtist("Al Quran Cloud")
+                                                .setAlbumTitle("مەشخەڵ")
+                                                .build()
+                                        )
+                                        .build()
+                                    controller.setMediaItem(item)
+                                    controller.prepare()
+                                } else if (controller.playbackState == Player.STATE_ENDED) {
+                                    controller.seekTo(0L)
+                                }
+                                controller.repeatMode = if (repeatAyah) Player.REPEAT_MODE_ONE else Player.REPEAT_MODE_OFF
+                                audioPlaybackFailed = false
+                                controller.play()
+                            }
+                        },
+                        enabled = audioController != null,
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Icon(
+                            if (isThisAyahPlaying) Icons.Default.Pause else Icons.Default.PlayArrow,
+                            contentDescription = null
+                        )
+                        Spacer(Modifier.width(6.dp))
+                        Text(stringResource(if (isThisAyahPlaying) R.string.pause_selected_ayah else R.string.play_selected_ayah))
+                    }
+                    FilterChip(
+                        selected = repeatAyah,
+                        onClick = {
+                            repeatAyah = !repeatAyah
+                            if (playingMediaId == ayahMediaId) {
+                                audioController?.repeatMode = if (repeatAyah) Player.REPEAT_MODE_ONE else Player.REPEAT_MODE_OFF
+                            }
+                        },
+                        label = { Text(stringResource(R.string.repeat_selected_ayah)) },
+                        leadingIcon = { Icon(Icons.Default.Repeat, contentDescription = null) }
+                    )
+                }
+                if (audioController == null && !audioConnectionFailed) {
+                    Text(
+                        stringResource(R.string.audio_connecting),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+                if (audioConnectionFailed) {
+                    Text(
+                        stringResource(R.string.audio_connection_failed),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.error
+                    )
+                }
+                if (audioPlaybackFailed) {
+                    Text(
+                        stringResource(R.string.audio_playback_failed),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.error
+                    )
+                }
 
                 if (showEnglishMeaning) {
                     val meaning = verse.translationEn

@@ -203,4 +203,10 @@
     <string name="names_filter_favorites">المفضلة</string>
     <string name="names_mark_favorite">إضافة إلى المفضلة</string>
     <string name="names_mark_unfavorite">إزالة من المفضلة</string>
+    <string name="play_selected_ayah">استماع إلى الآية</string>
+    <string name="pause_selected_ayah">إيقاف مؤقت</string>
+    <string name="repeat_selected_ayah">تكرار الآية</string>
+    <string name="audio_connecting">جارٍ الاتصال بمشغّل القرآن…</string>
+    <string name="audio_connection_failed">مشغّل الصوت غير متاح. افتح مشغّل القرآن ثم حاول مجددًا.</string>
+    <string name="audio_playback_failed">تعذّر تشغيل التلاوة. تحقق من الاتصال ثم أعد المحاولة.</string>
 </resources>
