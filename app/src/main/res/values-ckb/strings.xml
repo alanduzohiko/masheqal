@@ -120,4 +120,23 @@
     <string name="method_turkey">تورکیا</string>
     <string name="madhhab_shafi">شافعی</string>
     <string name="madhhab_hanafi">حەنەفی</string>
+    <string name="adhkar_all">هەمووی</string>
+    <string name="adhkar_after_prayer">دوای نوێژ</string>
+    <string name="adhkar_sleep">پێش خەوتن</string>
+    <string name="adhkar_wake_up">کاتی هەستانەوە</string>
+    <string name="adhkar_bathroom">ئاودەست</string>
+    <string name="adhkar_food">خواردن و خواردنەوە</string>
+    <string name="adhkar_mosque">مزگەوت</string>
+    <string name="adhkar_wudu">دەستنوێژ</string>
+    <string name="adhkar_fasting">ڕۆژوو</string>
+    <string name="adhkar_home">ماڵ</string>
+    <string name="adhkar_travel">گەشت</string>
+    <string name="adhkar_clothing">جلوبەرگ</string>
+    <string name="adhkar_weather">کەشوهەوا</string>
+    <string name="adhkar_protection">پاراستن و تەنگانە</string>
+    <string name="adhkar_general">دوعاکانی ڕۆژانەی تر</string>
+    <string name="adhkar_search_hint">گەڕان لە ئەذکار و دوعاکان</string>
+    <string name="adhkar_no_results">هیچ ئەنجامێک نەدۆزرایەوە. وشە یان پۆلێکی تر تاقی بکەرەوە.</string>
+    <string name="adhkar_expanded_content_title">ئەذکار و دوعاکانی ڕۆژانە</string>
+    <string name="adhkar_source_review_note">دەقی عەرەبی و واتای ئینگلیزی لە دوو کۆمەڵەداتای MIT لەگەڵ سەرچاوە هاتووە. پێداچوونەوەی زانای سەربەخۆ بۆ دەق و پلەی ڕیوایەتەکان هێشتا تەواو نەبووە. وەرگێڕانی سۆرانی لەم پەکێجەدا نییە.</string>
 </resources>
