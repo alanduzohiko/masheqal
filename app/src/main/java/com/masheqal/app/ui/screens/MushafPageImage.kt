@@ -82,6 +82,7 @@ internal fun MushafPageImage(
         verticalArrangement = Arrangement.Center
     ) {
         val svg = state.svg
+        val highlightColor = MaterialTheme.colorScheme.primary
         if (svg != null) {
             Canvas(
                 modifier = Modifier

@@ -18,6 +18,17 @@ data class MushafViewBox(
             minY + y / canvasHeight * height
         )
     }
+
+    fun mapDocumentPoint(x: Float, y: Float, canvasWidth: Float, canvasHeight: Float): MushafPoint? {
+        if (
+            !x.isFinite() || !y.isFinite() || !canvasWidth.isFinite() || !canvasHeight.isFinite() ||
+            canvasWidth <= 0f || canvasHeight <= 0f || width <= 0f || height <= 0f
+        ) return null
+        return MushafPoint(
+            (x - minX) / width * canvasWidth,
+            (y - minY) / height * canvasHeight
+        )
+    }
 }
 
 data class MushafAyahRegion(

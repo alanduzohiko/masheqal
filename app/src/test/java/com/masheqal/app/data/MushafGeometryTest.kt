@@ -60,4 +60,17 @@ class MushafGeometryTest {
         val box = MushafViewBox(-50f, -100f, 300f, 500f)
         assertEquals(MushafPoint(100f, 150f), box.mapCanvasPoint(150f, 250f, 300f, 500f))
     }
+
+    @Test
+    fun mapsAyahDocumentPointBackToCanvasWithNegativeViewBoxOrigin() {
+        val box = MushafViewBox(-50f, -100f, 300f, 500f)
+        assertEquals(MushafPoint(150f, 250f), box.mapDocumentPoint(100f, 150f, 300f, 500f))
+    }
+
+    @Test
+    fun viewBoxMappingRoundTripsCanvasAndDocumentCoordinates() {
+        val box = MushafViewBox(-53.31f, -198.48f, 345f, 550f)
+        val document = box.mapCanvasPoint(123f, 321f, 345f, 550f)!!
+        assertEquals(MushafPoint(123f, 321f), box.mapDocumentPoint(document.x, document.y, 345f, 550f))
+    }
 }
