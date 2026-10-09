@@ -115,8 +115,6 @@ object LocationUtils {
 
         val lock = Any()
         var bestObserved: LocationCandidate? = null
-        val now = System.currentTimeMillis()
-
         val completedFix = withTimeoutOrNull(CURRENT_FIX_TIMEOUT_MILLIS) {
             suspendCancellableCoroutine<LocationCandidate?> { continuation ->
                 val signals = providers.map { CancellationSignal() }
