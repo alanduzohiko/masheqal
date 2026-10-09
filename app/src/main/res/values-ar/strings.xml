@@ -89,4 +89,26 @@
     <string name="location_accuracy">دقة الموقع ±%1$d متر</string>
     <string name="location_accuracy_approximate">الموقع تقريبي (±%1$d متر). فعّل الموقع الدقيق لتحسين مواقيت الصلاة والقبلة.</string>
     <string name="location_refresh_failed">تعذر الحصول على موقع حديث. تحقق من خدمات الموقع ثم حاول مجددًا.</string>
+    <string name="onboarding_welcome">رفيق يومي أهدأ وأكثر عناية بعبادتك</string>
+    <string name="onboarding_intro">اختر اللغة وتفضيلات الصلاة وطريقة عرض القرآن والقارئ. يمكنك تغيير اختياراتك لاحقًا.</string>
+    <string name="onboarding_language_description">اختر اللغة التي ترتاح إلى استخدامها.</string>
+    <string name="onboarding_prayer_description">اختر طريقة الحساب والمذهب. يساعد الموقع الحديث والدقيق في تحسين مواقيت الصلاة والقبلة.</string>
+    <string name="onboarding_location_title">الموقع الحالي</string>
+    <string name="onboarding_location_unavailable">لم يتم تحديد الموقع بعد. يمكنك المتابعة وإعداده لاحقًا.</string>
+    <string name="onboarding_reading_description">اختر طريقة عرض القرآن والقارئ الذي تريد أن يكون جاهزًا أولًا.</string>
+    <string name="onboarding_mushaf_style">طريقة عرض القرآن الافتراضية</string>
+    <string name="onboarding_mushaf_description">صفحات مصحف المدينة أو قارئ نصي متصل.</string>
+    <string name="onboarding_text_description">اقرأ القرآن كنص متصل مع خيارات الترجمة.</string>
+    <string name="onboarding_reciter_description">سيُحفظ القارئ المفضل على هذا الهاتف.</string>
+    <string name="onboarding_khatmah_description">يمكنك بدء خطة خاصة لإتمام القرآن، وتعديلها لاحقًا.</string>
+    <string name="onboarding_enable_khatmah">بدء خطة ختم القرآن</string>
+    <string name="onboarding_finish_description">تُحفظ تفضيلاتك على هذا الجهاز. لا تحتاج إلى حساب.</string>
+    <string name="onboarding_step">الخطوة %1$d من %2$d</string>
+    <string name="continue_setup">متابعة</string>
+    <string name="skip_setup">تخطي الإعداد</string>
+    <string name="back_step">رجوع</string>
+    <string name="use_current_location">استخدام الموقع الحالي</string>
+    <string name="reading_style_mushaf">مصحف المدينة</string>
+    <string name="reading_style_text">قارئ نصي</string>
+    <string name="khatmah_days">%1$d يومًا</string>
 </resources>
