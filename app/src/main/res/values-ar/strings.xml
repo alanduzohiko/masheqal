@@ -29,4 +29,5 @@
     <string name="mushaf_load_error">تعذر تحميل الصفحة. اتصل بالإنترنت أو انتقل إلى القراءة النصية.</string>
     <string name="mushaf_saved_offline">حُفظت الصفحة للقراءة دون إنترنت</string>
     <string name="mushaf_available_offline">متاحة دون إنترنت</string>
+    <string name="retry">إعادة المحاولة</string>
 </resources>
