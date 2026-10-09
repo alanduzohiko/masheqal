@@ -29,4 +29,5 @@
     <string name="mushaf_load_error">نەتوانرا پەڕەکە بکرێتەوە. پەیوەندی بە ئینتەرنێتەوە بکە یان بگۆڕە بۆ خوێندنەوەی دەقی.</string>
     <string name="mushaf_saved_offline">پەڕەکە بۆ خوێندنەوەی بێ ئینتەرنێت پاشەکەوت کرا</string>
     <string name="mushaf_available_offline">بەبێ ئینتەرنێت بەردەستە</string>
+    <string name="retry">دووبارە هەوڵبدەرەوە</string>
 </resources>
