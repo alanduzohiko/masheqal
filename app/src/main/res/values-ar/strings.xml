@@ -25,6 +25,8 @@
     <string name="mushaf_mode">صفحة المصحف</string>
     <string name="text_mode">القراءة النصية</string>
     <string name="mushaf_edition">مصحف المدينة · رواية حفص</string>
+    <string name="previous_page">صفحة المصحف السابقة</string>
+    <string name="next_page">صفحة المصحف التالية</string>
     <string name="mushaf_loading">جارٍ تحميل صفحة المصحف…</string>
     <string name="mushaf_load_error">تعذر تحميل الصفحة. اتصل بالإنترنت أو انتقل إلى القراءة النصية.</string>
     <string name="mushaf_saved_offline">حُفظت الصفحة للقراءة دون إنترنت</string>

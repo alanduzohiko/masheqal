@@ -62,12 +62,6 @@ fun OnboardingScreen(
     var locating by remember { mutableStateOf(false) }
     var khatmahEnabled by rememberSaveable { mutableStateOf(false) }
     var khatmahDays by rememberSaveable { mutableIntStateOf(30) }
-    var mushafStyle by rememberSaveable {
-        mutableStateOf(
-            context.getSharedPreferences("masheqal_reader_preferences", Context.MODE_PRIVATE)
-                .getString("reading_mode", "mushaf") ?: "mushaf"
-        )
-    }
     val reciters = listOf(
         OnboardingReciter("ar.alafasy", R.string.reciter_alafasy),
         OnboardingReciter("ar.husary", R.string.reciter_husary),
@@ -159,7 +153,7 @@ fun OnboardingScreen(
             context.getSharedPreferences(QuranPlaybackService.ADHAN_PREFERENCES, Context.MODE_PRIVATE)
                 .edit().putString(QuranPlaybackService.ADHAN_VOICE_KEY, adhanVoice).apply()
             context.getSharedPreferences("masheqal_reader_preferences", Context.MODE_PRIVATE)
-                .edit().putString("reading_mode", mushafStyle).apply()
+                .edit().putString("reading_mode", "mushaf").apply()
             context.getSharedPreferences("masheqal_onboarding", Context.MODE_PRIVATE)
                 .edit().putBoolean("complete", true).apply()
             nav.navigate("home") {
@@ -409,46 +403,21 @@ fun OnboardingScreen(
                         description = stringResource(R.string.onboarding_reading_description)
                     )
                     Text(stringResource(R.string.onboarding_mushaf_style), style = MaterialTheme.typography.titleMedium)
-                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Card(
-                            onClick = { mushafStyle = "mushaf" },
-                            modifier = Modifier.fillMaxWidth(),
-                            shape = RoundedCornerShape(18.dp),
-                            colors = CardDefaults.cardColors(
-                                containerColor = if (mushafStyle == "mushaf")
-                                    MaterialTheme.colorScheme.secondaryContainer
-                                else MaterialTheme.colorScheme.surface
-                            )
-                        ) {
-                            Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
-                                Icon(Icons.Default.MenuBook, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
-                                Spacer(Modifier.width(12.dp))
-                                Column(Modifier.weight(1f)) {
-                                    Text(stringResource(R.string.reading_style_mushaf), fontWeight = FontWeight.SemiBold)
-                                    Text(stringResource(R.string.onboarding_mushaf_description), style = MaterialTheme.typography.bodySmall)
-                                }
-                                RadioButton(selected = mushafStyle == "mushaf", onClick = { mushafStyle = "mushaf" })
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(18.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.secondaryContainer
+                        )
+                    ) {
+                        Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
+                            Icon(Icons.Default.MenuBook, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+                            Spacer(Modifier.width(12.dp))
+                            Column(Modifier.weight(1f)) {
+                                Text(stringResource(R.string.reading_style_mushaf), fontWeight = FontWeight.SemiBold)
+                                Text(stringResource(R.string.onboarding_mushaf_description), style = MaterialTheme.typography.bodySmall)
                             }
-                        }
-                        Card(
-                            onClick = { mushafStyle = "text" },
-                            modifier = Modifier.fillMaxWidth(),
-                            shape = RoundedCornerShape(18.dp),
-                            colors = CardDefaults.cardColors(
-                                containerColor = if (mushafStyle == "text")
-                                    MaterialTheme.colorScheme.secondaryContainer
-                                else MaterialTheme.colorScheme.surface
-                            )
-                        ) {
-                            Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
-                                Icon(Icons.Default.MenuBook, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
-                                Spacer(Modifier.width(12.dp))
-                                Column(Modifier.weight(1f)) {
-                                    Text(stringResource(R.string.reading_style_text), fontWeight = FontWeight.SemiBold)
-                                    Text(stringResource(R.string.onboarding_text_description), style = MaterialTheme.typography.bodySmall)
-                                }
-                                RadioButton(selected = mushafStyle == "text", onClick = { mushafStyle = "text" })
-                            }
+                            Icon(Icons.Default.Explore, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
                         }
                     }
 
