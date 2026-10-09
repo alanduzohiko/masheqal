@@ -24,6 +24,9 @@ import com.masheqal.app.domain.*
 import com.masheqal.app.util.LocationUtils
 import java.time.LocalDate
 import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
+import java.util.Locale
 import kotlinx.coroutines.delay
 
 private data class PrayerCandidate(val name: String, val minutes: Double)
@@ -72,6 +75,11 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
 
     val date = LocalDate.now()
     val hijri = HijriCalculator.fromGregorian(date)
+    val gregorianDate = remember(date) {
+        DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
+            .withLocale(Locale.getDefault())
+            .format(date)
+    }
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -87,7 +95,7 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
                     Text(stringResource(R.string.app_name), style = MaterialTheme.typography.headlineMedium)
                     Spacer(Modifier.height(3.dp))
                     Text(
-                        "§date  •  ${hijri.day}/${hijri.month}/${hijri.year}",
+                        $gregorianDate  •  ${hijri.day}/${hijri.month}/${hijri.year},
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
