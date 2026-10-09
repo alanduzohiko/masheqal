@@ -29,7 +29,7 @@ import java.time.LocalDate
 fun AdhkarScreen(app: MasheqalApp, nav: NavHostController) {
     val context = LocalContext.current
     val progressStore = remember(context) { AdhkarProgressStore(context) }
-    val sessionDate = remember { LocalDate.now().toString() }
+    var sessionDate by remember { mutableStateOf(LocalDate.now().toString()) }
     var period by remember { mutableStateOf(AdhkarPeriod.MORNING) }
     var packageData by remember { mutableStateOf<AdhkarPackage?>(null) }
     var loading by remember { mutableStateOf(true) }
@@ -37,7 +37,15 @@ fun AdhkarScreen(app: MasheqalApp, nav: NavHostController) {
     var retryNonce by remember { mutableStateOf(0) }
     val counts = remember { mutableStateMapOf<Int, Int>() }
 
-    LaunchedEffect(period, retryNonce) {
+    LaunchedEffect(Unit) {
+        while (true) {
+            kotlinx.coroutines.delay(30_000L)
+            val today = LocalDate.now().toString()
+            if (today != sessionDate) sessionDate = today
+        }
+    }
+
+    LaunchedEffect(period, retryNonce, sessionDate) {
         loading = true
         loadFailed = false
         runCatching { app.adhkar.loadPackage() }
@@ -233,6 +241,42 @@ private fun AdhkarCard(
                 )
                 Spacer(Modifier.height(3.dp))
                 Text(item.translationEn, style = MaterialTheme.typography.bodyMedium)
+            }
+
+            if (item.repeatDescriptionAr.isNotBlank() || item.repeatDescriptionEn.isNotBlank()) {
+                Spacer(Modifier.height(10.dp))
+                if (item.repeatDescriptionAr.isNotBlank()) {
+                    Text(
+                        "${stringResource(R.string.adhkar_repeat_note_ar)}: ${item.repeatDescriptionAr}",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+                if (item.repeatDescriptionEn.isNotBlank()) {
+                    Text(
+                        "${stringResource(R.string.adhkar_repeat_note_en)}: ${item.repeatDescriptionEn}",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
+
+            if (item.meritAr.isNotBlank() || item.meritEn.isNotBlank()) {
+                Spacer(Modifier.height(10.dp))
+                if (item.meritAr.isNotBlank()) {
+                    Text(
+                        "${stringResource(R.string.adhkar_merit_ar_label)}: ${item.meritAr}",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+                if (item.meritEn.isNotBlank()) {
+                    Text(
+                        "${stringResource(R.string.adhkar_merit_en_label)}: ${item.meritEn}",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
             }
 
             if (item.sourceAr.isNotBlank()) {
