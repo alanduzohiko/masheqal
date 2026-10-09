@@ -12,7 +12,7 @@
 
 - Native Android app shell; no WebView/PWA/browser wrapper.
 - Original مەشخەڵ visual identity, launcher icon, theme tokens and RTL support.
-- Sorani Kurdish (`ckb`), Arabic (`ar`) and English (`en`) UI resources.
+- Arabic (`ar`) and English (`en`) UI resources; Sorani is deferred from the current release scope.
 - Bundled Quran Arabic in Uthmani-compatible text form, 114 surahs / 6236 ayahs.
 - Bundled English translation aligned 1:1 to the same 6236 ayahs.
 - Quran search with Arabic normalization, diacritic-insensitive matching and reference parsing (`2:255`, `2 255`, `2-255`).
@@ -32,7 +32,7 @@
 
 ## Deliberate content gates
 
-The project does **not** ship unverified or unclear-license religious datasets merely to make a screen look complete. Sorani Quran translation, Tafsir, Hadith, Adhkar/Hisn/Dua, and recitation audio are represented by a source-package pipeline instead of fabricated content. See `docs/CONTENT-LICENSES.md` and `docs/CONTENT-PIPELINE.md`.
+The project does **not** ship unverified or unclear-license religious datasets merely to make a screen look complete. Sorani UI and Quran translation are deliberately deferred and excluded from the active build. Tafsir, Hadith, the broader Hisn al-Muslim corpus, and specialist study datasets remain gated until source rights and content are validated. See `docs/CONTENT-LICENSES.md` and `docs/CONTENT-PIPELINE.md`.
 
 ## Build note
 

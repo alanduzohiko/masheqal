@@ -10,8 +10,7 @@ class QuranVerseTranslationTest {
         surah = 1,
         ayah = 1,
         text = "Arabic Quran text",
-        translationEn = "English meaning",
-        translationCkb = "واتای سۆرانی"
+        translationEn = "English meaning"
     )
 
     @Test
@@ -30,13 +29,7 @@ class QuranVerseTranslationTest {
     }
 
     @Test
-    fun soraniInterfaceSelectsSoraniTranslation() {
-        assertEquals("واتای سۆرانی", verse.translationFor("ckb"))
-        assertEquals("واتای سۆرانی", verse.translationFor("CKB"))
-    }
-
-    @Test
-    fun englishInterfaceUsesEnglishTranslation() {
+    fun englishInterfaceUsesEnglishTranslationCaseInsensitively() {
         assertEquals("English meaning", verse.translationFor("en"))
         assertEquals("English meaning", verse.translationFor("EN"))
     }
@@ -47,13 +40,13 @@ class QuranVerseTranslationTest {
     }
 
     @Test
-    fun unknownLanguageDoesNotSilentlySubstituteEnglishTranslation() {
-        assertNull(verse.translationFor("unknown"))
+    fun deferredSoraniLocaleDoesNotExposeAnUnbundledTranslation() {
+        assertNull(verse.translationFor("ckb"))
+        assertNull(verse.translationFor("CKB"))
     }
 
     @Test
-    fun missingSoraniTranslationIsNotSilentlyReplacedWithEnglish() {
-        val verseWithoutSorani = verse.copy(translationCkb = null)
-        assertNull(verseWithoutSorani.translationFor("ckb"))
+    fun unknownLanguageDoesNotSilentlySubstituteEnglishTranslation() {
+        assertNull(verse.translationFor("unknown"))
     }
 }

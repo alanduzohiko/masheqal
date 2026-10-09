@@ -46,9 +46,6 @@ jobs:
       - name: Validate Gradle configuration
         run: gradle --version && gradle :app:tasks --all --no-daemon
 
-      - name: Fetch and validate the licensed Sorani Quran translation
-        run: python3 tools/fetch_sorani_translation.py
-
       - name: Fetch and validate the licensed morning and evening adhkar
         run: python3 tools/fetch_adhkar.py
 

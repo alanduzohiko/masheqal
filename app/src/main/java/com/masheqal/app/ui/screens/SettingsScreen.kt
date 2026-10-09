@@ -102,7 +102,7 @@ fun SettingsScreen(app: MasheqalApp, nav: NavHostController, onLanguage: (String
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier.horizontalScroll(rememberScrollState())
             ) {
-                listOf("ckb" to "کوردی", "ar" to "العربية", "en" to "English").forEach { (code, label) ->
+                listOf("ar" to "العربية", "en" to "English").forEach { (code, label) ->
                     FilterChip(
                         selected = settings.language == code,
                         onClick = {

@@ -6,9 +6,9 @@ The bundled Arabic Quran text, English translation, Surah metadata, page ranges,
 
 The bundled Amiri Quran font is from the Debian `fonts-hosny-amiri` package and is distributed under the SIL Open Font License (OFL) 1.1.
 
-## Alternate Sorani dataset not used by the current build
+## Sorani translation — deferred from current scope
 
-**Holy Quran Kurdish Sorani Translation Dataset (HQKSTD)** is an alternative dataset listed on Mendeley Data V1, DOI `10.17632/byyjd7kmvd.1`, with CC BY 4.0 metadata and Kurdish/Arabic alignment. It is not the source used by the current application build. The active pipeline uses the QuranEnc publisher API described below and validates the returned verse alignment, attribution, version, and checksum before bundling it.
+The current release target activates Arabic and English only. Sorani UI resources and Quran translation data are not included in the active application path, are not fetched in CI, and are not required for a successful build. The former QuranEnc fetch script is retained as reference material only and is not part of the build pipeline. Reconsider Sorani support in a later product phase after explicit scope approval and renewed source, license, alignment, attribution, and linguistic QA.
 
 ## 99 Names of Allah
 
@@ -45,15 +45,6 @@ No religious content is inserted merely to make a screen appear complete. Every 
 - **Delivery behavior:** SVG pages are fetched over HTTPS on first view and cached compressed in app-private storage. Therefore each visited page works offline afterward; this is not yet a complete 604-page offline bundle and must not be described as such.
 - **Renderer:** AndroidSVG (`com.caverock:androidsvg-aar:1.4`), Apache-2.0.
 - **Integrity caveat:** release path is version-pinned and SVG markup/size are validated, but page SHA-256 validation against the upstream manifest is still pending.
-
-
-## Sorani Quran translation (publisher-hosted API)
-
-- **Source:** QuranEnc.com official translation API, `/api/v1/translations/list/` and `/api/v1/translation/sura/{translation_key}/{surah_number}`.
-- **Reuse terms:** QuranEnc permits downloaded translations to be republished under seven conditions: preserve content verbatim; credit publisher and QuranEnc.com; state source version; retain transcript information; notify QuranEnc of notes; update to the latest version issued; and avoid inappropriate advertisements. The app records the API-reported version/update, preserves raw translation strings, and records gaps instead of inventing text.
-- **In-app attribution:** generated from the selected translation title and API-reported version; QuranEnc.com is always shown.
-- **Integrity:** each row maps to canonical 1–6,236 ids and surah/ayah coordinates. A build-time validator checks row count, publisher, version, update value and SHA-256 of the generated text asset.
-- **Delivery:** the publisher API is queried by cloud CI; generated content is bundled in the APK, so the translation remains available offline after installation.
 
 
 ## Offline adhan audio

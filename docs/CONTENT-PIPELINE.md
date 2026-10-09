@@ -1,6 +1,6 @@
 # Content package pipeline
 
-The content layer is intentionally source-driven. The app must never activate religious content solely because a JSON file exists.
+The content layer is intentionally source-driven. The app must never activate religious content solely because a JSON file exists. The current release scope is Arabic and English; Sorani UI and Quran translation are deferred and are not activated by the build.
 
 ## Manifest contract
 
@@ -18,7 +18,6 @@ Every external package begins with `manifest.json` containing at least:
 
 Supported package types:
 
-- `quran-sorani`
 - `tafsir`
 - `hadith`
 - `adhkar`

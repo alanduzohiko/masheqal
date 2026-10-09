@@ -18,6 +18,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.core.content.ContextCompat
 import androidx.core.os.LocaleListCompat
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import com.masheqal.app.data.SettingsState
 import com.masheqal.app.ui.MasheqalTheme
 import com.masheqal.app.ui.MasheqalRoot
@@ -28,6 +31,10 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        lifecycleScope.launch {
+            val savedLanguage = (application as MasheqalApp).settings.state.first().language
+            applyLanguage(savedLanguage)
+        }
         setContent {
             val settings by (application as MasheqalApp).settings.state.collectAsState(initial = SettingsState())
             MasheqalTheme(theme = settings.theme) {
@@ -48,7 +55,7 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun applyLanguage(code: String) {
-        val locales = LocaleListCompat.forLanguageTags(code)
+        val locales = LocaleListCompat.forLanguageTags(com.masheqal.app.data.normalizeAppLanguage(code))
         AppCompatDelegate.setApplicationLocales(locales)
     }
 }

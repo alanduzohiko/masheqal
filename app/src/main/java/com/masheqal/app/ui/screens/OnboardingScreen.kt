@@ -232,7 +232,6 @@ fun OnboardingScreen(
                     )
                     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                         listOf(
-                            "ckb" to "کوردی",
                             "ar" to "العربية",
                             "en" to "English"
                         ).forEach { (code, label) ->

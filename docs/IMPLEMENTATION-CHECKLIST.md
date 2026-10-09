@@ -6,24 +6,24 @@
 
 - No fake religious text, citation, translation, audio synchronization, prayer time or source license.
 - “Implemented” and “tested” are separate states. A passing compile is not functional acceptance.
-- P0 is not complete until Kurdish Sorani is real, search/Quran navigation work, prayer results are compared against trusted test vectors, a usable audio path is verified, core flows work offline, and phone UI is visually reviewed.
+- P0 is not complete until Arabic/English UI switching and Quran navigation work, prayer results are compared against trusted test vectors, a usable audio path is verified, core flows work offline, and phone UI is visually reviewed.
 - Every source-dependent dataset needs source, version, license/permission, attribution and integrity checks before activation.
 - Record actual commands, workflow URL, commit SHA, test results, artifact checksum, and device checks in the delivery report.
 - Preserve the phone-only workflow: cloud CI must build the APK; never require the user to use a desktop or edit source code.
 
 ## Known gaps identified in the initial audit
 
-1. The shipped Qur'an assets include Arabic and English, but not the Sorani translation dataset.
-2. The content center treats Sorani, Tafsir, Hadith, Adhkar/Hisn, Dua, Names and audio as external/gated content; that is not acceptable as the final core experience.
+1. Current release scope deliberately includes Arabic and English only; Sorani UI and Quran translation are deferred, not selectable, and not required by CI.
+2. Tafsir, Hadith and a complete independently licensed Hisn al-Muslim corpus remain gated pending source/license/content review; the currently bundled Adhkar, Dua, Names and audio paths require their own acceptance tests.
 3. The current reader is primarily verse cards/text, not validated 604-page canonical Mushaf rendering.
 4. The existing prayer calculator is custom and has not yet passed reference-based accuracy tests.
 5. Media3/MediaSession groundwork exists, but a complete reciter selection, playback, background, lock-screen and verified audio-source flow has not been acceptance-tested.
 6. Navigation previously had no authored route transition system; an RTL-aware, reduced-distance fade/slide transition was added on this branch. This alone does not satisfy overall visual QA.
-7. A full native app requires real-device/emulator interaction tests and three-language UI checks, not only static source checks and CI compilation.
+7. A full native app requires real-device/emulator interaction tests and Arabic/English UI checks, not only static source checks and CI compilation.
 
 ## Current branch implementation notes
 
-- **Sorani Quran text:** the CI build fetches the QuranEnc publisher-hosted translation, verifies canonical alignment across 6,236 verse rows, records source/version metadata and a checksum, then bundles the generated asset in the APK. Runtime availability is offline after installation; this does not mean every verse is necessarily translated, and gaps remain explicitly marked.
+- **Sorani scope:** the UI option, runtime Quran loading/search path, and CI asset-fetch step are disabled for this release. The build must succeed without any Sorani dataset. Any future enablement requires a deliberate scope change plus current source, license, verse-alignment and UI QA.
 - **Adhkar and daily Dua:** the CI build combines 82 records from two pinned MIT datasets: 34 morning/evening items, 10 after-salah items with a source citation, and 38 daily-occasion supplications. The app supports search/category filters and locally persisted daily counters; independent scholarly review and Sorani meanings remain pending.
 - **99 Names of Allah:** CI bundles 99 ordered records under the attributed Apache-2.0 dataset provenance and ships the complete license notice. The app supports Arabic/transliteration/English search, learned/not-learned filtering and local learning progress. English-meaning scholarly review is explicitly pending; references missing from the dataset are not invented.
 - **Mushaf:** page SVGs use the version-pinned quran-ws/quran-svg release and are cached after a successful view. The current app does not ship the complete 604-page offline cache, ayah hit-testing/highlighting, or upstream page-hash checks.
@@ -48,7 +48,7 @@
 - [ ] **4. PRODUCT NAME AND BRAND** — P3/P4 · 1 · Foundation · **Not verified**
 - [ ] **5. VISUAL DIRECTION** — P3/P4 · 1 · Foundation · **Not verified**
 - [ ] **6. TYPOGRAPHY** — P3/P4 · 1 · Foundation · **Not verified**
-- [ ] **7. FIRST-CLASS SORANI KURDISH** — P0 · 1 · Foundation · **Not verified**
+- [ ] **7. SORANI KURDISH (DEFERRED BY PRODUCT SCOPE)** — Deferred · Later phase · **Not in current release scope**
 - [ ] **8. MULTI-LANGUAGE ARCHITECTURE** — P0 · 1 · Foundation · **Not verified**
 - [ ] **9. RESPONSIVE DESIGN** — P3/P4 · 1 · Foundation · **Not verified**
 - [ ] **10. INFORMATION ARCHITECTURE** — P3/P4 · 1 · Foundation · **Not verified**
@@ -227,7 +227,7 @@
 - [ ] Release APK/AAB build state is reported separately from installable debug APK.
 - [ ] Unit tests include Quran dataset structure/alignment, prayer calculation test vectors, reference parsing, persistence and migrations.
 - [ ] Compose/UI tests cover every main tab, nested Quran routes, content errors, settings/language switching, permission-denied cases and key tap actions.
-- [ ] Screenshot/visual review at phone size for Sorani, Arabic and English, light/dark mode, font scaling, and RTL directional motion.
+- [ ] Screenshot/visual review at phone size for Arabic and English, light/dark mode, font scaling, and RTL directional motion.
 - [ ] The installable artifact is only described as install-tested if it was actually installed on a device/emulator. Do not claim tests on the user's Realme X2 Pro without direct evidence.
 
 ## Change log
