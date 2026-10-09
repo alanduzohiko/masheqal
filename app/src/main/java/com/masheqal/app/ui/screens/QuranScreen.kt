@@ -581,7 +581,7 @@ fun QuranAudioScreen(app: MasheqalApp, nav: NavHostController) {
                             Box {
                                 OutlinedButton(onClick = { showReciterMenu = true }) {
                                     Text(activeReciterName, maxLines = 1)
-                                    Icon(Icons.Default.ArrowDropDown, contentDescription = null)
+                                    Text("⌄", style = MaterialTheme.typography.titleMedium)
                                 }
                                 DropdownMenu(
                                     expanded = showReciterMenu,
