@@ -221,4 +221,5 @@
     <string name="reciter_mohamed_maabad">محمد معبد</string>
     <string name="reciter_yasser_almazroyee">ياسر المزروعي</string>
     <string name="ayah_audio_reciter_label">تلاوة الآية بصوت: %1$s</string>
+    <string name="backup_error">تعذّرت عملية النسخ الاحتياطي. يرجى المحاولة مجددًا.</string>
 </resources>

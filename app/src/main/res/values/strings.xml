@@ -231,4 +231,5 @@
     <string name="reciter_mohamed_maabad">Mohamed Maabad</string>
     <string name="reciter_yasser_almazroyee">Yasser Al-Mazroyee</string>
     <string name="ayah_audio_reciter_label">Ayah recitation: %1$s</string>
+    <string name="backup_error">The backup operation failed. Please try again.</string>
 </resources>

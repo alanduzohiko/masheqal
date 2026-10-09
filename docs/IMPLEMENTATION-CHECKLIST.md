@@ -2,6 +2,10 @@
 
 **Status at creation:** No section is considered accepted merely because a screen, route, or button exists. “Not verified” means an evidence-backed review is still required; it does not assert that the whole item is absent.
 
+## Current phase and gate
+
+**Current phase: Phase 1 — Foundation and P0 acceptance.** Do not advance to Phase 2 until the latest commit has a green CI build, the resulting debug APK is installed and walked through on a real phone, Arabic/English switching is verified, location/prayer results are compared against reference expectations, the Mushaf and selected-ayah audio paths are checked, and core online/offline behavior and visual layout are reviewed. CI alone is not a phase gate.
+
 ## Hard acceptance rules
 
 - No fake religious text, citation, translation, audio synchronization, prayer time or source license.

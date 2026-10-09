@@ -55,12 +55,14 @@ No private signing key is included. The debug APK is installable for testing. Re
 
 ## Product V2 work — current verified state
 
-Latest checked branch commit: `c7ceccaecb7f09a0fc189799bcb22ba051716f21` (9 October 2026). The matching GitHub Actions workflow completed successfully: unit tests, Android lint, installable debug APK build, unsigned release artifact build, and artifact uploads all passed. This is build/CI evidence, not physical-device acceptance.
+Historical CI baseline: run [#244](https://github.com/alanduzohiko/masheqal/actions/runs/37996956735) passed all pipeline steps for commit `c7ceccaecb7f09a0fc189799bcb22ba051716f21`. Later commits add global-search coverage and correct the Quran reciter catalogue; check the latest branch workflow before treating the current head as green. Build/CI evidence is not physical-device acceptance.
+
+**Current phase:** Phase 1 — Foundation and P0 acceptance. This branch is not yet ready for Phase 2 until current-head CI and real-device core-flow acceptance both pass.
 
 - Quran page navigation resolves the legacy surah/ayah routes to the relevant Mushaf page. The reader uses pinned Madinah Mushaf SVG artwork and supports parsing the two ayah-region JSON formats used by the source.
 - Tapping a mapped ayah region opens an action sheet; the selected ayah is highlighted. Available actions include bookmark, copy, share, and explicitly displayed English meaning. Missing ayah-region metadata can be retried.
 - The app now has an optional downloader for all 604 Mushaf pages plus their ayah-region metadata, with progress and cancellation. Successfully cached pages are retained if a download is interrupted. This feature still needs real-device network, storage, cancellation, and visual-alignment QA.
-- Quran recitation choices were expanded to twelve. Source/licensing checks and CI validation do not, by themselves, prove playback, background operation, each provider URL, or offline downloads work on a real phone.
+- The full-surah picker uses twelve IDs listed in the upstream by-surah manifest and CI checks every 114-file set. Verse playback is deliberately pinned to Alafasy until other IDs are verified against the separate by-ayah catalogue. These checks prove listing metadata, not phone playback or independent copyright ownership.
 - A native prayer engine adapter and reference-vector/unit-test coverage exist. Independent city-by-city prayer verification, current-location/geocoder/time-zone edge cases, sensor checks, and scheduled-notification behavior still need device-level acceptance.
 - The codebase includes Arabic/English resources, an animated intro, onboarding, local bookmarks/notes and reading progress, Qibla, adhkar/dua/Names content paths, tasbih, khatmah, backup/restore and other native foundations. Their complete screen-by-screen visual, language, persistence, and accessibility acceptance has not been demonstrated.
 

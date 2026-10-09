@@ -48,7 +48,7 @@ fun SettingsScreen(app: MasheqalApp, nav: NavHostController, onLanguage: (String
         if (uri != null) {
             message = BackupRepository.export(
                 context, uri, app.userDb, settings, reading, khatmah
-            ).fold({ backupExported }, { "Backup error: ${it.message}" })
+            ).fold({ backupExported }, { context.getString(R.string.backup_error) })
         }
     }
 
@@ -76,7 +76,7 @@ fun SettingsScreen(app: MasheqalApp, nav: NavHostController, onLanguage: (String
                     onLanguage(backup.settings.language)
                     message = backupRestored
                 }
-                .onFailure { message = "Backup error: ${it.message}" }
+                .onFailure { message = context.getString(R.string.backup_error) }
         }
     }
 
