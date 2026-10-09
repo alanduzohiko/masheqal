@@ -3,13 +3,32 @@
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
-    <!-- A guiding flame above an open book: an original geometric mark for مەشخەڵ. -->
+    <!-- An understated arch frames the guiding light and open book. -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#C4A15A"
+        android:strokeWidth="1.8"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M24,70 C17,62 14,52 16,41 C19,25 34,13 51,12 M57,12 C74,13 89,25 92,41 C94,52 91,62 84,70" />
+
+    <!-- Small geometric sparks make the mark recognizable at launcher size. -->
+    <path
+        android:fillColor="#C4A15A"
+        android:pathData="M24,29 L26.2,33.4 L30.8,35.5 L26.2,37.6 L24,42 L21.8,37.6 L17.2,35.5 L21.8,33.4 Z" />
+    <path
+        android:fillColor="#C4A15A"
+        android:pathData="M84,29 L86.2,33.4 L90.8,35.5 L86.2,37.6 L84,42 L81.8,37.6 L77.2,35.5 L81.8,33.4 Z" />
+
+    <!-- The flame: a quiet visual reference to the app's Kurdish name. -->
     <path
         android:fillColor="#C4A15A"
         android:pathData="M54,15 C57,25 68,31 68,41 C68,49 62,56 54,56 C46,56 40,50 40,42 C40,32 50,25 54,15 Z" />
     <path
         android:fillColor="#FBF8F1"
         android:pathData="M54,31 C57,37 61,40 60,45 C59,49 57,52 54,52 C50,52 48,49 48,45 C48,41 52,36 54,31 Z" />
+
+    <!-- Open book with a clear central gutter and restrained gold rules. -->
     <path
         android:fillColor="#FBF8F1"
         android:pathData="M24,57 C34,52 44,54 52,60 L52,82 C43,76 34,74 24,79 Z" />
@@ -31,4 +50,7 @@
     <path
         android:fillColor="#FBF8F1"
         android:pathData="M52,59 L54,62 L56,59 L56,83 L54,86 L52,83 Z" />
+    <path
+        android:fillColor="#C4A15A"
+        android:pathData="M22,84 C33,79 43,80 52,86 L54,88 L56,86 C65,80 75,79 86,84 L83,88 C73,84 64,84 56,90 L54,91 L52,90 C44,84 35,84 25,88 Z" />
 </vector>
