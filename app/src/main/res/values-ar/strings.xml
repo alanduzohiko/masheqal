@@ -143,4 +143,13 @@
     <string name="dua_source_notice">النصوص العربية والمعاني الإنجليزية والمراجع منقولة من مجموعات البيانات المذكورة. لا تتوفر ترجمة سورانية بعد، وما زالت المراجعة العلمية المستقلة قيد الانتظار.</string>
     <string name="dua_no_results">لا توجد أدعية تطابق البحث أو الفئة.</string>
     <string name="copied_to_clipboard">تم النسخ إلى الحافظة</string>
+    <string name="qibla_accuracy_high">دقة البوصلة عالية</string>
+    <string name="qibla_accuracy_medium">دقة البوصلة متوسطة</string>
+    <string name="qibla_accuracy_low">دقة البوصلة منخفضة</string>
+    <string name="qibla_accuracy_unreliable">تحتاج البوصلة إلى المعايرة</string>
+    <string name="qibla_distance_km">المسافة إلى الكعبة: %1$.0f كم</string>
+    <string name="qibla_bearing_value">اتجاه القبلة الحقيقي: %1$.0f°</string>
+    <string name="qibla_compass_hint">أبقِ الهاتف أفقيًا وحرّكه على شكل رقم ثمانية إذا كان اتجاه البوصلة غير مستقر.</string>
+    <string name="qibla_location_quality">جودة تحديد الموقع</string>
+    <string name="qibla_refresh_location">تحديث موقع القبلة</string>
 </resources>
