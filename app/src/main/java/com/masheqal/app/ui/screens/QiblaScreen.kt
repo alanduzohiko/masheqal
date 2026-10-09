@@ -7,6 +7,8 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import android.view.Surface
+import android.view.WindowManager
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
@@ -55,9 +57,27 @@ fun QiblaScreen(nav: NavHostController) {
         val listener = object : SensorEventListener {
             override fun onSensorChanged(event: SensorEvent) {
                 val rotation = FloatArray(9)
+                val displayAdjustedRotation = FloatArray(9)
                 val orientation = FloatArray(3)
                 SensorManager.getRotationMatrixFromVector(rotation, event.values)
-                SensorManager.getOrientation(rotation, orientation)
+
+                // Remap device axes so the compass arrow stays correct in portrait and landscape.
+                val displayRotation = (
+                    context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+                ).defaultDisplay.rotation
+                val (axisX, axisY) = when (displayRotation) {
+                    Surface.ROTATION_90 -> SensorManager.AXIS_Y to SensorManager.AXIS_MINUS_X
+                    Surface.ROTATION_180 -> SensorManager.AXIS_MINUS_X to SensorManager.AXIS_MINUS_Y
+                    Surface.ROTATION_270 -> SensorManager.AXIS_MINUS_Y to SensorManager.AXIS_X
+                    else -> SensorManager.AXIS_X to SensorManager.AXIS_Y
+                }
+                SensorManager.remapCoordinateSystem(
+                    rotation,
+                    axisX,
+                    axisY,
+                    displayAdjustedRotation
+                )
+                SensorManager.getOrientation(displayAdjustedRotation, orientation)
                 azimuth = ((Math.toDegrees(orientation[0].toDouble()).toFloat() + 360f) % 360f)
             }
 
