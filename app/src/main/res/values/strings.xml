@@ -153,4 +153,13 @@
     <string name="dua_source_notice">Arabic text, English meanings and references are copied from the cited source datasets. Sorani translations are not included yet, and independent scholarly review remains pending.</string>
     <string name="dua_no_results">No supplications match this search or category.</string>
     <string name="copied_to_clipboard">Copied to clipboard</string>
+    <string name="qibla_accuracy_high">Compass accuracy is high</string>
+    <string name="qibla_accuracy_medium">Compass accuracy is moderate</string>
+    <string name="qibla_accuracy_low">Compass accuracy is low</string>
+    <string name="qibla_accuracy_unreliable">Compass needs calibration</string>
+    <string name="qibla_distance_km">Distance to the Kaaba: %1$.0f km</string>
+    <string name="qibla_bearing_value">True Qibla bearing: %1$.0f°</string>
+    <string name="qibla_compass_hint">Hold the phone flat and move it in a figure-eight if the compass is unstable.</string>
+    <string name="qibla_location_quality">Position quality</string>
+    <string name="qibla_refresh_location">Refresh Qibla location</string>
 </resources>
