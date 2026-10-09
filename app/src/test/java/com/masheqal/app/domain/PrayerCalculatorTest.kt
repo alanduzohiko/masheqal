@@ -1,6 +1,7 @@
 package com.masheqal.app.domain
 
 import java.time.LocalDate
+import java.time.ZoneId
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -57,6 +58,44 @@ class PrayerCalculatorTest {
         val baghdad = PrayerCalculator.calculate(date, Coordinates(35.56, 45.43, 3.0))
         assertEquals(180, (baghdad.dhuhr - utc.dhuhr).toInt())
         assertEquals(180, (baghdad.asr - utc.asr).toInt())
+    }
+
+    @Test
+    fun zoneIdUsesDaylightSavingRulesForThePrayerDate() {
+        val date = LocalDate.of(2026, 7, 12)
+        val coordinates = Coordinates(35.7750, -78.6336, -5.0)
+        val daylightSaving = PrayerCalculator.calculate(
+            date = date,
+            c = coordinates,
+            method = PrayerMethod.ISNA,
+            madhhab = AsrMadhhab.HANAFI,
+            highLatitudeRule = HighLatitudeRule.MIDDLE_OF_NIGHT,
+            zoneId = ZoneId.of("America/New_York")
+        )
+        val fixedUtcMinusFive = PrayerCalculator.calculate(
+            date = date,
+            c = coordinates,
+            method = PrayerMethod.ISNA,
+            madhhab = AsrMadhhab.HANAFI,
+            highLatitudeRule = HighLatitudeRule.MIDDLE_OF_NIGHT,
+            zoneId = ZoneId.of("Etc/GMT+5")
+        )
+
+        assertEquals(60.0, daylightSaving.fajr - fixedUtcMinusFive.fajr, 0.0)
+        assertEquals(60.0, daylightSaving.dhuhr - fixedUtcMinusFive.dhuhr, 0.0)
+        assertEquals(60.0, daylightSaving.isha - fixedUtcMinusFive.isha, 0.0)
+    }
+
+    @Test
+    fun alarmTargetIsResolvedAsLocalWallClockTimeAcrossDstTransition() {
+        val date = LocalDate.of(2026, 3, 8)
+        val zone = ZoneId.of("America/New_York")
+        val instant = PrayerCalculator.instantForLocalPrayerMinute(date, 5 * 60.0, zone)
+        val local = instant.atZone(zone)
+
+        assertEquals(date, local.toLocalDate())
+        assertEquals(5, local.hour)
+        assertEquals(0, local.minute)
     }
 
     @Test
