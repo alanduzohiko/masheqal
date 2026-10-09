@@ -19,6 +19,8 @@
 - Bundled Quran Arabic in Uthmani-compatible text form, 114 surahs / 6236 ayahs.
 - Bundled English translation aligned 1:1 to the same 6236 ayahs.
 - Quran search with Arabic normalization, diacritic-insensitive matching and reference parsing (`2:255`, `2 255`, `2-255`).
+- Global search spans Quran verses/references, saved bookmarks and notes, offline adhkar/supplications, and the 99 Names of Allah, with shared Arabic normalization.
+- CI validates configured Quran audio edition/bitrate pairs against the upstream surah manifest, including all 114 filename entries per edition. This verifies published availability metadata only, not an individual reciter copyright grant.
 - Surah explorer and exact-ayah reader with saved reading position.
 - Page view with 604 page ranges and 30 Juz ranges derived from the bundled Quran package metadata.
 - Official Madinah Mushaf SVG page reader with tap-to-select ayah regions, visual selected-ayah highlighting, bookmark/copy/share/English-meaning actions, and an optional all-604-page offline download with progress and cancellation.

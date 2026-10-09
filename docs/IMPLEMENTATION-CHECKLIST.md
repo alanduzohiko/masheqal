@@ -43,6 +43,8 @@
 
 - **Ayah-level audio (new):** the Mushaf ayah sheet now offers play/pause and repeat for the selected verse using the active, saved reciter. URL generation for the provider's global-ayah endpoint has unit coverage. Real-source availability, provider permissions/terms, and phone playback remain external acceptance checks.
 
+- **Global search and localization improvements (new):** the single search screen searches Quran verses/references, saved bookmarks/notes, the offline adhkar/supplications package, and the 99 Names of Allah. Matching worship/name rows navigate to a corresponding screen with the query prefilled. Shared Arabic diacritic normalization has unit tests. The Tasbih action label now follows the selected UI language. Physical screen acceptance remains pending.
+
 ## State definitions
 
 - **Not verified** — no durable evidence recorded.
