@@ -130,6 +130,9 @@ internal fun MushafPageImage(
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.padding(top = 3.dp)
                 )
+                TextButton(onClick = { retry++ }) {
+                    Text(stringResource(R.string.retry))
+                }
             }
         } else if (state.loading) {
             CircularProgressIndicator()
