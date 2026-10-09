@@ -155,7 +155,7 @@ fun MasheqalRoot(
             composable("notes") { NotesScreen(app, nav) }
             composable("khatmah") { KhatmahScreen(app, nav) }
             composable("settings") { SettingsScreen(app, nav, onLanguage) }
-            composable("content") { ContentCenterScreen(nav) }
+            composable("content") { ContentCenterScreen(app, nav) }
             composable("calendar") { CalendarScreen(nav) }
         }
     }
