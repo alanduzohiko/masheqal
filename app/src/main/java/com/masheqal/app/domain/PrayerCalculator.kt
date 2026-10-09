@@ -140,6 +140,35 @@ object PrayerCalculator {
         require(roundedMinute in 0 until 1440) { "Rounded prayer minute must be within the local day" }
         return date.atStartOfDay().plusMinutes(roundedMinute.toLong()).atZone(zoneId).toInstant()
     }
+
+    /**
+     * Selects the next prayer from today's ordered local times. After Isha, use the next day's
+     * freshly calculated Fajr rather than reusing today's Fajr with a 24-hour countdown.
+     */
+    fun selectNextPrayer(
+        currentMinuteOfDay: Double,
+        todayPrayers: List<Pair<String, Double>>,
+        tomorrowFajrMinute: Double?
+    ): Pair<String, Double>? {
+        require(currentMinuteOfDay.isFinite() && currentMinuteOfDay >= 0.0 && currentMinuteOfDay < 1440.0) {
+            "Current local minute must be within the day"
+        }
+        require(todayPrayers.all { (name, minute) ->
+            name.isNotBlank() && minute.isFinite() && minute >= 0.0 && minute < 1440.0
+        }) { "Prayer list contains an invalid name or time" }
+        require(todayPrayers.zipWithNext().all { (a, b) -> a.second <= b.second }) {
+            "Prayer times must be sorted chronologically"
+        }
+        if (todayPrayers.isEmpty()) return null
+
+        return todayPrayers.firstOrNull { it.second >= currentMinuteOfDay }
+            ?: tomorrowFajrMinute?.let { fajr ->
+                require(fajr.isFinite() && fajr >= 0.0 && fajr < 1440.0) {
+                    "Tomorrow's Fajr must be within the local day"
+                }
+                todayPrayers.first().first to fajr
+            }
+    }
 }
 
 object QiblaCalculator {
