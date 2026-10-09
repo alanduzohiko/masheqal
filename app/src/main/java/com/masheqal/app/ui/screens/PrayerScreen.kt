@@ -41,6 +41,7 @@ fun PrayerScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: ()
     var location by remember { mutableStateOf(LocationUtils.lastKnown(context)) }
     var today by remember { mutableStateOf(LocalDate.now()) }
     var times by remember { mutableStateOf<PrayerTimes?>(null) }
+    var tomorrowFajr by remember { mutableStateOf<Double?>(null) }
     val settings by app.settings.state.collectAsState(initial = com.masheqal.app.data.SettingsState())
     val scope = rememberCoroutineScope()
     var adhanEnabled by remember { mutableStateOf(PrayerNotificationScheduler.isAdhanEnabled(context)) }
@@ -69,13 +70,27 @@ fun PrayerScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: ()
             val offset = ZonedDateTime.now(zone).offset.totalSeconds / 3600.0
             val method = PrayerMethod.valueOf(settings.prayerMethod)
             val madhhab = AsrMadhhab.valueOf(settings.madhhab)
-            times = PrayerCalculator.calculate(
+            val coordinates = Coordinates(c.latitude, c.longitude, offset)
+            val currentSchedule = PrayerCalculator.calculate(
                 today,
-                Coordinates(c.latitude, c.longitude, offset),
+                coordinates,
                 method,
                 madhhab,
                 zoneId = zone
             )
+            val tomorrow = today.plusDays(1)
+            val tomorrowOffset = tomorrow.atStartOfDay(zone).offset.totalSeconds / 3600.0
+            val nextFajr = runCatching {
+                PrayerCalculator.calculate(
+                    tomorrow,
+                    coordinates.copy(timezoneOffsetHours = tomorrowOffset),
+                    method,
+                    madhhab,
+                    zoneId = zone
+                ).fajr
+            }.getOrNull()
+            times = currentSchedule
+            tomorrowFajr = nextFajr
             PrayerNotificationScheduler.storeConfig(
                 context,
                 c.latitude,
@@ -108,7 +123,7 @@ fun PrayerScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: ()
         val now = ZonedDateTime.now().let {
             it.hour * 60.0 + it.minute + it.second / 60.0
         }
-        prayerRows.firstOrNull { it.second >= now } ?: prayerRows.firstOrNull()
+        PrayerCalculator.selectNextPrayer(now, prayerRows, tomorrowFajr)
     }
 
     LazyColumn(
