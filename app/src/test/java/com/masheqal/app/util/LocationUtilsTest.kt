@@ -44,7 +44,7 @@ class LocationUtilsTest {
 
         val best = LocationFixPolicy.selectBest(listOf(coarse, precise), now)
 
-        assertEquals(18f, best?.accuracyMeters)
+        assertEquals(18f, best?.accuracyMeters ?: -1f, 0.001f)
         assertEquals(35.561, best?.latitude ?: Double.NaN, 0.0)
     }
 
