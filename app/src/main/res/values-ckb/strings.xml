@@ -30,4 +30,20 @@
     <string name="mushaf_saved_offline">پەڕەکە بۆ خوێندنەوەی بێ ئینتەرنێت پاشەکەوت کرا</string>
     <string name="mushaf_available_offline">بەبێ ئینتەرنێت بەردەستە</string>
     <string name="retry">دووبارە هەوڵبدەرەوە</string>
+    <string name="audio_player_title">گوێگرتن لە قورئان</string>
+    <string name="reciter_alafasy">مشاری ڕاشید عەفاسی</string>
+    <string name="reciter_husary">مەحمود خەلیل حوسەری</string>
+    <string name="reciter_minshawi">محەمەد سدیق مینشاوی</string>
+    <string name="audio_source_notice">ستریم لە Al Quran Cloud / Islamic Network؛ پێویستی بە ئینتەرنێت هەیە. مافی تۆمارەکان بۆ خاوەنەکانیان دەمێنێتەوە.</string>
+    <string name="audio_choose_surah">سورەتێک هەڵبژێرە</string>
+    <string name="audio_ready">ئامادەیە بۆ گوێگرتن</string>
+    <string name="audio_previous_surah">سورەتی پێشوو</string>
+    <string name="audio_next_surah">سورەتی دواتر</string>
+    <string name="audio_play">پەخشکردن</string>
+    <string name="audio_play_surah">گوێگرتن لەم سورەتە</string>
+    <string name="audio_connection_error">نەتوانرا بە یاریزانی دەنگ پەیوەست بکرێت. دووبارە هەوڵبدە.</string>
+    <string name="audio_load_error">نەتوانرا لیستی سورەتەکان بخوێندرێتەوە.</string>
+    <string name="audio_retry">دووبارە هەوڵبدە</string>
+    <string name="audio_connecting">پەیوەستبوون بە یاریزانی دەنگ…</string>
+    <string name="audio_reciter">قاری</string>
 </resources>
