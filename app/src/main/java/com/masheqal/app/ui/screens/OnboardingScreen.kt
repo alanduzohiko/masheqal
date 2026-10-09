@@ -33,6 +33,7 @@ import androidx.navigation.NavHostController
 import com.masheqal.app.MasheqalApp
 import com.masheqal.app.R
 import com.masheqal.app.data.SettingsState
+import com.masheqal.app.services.QuranPlaybackService
 import com.masheqal.app.util.CurrentLocation
 import com.masheqal.app.util.LocationUtils
 import kotlinx.coroutines.launch
@@ -78,6 +79,14 @@ fun OnboardingScreen(
                 .getString("reciter", "ar.alafasy") ?: "ar.alafasy"
         )
     }
+    var adhanVoice by rememberSaveable {
+        mutableStateOf(
+            context.getSharedPreferences(QuranPlaybackService.ADHAN_PREFERENCES, Context.MODE_PRIVATE)
+                .getString(QuranPlaybackService.ADHAN_VOICE_KEY, QuranPlaybackService.DEFAULT_ADHAN_VOICE)
+                ?: QuranPlaybackService.DEFAULT_ADHAN_VOICE
+        )
+    }
+    val adhanPreviewLabel = stringResource(R.string.adhan_preview)
 
     val locationLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
@@ -121,6 +130,8 @@ fun OnboardingScreen(
             }
             context.getSharedPreferences("masheqal_audio_preferences", Context.MODE_PRIVATE)
                 .edit().putString("reciter", reciter).apply()
+            context.getSharedPreferences(QuranPlaybackService.ADHAN_PREFERENCES, Context.MODE_PRIVATE)
+                .edit().putString(QuranPlaybackService.ADHAN_VOICE_KEY, adhanVoice).apply()
             context.getSharedPreferences("masheqal_reader_preferences", Context.MODE_PRIVATE)
                 .edit().putString("reading_mode", mushafStyle).apply()
             context.getSharedPreferences("masheqal_onboarding", Context.MODE_PRIVATE)
@@ -430,6 +441,17 @@ fun OnboardingScreen(
                             }
                         }
                     }
+                    Spacer(Modifier.height(18.dp))
+                    Text(
+                        stringResource(R.string.adhan_voice),
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                    AdhanVoicePicker(
+                        selectedVoice = adhanVoice,
+                        onVoiceSelected = { adhanVoice = it },
+                        onPreview = { voice -> previewAdhanVoice(context, voice, adhanPreviewLabel) }
+                    )
                 }
 
                 else -> {
