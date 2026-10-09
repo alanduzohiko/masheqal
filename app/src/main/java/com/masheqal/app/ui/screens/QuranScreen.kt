@@ -189,7 +189,7 @@ fun QuranScreen(app: MasheqalApp, nav: NavHostController) {
                         if (page != null && page in 1..604) {
                             pageDialog = false
                             pageText = ""
-                            nav.navigate("quran/page/§page")
+                            nav.navigate("quran/page/$page")
                         }
                     }
                 ) {
@@ -217,7 +217,7 @@ fun QuranScreen(app: MasheqalApp, nav: NavHostController) {
                         ListItem(
                             headlineContent = {
                                 Text(
-                                    "${stringResource(R.string.juz)} §juz",
+                                    "${stringResource(R.string.juz)} $juz",
                                     fontWeight = FontWeight.SemiBold
                                 )
                             },
