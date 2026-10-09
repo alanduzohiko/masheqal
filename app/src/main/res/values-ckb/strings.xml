@@ -171,4 +171,7 @@
     <string name="names_no_results">هیچ ناوێک لەگەڵ گەڕان یان پاڵاوتنەکە ناگونجێت.</string>
     <string name="names_references">سەرچاوەکان</string>
     <string name="names_meaning_review_pending">پێداچوونەوەی واتای ئینگلیزی هێشتا ماوە</string>
+    <string name="names_filter_favorites">دڵخوازەکان</string>
+    <string name="names_mark_favorite">زیادکردن بۆ دڵخوازەکان</string>
+    <string name="names_mark_unfavorite">لابردن لە دڵخوازەکان</string>
 </resources>
