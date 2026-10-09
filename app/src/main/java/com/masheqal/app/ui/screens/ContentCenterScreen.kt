@@ -43,7 +43,8 @@ fun ContentCenterScreen(app: MasheqalApp, nav: NavHostController) {
         stringResource(R.string.quran_english) to stringResource(R.string.installed),
         stringResource(R.string.quran_sorani) to stringResource(R.string.installed),
         stringResource(R.string.quran_font) to stringResource(R.string.installed),
-        stringResource(R.string.adhkar) to stringResource(R.string.adhkar_bundled_status)
+        stringResource(R.string.adhkar) to stringResource(R.string.adhkar_bundled_status),
+        stringResource(R.string.names_of_allah) to stringResource(R.string.installed)
     )
     val gated = listOf(
         R.string.tafsir,
