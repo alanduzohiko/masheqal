@@ -159,6 +159,33 @@ assert community_adhan_manifest.get("license") == "CC0 1.0 Universal"
 assert "publicdomain/zero/1.0" in community_adhan_manifest.get("licenseUrl", "")
 assert community_adhan_manifest.get("author") and community_adhan_manifest.get("byteCount") == len(community_adhan_bytes)
 
+# Licensed 99 Names of Allah dataset integrity and attribution.
+asma_path = CONTENT / "names_of_allah.json"
+asma_manifest_path = CONTENT / "names_of_allah_manifest.json"
+asma_license_path = CONTENT / "names_of_allah_APACHE-2.0.txt"
+assert asma_path.is_file(), "Names of Allah dataset was not generated"
+assert asma_manifest_path.is_file(), "Names of Allah provenance manifest is missing"
+assert asma_license_path.is_file(), "Apache-2.0 source license must accompany the names dataset"
+asma = load("names_of_allah.json")
+asma_manifest = load("names_of_allah_manifest.json")
+asma_license = asma_license_path.read_text(encoding="utf-8")
+assert len(asma.get("names", [])) == 99, "Expected exactly 99 Names of Allah"
+assert [row.get("number") for row in asma["names"]] == list(range(1, 100)), "Names must be sequential from 1 to 99"
+for row in asma["names"]:
+    number = row["number"]
+    for field in ("arabic", "transliteration", "meaning"):
+        assert isinstance(row.get(field), str) and row[field].strip(), f"Missing {field} for Name {number}"
+    assert isinstance(row.get("references"), list), f"Name {number} must preserve the source references array"
+assert asma_manifest.get("license") == "Apache-2.0"
+assert asma_manifest.get("recordCount") == 99
+assert asma_manifest.get("soraniMeaningIncluded") is False, "Do not label English names as Sorani"
+assert asma_manifest.get("englishMeaningScholarReviewStatus") == "pending", "Scholar review status must be explicit"
+assert asma_manifest.get("sourceCommit") == "094dc91e11316a0eb5150f84dd106f3ea1be60e5"
+assert asma_manifest.get("underlyingDataCommit") == "6df43672a5306ff6e19b1e29dacfe88cf6385ccb"
+assert hashlib.sha256(asma_path.read_bytes()).hexdigest() == asma_manifest.get("dataSha256")
+assert hashlib.sha256(asma_license_path.read_bytes()).hexdigest() == asma_manifest.get("licenseSha256")
+assert "Apache License" in asma_license and "Version 2.0" in asma_license
+
 for name, expected, key in [("quran_page_ranges.json", 604, "page"), ("quran_juz_ranges.json", 30, "juz")]:
     ranges = load(name)
     assert len(ranges) == expected
@@ -195,4 +222,4 @@ for file in sorted((ROOT / "app/src/main/java").rglob("*.kt")):
             stack.pop()
     assert not stack, f"unclosed delimiter in {file}: {stack}"
 
-print(f"Project validation passed: {len(xml_files)} XML resources, {len(base_names)} synchronized UI strings, 6236 aligned Arabic/English/Sorani records, {len(missing_ckb)} explicit Sorani gaps, 604 pages, 30 juz, Kotlin delimiter sanity OK.")
+print(f"Project validation passed: {len(xml_files)} XML resources, {len(base_names)} synchronized UI strings, 6236 aligned Arabic/English/Sorani records, {len(missing_ckb)} explicit Sorani gaps, 99 licensed Names of Allah, 82 adhkar/dua records, 604 pages, 30 juz, Kotlin delimiter sanity OK.")
