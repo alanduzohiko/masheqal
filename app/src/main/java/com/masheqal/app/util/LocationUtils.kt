@@ -1,6 +1,7 @@
 package com.masheqal.app.util
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
@@ -79,6 +80,11 @@ object LocationUtils {
     private const val CURRENT_FIX_TIMEOUT_MILLIS = 12_000L
     private const val EARLY_ACCEPT_ACCURACY_METERS = 75f
 
+    /**
+     * Runtime permission is checked before provider access; a permission revocation race is
+     * handled by the guarded provider call, which returns no fix instead of crashing.
+     */
+    @SuppressLint("MissingPermission")
     fun lastKnown(context: Context): CurrentLocation? {
         if (!hasLocationPermission(context)) return null
 
