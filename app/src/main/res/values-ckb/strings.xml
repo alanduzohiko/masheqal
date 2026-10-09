@@ -34,6 +34,11 @@
     <string name="reciter_alafasy">مشاری ڕاشید عەفاسی</string>
     <string name="reciter_husary">مەحمود خەلیل حوسەری</string>
     <string name="reciter_minshawi">محەمەد سدیق مینشاوی</string>
+    <string name="reciter_sudais">عەبدولڕەحمان سدەیس</string>
+    <string name="reciter_shuraim">سعود شڕەیم</string>
+    <string name="reciter_abdulbasit">عەبدولباسط عەبدولسەمەد</string>
+    <string name="reciter_ajamy">ئەحمەد ئەلعەجەمی</string>
+    <string name="reciter_hudhaify">عەلی ئەلحوزەیفی</string>
     <string name="audio_source_notice">ستریم لە Al Quran Cloud / Islamic Network؛ پێویستی بە ئینتەرنێت هەیە. مافی تۆمارەکان بۆ خاوەنەکانیان دەمێنێتەوە.</string>
     <string name="audio_choose_surah">سورەتێک هەڵبژێرە</string>
     <string name="audio_ready">ئامادەیە بۆ گوێگرتن</string>
