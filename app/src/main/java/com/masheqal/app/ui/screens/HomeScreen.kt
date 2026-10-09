@@ -39,21 +39,34 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
     val khatmah by app.personal.khatmah.collectAsState(initial = com.masheqal.app.data.KhatmahState())
     val settings by app.settings.state.collectAsState(initial = com.masheqal.app.data.SettingsState())
     var location by remember { mutableStateOf(LocationUtils.lastKnown(context)) }
+    var today by remember { mutableStateOf(LocalDate.now()) }
     var prayerTimes by remember { mutableStateOf<PrayerTimes?>(null) }
 
     LaunchedEffect(Unit) {
-        val verses = app.quran.loadVerses()
-        if (verses.isNotEmpty()) {
-            daily = verses[(LocalDate.now().dayOfYear - 1) % verses.size]
-        }
         location = LocationUtils.lastKnown(context)
     }
 
-    LaunchedEffect(location, settings.prayerMethod, settings.madhhab) {
+    // Refresh date-dependent dashboard data without requiring the user to reopen the app.
+    LaunchedEffect(Unit) {
+        while (true) {
+            delay(30_000L)
+            val currentDate = LocalDate.now()
+            if (currentDate != today) today = currentDate
+        }
+    }
+
+    LaunchedEffect(today) {
+        val verses = app.quran.loadVerses()
+        if (verses.isNotEmpty()) {
+            daily = verses[(today.dayOfYear - 1) % verses.size]
+        }
+    }
+
+    LaunchedEffect(location, settings.prayerMethod, settings.madhhab, today) {
         location?.let { c ->
             val offset = ZonedDateTime.now().offset.totalSeconds / 3600.0
             prayerTimes = PrayerCalculator.calculate(
-                LocalDate.now(),
+                today,
                 Coordinates(c.latitude, c.longitude, offset),
                 PrayerMethod.valueOf(settings.prayerMethod),
                 AsrMadhhab.valueOf(settings.madhhab)
@@ -73,7 +86,7 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
         rows.firstOrNull { it.minutes >= now } ?: rows.firstOrNull()
     }
 
-    val date = LocalDate.now()
+    val date = today
     val hijri = HijriCalculator.fromGregorian(date)
     val gregorianDate = remember(date) {
         DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
