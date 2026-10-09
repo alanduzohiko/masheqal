@@ -10,6 +10,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -25,12 +26,18 @@ import com.masheqal.app.data.SettingsState
 @Composable
 fun QuranPageScreen(app: MasheqalApp, nav: NavHostController, page: Int) {
     val currentPage = page.coerceIn(1, 604)
+    val context = LocalContext.current
     val isRtl = LocalLayoutDirection.current == LayoutDirection.Rtl
     val settings by app.settings.state.collectAsState(initial = SettingsState())
     var verses by remember { mutableStateOf(emptyList<QuranVerse>()) }
     var currentJuz by remember { mutableStateOf(1) }
     var showTranslation by remember { mutableStateOf(false) }
-    var showMushaf by remember(currentPage) { mutableStateOf(true) }
+    var showMushaf by remember(currentPage) {
+        mutableStateOf(
+            context.getSharedPreferences("masheqal_reader_preferences", android.content.Context.MODE_PRIVATE)
+                .getString("reading_mode", "mushaf") != "text"
+        )
+    }
 
     LaunchedEffect(currentPage) {
         verses = app.quran.versesOfPage(currentPage)
@@ -52,7 +59,13 @@ fun QuranPageScreen(app: MasheqalApp, nav: NavHostController, page: Int) {
             },
             actions = {
                 IconButton(
-                    onClick = { showMushaf = !showMushaf }
+                    onClick = {
+                        showMushaf = !showMushaf
+                        context.getSharedPreferences(
+                            "masheqal_reader_preferences",
+                            android.content.Context.MODE_PRIVATE
+                        ).edit().putString("reading_mode", if (showMushaf) "mushaf" else "text").apply()
+                    }
                 ) {
                     Icon(
                         if (showMushaf) Icons.Default.TextFields else Icons.Default.MenuBook,
