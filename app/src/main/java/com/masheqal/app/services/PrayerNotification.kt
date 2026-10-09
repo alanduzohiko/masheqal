@@ -17,46 +17,183 @@ import java.time.LocalDate
 import java.time.ZoneId
 
 object PrayerNotificationScheduler {
-    private const val PREF="prayer_schedule"
-    private const val CHANNEL="prayer"
+    private const val PREF = "prayer_schedule"
+    private const val CHANNEL = "prayer"
+    private const val CHANNEL_ADHAN = "prayer_adhan"
+
     fun scheduleToday(context: Context, times: PrayerTimes) {
-        val mgr=context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val manager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         for (index in 0..5) {
             val existingIntent = Intent(context, PrayerAlarmReceiver::class.java)
-            val existing = PendingIntent.getBroadcast(context, 100 + index, existingIntent, PendingIntent.FLAG_NO_CREATE or PendingIntent.FLAG_IMMUTABLE)
-            if (existing != null) mgr.cancel(existing)
+            val existing = PendingIntent.getBroadcast(
+                context,
+                100 + index,
+                existingIntent,
+                PendingIntent.FLAG_NO_CREATE or PendingIntent.FLAG_IMMUTABLE
+            )
+            if (existing != null) manager.cancel(existing)
         }
-        val values=doubleArrayOf(times.fajr,times.sunrise,times.dhuhr,times.asr,times.maghrib,times.isha)
-        context.getSharedPreferences(PREF,Context.MODE_PRIVATE).edit().putString("date",times.date.toString()).apply()
+
+        val values = doubleArrayOf(
+            times.fajr, times.sunrise, times.dhuhr,
+            times.asr, times.maghrib, times.isha
+        )
+        context.getSharedPreferences(PREF, Context.MODE_PRIVATE).edit()
+            .putString("date", times.date.toString())
+            .apply()
+
         values.forEachIndexed { index, minutes ->
             if (!minutes.isFinite()) return@forEachIndexed
-            val millis=times.date.atStartOfDay(ZoneId.systemDefault()).plusMinutes(minutes.toLong()).toInstant().toEpochMilli()
-            if (millis <= System.currentTimeMillis()) return@forEachIndexed
-            val labelRes=intArrayOf(R.string.fajr,R.string.sunrise,R.string.dhuhr,R.string.asr,R.string.maghrib,R.string.isha)[index]
-            val intent=Intent(context,PrayerAlarmReceiver::class.java).putExtra("name",context.getString(labelRes))
-            val pi=PendingIntent.getBroadcast(context,100+index,intent,PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
-            runCatching { mgr.cancel(pi) }
-            try { if(android.os.Build.VERSION.SDK_INT>=23) mgr.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,millis,pi) else mgr.setExact(AlarmManager.RTC_WAKEUP,millis,pi) } catch(_: SecurityException) { mgr.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,millis,pi) }
+            val fireAt = times.date.atStartOfDay(ZoneId.systemDefault())
+                .plusMinutes(minutes.toLong()).toInstant().toEpochMilli()
+            if (fireAt <= System.currentTimeMillis()) return@forEachIndexed
+
+            val labelRes = intArrayOf(
+                R.string.fajr, R.string.sunrise, R.string.dhuhr,
+                R.string.asr, R.string.maghrib, R.string.isha
+            )[index]
+            val intent = Intent(context, PrayerAlarmReceiver::class.java)
+                .putExtra("name", context.getString(labelRes))
+                // Sunrise is a prayer-time marker, not a prayer call.
+                .putExtra("playAdhan", index != 1)
+            val pending = PendingIntent.getBroadcast(
+                context,
+                100 + index,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+            runCatching { manager.cancel(pending) }
+            try {
+                if (android.os.Build.VERSION.SDK_INT >= 23) {
+                    manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, fireAt, pending)
+                } else {
+                    manager.setExact(AlarmManager.RTC_WAKEUP, fireAt, pending)
+                }
+            } catch (_: SecurityException) {
+                manager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, fireAt, pending)
+            }
         }
     }
+
+    fun isAdhanEnabled(context: Context): Boolean =
+        context.getSharedPreferences(PREF, Context.MODE_PRIVATE)
+            .getBoolean("adhanEnabled", false)
+
+    fun setAdhanEnabled(context: Context, enabled: Boolean) {
+        context.getSharedPreferences(PREF, Context.MODE_PRIVATE).edit()
+            .putBoolean("adhanEnabled", enabled)
+            .apply()
+    }
+
     fun rescheduleFromPreferences(context: Context) {
-        val p=context.getSharedPreferences(PREF,Context.MODE_PRIVATE); val lat=p.getString("lat",null)?.toDoubleOrNull() ?: return; val lon=p.getString("lon",null)?.toDoubleOrNull() ?: return
-        val method=runCatching{PrayerMethod.valueOf(p.getString("method","MWL")!!)}.getOrDefault(PrayerMethod.MWL)
-        val madhhab=runCatching{AsrMadhhab.valueOf(p.getString("madhhab","SHAFI")!!)}.getOrDefault(AsrMadhhab.SHAFI)
-        val zone=ZoneId.systemDefault(); val offset=LocalDate.now().atStartOfDay(zone).offset.totalSeconds/3600.0
-        scheduleToday(context,PrayerCalculator.calculate(LocalDate.now(),Coordinates(lat,lon,offset),method,madhhab))
+        val preferences = context.getSharedPreferences(PREF, Context.MODE_PRIVATE)
+        val latitude = preferences.getString("lat", null)?.toDoubleOrNull() ?: return
+        val longitude = preferences.getString("lon", null)?.toDoubleOrNull() ?: return
+        val method = runCatching {
+            PrayerMethod.valueOf(preferences.getString("method", "MWL")!!)
+        }.getOrDefault(PrayerMethod.MWL)
+        val madhhab = runCatching {
+            AsrMadhhab.valueOf(preferences.getString("madhhab", "SHAFI")!!)
+        }.getOrDefault(AsrMadhhab.SHAFI)
+        val zone = ZoneId.systemDefault()
+        val offset = LocalDate.now().atStartOfDay(zone).offset.totalSeconds / 3600.0
+        scheduleToday(
+            context,
+            PrayerCalculator.calculate(
+                LocalDate.now(),
+                Coordinates(latitude, longitude, offset),
+                method,
+                madhhab
+            )
+        )
     }
-    fun storeConfig(context: Context,lat:Double,lon:Double,method:PrayerMethod,madhhab:AsrMadhhab){context.getSharedPreferences(PREF,Context.MODE_PRIVATE).edit().putString("lat",lat.toString()).putString("lon",lon.toString()).putString("method",method.name).putString("madhhab",madhhab.name).apply()}
-    fun createChannel(context: Context){ val nm=context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager; nm.createNotificationChannel(NotificationChannel(CHANNEL,context.getString(R.string.prayer_notification_channel),NotificationManager.IMPORTANCE_HIGH)) }
+
+    fun storeConfig(
+        context: Context,
+        lat: Double,
+        lon: Double,
+        method: PrayerMethod,
+        madhhab: AsrMadhhab
+    ) {
+        context.getSharedPreferences(PREF, Context.MODE_PRIVATE).edit()
+            .putString("lat", lat.toString())
+            .putString("lon", lon.toString())
+            .putString("method", method.name)
+            .putString("madhhab", madhhab.name)
+            .apply()
+    }
+
+    fun createChannel(context: Context) {
+        val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        manager.createNotificationChannel(
+            NotificationChannel(
+                CHANNEL,
+                context.getString(R.string.prayer_notification_channel),
+                NotificationManager.IMPORTANCE_HIGH
+            )
+        )
+        val quiet = NotificationChannel(
+            CHANNEL_ADHAN,
+            context.getString(R.string.prayer_adhan_channel),
+            NotificationManager.IMPORTANCE_HIGH
+        ).apply {
+            setSound(null, null)
+            enableVibration(false)
+            enableLights(false)
+        }
+        manager.createNotificationChannel(quiet)
+    }
 }
-class PrayerAlarmReceiver: BroadcastReceiver(){
-    override fun onReceive(context: Context,intent: Intent){
-        if(BuildConfigCheck.isPostNotificationsRequired() && ContextCompat.checkSelfPermission(context,Manifest.permission.POST_NOTIFICATIONS)!=PackageManager.PERMISSION_GRANTED) return
+
+class PrayerAlarmReceiver : BroadcastReceiver() {
+    override fun onReceive(context: Context, intent: Intent) {
+        val name = intent.getStringExtra("name") ?: return
+        val playAdhan = intent.getBooleanExtra("playAdhan", false) &&
+            PrayerNotificationScheduler.isAdhanEnabled(context)
+
+        // Do not couple full adhan playback to POST_NOTIFICATIONS permission.
+        if (playAdhan) {
+            val playbackIntent = Intent(context, QuranPlaybackService::class.java)
+                .setAction(QuranPlaybackService.ACTION_PLAY_ADHAN)
+                .putExtra(QuranPlaybackService.EXTRA_PRAYER_NAME, name)
+            runCatching { ContextCompat.startForegroundService(context, playbackIntent) }
+        }
+
+        if (
+            BuildConfigCheck.isPostNotificationsRequired() &&
+            ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) !=
+            PackageManager.PERMISSION_GRANTED
+        ) return
+
         PrayerNotificationScheduler.createChannel(context)
-        val name=intent.getStringExtra("name") ?: return
-        val n=NotificationCompat.Builder(context,"prayer").setSmallIcon(android.R.drawable.ic_lock_idle_alarm).setContentTitle(context.getString(R.string.app_name)).setContentText(context.getString(R.string.prayer_notification_text, name)).setAutoCancel(true).build()
-        (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).notify(name.hashCode(),n)
+        val channel = if (playAdhan) "prayer_adhan" else "prayer"
+        val notification = NotificationCompat.Builder(context, channel)
+            .setSmallIcon(android.R.drawable.ic_lock_idle_alarm)
+            .setContentTitle(context.getString(R.string.app_name))
+            .setContentText(context.getString(R.string.prayer_notification_text, name))
+            .setAutoCancel(true)
+            .build()
+        (
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        ).notify(name.hashCode(), notification)
     }
 }
-object BuildConfigCheck{fun isPostNotificationsRequired()=android.os.Build.VERSION.SDK_INT>=33}
-class PrayerBootReceiver: BroadcastReceiver(){override fun onReceive(context:Context,intent:Intent){if(intent.action in setOf(Intent.ACTION_BOOT_COMPLETED,Intent.ACTION_TIME_CHANGED,Intent.ACTION_TIMEZONE_CHANGED,Intent.ACTION_DATE_CHANGED)) PrayerNotificationScheduler.rescheduleFromPreferences(context)}}
+
+object BuildConfigCheck {
+    fun isPostNotificationsRequired() = android.os.Build.VERSION.SDK_INT >= 33
+}
+
+class PrayerBootReceiver : BroadcastReceiver() {
+    override fun onReceive(context: Context, intent: Intent) {
+        if (
+            intent.action in setOf(
+                Intent.ACTION_BOOT_COMPLETED,
+                Intent.ACTION_TIME_CHANGED,
+                Intent.ACTION_TIMEZONE_CHANGED,
+                Intent.ACTION_DATE_CHANGED
+            )
+        ) {
+            PrayerNotificationScheduler.rescheduleFromPreferences(context)
+        }
+    }
+}
