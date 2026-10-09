@@ -86,6 +86,7 @@
     <string name="brand_tagline">رفيقك الروحي اليومي</string>
     <string name="location_refresh">تحديث الموقع</string>
     <string name="choose_city">اختيار المدينة يدويًا</string>
+    <string name="open_location_settings">فتح إعدادات الموقع</string>
     <string name="search_city">المدينة أو البلدة</string>
     <string name="city_search_hint">ابحث عن مدينة أو بلدة. قد تحتاج خدمة تحديد الأماكن في Android إلى الإنترنت.</string>
     <string name="search_city_action">البحث عن المدينة</string>

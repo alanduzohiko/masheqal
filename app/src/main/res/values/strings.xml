@@ -96,6 +96,7 @@
     <string name="brand_tagline">Your daily spiritual companion</string>
     <string name="location_refresh">Refresh location</string>
     <string name="choose_city">Choose city manually</string>
+    <string name="open_location_settings">Open location settings</string>
     <string name="search_city">City or town</string>
     <string name="city_search_hint">Search for a city or town. Android's place lookup may require internet access.</string>
     <string name="search_city_action">Find city</string>

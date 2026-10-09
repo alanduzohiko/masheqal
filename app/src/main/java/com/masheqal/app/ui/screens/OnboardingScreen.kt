@@ -2,6 +2,8 @@ package com.masheqal.app.ui.screens
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
+import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
@@ -36,6 +38,8 @@ import com.masheqal.app.data.SettingsState
 import com.masheqal.app.services.QuranPlaybackService
 import com.masheqal.app.util.CurrentLocation
 import com.masheqal.app.util.LocationUtils
+import com.masheqal.app.util.LocationChoiceStore
+import com.masheqal.app.util.PlaceLookup
 import kotlinx.coroutines.launch
 
 private data class OnboardingReciter(val id: String, val label: Int)
@@ -53,7 +57,8 @@ fun OnboardingScreen(
     var language by rememberSaveable { mutableStateOf(settings.language) }
     var prayerMethod by rememberSaveable { mutableStateOf(settings.prayerMethod) }
     var madhhab by rememberSaveable { mutableStateOf(settings.madhhab) }
-    var location by remember { mutableStateOf(LocationUtils.lastKnown(context)) }
+    var location by remember { mutableStateOf(LocationChoiceStore.loadManual(context) ?: LocationUtils.lastKnown(context)) }
+    var showCityPicker by remember { mutableStateOf(false) }
     var locating by remember { mutableStateOf(false) }
     var khatmahEnabled by rememberSaveable { mutableStateOf(false) }
     var khatmahDays by rememberSaveable { mutableIntStateOf(30) }
@@ -98,12 +103,33 @@ fun OnboardingScreen(
             scope.launch {
                 locating = true
                 try {
+                    LocationChoiceStore.clearManual(context)
                     location = LocationUtils.current(context) ?: LocationUtils.lastKnown(context)
                 } finally {
                     locating = false
                 }
             }
         }
+    }
+
+    LaunchedEffect(location?.latitude, location?.longitude, location?.placeName, location?.countryCode) {
+        val current = location
+        if (current != null && (current.placeName.isNullOrBlank() || current.countryCode.isNullOrBlank())) {
+            val match = runCatching {
+                PlaceLookup.reverseGeocode(context, current.latitude, current.longitude)
+            }.getOrNull()
+            if (match != null) {
+                location = current.copy(
+                    placeName = match.displayName,
+                    countryName = match.countryName,
+                    countryCode = match.countryCode
+                )
+            }
+        }
+    }
+
+    fun openLocationSettings() {
+        runCatching { context.startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)) }
     }
 
     fun skipSetup() {
@@ -320,13 +346,18 @@ fun OnboardingScreen(
                             val current = location
                             if (current != null) {
                                 Text(
-                                    stringResource(
+                                    current.placeName ?: stringResource(R.string.location_city_unavailable),
+                                    style = MaterialTheme.typography.titleSmall
+                                )
+                                Text(
+                                    if (current.isManual) stringResource(R.string.location_manual_accuracy)
+                                    else stringResource(
                                         if (current.isPrecise) R.string.location_accuracy
                                         else R.string.location_accuracy_approximate,
                                         current.accuracyMeters.toInt().coerceAtLeast(1)
                                     ),
                                     style = MaterialTheme.typography.bodySmall,
-                                    color = if (current.isPrecise) MaterialTheme.colorScheme.onSurfaceVariant
+                                    color = if (current.isPrecise || current.isManual) MaterialTheme.colorScheme.onSurfaceVariant
                                     else MaterialTheme.colorScheme.error
                                 )
                             } else {
@@ -354,6 +385,17 @@ fun OnboardingScreen(
                                     Text(stringResource(R.string.location_refreshing))
                                 } else {
                                     Text(stringResource(R.string.use_current_location))
+                                }
+                            }
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                TextButton(onClick = { showCityPicker = true }) {
+                                    Text(stringResource(R.string.choose_city))
+                                }
+                                TextButton(onClick = { openLocationSettings() }) {
+                                    Text(stringResource(R.string.open_location_settings))
                                 }
                             }
                         }
@@ -515,6 +557,16 @@ fun OnboardingScreen(
                 )
             }
         }
+    }
+
+    if (showCityPicker) {
+        CityPickerDialog(
+            onDismiss = { showCityPicker = false },
+            onPlaceSelected = { selected ->
+                location = LocationChoiceStore.saveManual(context, selected)
+                showCityPicker = false
+            }
+        )
     }
 }
 
