@@ -46,8 +46,8 @@ jobs:
       - name: Validate Gradle configuration
         run: gradle --version && gradle :app:tasks --all --no-daemon
 
-      - name: Inspect Sorani translation catalog
-        run: python3 tools/fetch_sorani_translation.py --inspect-only
+      - name: Fetch and validate the licensed Sorani Quran translation
+        run: python3 tools/fetch_sorani_translation.py
 
       - name: Validate content and resources
         run: python3 tools/validate_project.py
