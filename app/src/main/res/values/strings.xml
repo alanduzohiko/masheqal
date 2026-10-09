@@ -169,4 +169,16 @@
     <string name="adhan_voice_source_beautiful">Recording by Adam-synagda · CC0 1.0</string>
     <string name="adhan_voice_source_community">Recording by Aishatu98 · CC0 1.0</string>
     <string name="adhan_voice_note">Choose the call-to-prayer recording played with prayer reminders. This is separate from the Quran reciter.</string>
+    <string name="names_of_allah_intro">Explore the 99 Names of Allah with Arabic, transliteration and English meanings.</string>
+    <string name="names_search_hint">Search Arabic, transliteration or meaning</string>
+    <string name="names_source_notice">Source data is Apache-2.0 and bundled for offline use. Independent scholarly review of the English meanings is still pending; no references are invented when the dataset supplies none. Sorani meanings are not included yet.</string>
+    <string name="names_learned_count">Learned %1$d of 99</string>
+    <string name="names_mark_learned">Mark as learned</string>
+    <string name="names_mark_unlearned">Mark as not learned</string>
+    <string name="names_filter_all">All names</string>
+    <string name="names_filter_learned">Learned</string>
+    <string name="names_filter_remaining">To learn</string>
+    <string name="names_no_results">No names match this search or filter.</string>
+    <string name="names_references">References</string>
+    <string name="names_meaning_review_pending">English meaning review pending</string>
 </resources>
