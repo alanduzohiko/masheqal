@@ -78,4 +78,9 @@
     <string name="adhkar_repeat_note_en">بيان التكرار (إنجليزي)</string>
     <string name="adhkar_merit_ar_label">الفضل (النص العربي من المصدر)</string>
     <string name="adhkar_merit_en_label">الفضل (النص الإنجليزي من المصدر)</string>
+
+    <string name="audio_download">تنزيل للاستماع دون إنترنت</string>
+    <string name="audio_downloading">جارٍ تنزيل التلاوة…</string>
+    <string name="audio_downloaded">تم التنزيل · متاح دون إنترنت</string>
+    <string name="audio_download_failed">فشل تنزيل التلاوة. تحقق من الاتصال ثم أعد المحاولة.</string>
 </resources>
