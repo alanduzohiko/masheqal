@@ -111,4 +111,13 @@
     <string name="reading_style_mushaf">مصحەفی مەدینە</string>
     <string name="reading_style_text">خوێندنەوەی دەقی</string>
     <string name="khatmah_days">%1$d ڕۆژ</string>
+    <string name="method_mwl">یەکێتی جیهانیی موسڵمانان</string>
+    <string name="method_egyptian">میسری</string>
+    <string name="method_umm_al_qura">ئومم القورا</string>
+    <string name="method_karachi">کەراچی</string>
+    <string name="method_isna">ISNA</string>
+    <string name="method_tehran">تاران</string>
+    <string name="method_turkey">تورکیا</string>
+    <string name="madhhab_shafi">شافعی</string>
+    <string name="madhhab_hanafi">حەنەفی</string>
 </resources>
