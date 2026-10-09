@@ -6,11 +6,42 @@ import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import org.json.JSONObject
 
-enum class AdhkarPeriod(val sourceType: Int, val storageKey: String) {
-    MORNING(1, "morning"),
-    EVENING(2, "evening");
+enum class AdhkarPeriod(
+    val categoryId: String,
+    val storageKey: String,
+    val sourceType: Int = -1
+) {
+    ALL("all", "all"),
+    MORNING("morning", "morning", 1),
+    EVENING("evening", "evening", 2),
+    AFTER_PRAYER("after_prayer", "after_prayer"),
+    SLEEP("sleep", "sleep"),
+    WAKE_UP("wake_up", "wake_up"),
+    BATHROOM("bathroom", "bathroom"),
+    FOOD("food", "food"),
+    MOSQUE("mosque", "mosque"),
+    WUDU("wudu", "wudu"),
+    FASTING("fasting", "fasting"),
+    HOME("home", "home"),
+    TRAVEL("travel", "travel"),
+    CLOTHING("clothing", "clothing"),
+    WEATHER("weather", "weather"),
+    PROTECTION("protection", "protection"),
+    GENERAL("general", "general");
 
-    fun includes(itemType: Int): Boolean = itemType == 0 || itemType == sourceType
+    /** Legacy selector, retained to keep the original morning/evening rules independently tested. */
+    fun includes(itemType: Int): Boolean = when (this) {
+        MORNING -> itemType == 0 || itemType == 1
+        EVENING -> itemType == 0 || itemType == 2
+        else -> false
+    }
+
+    fun includes(item: AdhkarItem): Boolean = when (this) {
+        ALL -> true
+        MORNING -> item.categoryId == "morning" || item.categoryId == "morning_evening"
+        EVENING -> item.categoryId == "evening" || item.categoryId == "morning_evening"
+        else -> item.categoryId == categoryId
+    }
 }
 
 data class AdhkarItem(
@@ -30,9 +61,11 @@ data class AdhkarItem(
     val hadithAr: String,
     val hadithEn: String,
     val vocabularyAr: String,
-    val vocabularyEn: String
+    val vocabularyEn: String,
+    val categoryId: String = "morning_evening",
+    val titleEn: String = ""
 ) {
-    fun appliesTo(period: AdhkarPeriod): Boolean = period.includes(type)
+    fun appliesTo(period: AdhkarPeriod): Boolean = period.includes(this)
 }
 
 data class AdhkarSourceInfo(
@@ -62,33 +95,44 @@ class AdhkarRepository(private val context: Context) {
     }
 
     private fun readPackage(): AdhkarPackage {
-        val rowsText = context.assets.open("content/adhkar_morning_evening.json")
+        val rowsText = context.assets.open("content/adhkar_all.json")
             .bufferedReader().use { it.readText() }
-        val manifestText = context.assets.open("content/adhkar_morning_evening_manifest.json")
+        val manifestText = context.assets.open("content/adhkar_all_manifest.json")
             .bufferedReader().use { it.readText() }
         val rows = JSONArray(rowsText)
         val manifest = JSONObject(manifestText)
-        require(rows.length() == 34) { "Adhkar data integrity check failed" }
+        val expectedCount = manifest.getInt("recordCount")
+        require(expectedCount == 82 && rows.length() == expectedCount) {
+            "Combined adhkar data integrity check failed"
+        }
 
+        val validCategories = setOf(
+            "morning_evening", "morning", "evening", "after_prayer", "sleep", "wake_up",
+            "bathroom", "food", "mosque", "wudu", "fasting", "home", "travel", "clothing",
+            "weather", "protection", "general"
+        )
         val items = buildList(rows.length()) {
             for (index in 0 until rows.length()) {
                 val row = rows.getJSONObject(index)
                 val order = row.getInt("order")
                 require(order == index + 1) { "Adhkar ordering mismatch at row $index" }
+                val category = row.getString("categoryId")
+                require(category in validCategories) { "Unknown adhkar category '$category' at order $order" }
+
                 val arabic = row.getString("arabic")
                 val translation = row.getString("translationEn")
-                val sourceAr = row.getString("sourceAr")
                 val sourceEn = row.getString("sourceEn")
+                val sourceAr = row.optString("sourceAr", "")
                 val repeats = row.getInt("repeatCount")
                 val type = row.getInt("type")
                 require(arabic.isNotBlank() && translation.isNotBlank()) {
-                    "Missing Arabic or English text at adhkar order $order"
+                    "Missing Arabic or English meaning at adhkar order $order"
                 }
-                require(sourceAr.isNotBlank() && sourceEn.isNotBlank()) {
+                require(sourceEn.isNotBlank()) {
                     "Missing source citation at adhkar order $order"
                 }
-                require(repeats in 1..1000 && type in 0..2) {
-                    "Invalid repetition count or period at adhkar order $order"
+                require(repeats in 1..1000 && type in 0..3) {
+                    "Invalid repetition count or type at adhkar order $order"
                 }
                 add(
                     AdhkarItem(
@@ -108,7 +152,9 @@ class AdhkarRepository(private val context: Context) {
                         hadithAr = row.optString("hadithAr", ""),
                         hadithEn = row.optString("hadithEn", ""),
                         vocabularyAr = row.optString("vocabularyAr", ""),
-                        vocabularyEn = row.optString("vocabularyEn", "")
+                        vocabularyEn = row.optString("vocabularyEn", ""),
+                        categoryId = category,
+                        titleEn = row.optString("titleEn", "")
                     )
                 )
             }
@@ -129,10 +175,18 @@ class AdhkarRepository(private val context: Context) {
             languageCoverage = languages,
             soraniTranslationIncluded = manifest.optBoolean("soraniTranslationIncluded", false)
         )
-        require(source.source == "Seen-Arabic/Morning-And-Evening-Adhkar-DB")
-        require(source.release == "v1.0.2" && source.license == "MIT")
+        val sources = manifest.optJSONArray("sources") ?: JSONArray()
+        require(source.source == "Combined licensed adhkar datasets")
+        require(source.license == "MIT (both source datasets)")
         require(source.recordCount == items.size && !source.soraniTranslationIncluded) {
-            "Adhkar source manifest does not match the bundled data"
+            "Combined adhkar manifest does not match bundled data"
+        }
+        require(sources.length() == 2) { "Both licensed adhkar source records must be present" }
+        require(sources.getJSONObject(0).getString("source") == "Seen-Arabic/Morning-And-Evening-Adhkar-DB")
+        require(sources.getJSONObject(1).getString("source") == "fitrahive/dua-dhikr")
+        require(sources.getJSONObject(1).getString("sourceRef") == "f42f895f914319a844c3e3c2279483cae060ea19")
+        require(manifest.optString("scholarReviewStatus") == "pending") {
+            "The scholarly review status must not be hidden"
         }
         return AdhkarPackage(items, source)
     }
