@@ -57,4 +57,13 @@
     <string name="audio_connecting">Connecting to the audio player…</string>
     <string name="audio_reciter">Reciter</string>
     <string name="translation_unavailable">The selected translation is unavailable for this verse.</string>
+    <string name="adhkar_bundled_title">Morning and evening adhkar are ready</string>
+    <string name="adhkar_bundled_status">Arabic and English data included</string>
+    <string name="adhkar_bundled_notice">This verified package includes Arabic adhkar and English translations. Sorani translations are not yet included in this source package.</string>
+    <string name="adhkar_translation_en_label">English translation</string>
+    <string name="adhkar_source_label">Source reference</string>
+    <string name="adhkar_progress_label">%1$d of %2$d repetitions</string>
+    <string name="adhkar_count_one">Count +1</string>
+    <string name="adhkar_load_error">The adhkar package could not be loaded. Please try again.</string>
+    <string name="adhkar_retry">Retry</string>
 </resources>
