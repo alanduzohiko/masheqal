@@ -29,6 +29,7 @@ private data class NavItem(
     val label: String
 )
 
+@OptIn(androidx.media3.common.util.UnstableApi::class)
 @Composable
 fun MasheqalRoot(
     app: MasheqalApp,
