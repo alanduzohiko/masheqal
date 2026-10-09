@@ -46,4 +46,5 @@
     <string name="audio_retry">إعادة المحاولة</string>
     <string name="audio_connecting">جارٍ الاتصال بمشغل الصوت…</string>
     <string name="audio_reciter">القارئ</string>
+    <string name="translation_unavailable">الترجمة المختارة غير متاحة لهذه الآية.</string>
 </resources>
