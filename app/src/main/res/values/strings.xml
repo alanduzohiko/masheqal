@@ -39,4 +39,5 @@
     <string name="mushaf_load_error">This page could not be loaded. Connect to the internet or switch to text reading.</string>
     <string name="mushaf_saved_offline">Page saved for offline reading</string>
     <string name="mushaf_available_offline">Available offline</string>
+    <string name="retry">Retry</string>
 </resources>
