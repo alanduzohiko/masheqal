@@ -46,4 +46,5 @@
     <string name="audio_retry">دووبارە هەوڵبدە</string>
     <string name="audio_connecting">پەیوەستبوون بە یاریزانی دەنگ…</string>
     <string name="audio_reciter">قاری</string>
+    <string name="translation_unavailable">وەرگێڕانی سۆرانی بۆ ئەم ئایەتە بەردەست نییە.</string>
 </resources>
