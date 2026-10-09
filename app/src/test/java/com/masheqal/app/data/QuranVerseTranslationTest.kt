@@ -21,9 +21,19 @@ class QuranVerseTranslationTest {
     }
 
     @Test
-    fun nonSoraniInterfaceUsesEnglishTranslation() {
+    fun englishInterfaceUsesEnglishTranslation() {
         assertEquals("English meaning", verse.translationFor("en"))
-        assertEquals("English meaning", verse.translationFor("ar"))
+        assertEquals("English meaning", verse.translationFor("EN"))
+    }
+
+    @Test
+    fun arabicInterfaceDoesNotSilentlySubstituteEnglishTranslation() {
+        assertNull(verse.translationFor("ar"))
+    }
+
+    @Test
+    fun unknownLanguageDoesNotSilentlySubstituteEnglishTranslation() {
+        assertNull(verse.translationFor("unknown"))
     }
 
     @Test
