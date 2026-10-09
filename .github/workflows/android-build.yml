@@ -52,6 +52,9 @@ jobs:
       - name: Fetch and validate the licensed morning and evening adhkar
         run: python3 tools/fetch_adhkar.py
 
+      - name: Fetch CC0-verified offline adhan audio
+        run: python3 tools/fetch_adhan.py
+
       - name: Validate content and resources
         run: python3 tools/validate_project.py
 
