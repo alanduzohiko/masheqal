@@ -39,6 +39,11 @@
     <string name="reciter_abdulbasit">عەبدولباسط عەبدولسەمەد</string>
     <string name="reciter_ajamy">ئەحمەد ئەلعەجەمی</string>
     <string name="reciter_hudhaify">عەلی ئەلحوزەیفی</string>
+    <string name="full_adhan_audio">لە کاتی نوێژدا ئەزان بە تەواوی پەخش بکە</string>
+    <string name="full_adhan_description">بەبێ ئینتەرنێت بۆ بەیانی، نیوەڕۆ، عەسر، مەغریب و عیشا پەخش دەبێت؛ کاتی هەڵهاتنی خۆر نا.</string>
+    <string name="adhan_preview">تاقیکردنەوەی دەنگی ئەزان</string>
+    <string name="adhan_audio_name">دەنگی ئەزان</string>
+    <string name="prayer_adhan_channel">ئاگادارکردنەوەی نوێژ لەگەڵ ئەزان</string>
     <string name="audio_source_notice">ستریم لە Al Quran Cloud / Islamic Network؛ پێویستی بە ئینتەرنێت هەیە. مافی تۆمارەکان بۆ خاوەنەکانیان دەمێنێتەوە.</string>
     <string name="audio_choose_surah">سورەتێک هەڵبژێرە</string>
     <string name="audio_ready">ئامادەیە بۆ گوێگرتن</string>
