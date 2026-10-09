@@ -130,4 +130,23 @@
     <string name="method_turkey">Turkey</string>
     <string name="madhhab_shafi">Shafi</string>
     <string name="madhhab_hanafi">Hanafi</string>
+    <string name="adhkar_all">All</string>
+    <string name="adhkar_after_prayer">After prayer</string>
+    <string name="adhkar_sleep">Before sleep</string>
+    <string name="adhkar_wake_up">Upon waking</string>
+    <string name="adhkar_bathroom">Bathroom</string>
+    <string name="adhkar_food">Food and drink</string>
+    <string name="adhkar_mosque">Mosque</string>
+    <string name="adhkar_wudu">Wudu</string>
+    <string name="adhkar_fasting">Fasting</string>
+    <string name="adhkar_home">Home</string>
+    <string name="adhkar_travel">Travel</string>
+    <string name="adhkar_clothing">Clothing</string>
+    <string name="adhkar_weather">Weather</string>
+    <string name="adhkar_protection">Protection and hardship</string>
+    <string name="adhkar_general">Other daily supplications</string>
+    <string name="adhkar_search_hint">Search adhkar and supplications</string>
+    <string name="adhkar_no_results">No matching items. Try another word or category.</string>
+    <string name="adhkar_expanded_content_title">Daily adhkar and supplications</string>
+    <string name="adhkar_source_review_note">Includes Arabic and English from two MIT-licensed datasets with source references. Independent scholar review of wording and gradings is still pending. Sorani translation is not included in this package yet.</string>
 </resources>
