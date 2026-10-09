@@ -171,4 +171,7 @@
     <string name="names_no_results">لا توجد أسماء تطابق البحث أو عامل التصفية.</string>
     <string name="names_references">المراجع</string>
     <string name="names_meaning_review_pending">مراجعة المعنى الإنجليزي معلّقة</string>
+    <string name="names_filter_favorites">المفضلة</string>
+    <string name="names_mark_favorite">إضافة إلى المفضلة</string>
+    <string name="names_mark_unfavorite">إزالة من المفضلة</string>
 </resources>
