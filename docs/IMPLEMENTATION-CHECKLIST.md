@@ -21,6 +21,15 @@
 6. Navigation previously had no authored route transition system; an RTL-aware, reduced-distance fade/slide transition was added on this branch. This alone does not satisfy overall visual QA.
 7. A full native app requires real-device/emulator interaction tests and three-language UI checks, not only static source checks and CI compilation.
 
+## Current branch implementation notes
+
+- **Sorani Quran text:** the CI build fetches the QuranEnc publisher-hosted translation, verifies canonical alignment across 6,236 verse rows, records source/version metadata and a checksum, then bundles the generated asset in the APK. Runtime availability is offline after installation; this does not mean every verse is necessarily translated, and gaps remain explicitly marked.
+- **Morning/evening adhkar:** the CI build fetches the pinned Seen-Arabic v1.0.2 MIT dataset (34 source-referenced records). The app screen now loads those records, supports separate morning/evening counters persisted locally by date, and displays the real English translation label. Sorani translation for this package is still missing.
+- **Mushaf:** page SVGs use the version-pinned quran-ws/quran-svg release and are cached after a successful view. The current app does not ship the complete 604-page offline cache, ayah hit-testing/highlighting, or upstream page-hash checks.
+- **Prayer times:** the custom astronomy formula was replaced with an adapter to the upstream Adhan Java calculation engine; unit reference checks and input/ordering checks exist. City-by-city reference comparison and on-device time-zone/location verification remain part of acceptance.
+- **Audio:** the Media3 player streams Surah audio from a CDN and provides reciter selection, queueing and background-session integration. It is not an offline audio library; provider behavior and actual playback on a physical device still need verification.
+- **Still not accepted:** Tafsir, Hadith, Hisn al-Muslim, Dua, Names of Allah, Sorani adhkar, offline recitation downloads, full Mushaf offline mode, and complete in-device UI accessibility/RTL review.
+
 ## State definitions
 
 - **Not verified** — no durable evidence recorded.
