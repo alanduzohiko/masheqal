@@ -34,6 +34,11 @@
     <string name="reciter_alafasy">مشاري راشد العفاسي</string>
     <string name="reciter_husary">محمود خليل الحصري</string>
     <string name="reciter_minshawi">محمد صديق المنشاوي</string>
+    <string name="reciter_sudais">عبدالرحمن السديس</string>
+    <string name="reciter_shuraim">سعود الشريم</string>
+    <string name="reciter_abdulbasit">عبد الباسط عبد الصمد</string>
+    <string name="reciter_ajamy">أحمد بن علي العجمي</string>
+    <string name="reciter_hudhaify">علي بن عبدالرحمن الحذيفي</string>
     <string name="audio_source_notice">البث من Al Quran Cloud / Islamic Network. يلزم اتصال بالإنترنت وتبقى حقوق التسجيل لأصحابها.</string>
     <string name="audio_choose_surah">اختر سورة</string>
     <string name="audio_ready">جاهز للاستماع</string>
