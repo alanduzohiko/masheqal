@@ -92,7 +92,7 @@ assert 0 < len(adhan_bytes) <= 2 * 1024 * 1024, "Adhan audio asset is empty or t
 assert hashlib.sha256(adhan_bytes).hexdigest() == adhan_manifest.get("sha256"), "Adhan asset checksum differs from its manifest"
 assert hashlib.sha1(adhan_bytes).hexdigest() == adhan_manifest.get("sha1"), "Adhan asset SHA-1 differs from upstream metadata"
 assert adhan_manifest.get("source") == "Wikimedia Commons"
-assert adhan_manifest.get("sourceFile") == "File:Adhan.ogg"
+assert adhan_manifest.get("sourceFile") == "File:Beautiful_adhan.ogg"
 assert adhan_manifest.get("license") == "CC0 1.0 Universal"
 assert "publicdomain/zero/1.0" in adhan_manifest.get("licenseUrl", "")
 assert adhan_manifest.get("author") and adhan_manifest.get("byteCount") == len(adhan_bytes)
