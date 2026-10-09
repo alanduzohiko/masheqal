@@ -1,7 +1,6 @@
 package com.masheqal.app.ui.screens
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Context
 import android.hardware.GeomagneticField
 import android.hardware.Sensor
@@ -59,7 +58,7 @@ fun QiblaScreen(nav: NavHostController) {
                 try {
                     val fresh = runCatching { LocationUtils.current(context) }.getOrNull()
                     location = fresh ?: LocationUtils.lastKnown(context)
-                    locationRefreshFailed = location == null || location?.isPrecise == false
+                    locationRefreshFailed = location == null
                 } finally {
                     locationRefreshing = false
                 }
