@@ -162,4 +162,11 @@
     <string name="qibla_compass_hint">Hold the phone flat and move it in a figure-eight if the compass is unstable.</string>
     <string name="qibla_location_quality">Position quality</string>
     <string name="qibla_refresh_location">Refresh Qibla location</string>
+    <string name="adhan_voice">Adhan voice</string>
+    <string name="adhan_voice_beautiful">Beautiful Adhan</string>
+    <string name="adhan_voice_community">Community Adhan</string>
+    <string name="adhan_voice_preview">Preview voice</string>
+    <string name="adhan_voice_source_beautiful">Recording by Adam-synagda · CC0 1.0</string>
+    <string name="adhan_voice_source_community">Recording by Aishatu98 · CC0 1.0</string>
+    <string name="adhan_voice_note">Choose the call-to-prayer recording played with prayer reminders. This is separate from the Quran reciter.</string>
 </resources>
