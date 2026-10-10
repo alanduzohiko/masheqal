@@ -22,4 +22,12 @@
     <string name="prayer_notification_channel">تنبيهات الصلاة</string>
     <string name="keep_screen_awake">إبقاء الشاشة قيد التشغيل</string>
     <string name="resume">استئناف</string>
+    <string name="reader_settings">إعدادات القراءة</string>
+    <string name="play_current_ayah">التشغيل من هذه الآية</string>
+    <string name="pause_audio">إيقاف التلاوة مؤقتًا</string>
+    <string name="select_reciter">اختر القارئ</string>
+    <string name="english_translation">الترجمة الإنجليزية</string>
+    <string name="audio_source_notice">تُبث التلاوات من Al Quran Cloud وتتطلب اتصالًا بالإنترنت.</string>
+    <string name="tafsir_unavailable">يتوفر التفسير عند تثبيت حزمة محتوى موثوقة وموثقة.</string>
+    <string name="audio_error">تعذّر تشغيل التلاوة. تحقق من اتصال الإنترنت وحاول مجددًا.</string>
 </resources>
