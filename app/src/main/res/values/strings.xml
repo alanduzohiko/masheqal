@@ -108,4 +108,11 @@
     <string name="today_prayer_times">Today's prayer times</string>
     <string name="view_all">View all</string>
     <string name="prayer_grid_location_hint">Allow location to show local prayer times here.</string>
+    <string name="method_gulf">Gulf Region</string>
+    <string name="method_kuwait">Kuwait</string>
+    <string name="method_qatar">Qatar</string>
+    <string name="method_singapore">Singapore (MUIS)</string>
+    <string name="method_france">France (UOIF)</string>
+    <string name="method_russia">Muslim Administration of Russia</string>
+    <string name="method_dubai">Dubai, UAE</string>
 </resources>
