@@ -316,46 +316,6 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
             }
         }
 
-        item {
-            SectionTitle(
-                stringResource(R.string.continue_quran),
-                stringResource(R.string.open_quran)
-            ) {
-                nav.navigate("quran/ref/${reading.surah}/${reading.ayah}")
-            }
-        }
-
-        item {
-            Card(
-                Modifier.padding(horizontal = 16.dp).fillMaxWidth(),
-                shape = RoundedCornerShape(24.dp)
-            ) {
-                Row(
-                    Modifier.padding(18.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    IconBadge(Icons.Default.MenuBook, emphasized = true)
-                    Spacer(Modifier.width(14.dp))
-                    Column(Modifier.weight(1f)) {
-                        Text("${reading.surah}", style = MaterialTheme.typography.titleLarge)
-                        Spacer(Modifier.height(3.dp))
-                        Text(
-                            "${reading.surah}:${reading.ayah}  •  ${stringResource(R.string.resume_exact_position)}",
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            style = MaterialTheme.typography.bodySmall
-                        )
-                    }
-                    FilledTonalIconButton(
-                        onClick = {
-                            nav.navigate("quran/ref/${reading.surah}/${reading.ayah}")
-                        }
-                    ) {
-                        Icon(Icons.Default.PlayArrow, stringResource(R.string.open_quran))
-                    }
-                }
-            }
-        }
-
         item { SectionTitle(stringResource(R.string.ayah_of_day)) }
 
         item {
@@ -416,6 +376,46 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
                                 Icon(Icons.Default.Image, stringResource(R.string.share_image))
                             }
                         }
+                    }
+                }
+            }
+        }
+
+        item {
+            SectionTitle(
+                stringResource(R.string.continue_quran),
+                stringResource(R.string.open_quran)
+            ) {
+                nav.navigate("quran/ref/${reading.surah}/${reading.ayah}")
+            }
+        }
+
+        item {
+            Card(
+                Modifier.padding(horizontal = 16.dp).fillMaxWidth(),
+                shape = RoundedCornerShape(24.dp)
+            ) {
+                Row(
+                    Modifier.padding(18.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    IconBadge(Icons.Default.MenuBook, emphasized = true)
+                    Spacer(Modifier.width(14.dp))
+                    Column(Modifier.weight(1f)) {
+                        Text("${reading.surah}", style = MaterialTheme.typography.titleLarge)
+                        Spacer(Modifier.height(3.dp))
+                        Text(
+                            "${reading.surah}:${reading.ayah}  •  ${stringResource(R.string.resume_exact_position)}",
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                    }
+                    FilledTonalIconButton(
+                        onClick = {
+                            nav.navigate("quran/ref/${reading.surah}/${reading.ayah}")
+                        }
+                    ) {
+                        Icon(Icons.Default.PlayArrow, stringResource(R.string.open_quran))
                     }
                 }
             }
