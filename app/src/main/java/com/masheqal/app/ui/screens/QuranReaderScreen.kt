@@ -24,9 +24,16 @@ import androidx.navigation.NavHostController
 import com.masheqal.app.MasheqalApp
 import com.masheqal.app.R
 import com.masheqal.app.data.QuranStudyRepository
+import com.masheqal.app.data.FullSurahReciter
+import com.masheqal.app.data.Mp3QuranReciterRepository
 import kotlinx.coroutines.launch
 
-private data class ReciterChoice(val id: String, val name: String)
+private data class ReciterChoice(
+    val id: String,
+    val name: String,
+    val fullSurahServer: String? = null,
+    val availableSurahs: Set<Int> = emptySet()
+)
 
 // Edition identifiers follow the published Al Quran Cloud audio catalog.
 private val quranTranslations = listOf(
@@ -75,6 +82,8 @@ fun QuranReaderScreen(
     var currentAyah by remember(surah, initialAyah) { mutableIntStateOf(initialAyah) }
     var showReaderSettings by remember { mutableStateOf(false) }
     var isPlaying by remember { mutableStateOf(false) }
+    var externalReciters by remember { mutableStateOf(emptyList<FullSurahReciter>()) }
+    var reciterSearch by remember { mutableStateOf("") }
     var translationTexts by remember { mutableStateOf(emptyList<String>()) }
     var tafsirTexts by remember { mutableStateOf(emptyList<String>()) }
     val settings by app.settings.state.collectAsState(initial = com.masheqal.app.data.SettingsState())
@@ -86,6 +95,22 @@ fun QuranReaderScreen(
     val noteLabel = stringResource(R.string.note)
     val player = remember(context) { ExoPlayer.Builder(context).build() }
     val studyRepository = remember(context) { QuranStudyRepository(context) }
+
+    LaunchedEffect(context) {
+        externalReciters = runCatching { Mp3QuranReciterRepository(context).loadArabicReciters() }
+            .getOrDefault(emptyList())
+    }
+    val selectableReciters = quranReciters + externalReciters.map { reciter ->
+        ReciterChoice(
+            id = reciter.id,
+            name = reciter.name + " — " + reciter.moshafName + " · " + context.getString(R.string.full_surah_audio_label),
+            fullSurahServer = reciter.server,
+            availableSurahs = reciter.availableSurahs
+        )
+    }
+    val filteredReciters = remember(selectableReciters, reciterSearch) {
+        selectableReciters.filter { it.name.contains(reciterSearch.trim(), ignoreCase = true) }
+    }
 
     DisposableEffect(player) {
         val listener = object : Player.Listener {
@@ -109,6 +134,29 @@ fun QuranReaderScreen(
     }
 
     fun playFrom(verse: com.masheqal.app.data.QuranVerse) {
+        val fullSurahReciter = externalReciters.firstOrNull { it.id == settings.reciter }
+        if (fullSurahReciter != null) {
+            val fullSurahUrl = fullSurahReciter.audioUrl(surah)
+            if (fullSurahUrl == null) {
+                scope.launch { snackbar.showSnackbar(context.getString(R.string.reciter_missing_surah)) }
+                return
+            }
+            currentAyah = 1
+            scope.launch {
+                app.personal.setReading(surah, 1)
+                snackbar.showSnackbar(context.getString(R.string.full_surah_audio_notice))
+            }
+            player.setMediaItem(
+                MediaItem.Builder()
+                    .setMediaId(surah.toString() + ":1")
+                    .setUri(fullSurahUrl)
+                    .build()
+            )
+            player.prepare()
+            player.play()
+            return
+        }
+
         val queue = verses.filter { it.ayah >= verse.ayah }.map { item ->
             MediaItem.Builder()
                 .setMediaId(item.surah.toString() + ":" + item.ayah.toString())
@@ -330,11 +378,31 @@ fun QuranReaderScreen(
             text = {
                 Column(Modifier.fillMaxWidth().heightIn(max = 420.dp).verticalScroll(rememberScrollState())) {
                     Text(stringResource(R.string.select_reciter), style = MaterialTheme.typography.titleSmall)
-                    quranReciters.forEach { reciter ->
+                    OutlinedTextField(
+                        value = reciterSearch,
+                        onValueChange = { reciterSearch = it },
+                        modifier = Modifier.fillMaxWidth(),
+                        singleLine = true,
+                        shape = RoundedCornerShape(16.dp),
+                        placeholder = { Text(stringResource(R.string.reciter_search_hint)) },
+                        leadingIcon = { Icon(Icons.Default.Search, null) },
+                        trailingIcon = {
+                            if (reciterSearch.isNotEmpty()) IconButton(onClick = { reciterSearch = "" }) {
+                                Icon(Icons.Default.Close, stringResource(R.string.clear))
+                            }
+                        }
+                    )
+                    Text(
+                        stringResource(R.string.quran_reciter_sources_note),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    filteredReciters.forEach { reciter ->
                         Row(
                             Modifier.fillMaxWidth().clickable {
                                 scope.launch { app.settings.setReciter(reciter.id) }
                                 player.stop()
+                                reciterSearch = ""
                             },
                             verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
                         ) {
@@ -343,6 +411,7 @@ fun QuranReaderScreen(
                                 onClick = {
                                     scope.launch { app.settings.setReciter(reciter.id) }
                                     player.stop()
+                                    reciterSearch = ""
                                 }
                             )
                             Text(reciter.name, style = MaterialTheme.typography.bodyMedium)
