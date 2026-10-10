@@ -89,7 +89,7 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
                     Text(stringResource(R.string.app_name), style = MaterialTheme.typography.headlineMedium)
                     Spacer(Modifier.height(3.dp))
                     Text(
-                        "${date.format(DateTimeFormatter.ofPattern("EEE, d MMM", Locale.getDefault()))}  •  ${hijri.day}/${hijri.month}/${hijri.year}",
+                        "${date.format(DateTimeFormatter.ofPattern("EEE, d MMM", deviceLocale))}  •  ${hijri.day}/${hijri.month}/${hijri.year}",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
