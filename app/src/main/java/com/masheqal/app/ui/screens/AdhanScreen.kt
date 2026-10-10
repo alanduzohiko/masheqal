@@ -47,6 +47,7 @@ fun AdhanScreen(app: MasheqalApp, nav: NavHostController) {
     var query by remember { mutableStateOf("") }
     var filter by remember { mutableStateOf("all") }
     var playingId by remember { mutableStateOf<String?>(null) }
+    var isPlaying by remember { mutableStateOf(false) }
     val snackbar = remember { SnackbarHostState() }
     val player = remember(context) {
         ExoPlayer.Builder(context)
@@ -63,8 +64,9 @@ fun AdhanScreen(app: MasheqalApp, nav: NavHostController) {
 
     DisposableEffect(player) {
         val listener = object : Player.Listener {
-            override fun onIsPlayingChanged(isPlaying: Boolean) {
-                if (!isPlaying) playingId = null
+            override fun onIsPlayingChanged(isPlayingNow: Boolean) {
+                isPlaying = isPlayingNow
+                if (!isPlayingNow && player.playbackState == Player.STATE_IDLE) playingId = null
             }
             override fun onPlaybackStateChanged(playbackState: Int) {
                 if (playbackState == Player.STATE_ENDED) {
@@ -133,7 +135,7 @@ fun AdhanScreen(app: MasheqalApp, nav: NavHostController) {
                 },
                 actions = {
                     IconButton(onClick = {
-                        if (player.isPlaying) {
+                        if (isPlaying) {
                             player.pause()
                             playingId = null
                         } else {
@@ -344,7 +346,7 @@ fun AdhanScreen(app: MasheqalApp, nav: NavHostController) {
             } else {
                 items(filtered, key = { it.id }) { recording ->
                     val isSelected = selectedId == recording.id
-                    val isThisPlaying = playingId == recording.id && player.isPlaying
+                    val isThisPlaying = playingId == recording.id && isPlaying
                     Card(
                         modifier = Modifier.padding(horizontal = 16.dp).fillMaxWidth().animateContentSize(),
                         shape = RoundedCornerShape(22.dp),
