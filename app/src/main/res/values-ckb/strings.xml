@@ -151,4 +151,6 @@
     <string name="adhan_preview_error">نەتوانرا دەنگەکە پەخش بکرێت. پەیوەندی ئینتەرنێت بپشکنە.</string>
     <string name="adhan_no_results">هیچ تۆمارێک نەدۆزرایەوە</string>
     <string name="adhan_no_results_hint">ناوێکی تر تاقی بکەرەوە یان پاڵاوتنەکە بگۆڕە.</string>
+    <string name="cancel_reminders">ئاگادارکردنەوەکان ناچالاک بکە</string>
+    <string name="settings_adhan_play_hint">کاتێک کاتی نوێژ دەگات، ئەو ئازانەی هەڵبژێردراوە بە تەواوی پەخش بکە.</string>
 </resources>
