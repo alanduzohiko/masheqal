@@ -75,7 +75,7 @@ fun ContentCenterScreen(nav: NavHostController) {
             item {
                 SectionTitle(stringResource(R.string.bundled))
             }
-            items(bundled) { row -> ContentLineCard(row) { row.route?.let(nav::navigate) } }
+            items(bundled) { row -> ContentLineCard(row) { row.route?.let { route -> nav.navigate(route) } } }
             item {
                 SectionTitle(stringResource(R.string.connected_content))
             }
