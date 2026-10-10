@@ -174,6 +174,7 @@ object MushafPageStore {
     }
 
     private fun readCachedManifest(context: Context): Map<String, ExpectedResource>? {
+        manifestInMemory?.let { return it }
         val file = manifestFile(context)
         if (!file.isFile || file.length() !in 1..MAX_MANIFEST_TRANSFER_BYTES.toLong()) return null
         val parsed = runCatching { parseManifestEntries(readGzipText(file, MAX_MANIFEST_BYTES)) }.getOrNull()
@@ -190,8 +191,8 @@ object MushafPageStore {
         val result = linkedMapOf<String, ExpectedResource>()
 
         fun joinPath(parent: String, child: String): String {
-            val cleanParent = parent.replace('\\\\', '/').trim('/')
-            val cleanChild = child.replace('\\\\', '/').trim('/')
+            val cleanParent = parent.replace('\\', '/').trim('/')
+            val cleanChild = child.replace('\\', '/').trim('/')
             return when {
                 cleanParent.isBlank() -> cleanChild
                 cleanChild.isBlank() -> cleanParent
@@ -211,7 +212,7 @@ object MushafPageStore {
                         .firstOrNull { it.isNotEmpty() }
                     val name = value.optString("name", "").trim()
                     val currentPath = when {
-                        !explicitPath.isNullOrBlank() -> explicitPath.replace('\\\\', '/').trim('/')
+                        !explicitPath.isNullOrBlank() -> explicitPath.replace('\\', '/').trim('/')
                         name.isNotBlank() -> joinPath(parentPath, name)
                         else -> parentPath
                     }
@@ -243,11 +244,11 @@ object MushafPageStore {
     }
 
     private fun canonicalManifestPath(path: String): String? {
-        val normalized = path.replace('\\\\', '/').trim('/')
+        val normalized = path.replace('\\', '/').trim('/')
         val marker = "$EDITION/"
         val markerIndex = normalized.lastIndexOf(marker)
         val suffix = if (markerIndex >= 0) normalized.substring(markerIndex + marker.length) else normalized
-        if (!Regex("\\\\d{3}\\\\.(svg|json)").matches(suffix)) return null
+        if (!Regex("\\d{3}\\.(svg|json)").matches(suffix)) return null
         return "$EDITION/$suffix"
     }
 
