@@ -109,7 +109,14 @@ fun SettingsScreen(
         "KARACHI" to R.string.method_karachi,
         "ISNA" to R.string.method_isna,
         "TEHRAN" to R.string.method_tehran,
-        "TURKEY" to R.string.method_turkey
+        "TURKEY" to R.string.method_turkey,
+        "GULF" to R.string.method_gulf,
+        "KUWAIT" to R.string.method_kuwait,
+        "QATAR" to R.string.method_qatar,
+        "SINGAPORE" to R.string.method_singapore,
+        "FRANCE" to R.string.method_france,
+        "RUSSIA" to R.string.method_russia,
+        "DUBAI" to R.string.method_dubai
     )
     val selectedMethod = methodNames.firstOrNull { it.first == settings.prayerMethod } ?: methodNames.first()
 
