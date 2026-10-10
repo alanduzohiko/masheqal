@@ -76,6 +76,7 @@ fun QuranReaderScreen(
     initialAyah: Int
 ) {
     var verses by remember { mutableStateOf(emptyList<com.masheqal.app.data.QuranVerse>()) }
+    var surahMetadata by remember { mutableStateOf<com.masheqal.app.data.SurahMeta?>(null) }
     var selected by remember { mutableStateOf<com.masheqal.app.data.QuranVerse?>(null) }
     var noteReference by remember { mutableStateOf("") }
     var showNote by remember { mutableStateOf(false) }
@@ -205,6 +206,7 @@ fun QuranReaderScreen(
 
     LaunchedEffect(surah) {
         verses = app.quran.versesOfSurah(surah)
+        surahMetadata = app.quran.loadSurahs().firstOrNull { it.number == surah }
     }
     LaunchedEffect(surah, initialAyah) {
         page = app.quran.pageForVerse(surah, initialAyah)
@@ -235,13 +237,26 @@ fun QuranReaderScreen(
         }
     }
 
+    val surahDisplayName = when (settings.language) {
+        "en" -> surahMetadata?.nameEn ?: stringResource(R.string.surah_label) + " " + surah
+        "ar" -> surahMetadata?.nameAr ?: stringResource(R.string.surah_label) + " " + surah
+        else -> (surahMetadata?.nameAr ?: stringResource(R.string.surah_label)) + " " + surah
+    }
+    val secondarySurahName = when (settings.language) {
+        "en" -> surahMetadata?.nameAr.orEmpty()
+        else -> surahMetadata?.nameEn.orEmpty()
+    }
+
     Scaffold(
         snackbarHost = { SnackbarHost(snackbar) },
         topBar = {
             TopAppBar(
                 title = {
                     Column {
-                        Text("سورە $surah")
+                        Text(surahDisplayName)
+                        if (secondarySurahName.isNotBlank()) {
+                            Text(secondarySurahName, style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        }
                         Text(
                             "${verses.size} ${stringResource(R.string.ayah)}",
                             style = MaterialTheme.typography.labelSmall,
