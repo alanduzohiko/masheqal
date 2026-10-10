@@ -13,6 +13,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.*
 import androidx.navigation.navArgument
 import com.masheqal.app.MasheqalApp
+import com.masheqal.app.data.SettingsState
 import com.masheqal.app.R
 import com.masheqal.app.ui.screens.*
 
@@ -30,6 +31,10 @@ fun MasheqalRoot(
     onLanguage: (String) -> Unit
 ) {
     val nav = rememberNavController()
+    val settings by app.settings.state.collectAsState(initial = SettingsState())
+    if (!settings.onboardingCompleted) {
+        OnboardingScreen(app, onRequestLocation, onLanguage)
+    } else {
     val items = listOf(
         NavItem("home", Icons.Default.Home, androidx.compose.ui.res.stringResource(R.string.home)),
         NavItem("quran", Icons.Default.MenuBook, androidx.compose.ui.res.stringResource(R.string.quran)),
@@ -120,6 +125,7 @@ fun MasheqalRoot(
             composable("content") { ContentCenterScreen(nav) }
             composable("calendar") { CalendarScreen(nav) }
         }
+    }
     }
 
     LaunchedEffect(intent) {
