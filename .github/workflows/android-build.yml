@@ -58,6 +58,9 @@ jobs:
       - name: Validate published Quran surah-audio catalogue
         run: python3 tools/validate_audio_catalog.py
 
+      - name: Validate pinned Quran Mushaf manifest
+        run: python3 tools/validate_mushaf_manifest.py
+
       - name: Validate content and resources
         run: python3 tools/validate_project.py
 
