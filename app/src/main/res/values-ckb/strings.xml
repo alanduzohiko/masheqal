@@ -169,4 +169,8 @@
     <string name="source_dependent_content">هێشتا بەردەست نییە — کۆمەڵەداتای پشتڕاستکراو و بە مەجوز پێویستە</string>
     <string name="previous_page">پەڕەی پێشوو</string>
     <string name="next_page">پەڕەی دواتر</string>
+    <string name="select_mushaf_script">هەڵبژاردنی نووسینی قورئان</string>
+    <string name="mushaf_script_hint">شێوازی نووسینی دەقی عەرەبی هەڵبژێرە. ئەمە شێوەی نووسین دەگۆڕێت، نەک وێنەی پەڕە چاپکراوەکان.</string>
+    <string name="mushaf_script_source_note">شێوەکانی نووسینی جیاواز لە Al Quran Cloud بار دەکرێن و دوای یەکەم بارکردنی هەر سوورەتێک بۆ بەکارهێنانی بەبێ ئینتەرنێت پاشەکەوت دەکرێن.</string>
+    <string name="mushaf_script_unavailable_offline">ئەم شێوازی نووسینە هێشتا داگیر نەکراوە. لەبری ئەوە دەقی عوسمانیی ناوخۆیی پیشان دەدرێت.</string>
 </resources>
