@@ -167,4 +167,6 @@
     <string name="online_cached_content">يُحمّل من المصدر وتُحفظ السور التي تفتحها للاستخدام دون اتصال</string>
     <string name="streamed_audio_content">يُبث الصوت من المصدر المذكور ويتطلب الإنترنت للتشغيل</string>
     <string name="source_dependent_content">غير متوفر بعد — يلزم توفير مجموعة بيانات موثقة ومرخّصة</string>
+    <string name="previous_page">الصفحة السابقة</string>
+    <string name="next_page">الصفحة التالية</string>
 </resources>
