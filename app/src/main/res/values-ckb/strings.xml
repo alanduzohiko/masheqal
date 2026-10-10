@@ -98,4 +98,11 @@
     <string name="today_prayer_times">کاتەکانی نوێژی ئەمڕۆ</string>
     <string name="view_all">هەمووی ببینە</string>
     <string name="prayer_grid_location_hint">ڕێگە بدە بە شوێن بۆ پیشاندانی کاتی نوێژی ناوخۆیی.</string>
+    <string name="method_gulf">ناوچەی کەنداو</string>
+    <string name="method_kuwait">کوەیت</string>
+    <string name="method_qatar">قەتەر</string>
+    <string name="method_singapore">سینگاپور (MUIS)</string>
+    <string name="method_france">فەڕەنسا (UOIF)</string>
+    <string name="method_russia">بەڕێوەبەرایەتی ئایینی موسڵمانانی ڕووسیا</string>
+    <string name="method_dubai">دووبەی، ئیمارات</string>
 </resources>
