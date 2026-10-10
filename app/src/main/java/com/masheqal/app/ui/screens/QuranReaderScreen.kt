@@ -23,11 +23,25 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.masheqal.app.MasheqalApp
 import com.masheqal.app.R
+import com.masheqal.app.data.QuranStudyRepository
 import kotlinx.coroutines.launch
 
 private data class ReciterChoice(val id: String, val name: String)
 
 // Edition identifiers follow the published Al Quran Cloud audio catalog.
+private val quranTranslations = listOf(
+    "en.sahih" to R.string.translation_sahih,
+    "en.pickthall" to R.string.translation_pickthall,
+    "en.yusufali" to R.string.translation_yusufali,
+    "en.asad" to R.string.translation_asad,
+    "en.hilali" to R.string.translation_hilali,
+    "en.itani" to R.string.translation_itani
+)
+private val quranTafsirs = listOf(
+    "ar.muyassar" to R.string.tafsir_muyassar,
+    "ar.jalalayn" to R.string.tafsir_jalalayn
+)
+
 private val quranReciters = listOf(
     ReciterChoice("ar.alafasy", "Mishary Rashid Alafasy"),
     ReciterChoice("ar.sudais", "Abdul Rahman Al-Sudais"),
@@ -61,6 +75,8 @@ fun QuranReaderScreen(
     var currentAyah by remember(surah, initialAyah) { mutableIntStateOf(initialAyah) }
     var showReaderSettings by remember { mutableStateOf(false) }
     var isPlaying by remember { mutableStateOf(false) }
+    var translationTexts by remember { mutableStateOf(emptyList<String>()) }
+    var tafsirTexts by remember { mutableStateOf(emptyList<String>()) }
     val settings by app.settings.state.collectAsState(initial = com.masheqal.app.data.SettingsState())
     val listState = rememberLazyListState()
     val snackbar = remember { SnackbarHostState() }
@@ -69,6 +85,7 @@ fun QuranReaderScreen(
     val bookmarkLabel = stringResource(R.string.bookmark)
     val noteLabel = stringResource(R.string.note)
     val player = remember(context) { ExoPlayer.Builder(context).build() }
+    val studyRepository = remember(context) { QuranStudyRepository(context) }
 
     DisposableEffect(player) {
         val listener = object : Player.Listener {
@@ -111,6 +128,25 @@ fun QuranReaderScreen(
     }
     LaunchedEffect(surah, initialAyah) {
         page = app.quran.pageForVerse(surah, initialAyah)
+    }
+    LaunchedEffect(surah, settings.translationEdition, verses) {
+        if (verses.isEmpty()) return@LaunchedEffect
+        translationTexts = runCatching {
+            studyRepository.loadSurah(surah, settings.translationEdition).also { values ->
+                require(values.size == verses.size) { "Translation verse count mismatch" }
+            }
+        }.getOrElse { verses.map { it.translationEn.orEmpty() } }
+    }
+    LaunchedEffect(surah, settings.tafsirEdition, settings.showTafsir, verses) {
+        if (!settings.showTafsir || verses.isEmpty()) {
+            tafsirTexts = emptyList()
+            return@LaunchedEffect
+        }
+        tafsirTexts = runCatching {
+            studyRepository.loadSurah(surah, settings.tafsirEdition).also { values ->
+                require(values.size == verses.size) { "Tafsir verse count mismatch" }
+            }
+        }.getOrElse { emptyList() }
     }
     LaunchedEffect(verses, initialAyah) {
         if (verses.isNotEmpty()) {
@@ -193,10 +229,12 @@ fun QuranReaderScreen(
                         }
                         Spacer(Modifier.height(10.dp))
                         QuranText(verse.text, size = 27f)
-                        if (settings.showEnglishTranslation && !verse.translationEn.isNullOrBlank()) {
+                        val displayedTranslation = translationTexts.getOrNull(verse.ayah - 1)
+                            ?.takeIf { it.isNotBlank() } ?: verse.translationEn.orEmpty()
+                        if (settings.showEnglishTranslation && displayedTranslation.isNotBlank()) {
                             Spacer(Modifier.height(12.dp))
                             Text(
-                                verse.translationEn.orEmpty(),
+                                displayedTranslation,
                                 style = MaterialTheme.typography.bodyLarge,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
@@ -219,9 +257,22 @@ fun QuranReaderScreen(
                 )
                 Spacer(Modifier.height(8.dp))
                 QuranText(verse.text, size = 23f)
-                if (settings.showEnglishTranslation && !verse.translationEn.isNullOrBlank()) {
+                val displayedTranslation = translationTexts.getOrNull(verse.ayah - 1)
+                    ?.takeIf { it.isNotBlank() } ?: verse.translationEn.orEmpty()
+                if (settings.showEnglishTranslation && displayedTranslation.isNotBlank()) {
                     Spacer(Modifier.height(10.dp))
-                    Text(verse.translationEn.orEmpty(), style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(displayedTranslation, style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
+                if (settings.showTafsir) {
+                    Spacer(Modifier.height(12.dp))
+                    HorizontalDivider()
+                    Text(stringResource(R.string.tafsir), style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.primary)
+                    val tafsirText = tafsirTexts.getOrNull(verse.ayah - 1)
+                    Text(
+                        tafsirText?.takeIf { it.isNotBlank() } ?: stringResource(R.string.tafsir_loading_or_offline),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
                 }
                 Spacer(Modifier.height(14.dp))
                 Row(
@@ -298,16 +349,43 @@ fun QuranReaderScreen(
                         }
                     }
                     HorizontalDivider(Modifier.padding(vertical = 8.dp))
+                    Text(stringResource(R.string.select_translation), style = MaterialTheme.typography.titleSmall)
+                    quranTranslations.forEach { (edition, labelId) ->
+                        Row(Modifier.fillMaxWidth(), verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
+                            RadioButton(
+                                selected = settings.translationEdition == edition,
+                                onClick = { scope.launch { app.settings.setTranslationEdition(edition) } }
+                            )
+                            Text(stringResource(labelId), style = MaterialTheme.typography.bodyMedium)
+                        }
+                    }
                     Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
                         Text(stringResource(R.string.english_translation), Modifier.weight(1f))
                         Switch(checked = settings.showEnglishTranslation, onCheckedChange = { enabled ->
                             scope.launch { app.settings.setShowEnglishTranslation(enabled) }
                         })
                     }
+                    HorizontalDivider(Modifier.padding(vertical = 8.dp))
+                    Text(stringResource(R.string.select_tafsir), style = MaterialTheme.typography.titleSmall)
+                    quranTafsirs.forEach { (edition, labelId) ->
+                        Row(Modifier.fillMaxWidth(), verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
+                            RadioButton(
+                                selected = settings.tafsirEdition == edition,
+                                onClick = { scope.launch { app.settings.setTafsirEdition(edition) } }
+                            )
+                            Text(stringResource(labelId), style = MaterialTheme.typography.bodyMedium)
+                        }
+                    }
+                    Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
+                        Text(stringResource(R.string.show_tafsir), Modifier.weight(1f))
+                        Switch(checked = settings.showTafsir, onCheckedChange = { enabled ->
+                            scope.launch { app.settings.setShowTafsir(enabled) }
+                        })
+                    }
                     Spacer(Modifier.height(8.dp))
                     Text(stringResource(R.string.audio_source_notice), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     Spacer(Modifier.height(8.dp))
-                    Text(stringResource(R.string.tafsir_unavailable), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(stringResource(R.string.quran_study_source_note), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
             },
             confirmButton = { TextButton(onClick = { showReaderSettings = false }) { Text(stringResource(R.string.done)) } },
