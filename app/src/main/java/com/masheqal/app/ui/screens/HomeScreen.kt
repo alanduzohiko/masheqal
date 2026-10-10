@@ -466,6 +466,25 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
                         nav.navigate("notes")
                     }
                 }
+                Row(
+                    Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    FeatureCard(
+                        stringResource(R.string.daily_duas_title),
+                        icon = Icons.Default.Favorite,
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        nav.navigate("duas")
+                    }
+                    FeatureCard(
+                        stringResource(R.string.adhan_library),
+                        icon = Icons.Default.RecordVoiceOver,
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        nav.navigate("adhan")
+                    }
+                }
             }
         }
     }
