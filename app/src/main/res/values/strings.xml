@@ -171,4 +171,10 @@
     <string name="settings_tajweed_colors_hint">Color the recitation rules while reading the Quran. Surahs are cached for offline reading.</string>
     <string name="location_needed_details">Allow location access to calculate local prayer times and show the Qibla direction. You can change this permission later in Android settings.</string>
     <string name="dhikr_number">Dhikr %1$s</string>
+    <string name="content_center_subtitle">See what works offline, what streams online, and what needs a separate verified package.</string>
+    <string name="bundled_sourced_content">Bundled with source attribution for offline use</string>
+    <string name="connected_content">Online content and media</string>
+    <string name="online_cached_content">Loads from the source and caches opened surahs for offline use</string>
+    <string name="streamed_audio_content">Audio streams from the credited source; internet is required to play</string>
+    <string name="source_dependent_content">Not included yet — a verified, licensed dataset is still required</string>
 </resources>
