@@ -27,17 +27,21 @@ private data class LibraryRow(
 @Composable
 fun LibraryScreen(app: MasheqalApp, nav: NavHostController) {
     val items = listOf(
+        LibraryRow(R.string.quran, R.string.resume_exact_position, Icons.Default.MenuBook, "quran"),
+        LibraryRow(R.string.prayer, R.string.today_prayer_times, Icons.Default.Schedule, "prayer"),
+        LibraryRow(R.string.adhan_library, R.string.streamed_audio_content, Icons.Default.RecordVoiceOver, "adhan"),
+        LibraryRow(R.string.adhkar, R.string.bundled_sourced_content, Icons.Default.Spa, "adhkar"),
+        LibraryRow(R.string.dua, R.string.bundled_sourced_content, Icons.Default.FavoriteBorder, "adhkar"),
+        LibraryRow(R.string.qibla, R.string.qibla, Icons.Default.Explore, "qibla"),
         LibraryRow(R.string.saved, R.string.bookmarks, Icons.Default.Bookmark, "saved"),
         LibraryRow(R.string.notes, R.string.notes, Icons.Default.Notes, "notes"),
         LibraryRow(R.string.khatmah, R.string.quran, Icons.Default.AutoStories, "khatmah"),
         LibraryRow(R.string.tasbih, R.string.tasbih, Icons.Default.TouchApp, "tasbih"),
         LibraryRow(R.string.calendar, R.string.calendar, Icons.Default.CalendarMonth, "calendar"),
-        LibraryRow(R.string.qibla, R.string.qibla, Icons.Default.Explore, "qibla"),
-        LibraryRow(R.string.tafsir, R.string.source_required, Icons.Default.MenuBook, "content"),
+        LibraryRow(R.string.tafsir, R.string.online_cached_content, Icons.Default.MenuBook, "quran"),
         LibraryRow(R.string.hadith, R.string.source_required, Icons.Default.LibraryBooks, "content"),
-        LibraryRow(R.string.dua, R.string.source_required, Icons.Default.FavoriteBorder, "content"),
         LibraryRow(R.string.names_of_allah, R.string.source_required, Icons.Default.AutoAwesome, "content"),
-        LibraryRow(R.string.content_center, R.string.download_center, Icons.Default.Inventory2, "content"),
+        LibraryRow(R.string.content_center, R.string.content_center_subtitle, Icons.Default.Inventory2, "content"),
         LibraryRow(R.string.settings, R.string.settings, Icons.Default.Settings, "settings")
     )
 
