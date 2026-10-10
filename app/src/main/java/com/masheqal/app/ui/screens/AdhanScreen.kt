@@ -61,6 +61,8 @@ fun AdhanScreen(app: MasheqalApp, nav: NavHostController) {
             .build()
     }
     val selectedId = settings.adhanRecordingId
+    val previewErrorMessage = stringResource(R.string.adhan_preview_error)
+    val selectionSuccessMessage = stringResource(R.string.adhan_select_success)
 
     DisposableEffect(player) {
         val listener = object : Player.Listener {
@@ -76,7 +78,7 @@ fun AdhanScreen(app: MasheqalApp, nav: NavHostController) {
             }
             override fun onPlayerError(error: PlaybackException) {
                 playingId = null
-                scope.launch { snackbar.showSnackbar(context.getString(R.string.adhan_preview_error)) }
+                scope.launch { snackbar.showSnackbar(previewErrorMessage) }
             }
         }
         player.addListener(listener)
@@ -428,7 +430,7 @@ fun AdhanScreen(app: MasheqalApp, nav: NavHostController) {
                                 if (isSelected) {
                                     OutlinedButton(
                                         onClick = {
-                                            scope.launch { snackbar.showSnackbar(context.getString(R.string.adhan_select_success)) }
+                                            scope.launch { snackbar.showSnackbar(selectionSuccessMessage) }
                                         },
                                         modifier = Modifier.weight(1f)
                                     ) {
