@@ -129,4 +129,9 @@
     <string name="tafsir_loading_or_offline">Tafsir is not cached yet. Connect to the internet and select the ayah again.</string>
     <string name="quran_study_source_note">Translations and tafsir are retrieved by edition from the Al Quran Cloud API. The selected editions are cached for offline reading after first loading.</string>
     <string name="settings_tafsir_hint">Select a verified tafsir and show it alongside the selected ayah.</string>
+    <string name="full_surah_audio_label">Full-surah audio</string>
+    <string name="reciter_missing_surah">This reciter does not provide a recording for this surah. Please select another edition.</string>
+    <string name="full_surah_audio_notice">This reciter streams the whole surah from its beginning, not from the selected verse.</string>
+    <string name="reciter_search_hint">Search reciter or recitation style</string>
+    <string name="quran_reciter_sources_note">Verse-by-verse reciters play ayah by ayah. Additional readers are available as full-surah streams from MP3Quran.net.</string>
 </resources>
