@@ -118,6 +118,7 @@ fun MasheqalRoot(
             composable("qibla") { QiblaScreen(nav) }
             composable("tasbih") { TasbihScreen(app, nav) }
             composable("adhkar") { AdhkarScreen(nav) }
+            composable("duas") { AdhkarScreen(nav, dedicatedDuas = true) }
             composable("library") { LibraryScreen(app, nav) }
             composable("saved") { SavedScreen(app, nav) }
             composable("notes") { NotesScreen(app, nav) }
