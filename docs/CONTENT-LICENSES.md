@@ -44,7 +44,7 @@ No religious content is inserted merely to make a screen appear complete. Every 
 - **Source references:** https://github.com/quran-ws/quran-svg and https://quran.ws/docs/reference/quran-svg/
 - **Delivery behavior:** SVG pages and their ayah-region JSON are fetched over HTTPS on first view and cached compressed in app-private storage. The Quran screen also exposes an explicit sequential download of all 604 pages and their interaction maps, with progress and cancellation; completed files are retained if the user cancels or a request fails. A complete offline copy exists only after that download finishes successfully, and full-download behavior still needs physical-device QA.
 - **Renderer:** AndroidSVG (`com.caverock:androidsvg-aar:1.4`), Apache-2.0.
-- **Integrity caveat:** release path is version-pinned and SVG markup/size are validated, but page SHA-256 validation against the upstream manifest is still pending.
+- **Integrity:** before caching new SVG or ayah JSON bytes, the app fetches the immutable v1.1.1 manifest, verifies that all 604 SVG and 604 JSON entries have a byte length and SHA-256 digest, then checks each downloaded file against its published byte length and digest. The manifest itself is cached compressed in app-private storage so future integrity checks work offline. Older structurally valid caches created before this check can still be read during upgrade when the checksum inventory is not yet locally available; newly fetched files fail closed on missing or mismatching metadata.
 
 
 ## Offline adhan audio

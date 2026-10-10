@@ -8,6 +8,24 @@ import org.junit.Test
 
 class MushafGeometryTest {
     @Test
+    fun verifiesSha256ForKnownContent() {
+        val bytes = "abc".toByteArray(Charsets.UTF_8)
+        assertTrue(
+            MushafPageStore.matchesSha256(
+                bytes,
+                "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+            )
+        )
+    }
+
+    @Test
+    fun rejectsWrongOrMalformedSha256() {
+        val bytes = "abc".toByteArray(Charsets.UTF_8)
+        assertFalse(MushafPageStore.matchesSha256(bytes, "0".repeat(64)))
+        assertFalse(MushafPageStore.matchesSha256(bytes, "not-a-sha256"))
+    }
+
+    @Test
     fun readsNormalAndNegativeOriginViewBoxes() {
         assertEquals(
             MushafViewBox(0f, 0f, 345f, 550f),
