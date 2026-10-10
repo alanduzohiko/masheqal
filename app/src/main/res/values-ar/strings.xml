@@ -105,4 +105,17 @@
     <string name="method_france">فرنسا (UOIF)</string>
     <string name="method_russia">الإدارة الدينية لمسلمي روسيا</string>
     <string name="method_dubai">دبي، الإمارات</string>
+    <string name="select_translation">اختر الترجمة</string>
+    <string name="translation_sahih">صحيح إنترناشيونال</string>
+    <string name="translation_pickthall">ترجمة بيكثال</string>
+    <string name="translation_yusufali">ترجمة يوسف علي</string>
+    <string name="translation_asad">ترجمة محمد أسد</string>
+    <string name="translation_hilali">الهلالي وخان</string>
+    <string name="translation_itani">طلّال إيتاني — القرآن الواضح</string>
+    <string name="select_tafsir">اختر التفسير</string>
+    <string name="tafsir_muyassar">تفسير الميسّر</string>
+    <string name="tafsir_jalalayn">تفسير الجلالين</string>
+    <string name="show_tafsir">إظهار التفسير عند اختيار الآية</string>
+    <string name="tafsir_loading_or_offline">لم يُخزّن التفسير بعد. اتصل بالإنترنت ثم اختر الآية مجددًا.</string>
+    <string name="quran_study_source_note">تُجلب الترجمات والتفاسير بحسب الإصدار من واجهة Al Quran Cloud API، ثم تُخزّن لقراءتها دون اتصال بعد تحميلها أول مرة.</string>
 </resources>
