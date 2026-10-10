@@ -30,6 +30,8 @@ import com.masheqal.app.data.QuranEdition
 import com.masheqal.app.data.QuranEditionRepository
 import com.masheqal.app.data.FullSurahReciter
 import com.masheqal.app.data.Mp3QuranReciterRepository
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 private data class ReciterChoice(
@@ -118,16 +120,30 @@ fun QuranReaderScreen(
     val scriptRepository = remember(context) { QuranScriptRepository(context) }
 
     LaunchedEffect(context) {
-        externalReciters = runCatching { Mp3QuranReciterRepository(context).loadArabicReciters() }
-            .getOrDefault(emptyList())
         val editionRepository = QuranEditionRepository(context)
-        verseByVerseReciters = runCatching { editionRepository.loadAudioReciters() }.getOrDefault(emptyList())
-        availableScripts = runCatching { scriptRepository.loadCatalog() }.getOrDefault(emptyList())
-        val catalogue = runCatching { editionRepository.loadCatalog() }.getOrDefault(emptyList())
-        availableTranslations = (catalogue.filter { it.type == "translation" } + editionRepository.fallbackTranslations())
-            .distinctBy { it.identifier }
-        availableTafsirs = (catalogue.filter { it.type == "tafsir" } + editionRepository.fallbackTafsirs())
-            .distinctBy { it.identifier }
+        coroutineScope {
+            val fullSurahJob = async {
+                runCatching { Mp3QuranReciterRepository(context).loadArabicReciters() }.getOrDefault(emptyList())
+            }
+            val verseByVerseJob = async {
+                runCatching { editionRepository.loadAudioReciters() }.getOrDefault(emptyList())
+            }
+            val scriptJob = async {
+                runCatching { scriptRepository.loadCatalog() }.getOrDefault(emptyList())
+            }
+            val editionsJob = async {
+                runCatching { editionRepository.loadCatalog() }.getOrDefault(emptyList())
+            }
+
+            externalReciters = fullSurahJob.await()
+            verseByVerseReciters = verseByVerseJob.await()
+            availableScripts = scriptJob.await()
+            val catalogue = editionsJob.await()
+            availableTranslations = (catalogue.filter { it.type == "translation" } + editionRepository.fallbackTranslations())
+                .distinctBy { it.identifier }
+            availableTafsirs = (catalogue.filter { it.type == "tafsir" } + editionRepository.fallbackTafsirs())
+                .distinctBy { it.identifier }
+        }
     }
     val selectableReciters = (
         quranReciters +
