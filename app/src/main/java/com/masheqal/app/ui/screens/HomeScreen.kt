@@ -2,6 +2,7 @@
 package com.masheqal.app.ui.screens
 
 import android.content.Context
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -12,6 +13,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -19,11 +21,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.masheqal.app.MasheqalApp
+import com.masheqal.app.data.QuranStudyRepository
+import com.masheqal.app.data.QuranScriptRepository
+import com.masheqal.app.data.QuranTajweedRepository
+import com.masheqal.app.data.LocationTimeZoneRepository
 import com.masheqal.app.R
 import com.masheqal.app.domain.*
 import com.masheqal.app.util.LocationUtils
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 import java.time.ZonedDateTime
+import java.time.ZoneId
 import kotlinx.coroutines.delay
 
 private data class PrayerCandidate(val name: String, val minutes: Double)
@@ -31,11 +40,19 @@ private data class PrayerCandidate(val name: String, val minutes: Double)
 @Composable
 fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -> Unit) {
     val context = androidx.compose.ui.platform.LocalContext.current
+    val deviceLocale = LocalConfiguration.current.locales[0] ?: Locale.ROOT
     var daily by remember { mutableStateOf<com.masheqal.app.data.QuranVerse?>(null) }
+    var dailyTranslation by remember { mutableStateOf<String?>(null) }
+    val studyRepository = remember(context) { QuranStudyRepository(context) }
+    val scriptRepository = remember(context) { QuranScriptRepository(context) }
+    val tajweedRepository = remember(context) { QuranTajweedRepository(context) }
+    var dailyScriptText by remember { mutableStateOf<String?>(null) }
+    var dailyTajweedText by remember { mutableStateOf<String?>(null) }
     val reading by app.personal.reading.collectAsState(initial = com.masheqal.app.data.ReadingPosition())
-    val khatmah by app.personal.khatmah.collectAsState(initial = com.masheqal.app.data.KhatmahState())
     val settings by app.settings.state.collectAsState(initial = com.masheqal.app.data.SettingsState())
     var location by remember { mutableStateOf(LocationUtils.lastKnown(context)) }
+    var locationZone by remember { mutableStateOf(ZoneId.systemDefault()) }
+    val timeZoneRepository = remember(context) { LocationTimeZoneRepository(context) }
     var prayerTimes by remember { mutableStateOf<PrayerTimes?>(null) }
 
     LaunchedEffect(Unit) {
@@ -46,11 +63,48 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
         location = LocationUtils.lastKnown(context)
     }
 
+    LaunchedEffect(daily?.surah, daily?.ayah, settings.quranScriptEdition, settings.showTajweedColors) {
+        dailyScriptText = null
+        dailyTajweedText = null
+        val verse = daily ?: return@LaunchedEffect
+        val chapter = runCatching { app.quran.versesOfSurah(verse.surah) }.getOrNull().orEmpty()
+        if (settings.showTajweedColors && chapter.isNotEmpty()) {
+            dailyTajweedText = runCatching {
+                tajweedRepository.loadSurah(verse.surah, chapter.size).getOrNull(verse.ayah - 1)
+            }.getOrNull()
+        }
+        if (settings.quranScriptEdition != QuranScriptRepository.DEFAULT_EDITION && chapter.isNotEmpty()) {
+            dailyScriptText = runCatching {
+                scriptRepository.loadSurah(verse.surah, settings.quranScriptEdition, chapter.size)
+                    .getOrNull(verse.ayah - 1)
+            }.getOrNull()
+        }
+    }
+
+    LaunchedEffect(daily?.surah, daily?.ayah, settings.translationEdition) {
+        val verse = daily
+        if (verse == null) {
+            dailyTranslation = null
+            return@LaunchedEffect
+        }
+        val result = runCatching {
+            studyRepository.loadSurah(verse.surah, settings.translationEdition)
+        }.getOrNull()
+        dailyTranslation = result?.getOrNull(verse.ayah - 1)?.takeIf { it.isNotBlank() }
+            ?: if (settings.translationEdition == "en.sahih") verse.translationEn?.takeIf { it.isNotBlank() } else null
+    }
+
     LaunchedEffect(location, settings.prayerMethod, settings.madhhab) {
-        location?.let { c ->
-            val offset = ZonedDateTime.now().offset.totalSeconds / 3600.0
+        val c = location
+        if (c == null) {
+            prayerTimes = null
+        } else {
+            val resolvedZone = timeZoneRepository.resolve(c.latitude, c.longitude)
+            locationZone = resolvedZone
+            val localDate = LocalDate.now(resolvedZone)
+            val offset = localDate.atTime(12, 0).atZone(resolvedZone).offset.totalSeconds / 3600.0
             prayerTimes = PrayerCalculator.calculate(
-                LocalDate.now(),
+                localDate,
                 Coordinates(c.latitude, c.longitude, offset),
                 PrayerMethod.valueOf(settings.prayerMethod),
                 AsrMadhhab.valueOf(settings.madhhab)
@@ -66,11 +120,11 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
             PrayerCandidate(stringResource(R.string.maghrib), p.maghrib),
             PrayerCandidate(stringResource(R.string.isha), p.isha)
         )
-        val now = ZonedDateTime.now().let { it.hour * 60.0 + it.minute + it.second / 60.0 }
+        val now = ZonedDateTime.now(locationZone).let { it.hour * 60.0 + it.minute + it.second / 60.0 }
         rows.firstOrNull { it.minutes >= now } ?: rows.firstOrNull()
     }
 
-    val date = LocalDate.now()
+    val date = LocalDate.now(locationZone)
     val hijri = HijriCalculator.fromGregorian(date)
 
     LazyColumn(
@@ -87,13 +141,18 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
                     Text(stringResource(R.string.app_name), style = MaterialTheme.typography.headlineMedium)
                     Spacer(Modifier.height(3.dp))
                     Text(
-                        "§date  •  ${hijri.day}/${hijri.month}/${hijri.year}",
+                        "${date.format(DateTimeFormatter.ofPattern("EEE, d MMM", deviceLocale))}  •  ${hijri.day}/${hijri.month}/${hijri.year}",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
-                FilledTonalIconButton(onClick = { nav.navigate("search") }) {
-                    Icon(Icons.Default.Search, stringResource(R.string.search))
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    FilledTonalIconButton(onClick = { nav.navigate("search") }) {
+                        Icon(Icons.Default.Search, stringResource(R.string.search))
+                    }
+                    FilledTonalIconButton(onClick = { nav.navigate("settings") }) {
+                        Icon(Icons.Default.Settings, stringResource(R.string.settings))
+                    }
                 }
             }
         }
@@ -101,7 +160,7 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
         item {
             Spacer(Modifier.height(16.dp))
             Card(
-                Modifier.padding(horizontal = 16.dp).fillMaxWidth(),
+                Modifier.padding(horizontal = 16.dp).fillMaxWidth().animateContentSize(),
                 shape = RoundedCornerShape(28.dp),
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary)
             ) {
@@ -141,20 +200,20 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
                         }
 
                         if (candidate != null) {
-                            val now = ZonedDateTime.now()
+                            val now = ZonedDateTime.now(locationZone)
                             var countdown by remember(candidate.name, candidate.minutes) {
                                 mutableStateOf(countdownText(candidate.minutes, now))
                             }
-                            LaunchedEffect(candidate.name, candidate.minutes) {
+                            LaunchedEffect(candidate.name, candidate.minutes, locationZone) {
                                 while (true) {
-                                    countdown = countdownText(candidate.minutes, ZonedDateTime.now())
+                                    countdown = countdownText(candidate.minutes, ZonedDateTime.now(locationZone))
                                     delay(1000)
                                 }
                             }
                             Spacer(Modifier.height(10.dp))
                             Row(verticalAlignment = Alignment.Bottom) {
                                 Text(
-                                    formatMinutes(candidate.minutes),
+                                    formatMinutes(candidate.minutes, deviceLocale),
                                     style = MaterialTheme.typography.displaySmall,
                                     color = Color.White,
                                     fontWeight = FontWeight.Bold
@@ -199,6 +258,159 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
         }
 
         item {
+            Column(
+                Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                SectionTitle(
+                    stringResource(R.string.today_prayer_times),
+                    stringResource(R.string.view_all)
+                ) {
+                    nav.navigate("prayer")
+                }
+                if (prayerTimes != null) {
+                    val schedule = listOf(
+                        stringResource(R.string.fajr) to prayerTimes!!.fajr,
+                        stringResource(R.string.dhuhr) to prayerTimes!!.dhuhr,
+                        stringResource(R.string.asr) to prayerTimes!!.asr,
+                        stringResource(R.string.maghrib) to prayerTimes!!.maghrib,
+                        stringResource(R.string.isha) to prayerTimes!!.isha
+                    )
+                    schedule.chunked(3).forEach { rowItems ->
+                        Row(
+                            Modifier.padding(horizontal = 16.dp).fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            rowItems.forEach { (name, time) ->
+                                Card(
+                                    onClick = { nav.navigate("prayer") },
+                                    modifier = Modifier.weight(1f).animateContentSize(),
+                                    shape = RoundedCornerShape(18.dp),
+                                    colors = CardDefaults.cardColors(
+                                        containerColor = MaterialTheme.colorScheme.surface
+                                    )
+                                ) {
+                                    Column(
+                                        Modifier.fillMaxWidth().padding(horizontal = 10.dp, vertical = 13.dp),
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                        verticalArrangement = Arrangement.spacedBy(5.dp)
+                                    ) {
+                                        Text(
+                                            name,
+                                            style = MaterialTheme.typography.labelMedium,
+                                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                            maxLines = 1
+                                        )
+                                        Text(
+                                            formatMinutes(time, deviceLocale),
+                                            style = MaterialTheme.typography.titleMedium,
+                                            fontWeight = FontWeight.Bold,
+                                            color = MaterialTheme.colorScheme.primary,
+                                            maxLines = 1
+                                        )
+                                    }
+                                }
+                            }
+                            repeat(3 - rowItems.size) { Spacer(Modifier.weight(1f)) }
+                        }
+                    }
+                } else {
+                    Card(
+                        onClick = {
+                            onRequestLocation()
+                            nav.navigate("prayer")
+                        },
+                        modifier = Modifier.padding(horizontal = 16.dp).fillMaxWidth(),
+                        shape = RoundedCornerShape(18.dp)
+                    ) {
+                        Row(
+                            Modifier.fillMaxWidth().padding(16.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(Icons.Default.MyLocation, null, tint = MaterialTheme.colorScheme.primary)
+                            Spacer(Modifier.width(10.dp))
+                            Column(Modifier.weight(1f)) {
+                                Text(stringResource(R.string.set_location), fontWeight = FontWeight.SemiBold)
+                                Text(stringResource(R.string.prayer_grid_location_hint), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            }
+                            Icon(Icons.Default.ChevronRight, null)
+                        }
+                    }
+                }
+            }
+        }
+
+        item { SectionTitle(stringResource(R.string.ayah_of_day)) }
+
+        item {
+            daily?.let { verse ->
+                Card(
+                    Modifier.padding(horizontal = 16.dp).fillMaxWidth(),
+                    shape = RoundedCornerShape(26.dp)
+                ) {
+                    Column(Modifier.padding(20.dp)) {
+                        StatPill("${verse.surah}:${verse.ayah}")
+                        Spacer(Modifier.height(12.dp))
+                        val taggedDailyVerse = dailyTajweedText
+                        if (settings.showTajweedColors && taggedDailyVerse != null) {
+                            QuranTajweedText(taggedDailyVerse, size = 26f)
+                        } else {
+                            QuranText(dailyScriptText ?: verse.text, size = 26f)
+                        }
+                        Spacer(Modifier.height(14.dp))
+                        if (settings.showEnglishTranslation && !dailyTranslation.isNullOrBlank()) {
+                            Text(
+                                dailyTranslation.orEmpty(),
+                                style = MaterialTheme.typography.bodyLarge,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        } else if (settings.showEnglishTranslation && settings.translationEdition != "en.sahih") {
+                            Text(
+                                stringResource(R.string.translation_unavailable_offline),
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                        Spacer(Modifier.height(10.dp))
+                        Row(
+                            Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.End
+                        ) {
+                            IconButton(onClick = {
+                                app.userDb.addBookmark(
+                                    "ayah",
+                                    "${verse.surah}:${verse.ayah}",
+                                    "${verse.surah}:${verse.ayah}"
+                                )
+                            }) {
+                                Icon(Icons.Default.BookmarkBorder, stringResource(R.string.bookmark))
+                            }
+                            IconButton(onClick = {
+                                shareText(
+                                    context,
+                                    "${verse.text}\n\n${dailyTranslation.orEmpty()}\n${verse.surah}:${verse.ayah}"
+                                )
+                            }) {
+                                Icon(Icons.Default.Share, stringResource(R.string.share))
+                            }
+                            IconButton(onClick = {
+                                val uri = ShareCardUtils.createVerseCard(
+                                    context,
+                                    verse.text,
+                                    dailyTranslation.orEmpty(),
+                                    "${verse.surah}:${verse.ayah}"
+                                )
+                                ShareCardUtils.shareImage(context, uri)
+                            }) {
+                                Icon(Icons.Default.Image, stringResource(R.string.share_image))
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        item {
             SectionTitle(
                 stringResource(R.string.continue_quran),
                 stringResource(R.string.open_quran)
@@ -233,107 +445,6 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
                         }
                     ) {
                         Icon(Icons.Default.PlayArrow, stringResource(R.string.open_quran))
-                    }
-                }
-            }
-        }
-
-        if (khatmah.active) {
-            item {
-                SectionTitle(
-                    stringResource(R.string.khatmah),
-                    stringResource(R.string.complete)
-                ) {
-                    nav.navigate("khatmah")
-                }
-                val progress = (
-                    khatmah.readPages.toFloat() /
-                        khatmah.targetPages.coerceAtLeast(1)
-                    ).coerceIn(0f, 1f)
-                Card(
-                    Modifier.padding(horizontal = 16.dp).fillMaxWidth(),
-                    shape = RoundedCornerShape(24.dp)
-                ) {
-                    Column(Modifier.padding(18.dp)) {
-                        Row(
-                            Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween
-                        ) {
-                            Text(
-                                "${khatmah.readPages}/${khatmah.targetPages} ${stringResource(R.string.page)}",
-                                fontWeight = FontWeight.SemiBold
-                            )
-                            Text(
-                                "${(progress * 100).toInt()}%",
-                                color = MaterialTheme.colorScheme.primary,
-                                fontWeight = FontWeight.Bold
-                            )
-                        }
-                        Spacer(Modifier.height(10.dp))
-                        LinearProgressIndicator(
-                            progress = { progress },
-                            modifier = Modifier.fillMaxWidth(),
-                            trackColor = MaterialTheme.colorScheme.surfaceVariant
-                        )
-                    }
-                }
-            }
-        }
-
-        item { SectionTitle(stringResource(R.string.ayah_of_day)) }
-
-        item {
-            daily?.let { verse ->
-                Card(
-                    Modifier.padding(horizontal = 16.dp).fillMaxWidth(),
-                    shape = RoundedCornerShape(26.dp)
-                ) {
-                    Column(Modifier.padding(20.dp)) {
-                        StatPill("${verse.surah}:${verse.ayah}")
-                        Spacer(Modifier.height(12.dp))
-                        QuranText(verse.text, size = 26f)
-                        Spacer(Modifier.height(14.dp))
-                        if (!verse.translationEn.isNullOrBlank()) {
-                            Text(
-                                verse.translationEn.orEmpty(),
-                                style = MaterialTheme.typography.bodyLarge,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        }
-                        Spacer(Modifier.height(10.dp))
-                        Row(
-                            Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.End
-                        ) {
-                            IconButton(onClick = {
-                                app.userDb.addBookmark(
-                                    "ayah",
-                                    "${verse.surah}:${verse.ayah}",
-                                    "${verse.surah}:${verse.ayah}"
-                                )
-                            }) {
-                                Icon(Icons.Default.BookmarkBorder, stringResource(R.string.bookmark))
-                            }
-                            IconButton(onClick = {
-                                shareText(
-                                    context,
-                                    "${verse.text}\n\n${verse.translationEn.orEmpty()}\n${verse.surah}:${verse.ayah}"
-                                )
-                            }) {
-                                Icon(Icons.Default.Share, stringResource(R.string.share))
-                            }
-                            IconButton(onClick = {
-                                val uri = ShareCardUtils.createVerseCard(
-                                    context,
-                                    verse.text,
-                                    verse.translationEn.orEmpty(),
-                                    "${verse.surah}:${verse.ayah}"
-                                )
-                                ShareCardUtils.shareImage(context, uri)
-                            }) {
-                                Icon(Icons.Default.Image, stringResource(R.string.share_image))
-                            }
-                        }
                     }
                 }
             }
@@ -384,14 +495,33 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
                         nav.navigate("notes")
                     }
                 }
+                Row(
+                    Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    FeatureCard(
+                        stringResource(R.string.daily_duas_title),
+                        icon = Icons.Default.Favorite,
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        nav.navigate("duas")
+                    }
+                    FeatureCard(
+                        stringResource(R.string.adhan_library),
+                        icon = Icons.Default.RecordVoiceOver,
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        nav.navigate("adhan")
+                    }
+                }
             }
         }
     }
 }
 
-private fun formatMinutes(v: Double): String {
-    val total = kotlin.math.round(v).toInt()
-    return "%02d:%02d".format((total / 60) % 24, total % 60)
+private fun formatMinutes(v: Double, locale: Locale = Locale.getDefault()): String {
+    val total = kotlin.math.round(v).toInt().mod(1440)
+    return java.time.LocalTime.of((total / 60) % 24, total % 60).format(java.time.format.DateTimeFormatter.ofPattern("h:mm a", locale))
 }
 
 private fun countdownText(prayerMinutes: Double, now: ZonedDateTime): String {

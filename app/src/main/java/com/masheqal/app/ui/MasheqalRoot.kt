@@ -13,6 +13,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.*
 import androidx.navigation.navArgument
 import com.masheqal.app.MasheqalApp
+import com.masheqal.app.data.SettingsState
 import com.masheqal.app.R
 import com.masheqal.app.ui.screens.*
 
@@ -30,6 +31,10 @@ fun MasheqalRoot(
     onLanguage: (String) -> Unit
 ) {
     val nav = rememberNavController()
+    val settings by app.settings.state.collectAsState(initial = SettingsState())
+    if (!settings.onboardingCompleted) {
+        OnboardingScreen(app, onRequestLocation, onLanguage)
+    } else {
     val items = listOf(
         NavItem("home", Icons.Default.Home, androidx.compose.ui.res.stringResource(R.string.home)),
         NavItem("quran", Icons.Default.MenuBook, androidx.compose.ui.res.stringResource(R.string.quran)),
@@ -109,20 +114,24 @@ fun MasheqalRoot(
                 SearchScreen(app, nav, sharedText)
             }
             composable("prayer") { PrayerScreen(app, nav, onRequestLocation) }
+            composable("adhan") { AdhanScreen(app, nav) }
             composable("qibla") { QiblaScreen(nav) }
             composable("tasbih") { TasbihScreen(app, nav) }
             composable("adhkar") { AdhkarScreen(nav) }
+            composable("duas") { AdhkarScreen(nav, dedicatedDuas = true) }
             composable("library") { LibraryScreen(app, nav) }
             composable("saved") { SavedScreen(app, nav) }
             composable("notes") { NotesScreen(app, nav) }
             composable("khatmah") { KhatmahScreen(app, nav) }
-            composable("settings") { SettingsScreen(app, nav, onLanguage) }
+            composable("settings") { SettingsScreen(app, nav, onLanguage, onRequestLocation) }
             composable("content") { ContentCenterScreen(nav) }
             composable("calendar") { CalendarScreen(nav) }
         }
     }
+    }
 
-    LaunchedEffect(intent) {
+    LaunchedEffect(intent, settings.onboardingCompleted) {
+        if (!settings.onboardingCompleted) return@LaunchedEffect
         val uri = intent?.data
         if (uri != null) {
             when (uri.host) {

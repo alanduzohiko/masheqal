@@ -1,6 +1,7 @@
 
 package com.masheqal.app.ui.screens
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -9,6 +10,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AutoStories
 import androidx.compose.material.icons.filled.Bookmark
+import androidx.compose.material.icons.filled.MenuBook
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -31,6 +34,8 @@ fun QuranScreen(app: MasheqalApp, nav: NavHostController) {
     var juzDialog by remember { mutableStateOf(false) }
     var pageText by rememberSaveable { mutableStateOf("") }
     val scope = rememberCoroutineScope()
+    val settings by app.settings.state.collectAsState(initial = com.masheqal.app.data.SettingsState())
+    val reading by app.personal.reading.collectAsState(initial = com.masheqal.app.data.ReadingPosition())
 
     LaunchedEffect(Unit) {
         surahs = app.quran.loadSurahs()
@@ -70,6 +75,47 @@ fun QuranScreen(app: MasheqalApp, nav: NavHostController) {
                 }
                 FilledTonalIconButton(onClick = { nav.navigate("search") }) {
                     Icon(Icons.Default.Search, stringResource(R.string.search))
+                }
+            }
+        }
+
+        item {
+            Card(
+                onClick = { nav.navigate("quran/ref/${reading.surah}/${reading.ayah}") },
+                modifier = Modifier.padding(horizontal = 16.dp).fillMaxWidth().animateContentSize(),
+                shape = RoundedCornerShape(24.dp),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
+            ) {
+                Row(
+                    Modifier.fillMaxWidth().padding(17.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Surface(
+                        shape = RoundedCornerShape(16.dp),
+                        color = MaterialTheme.colorScheme.surface.copy(alpha = 0.72f)
+                    ) {
+                        Icon(
+                            Icons.Default.MenuBook,
+                            null,
+                            modifier = Modifier.padding(12.dp).size(26.dp),
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                    Spacer(Modifier.width(13.dp))
+                    Column(Modifier.weight(1f)) {
+                        Text(
+                            stringResource(R.string.continue_quran),
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onPrimaryContainer
+                        )
+                        Text(
+                            "${reading.surah}:${reading.ayah} · ${stringResource(R.string.resume_exact_position)}",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.78f)
+                        )
+                    }
+                    Icon(Icons.Default.PlayArrow, null, tint = MaterialTheme.colorScheme.primary)
                 }
             }
         }
@@ -124,7 +170,7 @@ fun QuranScreen(app: MasheqalApp, nav: NavHostController) {
         items(filtered, key = { it.number }) { s ->
             Card(
                 onClick = { nav.navigate("quran/surah/${s.number}") },
-                modifier = Modifier.padding(horizontal = 16.dp).fillMaxWidth(),
+                modifier = Modifier.padding(horizontal = 16.dp).fillMaxWidth().animateContentSize(),
                 shape = RoundedCornerShape(22.dp)
             ) {
                 Row(
@@ -146,9 +192,12 @@ fun QuranScreen(app: MasheqalApp, nav: NavHostController) {
                     }
                     Spacer(Modifier.width(14.dp))
                     Column(Modifier.weight(1f)) {
-                        Text(s.nameAr, style = MaterialTheme.typography.titleLarge)
                         Text(
-                            s.nameEn,
+                            if (settings.language == "en") s.nameEn else s.nameAr,
+                            style = MaterialTheme.typography.titleLarge
+                        )
+                        Text(
+                            if (settings.language == "en") s.nameAr else s.nameEn,
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
