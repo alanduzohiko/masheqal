@@ -27,6 +27,8 @@ import com.masheqal.app.data.BackupRepository
 import com.masheqal.app.data.SettingsState
 import com.masheqal.app.data.FullSurahReciter
 import com.masheqal.app.data.Mp3QuranReciterRepository
+import com.masheqal.app.data.QuranEdition
+import com.masheqal.app.data.QuranEditionRepository
 import com.masheqal.app.services.PrayerNotificationScheduler
 import com.masheqal.app.data.QuranEdition
 import com.masheqal.app.data.QuranEditionRepository
@@ -69,6 +71,7 @@ fun SettingsScreen(
     var showTafsirs by remember { mutableStateOf(false) }
     var reciterSearch by remember { mutableStateOf("") }
     var extraVoices by remember { mutableStateOf(emptyList<FullSurahReciter>()) }
+    var verseByVerseVoices by remember { mutableStateOf(emptyList<QuranEdition>()) }
     var translationSearch by remember { mutableStateOf("") }
     var tafsirSearch by remember { mutableStateOf("") }
     val editionRepository = remember(context) { QuranEditionRepository(context) }
@@ -81,6 +84,7 @@ fun SettingsScreen(
     LaunchedEffect(context) {
         extraVoices = runCatching { Mp3QuranReciterRepository(context).loadArabicReciters() }
             .getOrDefault(emptyList())
+        verseByVerseVoices = runCatching { editionRepository.loadAudioReciters() }.getOrDefault(emptyList())
         val catalogue = runCatching { editionRepository.loadCatalog() }.getOrDefault(emptyList())
         availableTranslations = (catalogue.filter { it.type == "translation" } + editionRepository.fallbackTranslations())
             .distinctBy { it.identifier }
@@ -132,12 +136,16 @@ fun SettingsScreen(
         }
     }
 
-    val selectableVoices = settingsVoices + extraVoices.map { voice ->
-        ReaderVoice(
-            voice.id,
-            voice.name + " — " + voice.moshafName + " · " + fullSurahAudioLabel
-        )
-    }
+    val selectableVoices = (
+        verseByVerseVoices.map { voice -> ReaderVoice(voice.identifier, voice.englishName + " — " + voice.name) } +
+            settingsVoices +
+            extraVoices.map { voice ->
+                ReaderVoice(
+                    voice.id,
+                    voice.name + " — " + voice.moshafName + " · " + fullSurahAudioLabel
+                )
+            }
+        ).distinctBy { it.id }
     val filteredVoices = remember(selectableVoices, reciterSearch) {
         selectableVoices.filter { it.name.contains(reciterSearch.trim(), ignoreCase = true) }
     }
