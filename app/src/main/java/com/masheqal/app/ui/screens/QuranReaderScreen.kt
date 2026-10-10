@@ -428,7 +428,7 @@ fun QuranReaderScreen(
                         Icon(Icons.Default.Notes, noteLabel)
                     }
                     IconButton(onClick = {
-                        shareText(context, "${verse.text}\n\n${verse.translationEn.orEmpty()}\n$surah:${verse.ayah}")
+                        shareText(context, "${verse.text}\n\n${displayedTranslation}\n$surah:${verse.ayah}")
                         selected = null
                     }) {
                         Icon(Icons.Default.Share, stringResource(R.string.share))
@@ -437,7 +437,7 @@ fun QuranReaderScreen(
                         val uri = ShareCardUtils.createVerseCard(
                             context,
                             verse.text,
-                            verse.translationEn.orEmpty(),
+                            displayedTranslation,
                             "$surah:${verse.ayah}"
                         )
                         ShareCardUtils.shareImage(context, uri)
