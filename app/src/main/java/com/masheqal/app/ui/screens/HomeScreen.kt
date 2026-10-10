@@ -21,6 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.masheqal.app.MasheqalApp
+import com.masheqal.app.data.QuranStudyRepository
 import com.masheqal.app.R
 import com.masheqal.app.domain.*
 import com.masheqal.app.util.LocationUtils
@@ -37,6 +38,8 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
     val context = androidx.compose.ui.platform.LocalContext.current
     val deviceLocale = LocalConfiguration.current.locales[0] ?: Locale.ROOT
     var daily by remember { mutableStateOf<com.masheqal.app.data.QuranVerse?>(null) }
+    var dailyTranslation by remember { mutableStateOf<String?>(null) }
+    val studyRepository = remember(context) { QuranStudyRepository(context) }
     val reading by app.personal.reading.collectAsState(initial = com.masheqal.app.data.ReadingPosition())
     val settings by app.settings.state.collectAsState(initial = com.masheqal.app.data.SettingsState())
     var location by remember { mutableStateOf(LocationUtils.lastKnown(context)) }
@@ -48,6 +51,19 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
             daily = verses[(LocalDate.now().dayOfYear - 1) % verses.size]
         }
         location = LocationUtils.lastKnown(context)
+    }
+
+    LaunchedEffect(daily?.surah, daily?.ayah, settings.translationEdition) {
+        val verse = daily
+        if (verse == null) {
+            dailyTranslation = null
+            return@LaunchedEffect
+        }
+        val result = runCatching {
+            studyRepository.loadSurah(verse.surah, settings.translationEdition)
+        }.getOrNull()
+        dailyTranslation = result?.getOrNull(verse.ayah - 1)?.takeIf { it.isNotBlank() }
+            ?: if (settings.translationEdition == "en.sahih") verse.translationEn.orEmpty().ifBlank { null } else null
     }
 
     LaunchedEffect(location, settings.prayerMethod, settings.madhhab) {
@@ -343,10 +359,16 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
                         Spacer(Modifier.height(12.dp))
                         QuranText(verse.text, size = 26f)
                         Spacer(Modifier.height(14.dp))
-                        if (!verse.translationEn.isNullOrBlank()) {
+                        if (settings.showEnglishTranslation && !dailyTranslation.isNullOrBlank()) {
                             Text(
-                                verse.translationEn.orEmpty(),
+                                dailyTranslation.orEmpty(),
                                 style = MaterialTheme.typography.bodyLarge,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        } else if (settings.showEnglishTranslation && settings.translationEdition != "en.sahih") {
+                            Text(
+                                stringResource(R.string.translation_unavailable_offline),
+                                style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                         }
@@ -367,7 +389,7 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
                             IconButton(onClick = {
                                 shareText(
                                     context,
-                                    "${verse.text}\n\n${verse.translationEn.orEmpty()}\n${verse.surah}:${verse.ayah}"
+                                    "${verse.text}\n\n${dailyTranslation.orEmpty()}\n${verse.surah}:${verse.ayah}"
                                 )
                             }) {
                                 Icon(Icons.Default.Share, stringResource(R.string.share))
@@ -376,7 +398,7 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
                                 val uri = ShareCardUtils.createVerseCard(
                                     context,
                                     verse.text,
-                                    verse.translationEn.orEmpty(),
+                                    dailyTranslation.orEmpty(),
                                     "${verse.surah}:${verse.ayah}"
                                 )
                                 ShareCardUtils.shareImage(context, uri)
