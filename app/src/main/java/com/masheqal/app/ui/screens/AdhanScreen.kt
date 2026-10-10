@@ -128,7 +128,7 @@ fun AdhanScreen(app: MasheqalApp, nav: NavHostController) {
                 title = { Text(stringResource(R.string.adhan_library)) },
                 navigationIcon = {
                     IconButton(onClick = { nav.popBackStack() }) {
-                        Icon(Icons.Default.ArrowBack, stringResource(R.string.back))
+                        Icon(Icons.Default.ArrowBack, stringResource(R.string.done))
                     }
                 },
                 actions = {
