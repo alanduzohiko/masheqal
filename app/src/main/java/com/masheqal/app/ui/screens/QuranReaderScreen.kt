@@ -87,6 +87,7 @@ fun QuranReaderScreen(
     var isPlaying by remember { mutableStateOf(false) }
     var externalReciters by remember { mutableStateOf(emptyList<FullSurahReciter>()) }
     var verseByVerseReciters by remember { mutableStateOf(emptyList<QuranEdition>()) }
+    var tajweedVerses by remember { mutableStateOf<Map<Int, String>>(emptyMap()) }
     var reciterSearch by remember { mutableStateOf("") }
     var translationTexts by remember { mutableStateOf(emptyList<String>()) }
     var translationUnavailable by remember { mutableStateOf(false) }
@@ -229,6 +230,19 @@ fun QuranReaderScreen(
         player.setMediaItems(queue)
         player.prepare()
         player.play()
+    }
+
+    LaunchedEffect(surah, settings.showTajweedColors, verses.size) {
+        if (!settings.showTajweedColors || verses.isEmpty()) {
+            tajweedVerses = emptyMap()
+        } else {
+            val expectedCount = verses.size
+            tajweedVerses = runCatching {
+                QuranTajweedRepository(context).loadSurah(surah, expectedCount)
+                    .mapIndexed { index, text -> (index + 1) to text }
+                    .toMap()
+            }.getOrDefault(emptyMap())
+        }
     }
 
     LaunchedEffect(surah) {
@@ -379,7 +393,12 @@ fun QuranReaderScreen(
                             Icon(Icons.Default.MoreHoriz, contentDescription = null)
                         }
                         Spacer(Modifier.height(10.dp))
-                        QuranText(verse.text, size = 27f)
+                        val tajweedText = tajweedVerses[verse.ayah]
+                        if (settings.showTajweedColors && tajweedText != null) {
+                            QuranTajweedText(tajweedText, size = 27f)
+                        } else {
+                            QuranText(verse.text, size = 27f)
+                        }
                         val displayedTranslation = translationTexts.getOrNull(verse.ayah - 1)
                             ?.takeIf { it.isNotBlank() }
                             ?: if (settings.translationEdition == "en.sahih") verse.translationEn.orEmpty() else ""
@@ -408,7 +427,12 @@ fun QuranReaderScreen(
                     color = MaterialTheme.colorScheme.secondary
                 )
                 Spacer(Modifier.height(8.dp))
-                QuranText(verse.text, size = 23f)
+                val tajweedText = tajweedVerses[verse.ayah]
+                if (settings.showTajweedColors && tajweedText != null) {
+                    QuranTajweedText(tajweedText, size = 23f)
+                } else {
+                    QuranText(verse.text, size = 23f)
+                }
                 val displayedTranslation = translationTexts.getOrNull(verse.ayah - 1)
                     ?.takeIf { it.isNotBlank() }
                     ?: if (settings.translationEdition == "en.sahih") verse.translationEn.orEmpty() else ""
