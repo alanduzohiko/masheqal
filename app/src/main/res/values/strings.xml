@@ -86,4 +86,23 @@
     <string name="dhikr_source_reference">Source: %1$s</string>
     <string name="dhikr_count_action">Count this remembrance</string>
     <string name="dhikr_attribution">Sources: Seen-Arabic Morning and Evening Adhkar DB (MIT); fitrahive/dua-dhikr (MIT). See bundled content/ATTRIBUTIONS.md.</string>
+    <string name="settings_subtitle">Your personal space, set up your way</string>
+    <string name="settings_personalize">Small choices. A more personal daily experience.</string>
+    <string name="settings_language_hint">Choose the language used across the app.</string>
+    <string name="settings_theme_hint">Choose a comfortable look for day or night.</string>
+    <string name="prayer_preferences">Prayer and location</string>
+    <string name="settings_prayer_hint">Select the method used to calculate prayer times.</string>
+    <string name="settings_location_title">Update current location</string>
+    <string name="settings_location_hint">Use your device location for prayer times and Qibla.</string>
+    <string name="quran_reading_preferences">Quran reading</string>
+    <string name="settings_quran_hint">Choose a reciter and control the translation display.</string>
+    <string name="settings_translation_hint">Show the English translation below each ayah.</string>
+    <string name="settings_content_hint">Open available translations and verified study resources.</string>
+    <string name="settings_reading_display">Reading display</string>
+    <string name="settings_display_hint">Keep the screen awake while reading.</string>
+    <string name="settings_keep_awake_hint">Prevent the screen from sleeping during long reading sessions.</string>
+    <string name="settings_data">Backup and privacy</string>
+    <string name="settings_data_hint">Keep your saved reading data under your control.</string>
+    <string name="settings_restore_hint">Restore settings, bookmarks and notes from a backup file.</string>
+    <string name="settings_privacy_hint">Learn how local data and permissions are handled.</string>
 </resources>
