@@ -60,7 +60,7 @@ class MainActivity : ComponentActivity() {
         if (permissions.any { ContextCompat.checkSelfPermission(this, it) != PackageManager.PERMISSION_GRANTED }) {
             locationLauncher.launch(permissions)
         } else {
-            lifecycleScope.launch { LocationUtils.current(this) }
+            lifecycleScope.launch { LocationUtils.current(this@MainActivity) }
         }
     }
 
