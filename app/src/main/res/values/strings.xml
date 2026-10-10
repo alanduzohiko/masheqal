@@ -121,7 +121,7 @@
     <string name="translation_yusufali">Abdullah Yusuf Ali</string>
     <string name="translation_asad">Muhammad Asad</string>
     <string name="translation_hilali">Hilali &amp; Khan</string>
-    <string name="translation_itani">Talal Itani — Clear Qur'an</string>
+    <string name="translation_itani">Talal Itani — Clear Qur\'an</string>
     <string name="select_tafsir">Choose a tafsir</string>
     <string name="tafsir_muyassar">Tafsir al-Muyassar</string>
     <string name="tafsir_jalalayn">Tafsir al-Jalalayn</string>
