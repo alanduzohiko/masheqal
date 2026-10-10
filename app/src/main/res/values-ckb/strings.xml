@@ -157,4 +157,6 @@
     <string name="tafsir_search_hint">بەدوای ناوی تەفسیر، زمان یان ناسنامەی وەشان بگەڕێ</string>
     <string name="surah_label">سورەت</string>
     <string name="translation_unavailable_offline">وەرگێڕانی هەڵبژێردراو هێشتا پاشەکەوت نەکراوە. بۆ بارکردنی ئەم وەشانە پەیوەندی ئینتەرنێت بکە.</string>
+    <string name="settings_tajweed_colors">ڕەنگکردنی یاساکانی تەجوید</string>
+    <string name="settings_tajweed_colors_hint">یاساکانی تەجوید لە کاتی خوێندنەوەی قورئان بە ڕەنگ پیشان بدە. سوورەتەکان بۆ خوێندنەوەی بێ ئینتەرنێت پاشەکەوت دەکرێن.</string>
 </resources>
