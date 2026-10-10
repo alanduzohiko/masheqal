@@ -157,4 +157,6 @@
     <string name="tafsir_search_hint">ابحث باسم التفسير أو اللغة أو معرّف الإصدار</string>
     <string name="surah_label">سورة</string>
     <string name="translation_unavailable_offline">لم تُخزّن الترجمة المختارة بعد. اتصل بالإنترنت لتحميل هذا الإصدار.</string>
+    <string name="settings_tajweed_colors">إظهار ألوان أحكام التجويد</string>
+    <string name="settings_tajweed_colors_hint">لوّن أحكام التلاوة أثناء قراءة القرآن. تُحفظ السور للقراءة دون اتصال.</string>
 </resources>
