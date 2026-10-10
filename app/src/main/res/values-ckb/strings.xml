@@ -160,4 +160,5 @@
     <string name="settings_tajweed_colors">ڕەنگکردنی یاساکانی تەجوید</string>
     <string name="settings_tajweed_colors_hint">یاساکانی تەجوید لە کاتی خوێندنەوەی قورئان بە ڕەنگ پیشان بدە. سوورەتەکان بۆ خوێندنەوەی بێ ئینتەرنێت پاشەکەوت دەکرێن.</string>
     <string name="location_needed_details">ڕێگە بە دەستگەیشتن بە شوێن بدە بۆ هەژمارکردنی کاتی نوێژی ناوخۆیی و ئاراستەی قیبلە. دەتوانیت دواتر مۆڵەتەکە لە ڕێکخستنەکانی ئەندرۆید بگۆڕیت.</string>
+    <string name="dhikr_number">زیکری %1$s</string>
 </resources>
