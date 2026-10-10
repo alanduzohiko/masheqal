@@ -75,6 +75,7 @@ fun SettingsScreen(
     var availableTafsirs by remember(context) { mutableStateOf(editionRepository.fallbackTafsirs()) }
     val backupExported = stringResource(R.string.backup_exported)
     val backupRestored = stringResource(R.string.backup_restored)
+    val fullSurahAudioLabel = stringResource(R.string.full_surah_audio_label)
 
     LaunchedEffect(context) {
         extraVoices = runCatching { Mp3QuranReciterRepository(context).loadArabicReciters() }
@@ -133,7 +134,7 @@ fun SettingsScreen(
     val selectableVoices = settingsVoices + extraVoices.map { voice ->
         ReaderVoice(
             voice.id,
-            voice.name + " — " + voice.moshafName + " · " + context.getString(R.string.full_surah_audio_label)
+            voice.name + " — " + voice.moshafName + " · " + fullSurahAudioLabel
         )
     }
     val filteredVoices = remember(selectableVoices, reciterSearch) {
