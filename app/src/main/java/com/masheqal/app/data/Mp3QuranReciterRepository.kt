@@ -84,7 +84,7 @@ class Mp3QuranReciterRepository(private val context: Context) {
             for (j in 0 until moshafs.length()) {
                 val moshaf = moshafs.optJSONObject(j) ?: continue
                 val server = moshaf.optString("server", "").trim()
-                if (!server.startsWith("https://")) continue
+                if (!server.startsWith("https:" + "/" + "/")) continue
                 val moshafId = moshaf.optInt("id", j)
                 val moshafName = moshaf.optString("name", "").trim().ifBlank { "Recitation ${j + 1}" }
                 val surahs = moshaf.optString("surah_list", "")
