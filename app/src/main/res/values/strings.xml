@@ -169,4 +169,5 @@
     <string name="translation_unavailable_offline">The selected translation is not cached yet. Connect to the internet to load this edition.</string>
     <string name="settings_tajweed_colors">Tajweed color rules</string>
     <string name="settings_tajweed_colors_hint">Color the recitation rules while reading the Quran. Surahs are cached for offline reading.</string>
+    <string name="location_needed_details">Allow location access to calculate local prayer times and show the Qibla direction. You can change this permission later in Android settings.</string>
 </resources>
