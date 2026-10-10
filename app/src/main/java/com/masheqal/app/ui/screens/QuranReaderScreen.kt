@@ -25,6 +25,7 @@ import com.masheqal.app.MasheqalApp
 import com.masheqal.app.R
 import com.masheqal.app.data.QuranStudyRepository
 import com.masheqal.app.data.QuranTajweedRepository
+import com.masheqal.app.data.QuranScriptRepository
 import com.masheqal.app.data.QuranEdition
 import com.masheqal.app.data.QuranEditionRepository
 import com.masheqal.app.data.FullSurahReciter
@@ -88,7 +89,10 @@ fun QuranReaderScreen(
     var isPlaying by remember { mutableStateOf(false) }
     var externalReciters by remember { mutableStateOf(emptyList<FullSurahReciter>()) }
     var verseByVerseReciters by remember { mutableStateOf(emptyList<QuranEdition>()) }
+    var availableScripts by remember { mutableStateOf(emptyList<QuranEdition>()) }
     var tajweedVerses by remember { mutableStateOf<Map<Int, String>>(emptyMap()) }
+    var quranScriptVerses by remember { mutableStateOf<Map<Int, String>>(emptyMap()) }
+    var scriptUnavailable by remember { mutableStateOf(false) }
     var reciterSearch by remember { mutableStateOf("") }
     var translationTexts by remember { mutableStateOf(emptyList<String>()) }
     var translationUnavailable by remember { mutableStateOf(false) }
@@ -111,12 +115,14 @@ fun QuranReaderScreen(
     val fullSurahNotice = stringResource(R.string.full_surah_audio_notice)
     val player = remember(context) { ExoPlayer.Builder(context).build() }
     val studyRepository = remember(context) { QuranStudyRepository(context) }
+    val scriptRepository = remember(context) { QuranScriptRepository(context) }
 
     LaunchedEffect(context) {
         externalReciters = runCatching { Mp3QuranReciterRepository(context).loadArabicReciters() }
             .getOrDefault(emptyList())
         val editionRepository = QuranEditionRepository(context)
         verseByVerseReciters = runCatching { editionRepository.loadAudioReciters() }.getOrDefault(emptyList())
+        availableScripts = runCatching { scriptRepository.loadCatalog() }.getOrDefault(emptyList())
         val catalogue = runCatching { editionRepository.loadCatalog() }.getOrDefault(emptyList())
         availableTranslations = (catalogue.filter { it.type == "translation" } + editionRepository.fallbackTranslations())
             .distinctBy { it.identifier }
@@ -233,6 +239,22 @@ fun QuranReaderScreen(
         player.play()
     }
 
+    LaunchedEffect(surah, settings.quranScriptEdition, verses.size) {
+        quranScriptVerses = emptyMap()
+        scriptUnavailable = false
+        if (settings.quranScriptEdition == QuranScriptRepository.DEFAULT_EDITION || verses.isEmpty()) {
+            return@LaunchedEffect
+        }
+        val loadedScript = runCatching {
+            scriptRepository.loadSurah(surah, settings.quranScriptEdition, verses.size)
+        }.getOrNull()
+        if (loadedScript == null) {
+            scriptUnavailable = true
+        } else {
+            quranScriptVerses = loadedScript.mapIndexed { index, text -> (index + 1) to text }.toMap()
+        }
+    }
+
     LaunchedEffect(surah, settings.showTajweedColors, verses.size) {
         if (!settings.showTajweedColors || verses.isEmpty()) {
             tajweedVerses = emptyMap()
@@ -347,6 +369,22 @@ fun QuranReaderScreen(
             contentPadding = PaddingValues(horizontal = 16.dp, vertical = 10.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
+            if (scriptUnavailable) {
+                item {
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(18.dp),
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+                    ) {
+                        Text(
+                            stringResource(R.string.mushaf_script_unavailable_offline),
+                            modifier = Modifier.padding(14.dp),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                }
+            }
             if (settings.showEnglishTranslation && translationUnavailable) {
                 item {
                     Card(
@@ -398,7 +436,7 @@ fun QuranReaderScreen(
                         if (settings.showTajweedColors && tajweedText != null) {
                             QuranTajweedText(tajweedText, size = 27f)
                         } else {
-                            QuranText(verse.text, size = 27f)
+                            QuranText(quranScriptVerses[verse.ayah] ?: verse.text, size = 27f)
                         }
                         val displayedTranslation = translationTexts.getOrNull(verse.ayah - 1)
                             ?.takeIf { it.isNotBlank() }
@@ -432,7 +470,7 @@ fun QuranReaderScreen(
                 if (settings.showTajweedColors && tajweedText != null) {
                     QuranTajweedText(tajweedText, size = 23f)
                 } else {
-                    QuranText(verse.text, size = 23f)
+                    QuranText(quranScriptVerses[verse.ayah] ?: verse.text, size = 23f)
                 }
                 val displayedTranslation = translationTexts.getOrNull(verse.ayah - 1)
                     ?.takeIf { it.isNotBlank() }
@@ -507,6 +545,35 @@ fun QuranReaderScreen(
             title = { Text(stringResource(R.string.reader_settings)) },
             text = {
                 Column(Modifier.fillMaxWidth().heightIn(max = 420.dp).verticalScroll(rememberScrollState())) {
+                    Text(stringResource(R.string.select_mushaf_script), style = MaterialTheme.typography.titleSmall)
+                    Text(
+                        stringResource(R.string.mushaf_script_source_note),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    availableScripts.forEach { edition ->
+                        Row(
+                            Modifier.fillMaxWidth(),
+                            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
+                        ) {
+                            RadioButton(
+                                selected = settings.quranScriptEdition == edition.identifier,
+                                onClick = {
+                                    scope.launch { app.settings.setQuranScriptEdition(edition.identifier) }
+                                    player.stop()
+                                }
+                            )
+                            Column(Modifier.weight(1f)) {
+                                Text(edition.englishName, style = MaterialTheme.typography.bodyMedium)
+                                Text(
+                                    edition.name,
+                                    style = MaterialTheme.typography.labelSmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                        }
+                    }
+                    HorizontalDivider(Modifier.padding(vertical = 8.dp))
                     Text(stringResource(R.string.select_reciter), style = MaterialTheme.typography.titleSmall)
                     OutlinedTextField(
                         value = reciterSearch,
