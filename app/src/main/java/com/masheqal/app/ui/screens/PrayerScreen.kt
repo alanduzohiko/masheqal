@@ -378,7 +378,7 @@ fun PrayerScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: ()
 }
 
 private fun formatMinutes(v: Double, locale: Locale = Locale.getDefault()): String {
-    val total = kotlin.math.round(v).toInt()
+    val total = kotlin.math.round(v).toInt().mod(1440)
     return java.time.LocalTime.of((total / 60) % 24, total % 60).format(java.time.format.DateTimeFormatter.ofPattern("h:mm a", locale))
 }
 
