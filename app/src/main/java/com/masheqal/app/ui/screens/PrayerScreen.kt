@@ -13,6 +13,7 @@ import androidx.compose.material.icons.filled.Explore
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.NotificationsActive
 import androidx.compose.material.icons.filled.Schedule
+import androidx.compose.material.icons.filled.GraphicEq
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -22,6 +23,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.masheqal.app.MasheqalApp
+import com.masheqal.app.data.AdhanRecording
+import com.masheqal.app.data.AdhanRepository
 import com.masheqal.app.R
 import kotlinx.coroutines.launch
 import com.masheqal.app.domain.*
@@ -38,6 +41,12 @@ fun PrayerScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: ()
     var times by remember { mutableStateOf<PrayerTimes?>(null) }
     val settings by app.settings.state.collectAsState(initial = com.masheqal.app.data.SettingsState())
     val scope = rememberCoroutineScope()
+    var adhanRecordings by remember { mutableStateOf(emptyList<AdhanRecording>()) }
+
+    LaunchedEffect(Unit) {
+        adhanRecordings = runCatching { AdhanRepository(context).loadCatalog() }.getOrDefault(emptyList())
+    }
+    val selectedAdhan = adhanRecordings.firstOrNull { it.id == settings.adhanRecordingId }
 
     val permissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
@@ -47,7 +56,7 @@ fun PrayerScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: ()
         }
     }
 
-    LaunchedEffect(location, settings.prayerMethod, settings.madhhab) {
+    LaunchedEffect(location, settings.prayerMethod, settings.madhhab, settings.prayerRemindersEnabled) {
         location?.let { c ->
             val offset = ZonedDateTime.now().offset.totalSeconds / 3600.0
             val method = PrayerMethod.valueOf(settings.prayerMethod)
@@ -64,6 +73,18 @@ fun PrayerScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: ()
                 c.longitude,
                 method,
                 madhhab
+            )
+            if (settings.prayerRemindersEnabled) PrayerNotificationScheduler.scheduleToday(context, times!!)
+        }
+    }
+
+    LaunchedEffect(settings.adhanRecordingId, settings.playFullAdhan, adhanRecordings) {
+        selectedAdhan?.let { recording ->
+            PrayerNotificationScheduler.configureAdhan(
+                context,
+                recording.fileName,
+                recording.displayTitle,
+                settings.playFullAdhan
             )
         }
     }
@@ -91,6 +112,52 @@ fun PrayerScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: ()
             it.hour * 60.0 + it.minute + it.second / 60.0
         }
         prayerRows.firstOrNull { it.second >= now } ?: prayerRows.firstOrNull()
+    }
+
+    val enableRemindersNow: () -> Unit = {
+        val coordinates = location
+        val prayerTimes = times
+        if (coordinates != null && prayerTimes != null) {
+            PrayerNotificationScheduler.storeConfig(
+                context,
+                coordinates.latitude,
+                coordinates.longitude,
+                PrayerMethod.valueOf(settings.prayerMethod),
+                AsrMadhhab.valueOf(settings.madhhab)
+            )
+            selectedAdhan?.let { recording ->
+                PrayerNotificationScheduler.configureAdhan(
+                    context,
+                    recording.fileName,
+                    recording.displayTitle,
+                    settings.playFullAdhan
+                )
+            }
+            PrayerNotificationScheduler.scheduleToday(context, prayerTimes)
+            scope.launch { app.settings.setPrayerRemindersEnabled(true) }
+        }
+    }
+
+    val notificationPermissionLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { granted ->
+        if (granted) enableRemindersNow()
+    }
+    val toggleReminders: () -> Unit = {
+        if (settings.prayerRemindersEnabled) {
+            PrayerNotificationScheduler.cancelReminders(context)
+            scope.launch { app.settings.setPrayerRemindersEnabled(false) }
+        } else if (
+            android.os.Build.VERSION.SDK_INT >= 33 &&
+            androidx.core.content.ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.POST_NOTIFICATIONS
+            ) != android.content.pm.PackageManager.PERMISSION_GRANTED
+        ) {
+            notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        } else {
+            enableRemindersNow()
+        }
     }
 
     LazyColumn(
@@ -204,23 +271,27 @@ fun PrayerScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: ()
                                 Spacer(Modifier.width(6.dp))
                                 Text(stringResource(R.string.open_qibla))
                             }
-                            FilledTonalButton(onClick = {
-                                val c = location!!
-                                PrayerNotificationScheduler.storeConfig(
-                                    context,
-                                    c.latitude,
-                                    c.longitude,
-                                    PrayerMethod.valueOf(settings.prayerMethod),
-                                    AsrMadhhab.valueOf(settings.madhhab)
+                            FilledTonalButton(onClick = toggleReminders) {
+                                Icon(
+                                    if (settings.prayerRemindersEnabled) Icons.Default.NotificationsOff else Icons.Default.NotificationsActive,
+                                    null
                                 )
-                                PrayerNotificationScheduler.scheduleToday(context, times!!)
-                            }) {
-                                Icon(Icons.Default.NotificationsActive, null)
                                 Spacer(Modifier.width(6.dp))
-                                Text(stringResource(R.string.schedule_reminders))
+                                Text(stringResource(if (settings.prayerRemindersEnabled) R.string.cancel_reminders else R.string.schedule_reminders))
                             }
                         }
-                    }
+                        Spacer(Modifier.height(10.dp))
+                        OutlinedButton(
+                            onClick = { nav.navigate("adhan") },
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Icon(Icons.Default.GraphicEq, null)
+                            Spacer(Modifier.width(8.dp))
+                            Text(
+                                selectedAdhan?.let { stringResource(R.string.adhan_open_library) + ": " + it.displayTitle }
+                                    ?: stringResource(R.string.adhan_open_library)
+                            )
+                        }
                 }
             }
 
