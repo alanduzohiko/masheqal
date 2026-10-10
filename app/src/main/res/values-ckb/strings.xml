@@ -153,4 +153,6 @@
     <string name="adhan_no_results_hint">ناوێکی تر تاقی بکەرەوە یان پاڵاوتنەکە بگۆڕە.</string>
     <string name="cancel_reminders">ئاگادارکردنەوەکان ناچالاک بکە</string>
     <string name="settings_adhan_play_hint">کاتێک کاتی نوێژ دەگات، ئەو ئازانەی هەڵبژێردراوە بە تەواوی پەخش بکە.</string>
+    <string name="translation_search_hint">بەدوای ناوی وەرگێڕان، زمان یان ناسنامەی وەشان بگەڕێ</string>
+    <string name="tafsir_search_hint">بەدوای ناوی تەفسیر، زمان یان ناسنامەی وەشان بگەڕێ</string>
 </resources>
