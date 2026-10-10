@@ -161,4 +161,10 @@
     <string name="settings_tajweed_colors_hint">یاساکانی تەجوید لە کاتی خوێندنەوەی قورئان بە ڕەنگ پیشان بدە. سوورەتەکان بۆ خوێندنەوەی بێ ئینتەرنێت پاشەکەوت دەکرێن.</string>
     <string name="location_needed_details">ڕێگە بە دەستگەیشتن بە شوێن بدە بۆ هەژمارکردنی کاتی نوێژی ناوخۆیی و ئاراستەی قیبلە. دەتوانیت دواتر مۆڵەتەکە لە ڕێکخستنەکانی ئەندرۆید بگۆڕیت.</string>
     <string name="dhikr_number">زیکری %1$s</string>
+    <string name="content_center_subtitle">ئەوە ببینە چی بەبێ ئینتەرنێت کار دەکات، چی لە ئینتەرنێت پەخش دەکرێت و چی پێویستی بە پەکێجی پشتڕاستکراوی جیاواز هەیە.</string>
+    <string name="bundled_sourced_content">لەگەڵ سەرچاوەی دیاریکراو بۆ بەکارهێنانی بەبێ ئینتەرنێت دانراوە</string>
+    <string name="connected_content">ناوەڕۆک و میدیای سەرهێڵ</string>
+    <string name="online_cached_content">لە سەرچاوەوە بار دەکرێت و سوورەتە کراوەکان بۆ بەکارهێنانی بەبێ ئینتەرنێت پاشەکەوت دەکرێن</string>
+    <string name="streamed_audio_content">دەنگ لە سەرچاوەی دیاریکراوەوە پەخش دەکرێت و بۆ پەخشکردن ئینتەرنێت پێویستە</string>
+    <string name="source_dependent_content">هێشتا بەردەست نییە — کۆمەڵەداتای پشتڕاستکراو و بە مەجوز پێویستە</string>
 </resources>
