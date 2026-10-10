@@ -36,7 +36,6 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
     val context = androidx.compose.ui.platform.LocalContext.current
     var daily by remember { mutableStateOf<com.masheqal.app.data.QuranVerse?>(null) }
     val reading by app.personal.reading.collectAsState(initial = com.masheqal.app.data.ReadingPosition())
-    val khatmah by app.personal.khatmah.collectAsState(initial = com.masheqal.app.data.KhatmahState())
     val settings by app.settings.state.collectAsState(initial = com.masheqal.app.data.SettingsState())
     var location by remember { mutableStateOf(LocationUtils.lastKnown(context)) }
     var prayerTimes by remember { mutableStateOf<PrayerTimes?>(null) }
@@ -207,6 +206,89 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
         }
 
         item {
+            Column(
+                Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                SectionTitle(
+                    stringResource(R.string.today_prayer_times),
+                    stringResource(R.string.view_all)
+                ) {
+                    nav.navigate("prayer")
+                }
+                if (prayerTimes != null) {
+                    val schedule = listOf(
+                        stringResource(R.string.fajr) to prayerTimes!!.fajr,
+                        stringResource(R.string.dhuhr) to prayerTimes!!.dhuhr,
+                        stringResource(R.string.asr) to prayerTimes!!.asr,
+                        stringResource(R.string.maghrib) to prayerTimes!!.maghrib,
+                        stringResource(R.string.isha) to prayerTimes!!.isha
+                    )
+                    schedule.chunked(3).forEach { rowItems ->
+                        Row(
+                            Modifier.padding(horizontal = 16.dp).fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            rowItems.forEach { (name, time) ->
+                                Card(
+                                    onClick = { nav.navigate("prayer") },
+                                    modifier = Modifier.weight(1f).animateContentSize(),
+                                    shape = RoundedCornerShape(18.dp),
+                                    colors = CardDefaults.cardColors(
+                                        containerColor = MaterialTheme.colorScheme.surface
+                                    )
+                                ) {
+                                    Column(
+                                        Modifier.fillMaxWidth().padding(horizontal = 10.dp, vertical = 13.dp),
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                        verticalArrangement = Arrangement.spacedBy(5.dp)
+                                    ) {
+                                        Text(
+                                            name,
+                                            style = MaterialTheme.typography.labelMedium,
+                                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                            maxLines = 1
+                                        )
+                                        Text(
+                                            formatMinutes(time),
+                                            style = MaterialTheme.typography.titleMedium,
+                                            fontWeight = FontWeight.Bold,
+                                            color = MaterialTheme.colorScheme.primary,
+                                            maxLines = 1
+                                        )
+                                    }
+                                }
+                            }
+                            repeat(3 - rowItems.size) { Spacer(Modifier.weight(1f)) }
+                        }
+                    }
+                } else {
+                    Card(
+                        onClick = {
+                            onRequestLocation()
+                            nav.navigate("prayer")
+                        },
+                        modifier = Modifier.padding(horizontal = 16.dp).fillMaxWidth(),
+                        shape = RoundedCornerShape(18.dp)
+                    ) {
+                        Row(
+                            Modifier.fillMaxWidth().padding(16.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(Icons.Default.MyLocation, null, tint = MaterialTheme.colorScheme.primary)
+                            Spacer(Modifier.width(10.dp))
+                            Column(Modifier.weight(1f)) {
+                                Text(stringResource(R.string.set_location), fontWeight = FontWeight.SemiBold)
+                                Text(stringResource(R.string.prayer_grid_location_hint), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            }
+                            Icon(Icons.Default.ChevronRight, null)
+                        }
+                    }
+                }
+            }
+        }
+
+        item {
             SectionTitle(
                 stringResource(R.string.continue_quran),
                 stringResource(R.string.open_quran)
@@ -241,48 +323,6 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
                         }
                     ) {
                         Icon(Icons.Default.PlayArrow, stringResource(R.string.open_quran))
-                    }
-                }
-            }
-        }
-
-        if (khatmah.active) {
-            item {
-                SectionTitle(
-                    stringResource(R.string.khatmah),
-                    stringResource(R.string.complete)
-                ) {
-                    nav.navigate("khatmah")
-                }
-                val progress = (
-                    khatmah.readPages.toFloat() /
-                        khatmah.targetPages.coerceAtLeast(1)
-                    ).coerceIn(0f, 1f)
-                Card(
-                    Modifier.padding(horizontal = 16.dp).fillMaxWidth(),
-                    shape = RoundedCornerShape(24.dp)
-                ) {
-                    Column(Modifier.padding(18.dp)) {
-                        Row(
-                            Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween
-                        ) {
-                            Text(
-                                "${khatmah.readPages}/${khatmah.targetPages} ${stringResource(R.string.page)}",
-                                fontWeight = FontWeight.SemiBold
-                            )
-                            Text(
-                                "${(progress * 100).toInt()}%",
-                                color = MaterialTheme.colorScheme.primary,
-                                fontWeight = FontWeight.Bold
-                            )
-                        }
-                        Spacer(Modifier.height(10.dp))
-                        LinearProgressIndicator(
-                            progress = { progress },
-                            modifier = Modifier.fillMaxWidth(),
-                            trackColor = MaterialTheme.colorScheme.surfaceVariant
-                        )
                     }
                 }
             }
