@@ -30,8 +30,6 @@ import com.masheqal.app.data.Mp3QuranReciterRepository
 import com.masheqal.app.data.QuranEdition
 import com.masheqal.app.data.QuranEditionRepository
 import com.masheqal.app.services.PrayerNotificationScheduler
-import com.masheqal.app.data.QuranEdition
-import com.masheqal.app.data.QuranEditionRepository
 import kotlinx.coroutines.launch
 
 private data class ReaderVoice(val id: String, val name: String)
