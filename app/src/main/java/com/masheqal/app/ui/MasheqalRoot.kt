@@ -114,6 +114,7 @@ fun MasheqalRoot(
                 SearchScreen(app, nav, sharedText)
             }
             composable("prayer") { PrayerScreen(app, nav, onRequestLocation) }
+            composable("adhan") { AdhanScreen(app, nav) }
             composable("qibla") { QiblaScreen(nav) }
             composable("tasbih") { TasbihScreen(app, nav) }
             composable("adhkar") { AdhkarScreen(nav) }
