@@ -309,6 +309,9 @@ fun AdhkarScreen(nav: NavHostController) {
             items(filteredEntries, key = { it.id }) { entry ->
                 val saved = progress[entry.id] ?: preferences.getInt(entry.id, 0)
                 val target = entry.count.coerceAtLeast(1)
+                val entryTitle = if (entry.id.startsWith("morning:") || entry.id.startsWith("evening:")) {
+                    stringResource(R.string.dhikr_number, entry.id.substringAfter(":"))
+                } else entry.title
                 Card(
                     modifier = Modifier.padding(horizontal = 16.dp).fillMaxWidth().animateContentSize(),
                     shape = RoundedCornerShape(24.dp),
@@ -327,7 +330,7 @@ fun AdhkarScreen(nav: NavHostController) {
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
-                                entry.title,
+                                entryTitle,
                                 modifier = Modifier.weight(1f),
                                 style = MaterialTheme.typography.titleMedium,
                                 fontWeight = FontWeight.Bold
