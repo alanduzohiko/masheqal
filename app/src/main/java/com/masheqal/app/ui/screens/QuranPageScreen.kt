@@ -120,13 +120,13 @@ fun QuranPageScreen(app: MasheqalApp, nav: NavHostController, page: Int) {
                     onClick = { if (page > 1) nav.navigate("quran/page/${page - 1}") },
                     enabled = page > 1
                 ) {
-                    Icon(Icons.Default.ChevronLeft, stringResource(R.string.previous))
+                    Icon(Icons.Default.ChevronLeft, stringResource(R.string.previous_page))
                 }
                 IconButton(
                     onClick = { if (page < 604) nav.navigate("quran/page/${page + 1}") },
                     enabled = page < 604
                 ) {
-                    Icon(Icons.Default.ChevronRight, stringResource(R.string.next))
+                    Icon(Icons.Default.ChevronRight, stringResource(R.string.next_page))
                 }
             }
         )
