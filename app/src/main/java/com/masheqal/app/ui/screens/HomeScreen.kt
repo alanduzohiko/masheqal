@@ -22,39 +22,123 @@ import com.masheqal.app.MasheqalApp
 import com.masheqal.app.R
 import com.masheqal.app.domain.*
 import com.masheqal.app.util.LocationUtils
+import com.masheqal.app.util.LocationChoiceStore
+import com.masheqal.app.util.PlaceLookup
+import com.masheqal.app.util.PrayerTimeZoneResolver
 import java.time.LocalDate
+import java.time.ZoneId
 import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
+import java.util.Locale
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 private data class PrayerCandidate(val name: String, val minutes: Double)
 
 @Composable
 fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -> Unit) {
     val context = androidx.compose.ui.platform.LocalContext.current
+    val scope = rememberCoroutineScope()
     var daily by remember { mutableStateOf<com.masheqal.app.data.QuranVerse?>(null) }
     val reading by app.personal.reading.collectAsState(initial = com.masheqal.app.data.ReadingPosition())
     val khatmah by app.personal.khatmah.collectAsState(initial = com.masheqal.app.data.KhatmahState())
     val settings by app.settings.state.collectAsState(initial = com.masheqal.app.data.SettingsState())
-    var location by remember { mutableStateOf(LocationUtils.lastKnown(context)) }
+    var location by remember { mutableStateOf(LocationChoiceStore.loadManual(context) ?: LocationUtils.lastKnown(context)) }
+    var placeLabel by remember { mutableStateOf(location?.placeName) }
+    var prayerZone by remember { mutableStateOf(ZoneId.systemDefault()) }
+    var timezoneLookupFailed by remember { mutableStateOf(false) }
+    var today by remember { mutableStateOf(LocalDate.now()) }
     var prayerTimes by remember { mutableStateOf<PrayerTimes?>(null) }
+    var tomorrowFajr by remember { mutableStateOf<Double?>(null) }
 
     LaunchedEffect(Unit) {
-        val verses = app.quran.loadVerses()
-        if (verses.isNotEmpty()) {
-            daily = verses[(LocalDate.now().dayOfYear - 1) % verses.size]
+        val manual = LocationChoiceStore.loadManual(context)
+        if (manual != null) {
+            location = manual
+        } else {
+            location = LocationUtils.lastKnown(context)
+            // Refresh once on screen entry; never track movement in the background.
+            val liveLocation = runCatching { LocationUtils.current(context) }.getOrNull()
+            if (LocationChoiceStore.loadManual(context) == null && liveLocation != null) {
+                location = liveLocation
+            }
         }
-        location = LocationUtils.lastKnown(context)
     }
 
-    LaunchedEffect(location, settings.prayerMethod, settings.madhhab) {
+    LaunchedEffect(location?.latitude, location?.longitude, location?.placeName) {
+        val current = location
+        placeLabel = current?.placeName
+        if (current != null && current.placeName.isNullOrBlank()) {
+            placeLabel = runCatching {
+                PlaceLookup.reverseGeocode(context, current.latitude, current.longitude)?.let { match ->
+                    location = current.copy(placeName = match.displayName, countryName = match.countryName, countryCode = match.countryCode)
+                    match.displayName
+                }
+            }.getOrNull()
+        }
+    }
+
+    LaunchedEffect(location?.latitude, location?.longitude, location?.countryCode) {
+        val current = location
+        if (current == null) {
+            prayerZone = ZoneId.systemDefault()
+            timezoneLookupFailed = false
+        } else {
+            val resolvedZone = runCatching {
+                PrayerTimeZoneResolver.resolve(current.latitude, current.longitude, current.countryCode)
+            }.getOrNull()
+            if (resolvedZone != null) {
+                prayerZone = resolvedZone
+                timezoneLookupFailed = false
+                val localDate = LocalDate.now(resolvedZone)
+                if (today != localDate) today = localDate
+            } else {
+                prayerZone = ZoneId.systemDefault()
+                timezoneLookupFailed = true
+                val fallbackDate = LocalDate.now(prayerZone)
+                if (today != fallbackDate) today = fallbackDate
+            }
+        }
+    }
+
+    // Refresh date-dependent dashboard data without requiring the user to reopen the app.
+    LaunchedEffect(prayerZone) {
+        while (true) {
+            delay(30_000L)
+            val currentDate = LocalDate.now(prayerZone)
+            if (currentDate != today) today = currentDate
+        }
+    }
+
+    LaunchedEffect(today) {
+        val verses = app.quran.loadVerses()
+        if (verses.isNotEmpty()) {
+            daily = verses[(today.dayOfYear - 1) % verses.size]
+        }
+    }
+
+    LaunchedEffect(location, settings.prayerMethod, settings.madhhab, today, prayerZone) {
         location?.let { c ->
-            val offset = ZonedDateTime.now().offset.totalSeconds / 3600.0
-            prayerTimes = PrayerCalculator.calculate(
-                LocalDate.now(),
-                Coordinates(c.latitude, c.longitude, offset),
-                PrayerMethod.valueOf(settings.prayerMethod),
-                AsrMadhhab.valueOf(settings.madhhab)
-            )
+            val zone = prayerZone
+            val offset = today.atStartOfDay(zone).offset.totalSeconds / 3600.0
+            val method = PrayerMethod.valueOf(settings.prayerMethod)
+            val madhhab = AsrMadhhab.valueOf(settings.madhhab)
+            val coordinates = Coordinates(c.latitude, c.longitude, offset)
+            val currentSchedule = PrayerCalculator.calculate(today, coordinates, method, madhhab, zoneId = zone)
+            val tomorrow = today.plusDays(1)
+            val tomorrowOffset = tomorrow.atStartOfDay(zone).offset.totalSeconds / 3600.0
+            val nextFajr = runCatching {
+                PrayerCalculator.calculate(
+                    tomorrow,
+                    coordinates.copy(timezoneOffsetHours = tomorrowOffset),
+                    method,
+                    madhhab,
+                    zoneId = zone
+                ).fajr
+            }.getOrNull()
+            prayerTimes = currentSchedule
+            tomorrowFajr = nextFajr
         }
     }
 
@@ -66,12 +150,18 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
             PrayerCandidate(stringResource(R.string.maghrib), p.maghrib),
             PrayerCandidate(stringResource(R.string.isha), p.isha)
         )
-        val now = ZonedDateTime.now().let { it.hour * 60.0 + it.minute + it.second / 60.0 }
-        rows.firstOrNull { it.minutes >= now } ?: rows.firstOrNull()
+        val now = ZonedDateTime.now(prayerZone).let { it.hour * 60.0 + it.minute + it.second / 60.0 }
+        PrayerCalculator.selectNextPrayer(now, rows.map { it.name to it.minutes }, tomorrowFajr)
+            ?.let { PrayerCandidate(it.first, it.second) }
     }
 
-    val date = LocalDate.now()
+    val date = today
     val hijri = HijriCalculator.fromGregorian(date)
+    val gregorianDate = remember(date) {
+        DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
+            .withLocale(Locale.getDefault())
+            .format(date)
+    }
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -87,7 +177,7 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
                     Text(stringResource(R.string.app_name), style = MaterialTheme.typography.headlineMedium)
                     Spacer(Modifier.height(3.dp))
                     Text(
-                        "§date  •  ${hijri.day}/${hijri.month}/${hijri.year}",
+                        "$gregorianDate  •  ${hijri.day}/${hijri.month}/${hijri.year}",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -141,13 +231,13 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
                         }
 
                         if (candidate != null) {
-                            val now = ZonedDateTime.now()
+                            val now = ZonedDateTime.now(prayerZone)
                             var countdown by remember(candidate.name, candidate.minutes) {
                                 mutableStateOf(countdownText(candidate.minutes, now))
                             }
-                            LaunchedEffect(candidate.name, candidate.minutes) {
+                            LaunchedEffect(candidate.name, candidate.minutes, prayerZone) {
                                 while (true) {
-                                    countdown = countdownText(candidate.minutes, ZonedDateTime.now())
+                                    countdown = countdownText(candidate.minutes, ZonedDateTime.now(prayerZone))
                                     delay(1000)
                                 }
                             }
@@ -168,10 +258,26 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
                             }
                             Spacer(Modifier.height(8.dp))
                             Text(
-                                stringResource(R.string.location_ready),
+                                placeLabel ?: stringResource(R.string.location_city_unavailable),
                                 style = MaterialTheme.typography.bodySmall,
-                                color = Color.White.copy(alpha = 0.72f)
+                                color = Color.White.copy(alpha = 0.88f)
                             )
+                            if (location?.isManual == true) {
+                                Spacer(Modifier.height(3.dp))
+                                Text(
+                                    stringResource(R.string.location_manual_accuracy),
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = Color.White.copy(alpha = 0.72f)
+                                )
+                            }
+                            if (timezoneLookupFailed) {
+                                Spacer(Modifier.height(3.dp))
+                                Text(
+                                    stringResource(R.string.location_timezone_fallback),
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = Color.White.copy(alpha = 0.92f)
+                                )
+                            }
                         } else {
                             Spacer(Modifier.height(10.dp))
                             Text(
@@ -203,7 +309,10 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
                 stringResource(R.string.continue_quran),
                 stringResource(R.string.open_quran)
             ) {
-                nav.navigate("quran/ref/${reading.surah}/${reading.ayah}")
+                scope.launch {
+                    val page = app.quran.pageForVerse(reading.surah, reading.ayah)
+                    nav.navigate("quran/page/$page")
+                }
             }
         }
 
@@ -229,7 +338,10 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
                     }
                     FilledTonalIconButton(
                         onClick = {
-                            nav.navigate("quran/ref/${reading.surah}/${reading.ayah}")
+                            scope.launch {
+                                val page = app.quran.pageForVerse(reading.surah, reading.ayah)
+                                nav.navigate("quran/page/$page")
+                            }
                         }
                     ) {
                         Icon(Icons.Default.PlayArrow, stringResource(R.string.open_quran))
@@ -293,9 +405,10 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
                         Spacer(Modifier.height(12.dp))
                         QuranText(verse.text, size = 26f)
                         Spacer(Modifier.height(14.dp))
-                        if (!verse.translationEn.isNullOrBlank()) {
+                        val visibleTranslation = verse.translationFor(settings.language)
+                        if (!visibleTranslation.isNullOrBlank()) {
                             Text(
-                                verse.translationEn.orEmpty(),
+                                visibleTranslation.orEmpty(),
                                 style = MaterialTheme.typography.bodyLarge,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
@@ -317,7 +430,7 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
                             IconButton(onClick = {
                                 shareText(
                                     context,
-                                    "${verse.text}\n\n${verse.translationEn.orEmpty()}\n${verse.surah}:${verse.ayah}"
+                                    "${verse.text}\n\n${visibleTranslation.orEmpty()}\n${verse.surah}:${verse.ayah}"
                                 )
                             }) {
                                 Icon(Icons.Default.Share, stringResource(R.string.share))
@@ -326,7 +439,7 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
                                 val uri = ShareCardUtils.createVerseCard(
                                     context,
                                     verse.text,
-                                    verse.translationEn.orEmpty(),
+                                    visibleTranslation.orEmpty(),
                                     "${verse.surah}:${verse.ayah}"
                                 )
                                 ShareCardUtils.shareImage(context, uri)
@@ -382,6 +495,44 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
                         modifier = Modifier.weight(1f)
                     ) {
                         nav.navigate("notes")
+                    }
+                }
+                Row(
+                    Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    FeatureCard(
+                        stringResource(R.string.dua),
+                        icon = Icons.Default.FavoriteBorder,
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        nav.navigate("dua")
+                    }
+                    FeatureCard(
+                        stringResource(R.string.audio),
+                        icon = Icons.Default.Headphones,
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        nav.navigate("audio")
+                    }
+                }
+                Row(
+                    Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    FeatureCard(
+                        stringResource(R.string.names_of_allah),
+                        icon = Icons.Default.AutoAwesome,
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        nav.navigate("names")
+                    }
+                    FeatureCard(
+                        stringResource(R.string.adhkar),
+                        icon = Icons.Default.Spa,
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        nav.navigate("adhkar")
                     }
                 }
             }

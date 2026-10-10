@@ -10,3 +10,17 @@ Upstream maintainer: Seiied-Mohammad-Javad Razavian.
 
 ## Source code
 Original مەشخەڵ source code in this repository is licensed under Apache-2.0 as declared by `LICENSE`. Third-party data and font licensing above remain separate.
+
+
+## Time-zone boundary data
+
+The app bundles Timeshape (`net.iakovlev:timeshape:2026b.29`) for offline coordinate-to-time-zone lookup. Its code is MIT-licensed; the bundled time-zone boundary data derives from timezone-boundary-builder / OpenStreetMap and is licensed under ODbL 1.0. See `docs/CONTENT-LICENSES.md`.
+
+
+## Madinah Mushaf SVG page artwork
+
+- **Source:** [quran-ws/quran-svg](https://github.com/quran-ws/quran-svg), immutable CDN release `v1.1.1`, edition path `hafs-kfqc`, served from `https://cdn.quran.ws/svg/pages/v1.1.1/hafs-kfqc/`.
+- **Publisher of the underlying page artwork:** King Fahd Glorious Qur'an Printing Complex (KFGQPC). Its digital-use terms permit use in software, websites, digital publishing and media; the artwork is not owned by this application.
+- **Metadata / polygon layer:** the quran-ws/quran-svg repository contribution is CC BY 4.0, with attribution waived for use inside a product as stated by its published licensing notes. The current renderer displays the SVG artwork and fetches the per-page JSON hit regions for ayah tap-to-select. SVG and region metadata are cached separately after successful retrieval. Upstream manifest SHA-256 verification remains pending.
+- **Implementation status:** page SVGs and ayah-region JSON are fetched over HTTPS on first view and cached in app-private storage. The app also offers an explicit download of all 604 SVG pages and their ayah-region files, with progress, cancellation and retention of completed pages. The app does not bundle the 604 pages inside the APK; full offline use is available after the optional download completes. The URL is version-pinned and markup/size/geometry are checked, but manifest SHA-256 verification remains pending.
+- **Source license references:** https://quran.ws/docs/reference/quran-svg/ and https://quran.ws/docs/reference/licensing/

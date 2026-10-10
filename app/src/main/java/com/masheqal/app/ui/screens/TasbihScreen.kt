@@ -102,7 +102,7 @@ fun TasbihScreen(app: MasheqalApp, nav: NavHostController) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Icon(Icons.Default.TouchApp, null, Modifier.size(34.dp))
                 Spacer(Modifier.height(5.dp))
-                Text("ذکر", style = MaterialTheme.typography.titleLarge)
+                Text(stringResource(R.string.dhikr_label), style = MaterialTheme.typography.titleLarge)
                 Text("+1", style = MaterialTheme.typography.headlineMedium)
             }
         }

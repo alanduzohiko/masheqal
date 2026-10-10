@@ -46,6 +46,21 @@ jobs:
       - name: Validate Gradle configuration
         run: gradle --version && gradle :app:tasks --all --no-daemon
 
+      - name: Fetch and validate the licensed morning and evening adhkar
+        run: python3 tools/fetch_adhkar.py
+
+      - name: Fetch and validate the licensed 99 Names of Allah
+        run: python3 tools/fetch_names_allah.py
+
+      - name: Fetch CC0-verified offline adhan audio
+        run: python3 tools/fetch_adhan.py
+
+      - name: Validate published Quran surah-audio catalogue
+        run: python3 tools/validate_audio_catalog.py
+
+      - name: Generate and verify pinned Quran Mushaf checksums
+        run: python3 tools/fetch_mushaf_manifest.py
+
       - name: Validate content and resources
         run: python3 tools/validate_project.py
 
@@ -57,6 +72,15 @@ jobs:
 
       - name: Build installable debug APK
         run: gradle :app:assembleDebug --no-daemon
+
+      # Make the phone-installable build downloadable as soon as it passes, even if
+      # generating the larger release bundle takes longer.
+      - name: Upload debug APK for phone installation
+        uses: actions/upload-artifact@v4
+        with:
+          name: masheqal-debug-apk
+          if-no-files-found: error
+          path: app/build/outputs/apk/debug/*.apk
 
       - name: Build unsigned release artifacts
         run: gradle :app:assembleRelease :app:bundleRelease --no-daemon

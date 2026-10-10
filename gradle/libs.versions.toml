@@ -10,6 +10,9 @@ appcompat = "1.8.0"
 datastore = "1.2.1"
 work = "2.11.2"
 media3 = "1.11.1"
+adhan = "1.2.1"
+androidSvg = "1.4"
+timeshape = "2026b.29"
 
 [libraries]
 androidx-core = { module = "androidx.core:core-ktx", version.ref = "core" }
@@ -29,6 +32,9 @@ androidx-compose-icons = { module = "androidx.compose.material:material-icons-ex
 androidx-compose-tooling = { module = "androidx.compose.ui:ui-tooling-preview" }
 androidx-compose-tooling-debug = { module = "androidx.compose.ui:ui-tooling" }
 androidx-compose-ui-test = { module = "androidx.compose.ui:ui-test-junit4" }
+adhan = { module = "com.batoulapps.adhan:adhan", version.ref = "adhan" }
+androidsvg = { module = "com.caverock:androidsvg-aar", version.ref = "androidSvg" }
+timeshape = { module = "net.iakovlev:timeshape", version.ref = "timeshape" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

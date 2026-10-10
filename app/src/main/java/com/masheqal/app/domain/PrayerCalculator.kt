@@ -1,9 +1,37 @@
 package com.masheqal.app.domain
 
+import com.batoulapps.adhan.CalculationMethod as AdhanCalculationMethod
+import com.batoulapps.adhan.CalculationParameters
+import com.batoulapps.adhan.Coordinates as AdhanCoordinates
+import com.batoulapps.adhan.HighLatitudeRule as AdhanHighLatitudeRule
+import com.batoulapps.adhan.Madhab as AdhanMadhab
+import com.batoulapps.adhan.PrayerTimes as AdhanPrayerTimes
+import com.batoulapps.adhan.data.DateComponents as AdhanDateComponents
+import java.time.Instant
 import java.time.LocalDate
-import kotlin.math.*
+import java.time.ZoneId
+import java.time.ZoneOffset
+import java.util.Date
+import kotlin.math.roundToInt
+import kotlin.math.atan2
+import kotlin.math.cos
+import kotlin.math.sin
+import kotlin.math.sqrt
+import kotlin.math.tan
 
-data class Coordinates(val latitude: Double, val longitude: Double, val timezoneOffsetHours: Double)
+/**
+ * Adapter for the upstream Adhan Java calculation engine.
+ *
+ * Adhan performs the solar calculations in a well-tested implementation; this adapter only maps
+ * this app's stable domain types to that engine and converts absolute prayer instants into local
+ * wall-clock minutes for the existing UI. Do not add manual minute corrections here to make a
+ * single city match a website; use explicit per-prayer adjustments once those are user-configurable.
+ */
+data class Coordinates(
+    val latitude: Double,
+    val longitude: Double,
+    val timezoneOffsetHours: Double
+)
 
 enum class PrayerMethod(val label: String, val fajrAngle: Double, val ishaAngle: Double, val ishaOffset: Int? = null) {
     MWL("Muslim World League", 18.0, 17.0),
@@ -34,127 +62,161 @@ object PrayerCalculator {
         c: Coordinates,
         method: PrayerMethod = PrayerMethod.MWL,
         madhhab: AsrMadhhab = AsrMadhhab.SHAFI,
-        highLatitudeRule: HighLatitudeRule = HighLatitudeRule.ONE_SEVENTH
+        highLatitudeRule: HighLatitudeRule = HighLatitudeRule.ONE_SEVENTH,
+        zoneId: ZoneId? = null
     ): PrayerTimes {
-        require(c.latitude in -90.0..90.0) { "Latitude out of range" }
-        require(c.longitude in -180.0..180.0) { "Longitude out of range" }
-        val jd = julianDay(date) - c.longitude / 360.0
-        val noon = solarNoon(c.longitude)
-        val decl = sunDeclination(jd)
-        val eqt = equationOfTime(jd)
-        val noonMinutes = noon - eqt + c.timezoneOffsetHours * 60.0
-
-        fun angleTime(angle: Double, direction: Double): Double {
-            val hours = Math.toDegrees(hourAngle(c.latitude, decl, angle)) / 15.0
-            return noonMinutes + direction * hours * 60.0
+        require(c.latitude.isFinite() && c.latitude in -90.0..90.0) { "Latitude out of range" }
+        require(c.longitude.isFinite() && c.longitude in -180.0..180.0) { "Longitude out of range" }
+        require(c.timezoneOffsetHours.isFinite() && c.timezoneOffsetHours in -14.0..14.0) {
+            "UTC offset out of range"
         }
 
-        val sunrise = angleTime(-0.833, -1.0)
-        val sunset = angleTime(-0.833, 1.0)
-        var fajr = angleTime(-method.fajrAngle, -1.0)
-        var isha = if (method.ishaOffset != null) sunset + method.ishaOffset else angleTime(-method.ishaAngle, 1.0)
-        val asrAltitude = Math.toDegrees(
-            atan(1.0 / (madhhabFactor(madhhab) + tan(Math.toRadians(abs(c.latitude - decl)))))
-        )
-        val asr = angleTime(asrAltitude, 1.0)
-
-        if (highLatitudeRule != HighLatitudeRule.NONE) {
-            val night = nightLength(sunset, sunrise)
-            val fajrLimit = nightPortion(method.fajrAngle, highLatitudeRule, night)
-            val ishaLimit = nightPortion(method.ishaAngle, highLatitudeRule, night)
-            if (!fajr.isFinite() || fajr < sunrise - 24.0 * 60.0 || fajr > sunrise) {
-                fajr = sunrise - fajrLimit
+        val parameters = when (method) {
+            PrayerMethod.MWL -> AdhanCalculationMethod.MUSLIM_WORLD_LEAGUE.parameters
+            PrayerMethod.EGYPTIAN -> AdhanCalculationMethod.EGYPTIAN.parameters
+            PrayerMethod.UMM_AL_QURA -> AdhanCalculationMethod.UMM_AL_QURA.parameters
+            PrayerMethod.KARACHI -> AdhanCalculationMethod.KARACHI.parameters
+            PrayerMethod.ISNA -> AdhanCalculationMethod.NORTH_AMERICA.parameters
+            // There is no official Turkey or Tehran preset in this engine; use explicit angles,
+            // and do not invent regional minute corrections without a verified source.
+            PrayerMethod.TEHRAN, PrayerMethod.TURKEY ->
+                CalculationParameters(method.fajrAngle, method.ishaAngle, AdhanCalculationMethod.OTHER)
+        }.apply {
+            madhab = when (madhhab) {
+                AsrMadhhab.SHAFI -> AdhanMadhab.SHAFI
+                AsrMadhhab.HANAFI -> AdhanMadhab.HANAFI
             }
-            if (!isha.isFinite() || isha < sunset || isha > sunset + night) {
-                isha = sunset + ishaLimit
+            this.highLatitudeRule = when (highLatitudeRule) {
+                // The upstream engine always bounds twilight calculations at high latitude.
+                // NONE has no upstream equivalent, so use the engine's documented safe fallback.
+                HighLatitudeRule.MIDDLE_OF_NIGHT, HighLatitudeRule.NONE ->
+                    AdhanHighLatitudeRule.MIDDLE_OF_THE_NIGHT
+                HighLatitudeRule.ANGLE_BASED -> AdhanHighLatitudeRule.TWILIGHT_ANGLE
+                HighLatitudeRule.ONE_SEVENTH -> AdhanHighLatitudeRule.SEVENTH_OF_THE_NIGHT
+            }
+        }
+
+        val engine = AdhanPrayerTimes(
+            AdhanCoordinates(c.latitude, c.longitude),
+            AdhanDateComponents(date.year, date.monthValue, date.dayOfMonth),
+            parameters
+        )
+        val offset = ZoneOffset.ofTotalSeconds((c.timezoneOffsetHours * 3600.0).roundToInt())
+
+        fun localMinute(name: String, value: Date?): Double {
+            checkNotNull(value) {
+                "The prayer-time engine could not calculate $name for $date at ${c.latitude}, ${c.longitude}"
+            }
+            val instant = Instant.ofEpochMilli(value.time)
+            val zone = zoneId
+            return if (zone != null) {
+                val local = instant.atZone(zone)
+                local.hour * 60.0 + local.minute
+            } else {
+                val local = instant.atOffset(offset)
+                local.hour * 60.0 + local.minute
             }
         }
 
         return PrayerTimes(
             date = date,
-            fajr = normalize(fajr),
-            sunrise = normalize(sunrise),
-            dhuhr = normalize(noonMinutes),
-            asr = normalize(asr),
-            maghrib = normalize(sunset),
-            isha = normalize(isha)
+            fajr = localMinute("Fajr", engine.fajr),
+            sunrise = localMinute("sunrise", engine.sunrise),
+            dhuhr = localMinute("Dhuhr", engine.dhuhr),
+            asr = localMinute("Asr", engine.asr),
+            maghrib = localMinute("Maghrib", engine.maghrib),
+            isha = localMinute("Isha", engine.isha)
         )
     }
 
-    private fun nightLength(sunset: Double, sunrise: Double): Double =
-        ((sunrise + 1440.0 - sunset) % 1440.0).takeIf { it > 0.0 } ?: 720.0
-
-    private fun nightPortion(angle: Double, rule: HighLatitudeRule, night: Double): Double = when (rule) {
-        HighLatitudeRule.MIDDLE_OF_NIGHT -> night / 2.0
-        HighLatitudeRule.ANGLE_BASED -> night * angle / 60.0
-        HighLatitudeRule.ONE_SEVENTH -> night / 7.0
-        HighLatitudeRule.NONE -> 0.0
-    }
-
-    private fun madhhabFactor(m: AsrMadhhab) = if (m == AsrMadhhab.HANAFI) 2.0 else 1.0
-    private fun normalize(x: Double): Double = ((x % 1440.0) + 1440.0) % 1440.0
-
-    private fun hourAngle(lat: Double, decl: Double, angle: Double): Double {
-        val a = Math.toRadians(angle)
-        val phi = Math.toRadians(lat)
-        val d = Math.toRadians(decl)
-        val cosH = (sin(a) - sin(phi) * sin(d)) / (cos(phi) * cos(d))
-        return when {
-            cosH < -1.0 || cosH > 1.0 -> Double.NaN
-            else -> acos(cosH)
+    /**
+     * Resolves a prayer's local wall-clock minute to an instant in the selected time zone.
+     * This avoids treating a civil day as exactly 1,440 elapsed minutes on daylight-saving days.
+     */
+    fun instantForLocalPrayerMinute(date: LocalDate, prayerMinute: Double, zoneId: ZoneId): Instant {
+        require(prayerMinute.isFinite() && prayerMinute >= 0.0 && prayerMinute < 1440.0) {
+            "Prayer minute must be within the local day"
         }
+        val roundedMinute = prayerMinute.roundToInt()
+        require(roundedMinute in 0 until 1440) { "Rounded prayer minute must be within the local day" }
+        return date.atStartOfDay().plusMinutes(roundedMinute.toLong()).atZone(zoneId).toInstant()
     }
 
-    private fun julianDay(date: LocalDate): Double {
-        var y = date.year
-        var m = date.monthValue
-        val d = date.dayOfMonth
-        if (m <= 2) { y--; m += 12 }
-        val a = floor(y / 100.0)
-        val b = 2 - a + floor(a / 4.0)
-        return floor(365.25 * (y + 4716)) + floor(30.6001 * (m + 1)) + d + b - 1524.5
+    /**
+     * Selects the next prayer from today's ordered local times. After Isha, use the next day's
+     * freshly calculated Fajr rather than reusing today's Fajr with a 24-hour countdown.
+     */
+    fun selectNextPrayer(
+        currentMinuteOfDay: Double,
+        todayPrayers: List<Pair<String, Double>>,
+        tomorrowFajrMinute: Double?
+    ): Pair<String, Double>? {
+        require(currentMinuteOfDay.isFinite() && currentMinuteOfDay >= 0.0 && currentMinuteOfDay < 1440.0) {
+            "Current local minute must be within the day"
+        }
+        require(todayPrayers.all { (name, minute) ->
+            name.isNotBlank() && minute.isFinite() && minute >= 0.0 && minute < 1440.0
+        }) { "Prayer list contains an invalid name or time" }
+        require(todayPrayers.zipWithNext().all { (a, b) -> a.second <= b.second }) {
+            "Prayer times must be sorted chronologically"
+        }
+        if (todayPrayers.isEmpty()) return null
+
+        return todayPrayers.firstOrNull { it.second >= currentMinuteOfDay }
+            ?: tomorrowFajrMinute?.let { fajr ->
+                require(fajr.isFinite() && fajr >= 0.0 && fajr < 1440.0) {
+                    "Tomorrow's Fajr must be within the local day"
+                }
+                todayPrayers.first().first to fajr
+            }
     }
-
-    private fun solarNoon(longitude: Double): Double = 720.0 - 4.0 * longitude
-
-    private fun equationOfTime(jd: Double): Double {
-        val t = (jd - 2451545.0) / 36525.0
-        val l0 = normalizeAngle(280.46646 + 36000.76983 * t + 0.0003032 * t * t)
-        val m = Math.toRadians(normalizeAngle(357.52911 + 35999.05029 * t - 0.0001537 * t * t))
-        val e = 0.016708634 - 0.000042037 * t - 0.0000001267 * t * t
-        val y = tan(Math.toRadians(23.439291 - 0.0130042 * t) / 2).pow(2)
-        val l0r = Math.toRadians(l0)
-        return Math.toDegrees(
-            y * sin(2 * l0r) - 2 * e * sin(m) + 4 * e * y * sin(m) * cos(2 * l0r) -
-                0.5 * y * y * sin(4 * l0r) - 1.25 * e * e * sin(2 * m)
-        ) * 4.0
-    }
-
-    private fun sunDeclination(jd: Double): Double {
-        val t = (jd - 2451545.0) / 36525.0
-        val lambda = Math.toRadians(
-            normalizeAngle(
-                280.46646 + 36000.76983 * t +
-                    1.914602 * sin(Math.toRadians(357.52911 + 35999.05029 * t))
-            )
-        )
-        val eps = Math.toRadians(23.439291 - 0.0130042 * t)
-        return Math.toDegrees(asin(sin(eps) * sin(lambda)))
-    }
-
-    private fun normalizeAngle(x: Double) = ((x % 360.0) + 360.0) % 360.0
 }
 
 object QiblaCalculator {
     private const val KAABA_LAT = 21.422487
     private const val KAABA_LON = 39.826206
+
     fun bearingFrom(lat: Double, lon: Double): Double {
-        require(lat in -90.0..90.0 && lon in -180.0..180.0)
+        require(lat.isFinite() && lat in -90.0..90.0) { "Latitude out of range" }
+        require(lon.isFinite() && lon in -180.0..180.0) { "Longitude out of range" }
         val phi1 = Math.toRadians(lat)
         val phi2 = Math.toRadians(KAABA_LAT)
-        val dl = Math.toRadians(KAABA_LON - lon)
-        val y = sin(dl)
-        val x = cos(phi1) * tan(phi2) - sin(phi1) * cos(dl)
+        val deltaLongitude = Math.toRadians(KAABA_LON - lon)
+        val y = sin(deltaLongitude)
+        val x = cos(phi1) * tan(phi2) - sin(phi1) * cos(deltaLongitude)
         return ((Math.toDegrees(atan2(y, x)) + 360.0) % 360.0)
+    }
+
+    /** Great-circle distance to the Kaaba in kilometres, using a mean Earth radius. */
+    fun distanceFromKm(lat: Double, lon: Double): Double {
+        require(lat.isFinite() && lat in -90.0..90.0) { "Latitude out of range" }
+        require(lon.isFinite() && lon in -180.0..180.0) { "Longitude out of range" }
+        val phi1 = Math.toRadians(lat)
+        val phi2 = Math.toRadians(KAABA_LAT)
+        val deltaPhi = phi2 - phi1
+        val deltaLambda = Math.toRadians(KAABA_LON - lon)
+        val sinLat = sin(deltaPhi / 2.0)
+        val sinLon = sin(deltaLambda / 2.0)
+        val h = (sinLat * sinLat + cos(phi1) * cos(phi2) * sinLon * sinLon).coerceIn(0.0, 1.0)
+        return 6371.0088 * 2.0 * atan2(sqrt(h), sqrt(1.0 - h))
+    }
+
+    /**
+     * Converts a magnetic compass heading to a signed turn toward the true-north Qibla bearing.
+     * Positive means clockwise/right; negative means counter-clockwise/left.
+     */
+    fun signedDeltaFromMagneticHeading(
+        trueBearingDegrees: Double,
+        magneticAzimuthDegrees: Double,
+        magneticDeclinationDegrees: Double
+    ): Double {
+        require(
+            trueBearingDegrees.isFinite() &&
+                magneticAzimuthDegrees.isFinite() &&
+                magneticDeclinationDegrees.isFinite()
+        ) { "Qibla heading values must be finite" }
+        val bearing = ((trueBearingDegrees % 360.0) + 360.0) % 360.0
+        val trueHeading = ((magneticAzimuthDegrees + magneticDeclinationDegrees) % 360.0 + 360.0) % 360.0
+        return ((bearing - trueHeading + 540.0) % 360.0) - 180.0
     }
 }

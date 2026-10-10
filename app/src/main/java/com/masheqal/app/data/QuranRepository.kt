@@ -5,7 +5,21 @@ import org.json.JSONArray
 import java.text.Normalizer
 
 
-data class QuranVerse(val id: Int, val surah: Int, val ayah: Int, val text: String, val translationEn: String? = null)
+data class QuranVerse(
+    val id: Int,
+    val surah: Int,
+    val ayah: Int,
+    val text: String,
+    val translationEn: String? = null,
+) {
+    /**
+     * Return only a translation that matches the explicitly selected language.
+     * Arabic is the source Quran text, not a reason to silently show English meaning.
+     * Missing translations stay absent rather than being replaced with another language.
+     */
+    fun translationFor(language: String): String? =
+        translationEn.takeIf { language.equals("en", ignoreCase = true) }
+}
 data class SurahMeta(val number: Int, val nameAr: String, val nameEn: String, val ayahCount: Int, val revelation: String)
 data class SearchHit(val verse: QuranVerse, val matchedField: String)
 data class QuranRange(val number: Int, val firstGlobalAyah: Int, val lastGlobalAyah: Int)
@@ -70,14 +84,7 @@ class QuranRepository(private val context: Context) {
             .toList()
     }
 
-    fun parseReference(raw: String): Pair<Int, Int>? {
-        val q = raw.trim().replace('：', ':').replace('－', '-')
-        val m = Regex("^(\\d{1,3})\\s*[:\\- ]\\s*(\\d{1,3})$").find(q) ?: return null
-        val s = m.groupValues[1].toIntOrNull() ?: return null
-        val a = m.groupValues[2].toIntOrNull() ?: return null
-        if (s !in 1..114 || a < 1) return null
-        return s to a
-    }
+    fun parseReference(raw: String): Pair<Int, Int>? = parseReferenceText(raw)
 
     private fun readSurahs(): List<SurahMeta> {
         val text = context.assets.open("content/surahs.json").bufferedReader().use { it.readText() }
@@ -104,22 +111,63 @@ class QuranRepository(private val context: Context) {
     private fun globalRangeFor(ranges: List<QuranRange>, globalAyah: Int): Int = ranges.firstOrNull { globalAyah in it.firstGlobalAyah..it.lastGlobalAyah }?.number ?: 1
 
     private fun readVerses(): List<QuranVerse> {
-        val arText = context.assets.open("content/quran_ar_uthmani.json").bufferedReader().use { it.readText() }
-        val enText = context.assets.open("content/quran_en_translation.json").bufferedReader().use { it.readText() }
+        val arText = context.assets.open("content/quran_ar_uthmani.json")
+            .bufferedReader().use { it.readText() }
+        val enText = context.assets.open("content/quran_en_translation.json")
+            .bufferedReader().use { it.readText() }
         val ar = JSONArray(arText)
         val en = JSONArray(enText)
-        require(ar.length() == 6236 && en.length() == 6236) { "Quran package integrity check failed" }
+        require(ar.length() == 6236 && en.length() == 6236) {
+            "Quran package integrity check failed"
+        }
         return buildList(ar.length()) {
             for (i in 0 until ar.length()) {
-                val a = ar.getJSONObject(i)
-                val e = en.getJSONObject(i)
-                require(a.getInt("id") == e.getInt("id") && a.getInt("surah") == e.getInt("surah") && a.getInt("ayah") == e.getInt("ayah")) { "Translation mapping integrity failed at $i" }
-                add(QuranVerse(a.getInt("id"), a.getInt("surah"), a.getInt("ayah"), a.getString("text"), e.getString("text")))
+                val source = ar.getJSONObject(i)
+                val translation = en.getJSONObject(i)
+                require(
+                    source.getInt("id") == translation.getInt("id") &&
+                        source.getInt("surah") == translation.getInt("surah") &&
+                        source.getInt("ayah") == translation.getInt("ayah")
+                ) { "Arabic/English Quran mapping integrity failed at global ayah $i" }
+                add(
+                    QuranVerse(
+                        id = source.getInt("id"),
+                        surah = source.getInt("surah"),
+                        ayah = source.getInt("ayah"),
+                        text = source.getString("text"),
+                        translationEn = translation.getString("text")
+                    )
+                )
             }
         }
     }
 
     companion object {
+        /**
+         * Parse Quran references using Western, Arabic-Indic, or Eastern Arabic/Persian digits.
+         * This is kept pure so the locale-independent parsing behavior can be unit-tested.
+         */
+        fun parseReferenceText(raw: String): Pair<Int, Int>? {
+            val localizedDigits = buildString(raw.length) {
+                raw.trim().forEach { char ->
+                    append(
+                        when (char) {
+                            in '٠'..'٩' -> ('0'.code + (char.code - '٠'.code)).toChar()
+                            in '۰'..'۹' -> ('0'.code + (char.code - '۰'.code)).toChar()
+                            else -> char
+                        }
+                    )
+                }
+            }
+            val q = localizedDigits.replace('：', ':').replace('－', '-')
+            val match = Regex("^(\\d{1,3})\\s*[:\\- ]\\s*(\\d{1,3})$").find(q)
+                ?: return null
+            val surah = match.groupValues[1].toIntOrNull() ?: return null
+            val ayah = match.groupValues[2].toIntOrNull() ?: return null
+            if (surah !in 1..114 || ayah < 1) return null
+            return surah to ayah
+        }
+
         fun normalize(input: String): String {
             val folded = input
                 .replace('أ', 'ا').replace('إ', 'ا').replace('آ', 'ا')

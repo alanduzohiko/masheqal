@@ -42,6 +42,14 @@ android {
 }
 
 dependencies {
+    implementation(libs.adhan)
+    implementation(libs.androidsvg)
+    implementation(libs.timeshape) {
+        exclude(group = "com.github.luben", module = "zstd-jni")
+    }
+    // Timeshape uses SLF4J 1.7; supply a no-op binding for R8/release builds on Android.
+    implementation("org.slf4j:slf4j-nop:1.7.36")
+    implementation("com.github.luben:zstd-jni:1.5.7-11@aar")
     val composeBom = platform("androidx.compose:compose-bom:2026.09.00")
     implementation(composeBom)
     androidTestImplementation(composeBom)

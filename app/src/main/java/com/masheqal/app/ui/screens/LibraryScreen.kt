@@ -27,6 +27,7 @@ private data class LibraryRow(
 @Composable
 fun LibraryScreen(app: MasheqalApp, nav: NavHostController) {
     val items = listOf(
+        LibraryRow(R.string.audio, R.string.audio_source_notice, Icons.Default.Headphones, "audio"),
         LibraryRow(R.string.saved, R.string.bookmarks, Icons.Default.Bookmark, "saved"),
         LibraryRow(R.string.notes, R.string.notes, Icons.Default.Notes, "notes"),
         LibraryRow(R.string.khatmah, R.string.quran, Icons.Default.AutoStories, "khatmah"),
@@ -35,8 +36,8 @@ fun LibraryScreen(app: MasheqalApp, nav: NavHostController) {
         LibraryRow(R.string.qibla, R.string.qibla, Icons.Default.Explore, "qibla"),
         LibraryRow(R.string.tafsir, R.string.source_required, Icons.Default.MenuBook, "content"),
         LibraryRow(R.string.hadith, R.string.source_required, Icons.Default.LibraryBooks, "content"),
-        LibraryRow(R.string.dua, R.string.source_required, Icons.Default.FavoriteBorder, "content"),
-        LibraryRow(R.string.names_of_allah, R.string.source_required, Icons.Default.AutoAwesome, "content"),
+        LibraryRow(R.string.dua, R.string.adhkar_expanded_content_title, Icons.Default.FavoriteBorder, "dua"),
+        LibraryRow(R.string.names_of_allah, R.string.names_of_allah_intro, Icons.Default.AutoAwesome, "names"),
         LibraryRow(R.string.content_center, R.string.download_center, Icons.Default.Inventory2, "content"),
         LibraryRow(R.string.settings, R.string.settings, Icons.Default.Settings, "settings")
     )

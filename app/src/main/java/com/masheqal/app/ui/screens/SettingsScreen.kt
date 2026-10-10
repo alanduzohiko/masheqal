@@ -19,6 +19,7 @@ import com.masheqal.app.MasheqalApp
 import com.masheqal.app.R
 import com.masheqal.app.data.BackupRepository
 import com.masheqal.app.data.SettingsState
+import com.masheqal.app.services.QuranPlaybackService
 import kotlinx.coroutines.launch
 
 @Composable
@@ -30,8 +31,17 @@ fun SettingsScreen(app: MasheqalApp, nav: NavHostController, onLanguage: (String
     val context = androidx.compose.ui.platform.LocalContext.current
     var message by remember { mutableStateOf<String?>(null) }
     var showPrivacy by remember { mutableStateOf(false) }
+    var adhanVoice by remember {
+        mutableStateOf(
+            context.getSharedPreferences(QuranPlaybackService.ADHAN_PREFERENCES, android.content.Context.MODE_PRIVATE)
+                .getString(QuranPlaybackService.ADHAN_VOICE_KEY, QuranPlaybackService.DEFAULT_ADHAN_VOICE)
+                ?: QuranPlaybackService.DEFAULT_ADHAN_VOICE
+        )
+    }
+    val adhanPreviewLabel = stringResource(R.string.adhan_preview)
     val backupExported = stringResource(R.string.backup_exported)
     val backupRestored = stringResource(R.string.backup_restored)
+    val backupError = stringResource(R.string.backup_error)
 
     val createBackup = rememberLauncherForActivityResult(
         ActivityResultContracts.CreateDocument("application/json")
@@ -39,7 +49,7 @@ fun SettingsScreen(app: MasheqalApp, nav: NavHostController, onLanguage: (String
         if (uri != null) {
             message = BackupRepository.export(
                 context, uri, app.userDb, settings, reading, khatmah
-            ).fold({ backupExported }, { "Backup error: ${it.message}" })
+            ).fold({ backupExported }, { backupError })
         }
     }
 
@@ -67,7 +77,7 @@ fun SettingsScreen(app: MasheqalApp, nav: NavHostController, onLanguage: (String
                     onLanguage(backup.settings.language)
                     message = backupRestored
                 }
-                .onFailure { message = "Backup error: ${it.message}" }
+                .onFailure { message = backupError }
         }
     }
 
@@ -93,7 +103,7 @@ fun SettingsScreen(app: MasheqalApp, nav: NavHostController, onLanguage: (String
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier.horizontalScroll(rememberScrollState())
             ) {
-                listOf("ckb" to "کوردی", "ar" to "العربية", "en" to "English").forEach { (code, label) ->
+                listOf("ar" to "العربية", "en" to "English").forEach { (code, label) ->
                     FilterChip(
                         selected = settings.language == code,
                         onClick = {
@@ -154,6 +164,20 @@ fun SettingsScreen(app: MasheqalApp, nav: NavHostController, onLanguage: (String
                     )
                 }
             }
+        }
+
+        SettingsGroup(title = stringResource(R.string.adhan_voice)) {
+            AdhanVoicePicker(
+                selectedVoice = adhanVoice,
+                onVoiceSelected = { voice ->
+                    adhanVoice = voice
+                    context.getSharedPreferences(
+                        QuranPlaybackService.ADHAN_PREFERENCES,
+                        android.content.Context.MODE_PRIVATE
+                    ).edit().putString(QuranPlaybackService.ADHAN_VOICE_KEY, voice).apply()
+                },
+                onPreview = { voice -> previewAdhanVoice(context, voice, adhanPreviewLabel) }
+            )
         }
 
         Card(
