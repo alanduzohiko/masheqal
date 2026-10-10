@@ -56,6 +56,8 @@ fun SettingsScreen(app: MasheqalApp, nav: NavHostController, onLanguage: (String
                         app.settings.setPrayerMethod(backup.settings.prayerMethod)
                         app.settings.setMadhhab(backup.settings.madhhab)
                         app.settings.setAwake(backup.settings.keepScreenAwake)
+                        app.settings.setReciter(backup.settings.reciter)
+                        app.settings.setShowEnglishTranslation(backup.settings.showEnglishTranslation)
                         app.personal.setReading(backup.reading.surah, backup.reading.ayah)
                         app.personal.setKhatmah(
                             backup.khatmah.days,
