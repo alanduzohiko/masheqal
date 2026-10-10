@@ -99,6 +99,10 @@ fun QuranReaderScreen(
     val scope = rememberCoroutineScope()
     val bookmarkLabel = stringResource(R.string.bookmark)
     val noteLabel = stringResource(R.string.note)
+    val fullSurahAudioLabel = stringResource(R.string.full_surah_audio_label)
+    val audioErrorMessage = stringResource(R.string.audio_error)
+    val missingSurahMessage = stringResource(R.string.reciter_missing_surah)
+    val fullSurahNotice = stringResource(R.string.full_surah_audio_notice)
     val player = remember(context) { ExoPlayer.Builder(context).build() }
     val studyRepository = remember(context) { QuranStudyRepository(context) }
 
@@ -115,7 +119,7 @@ fun QuranReaderScreen(
     val selectableReciters = quranReciters + externalReciters.map { reciter ->
         ReciterChoice(
             id = reciter.id,
-            name = reciter.name + " — " + reciter.moshafName + " · " + context.getString(R.string.full_surah_audio_label),
+            name = reciter.name + " — " + reciter.moshafName + " · " + fullSurahAudioLabel,
             fullSurahServer = reciter.server,
             availableSurahs = reciter.availableSurahs
         )
@@ -151,7 +155,7 @@ fun QuranReaderScreen(
                 }
             }
             override fun onPlayerError(error: PlaybackException) {
-                scope.launch { snackbar.showSnackbar(context.getString(R.string.audio_error)) }
+                scope.launch { snackbar.showSnackbar(audioErrorMessage) }
             }
         }
         player.addListener(listener)
@@ -166,13 +170,13 @@ fun QuranReaderScreen(
         if (fullSurahReciter != null) {
             val fullSurahUrl = fullSurahReciter.audioUrl(surah)
             if (fullSurahUrl == null) {
-                scope.launch { snackbar.showSnackbar(context.getString(R.string.reciter_missing_surah)) }
+                scope.launch { snackbar.showSnackbar(missingSurahMessage) }
                 return
             }
             currentAyah = 1
             scope.launch {
                 app.personal.setReading(surah, 1)
-                snackbar.showSnackbar(context.getString(R.string.full_surah_audio_notice))
+                snackbar.showSnackbar(fullSurahNotice)
             }
             player.setMediaItem(
                 MediaItem.Builder()
