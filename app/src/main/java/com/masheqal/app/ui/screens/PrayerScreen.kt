@@ -27,6 +27,7 @@ import androidx.navigation.NavHostController
 import com.masheqal.app.MasheqalApp
 import com.masheqal.app.data.AdhanRecording
 import com.masheqal.app.data.AdhanRepository
+import com.masheqal.app.data.LocationTimeZoneRepository
 import com.masheqal.app.R
 import kotlinx.coroutines.launch
 import com.masheqal.app.domain.*
@@ -37,6 +38,7 @@ import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.Locale
 import java.time.ZonedDateTime
+import java.time.ZoneId
 import kotlinx.coroutines.delay
 
 @Composable
@@ -44,6 +46,8 @@ fun PrayerScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: ()
     val context = androidx.compose.ui.platform.LocalContext.current
     val deviceLocale = LocalConfiguration.current.locales[0] ?: Locale.ROOT
     var location by remember { mutableStateOf(LocationUtils.lastKnown(context)) }
+    var locationZone by remember { mutableStateOf(ZoneId.systemDefault()) }
+    val timeZoneRepository = remember(context) { LocationTimeZoneRepository(context) }
     var times by remember { mutableStateOf<PrayerTimes?>(null) }
     val settings by app.settings.state.collectAsState(initial = com.masheqal.app.data.SettingsState())
     val scope = rememberCoroutineScope()
@@ -63,24 +67,34 @@ fun PrayerScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: ()
     }
 
     LaunchedEffect(location, settings.prayerMethod, settings.madhhab, settings.prayerRemindersEnabled) {
-        location?.let { c ->
-            val offset = ZonedDateTime.now().offset.totalSeconds / 3600.0
+        val c = location
+        if (c == null) {
+            times = null
+        } else {
             val method = PrayerMethod.valueOf(settings.prayerMethod)
             val madhhab = AsrMadhhab.valueOf(settings.madhhab)
-            times = PrayerCalculator.calculate(
-                LocalDate.now(),
+            val resolvedZone = timeZoneRepository.resolve(c.latitude, c.longitude)
+            locationZone = resolvedZone
+            val localDate = LocalDate.now(resolvedZone)
+            val offset = localDate.atTime(12, 0).atZone(resolvedZone).offset.totalSeconds / 3600.0
+            val calculated = PrayerCalculator.calculate(
+                localDate,
                 Coordinates(c.latitude, c.longitude, offset),
                 method,
                 madhhab
             )
+            times = calculated
             PrayerNotificationScheduler.storeConfig(
                 context,
                 c.latitude,
                 c.longitude,
                 method,
-                madhhab
+                madhhab,
+                resolvedZone.id
             )
-            if (settings.prayerRemindersEnabled) PrayerNotificationScheduler.scheduleToday(context, times!!)
+            if (settings.prayerRemindersEnabled) {
+                PrayerNotificationScheduler.scheduleToday(context, calculated, resolvedZone.id)
+            }
         }
     }
 
@@ -114,7 +128,7 @@ fun PrayerScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: ()
             stringResource(R.string.maghrib) to t.maghrib,
             stringResource(R.string.isha) to t.isha
         )
-        val now = ZonedDateTime.now().let {
+        val now = ZonedDateTime.now(locationZone).let {
             it.hour * 60.0 + it.minute + it.second / 60.0
         }
         prayerRows.firstOrNull { it.second >= now } ?: prayerRows.firstOrNull()
@@ -129,7 +143,8 @@ fun PrayerScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: ()
                 coordinates.latitude,
                 coordinates.longitude,
                 PrayerMethod.valueOf(settings.prayerMethod),
-                AsrMadhhab.valueOf(settings.madhhab)
+                AsrMadhhab.valueOf(settings.madhhab),
+                locationZone.id
             )
             selectedAdhan?.let { recording ->
                 PrayerNotificationScheduler.configureAdhan(
@@ -139,7 +154,7 @@ fun PrayerScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: ()
                     settings.playFullAdhan
                 )
             }
-            PrayerNotificationScheduler.scheduleToday(context, prayerTimes)
+            PrayerNotificationScheduler.scheduleToday(context, prayerTimes, locationZone.id)
             scope.launch { app.settings.setPrayerRemindersEnabled(true) }
         }
     }
@@ -179,7 +194,7 @@ fun PrayerScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: ()
                 Column {
                     Text(stringResource(R.string.prayer), style = MaterialTheme.typography.headlineMedium)
                     Text(
-                        LocalDate.now().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL).withLocale(deviceLocale)),
+                        LocalDate.now(locationZone).format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL).withLocale(deviceLocale)),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -255,11 +270,11 @@ fun PrayerScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: ()
                             if (next != null) {
                                 Spacer(Modifier.width(12.dp))
                                 var countdown by remember(next.first, next.second) {
-                                    mutableStateOf(countdownText(next.second))
+                                    mutableStateOf(countdownText(next.second, locationZone))
                                 }
-                                LaunchedEffect(next.first, next.second) {
+                                LaunchedEffect(next.first, next.second, locationZone) {
                                     while (true) {
-                                        countdown = countdownText(next.second)
+                                        countdown = countdownText(next.second, locationZone)
                                         delay(1000)
                                     }
                                 }
@@ -367,8 +382,8 @@ private fun formatMinutes(v: Double, locale: Locale = Locale.getDefault()): Stri
     return java.time.LocalTime.of((total / 60) % 24, total % 60).format(java.time.format.DateTimeFormatter.ofPattern("h:mm a", locale))
 }
 
-private fun countdownText(target: Double): String {
-    val now = ZonedDateTime.now()
+private fun countdownText(target: Double, locationZone: ZoneId = ZoneId.systemDefault()): String {
+    val now = ZonedDateTime.now(locationZone)
     val current = now.hour * 60.0 + now.minute + now.second / 60.0
     var diff = target - current
     if (diff <= 0) diff += 1440.0
