@@ -88,6 +88,7 @@ fun QuranReaderScreen(
     var externalReciters by remember { mutableStateOf(emptyList<FullSurahReciter>()) }
     var reciterSearch by remember { mutableStateOf("") }
     var translationTexts by remember { mutableStateOf(emptyList<String>()) }
+    var translationUnavailable by remember { mutableStateOf(false) }
     var tafsirTexts by remember { mutableStateOf(emptyList<String>()) }
     var availableTranslations by remember { mutableStateOf(emptyList<QuranEdition>()) }
     var availableTafsirs by remember { mutableStateOf(emptyList<QuranEdition>()) }
@@ -100,6 +101,7 @@ fun QuranReaderScreen(
     val scope = rememberCoroutineScope()
     val bookmarkLabel = stringResource(R.string.bookmark)
     val noteLabel = stringResource(R.string.note)
+    val translationUnavailableMessage = stringResource(R.string.translation_unavailable_offline)
     val fullSurahAudioLabel = stringResource(R.string.full_surah_audio_label)
     val audioErrorMessage = stringResource(R.string.audio_error)
     val missingSurahMessage = stringResource(R.string.reciter_missing_surah)
@@ -213,11 +215,16 @@ fun QuranReaderScreen(
     }
     LaunchedEffect(surah, settings.translationEdition, verses) {
         if (verses.isEmpty()) return@LaunchedEffect
-        translationTexts = runCatching {
+        val result = runCatching {
             studyRepository.loadSurah(surah, settings.translationEdition).also { values ->
                 require(values.size == verses.size) { "Translation verse count mismatch" }
             }
-        }.getOrElse { verses.map { it.translationEn.orEmpty() } }
+        }
+        translationUnavailable = result.isFailure && settings.translationEdition != "en.sahih"
+        translationTexts = result.getOrElse {
+            if (settings.translationEdition == "en.sahih") verses.map { verse -> verse.translationEn.orEmpty() }
+            else emptyList()
+        }
     }
     LaunchedEffect(surah, settings.tafsirEdition, settings.showTafsir, verses) {
         if (!settings.showTafsir || verses.isEmpty()) {
@@ -300,6 +307,30 @@ fun QuranReaderScreen(
             contentPadding = PaddingValues(horizontal = 16.dp, vertical = 10.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
+            if (settings.showEnglishTranslation && translationUnavailable) {
+                item {
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(18.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.tertiaryContainer
+                        )
+                    ) {
+                        Row(
+                            Modifier.fillMaxWidth().padding(14.dp),
+                            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
+                        ) {
+                            Icon(Icons.Default.CloudOff, null, tint = MaterialTheme.colorScheme.onTertiaryContainer)
+                            Spacer(Modifier.width(10.dp))
+                            Text(
+                                translationUnavailableMessage,
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onTertiaryContainer
+                            )
+                        }
+                    }
+                }
+            }
             items(verses, key = { it.id }) { verse ->
                 Card(
                     onClick = {
@@ -325,7 +356,8 @@ fun QuranReaderScreen(
                         Spacer(Modifier.height(10.dp))
                         QuranText(verse.text, size = 27f)
                         val displayedTranslation = translationTexts.getOrNull(verse.ayah - 1)
-                            ?.takeIf { it.isNotBlank() } ?: verse.translationEn.orEmpty()
+                            ?.takeIf { it.isNotBlank() }
+                            ?: if (settings.translationEdition == "en.sahih") verse.translationEn.orEmpty() else ""
                         if (settings.showEnglishTranslation && displayedTranslation.isNotBlank()) {
                             Spacer(Modifier.height(12.dp))
                             Text(
@@ -353,7 +385,8 @@ fun QuranReaderScreen(
                 Spacer(Modifier.height(8.dp))
                 QuranText(verse.text, size = 23f)
                 val displayedTranslation = translationTexts.getOrNull(verse.ayah - 1)
-                    ?.takeIf { it.isNotBlank() } ?: verse.translationEn.orEmpty()
+                    ?.takeIf { it.isNotBlank() }
+                    ?: if (settings.translationEdition == "en.sahih") verse.translationEn.orEmpty() else ""
                 if (settings.showEnglishTranslation && displayedTranslation.isNotBlank()) {
                     Spacer(Modifier.height(10.dp))
                     Text(displayedTranslation, style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)
