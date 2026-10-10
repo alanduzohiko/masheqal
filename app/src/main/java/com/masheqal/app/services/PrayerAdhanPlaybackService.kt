@@ -94,7 +94,7 @@ class PrayerAdhanPlaybackService : Service() {
             .setContentIntent(openApp)
             .setOnlyAlertOnce(true)
             .setOngoing(true)
-            .addAction(0, getString(R.string.stop_adhan), stopPending)
+            .addAction(android.R.drawable.ic_media_pause, getString(R.string.stop_adhan), stopPending)
             .build()
     }
 
