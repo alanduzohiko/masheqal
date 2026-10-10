@@ -36,7 +36,7 @@
     <string name="play_current_ayah">Play from this verse</string>
     <string name="pause_audio">Pause recitation</string>
     <string name="select_reciter">Choose a reciter</string>
-    <string name="english_translation">English translation</string>
+    <string name="english_translation">Show translation</string>
     <string name="audio_source_notice">Recitations stream from Al Quran Cloud and require an internet connection.</string>
     <string name="tafsir_unavailable">Tafsir becomes available when a verified content package is installed.</string>
     <string name="audio_error">Could not load recitation. Check your internet connection and try again.</string>
@@ -96,7 +96,7 @@
     <string name="settings_location_hint">Use your device location for prayer times and Qibla.</string>
     <string name="quran_reading_preferences">Quran reading</string>
     <string name="settings_quran_hint">Choose a reciter and control the translation display.</string>
-    <string name="settings_translation_hint">Show the English translation below each ayah.</string>
+    <string name="settings_translation_hint">Show the selected translation below each ayah.</string>
     <string name="settings_content_hint">Open available translations and verified study resources.</string>
     <string name="settings_reading_display">Reading display</string>
     <string name="settings_display_hint">Keep the screen awake while reading.</string>
@@ -166,4 +166,5 @@
     <string name="translation_search_hint">Search translation name, language or edition ID</string>
     <string name="tafsir_search_hint">Search tafsir name, language or edition ID</string>
     <string name="surah_label">Surah</string>
+    <string name="translation_unavailable_offline">The selected translation is not cached yet. Connect to the internet to load this edition.</string>
 </resources>
