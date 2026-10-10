@@ -32,4 +32,12 @@
     <string name="prayer_notification_channel">Prayer reminders</string>
     <string name="keep_screen_awake">Keep screen awake</string>
     <string name="resume">Resume</string>
+    <string name="reader_settings">Reader settings</string>
+    <string name="play_current_ayah">Play from this verse</string>
+    <string name="pause_audio">Pause recitation</string>
+    <string name="select_reciter">Choose a reciter</string>
+    <string name="english_translation">English translation</string>
+    <string name="audio_source_notice">Recitations stream from Al Quran Cloud and require an internet connection.</string>
+    <string name="tafsir_unavailable">Tafsir becomes available when a verified content package is installed.</string>
+    <string name="audio_error">Could not load recitation. Check your internet connection and try again.</string>
 </resources>
