@@ -33,13 +33,15 @@ private data class DhikrCategory(
 )
 
 @Composable
-fun AdhkarScreen(nav: NavHostController) {
+fun AdhkarScreen(nav: NavHostController, dedicatedDuas: Boolean = false) {
     val context = LocalContext.current
     val preferences = remember { context.getSharedPreferences("adhkar_progress", android.content.Context.MODE_PRIVATE) }
     var allEntries by remember { mutableStateOf(emptyList<AdhkarItem>()) }
     var isLoading by remember { mutableStateOf(true) }
     var loadFailed by remember { mutableStateOf(false) }
-    var selectedCategory by remember { mutableStateOf(if (java.time.LocalTime.now().hour in 4..11) "morning" else "evening") }
+    var selectedCategory by remember(dedicatedDuas) {
+        mutableStateOf(if (dedicatedDuas) "daily_dua" else if (java.time.LocalTime.now().hour in 4..11) "morning" else "evening")
+    }
     var query by remember { mutableStateOf("") }
     val progress = remember { mutableStateMapOf<String, Int>() }
 
@@ -56,12 +58,13 @@ fun AdhkarScreen(nav: NavHostController) {
             }
     }
 
-    val categories = listOf(
+    val allCategories = listOf(
         DhikrCategory("morning", R.string.morning, R.string.dhikr_morning_subtitle, Icons.Default.WbSunny),
         DhikrCategory("evening", R.string.evening, R.string.dhikr_evening_subtitle, Icons.Default.NightsStay),
         DhikrCategory("after_prayer", R.string.after_prayer_title, R.string.dhikr_after_prayer_subtitle, Icons.Default.Schedule),
         DhikrCategory("daily_dua", R.string.daily_duas_title, R.string.dhikr_daily_duas_subtitle, Icons.Default.Favorite)
     )
+    val categories = if (dedicatedDuas) listOf(allCategories.last()) else allCategories
     val currentCategory = categories.first { it.key == selectedCategory }
     val filteredEntries = remember(allEntries, selectedCategory, query) {
         allEntries.filter { item ->
@@ -128,13 +131,13 @@ fun AdhkarScreen(nav: NavHostController) {
                             }
                         }
                         Text(
-                            stringResource(R.string.adhkar_dashboard_title),
+                            stringResource(if (dedicatedDuas) R.string.daily_duas_title else R.string.adhkar_dashboard_title),
                             style = MaterialTheme.typography.headlineSmall,
                             fontWeight = FontWeight.Bold,
                             color = Color.White
                         )
                         Text(
-                            stringResource(R.string.adhkar_dashboard_subtitle),
+                            stringResource(if (dedicatedDuas) R.string.dhikr_daily_duas_subtitle else R.string.adhkar_dashboard_subtitle),
                             style = MaterialTheme.typography.bodyMedium,
                             color = Color.White.copy(alpha = 0.88f)
                         )
@@ -165,6 +168,7 @@ fun AdhkarScreen(nav: NavHostController) {
             }
         }
 
+        if (!dedicatedDuas) {
         item {
             Text(
                 stringResource(R.string.dhikr_sections),
@@ -235,6 +239,8 @@ fun AdhkarScreen(nav: NavHostController) {
                     }
                 }
             }
+        }
+
         }
 
         item {
