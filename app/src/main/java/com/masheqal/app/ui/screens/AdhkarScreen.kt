@@ -111,7 +111,8 @@ fun AdhkarScreen(nav: NavHostController, dedicatedDuas: Boolean = false) {
                                 shape = RoundedCornerShape(16.dp)
                             ) {
                                 Icon(
-                                    Icons.Default.Spa, null,
+                                    if (dedicatedDuas) Icons.Default.Favorite else Icons.Default.Spa,
+                                    null,
                                     modifier = Modifier.padding(12.dp).size(28.dp),
                                     tint = Color.White
                                 )
