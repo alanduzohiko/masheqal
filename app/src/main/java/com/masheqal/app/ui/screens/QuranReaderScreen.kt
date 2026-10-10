@@ -62,7 +62,7 @@ private val quranReciters = listOf(
     ReciterChoice("ar.muhammadayoub", "Muhammad Ayyoub"),
     ReciterChoice("ar.hudhaify", "Ali Al-Hudhaify"),
     ReciterChoice("ar.muhammadjibreel", "Muhammad Jibreel"),
-    ReciterChoice("ar.parhizgar", "Mahmoud Khalil Al-Husary — Muallim")
+    ReciterChoice("ar.parhizgar", "Shahriar Parhizgar")
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
