@@ -20,6 +20,13 @@ object LocationUtils {
             ) != PackageManager.PERMISSION_GRANTED
         ) return null
 
+        val saved = context.getSharedPreferences("masheqal_location", Context.MODE_PRIVATE)
+        val savedLat = saved.getString("latitude", null)?.toDoubleOrNull()
+        val savedLon = saved.getString("longitude", null)?.toDoubleOrNull()
+        if (savedLat != null && savedLon != null && savedLat in -90.0..90.0 && savedLon in -180.0..180.0) {
+            return CurrentLocation(savedLat, savedLon)
+        }
+
         val manager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         val providers = listOf(LocationManager.GPS_PROVIDER, LocationManager.NETWORK_PROVIDER)
         val locations = providers.mapNotNull {
@@ -51,8 +58,10 @@ object LocationUtils {
                     null,
                     context.mainExecutor
                 ) { location ->
+                    val result = location?.toCurrentLocation()
+                    if (result != null) persist(context, result)
                     if (continuation.isActive) {
-                        continuation.resume(location?.toCurrentLocation())
+                        continuation.resume(result ?: lastKnown(context))
                     }
                 }
             }.onFailure {
@@ -61,6 +70,13 @@ object LocationUtils {
                 }
             }
         }
+    }
+
+    private fun persist(context: Context, location: CurrentLocation) {
+        context.getSharedPreferences("masheqal_location", Context.MODE_PRIVATE).edit()
+            .putString("latitude", location.latitude.toString())
+            .putString("longitude", location.longitude.toString())
+            .apply()
     }
 
     private fun Location.toCurrentLocation(): CurrentLocation =
