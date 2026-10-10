@@ -159,4 +159,5 @@
     <string name="translation_unavailable_offline">لم تُخزّن الترجمة المختارة بعد. اتصل بالإنترنت لتحميل هذا الإصدار.</string>
     <string name="settings_tajweed_colors">إظهار ألوان أحكام التجويد</string>
     <string name="settings_tajweed_colors_hint">لوّن أحكام التلاوة أثناء قراءة القرآن. تُحفظ السور للقراءة دون اتصال.</string>
+    <string name="location_needed_details">اسمح بالوصول إلى الموقع لحساب أوقات الصلاة المحلية واتجاه القبلة. يمكنك تغيير الإذن لاحقًا من إعدادات Android.</string>
 </resources>
