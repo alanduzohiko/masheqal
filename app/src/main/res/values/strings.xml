@@ -179,4 +179,8 @@
     <string name="source_dependent_content">Not included yet — a verified, licensed dataset is still required</string>
     <string name="previous_page">Previous page</string>
     <string name="next_page">Next page</string>
+    <string name="select_mushaf_script">Choose Arabic script</string>
+    <string name="mushaf_script_hint">Choose the Arabic text script. This changes text notation, not scanned page artwork.</string>
+    <string name="mushaf_script_source_note">Alternative text scripts load from Al Quran Cloud and are cached for offline use after each surah is first loaded.</string>
+    <string name="mushaf_script_unavailable_offline">This script has not been downloaded yet. Showing the bundled Uthmani text instead.</string>
 </resources>
