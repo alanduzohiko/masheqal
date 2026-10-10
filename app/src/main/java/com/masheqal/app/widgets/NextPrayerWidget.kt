@@ -42,6 +42,6 @@ class NextPrayerWidget : AppWidgetProvider() {
             manager.updateAppWidget(id,views)
         }
         fun refresh(context: Context) { val manager=AppWidgetManager.getInstance(context); val component=ComponentName(context,NextPrayerWidget::class.java); manager.getAppWidgetIds(component).forEach{update(context,manager,it)} }
-        private fun format(v:Double):String{val total=kotlin.math.round(v).toInt();return "%02d:%02d".format((total/60)%24,total%60)}
+        private fun format(v:Double):String{val total=kotlin.math.round(v).toInt();return java.time.LocalTime.of((total/60)%24,total%60).format(java.time.format.DateTimeFormatter.ofPattern("h:mm a", java.util.Locale.getDefault()))}
     }
 }
