@@ -28,6 +28,7 @@
                 <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
+        <service android:name=".services.PrayerAdhanPlaybackService" android:exported="false" android:foregroundServiceType="mediaPlayback" />
         <service android:name=".services.QuranPlaybackService" android:exported="false" android:foregroundServiceType="mediaPlayback">
             <intent-filter>
                 <action android:name="androidx.media3.session.MediaSessionService" />
