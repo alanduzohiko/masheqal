@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.masheqal.app.MasheqalApp
 import com.masheqal.app.data.QuranStudyRepository
+import com.masheqal.app.data.LocationTimeZoneRepository
 import com.masheqal.app.R
 import com.masheqal.app.domain.*
 import com.masheqal.app.util.LocationUtils
@@ -29,6 +30,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 import java.time.ZonedDateTime
+import java.time.ZoneId
 import kotlinx.coroutines.delay
 
 private data class PrayerCandidate(val name: String, val minutes: Double)
@@ -43,6 +45,8 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
     val reading by app.personal.reading.collectAsState(initial = com.masheqal.app.data.ReadingPosition())
     val settings by app.settings.state.collectAsState(initial = com.masheqal.app.data.SettingsState())
     var location by remember { mutableStateOf(LocationUtils.lastKnown(context)) }
+    var locationZone by remember { mutableStateOf(ZoneId.systemDefault()) }
+    val timeZoneRepository = remember(context) { LocationTimeZoneRepository(context) }
     var prayerTimes by remember { mutableStateOf<PrayerTimes?>(null) }
 
     LaunchedEffect(Unit) {
@@ -67,10 +71,16 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
     }
 
     LaunchedEffect(location, settings.prayerMethod, settings.madhhab) {
-        location?.let { c ->
-            val offset = ZonedDateTime.now().offset.totalSeconds / 3600.0
+        val c = location
+        if (c == null) {
+            prayerTimes = null
+        } else {
+            val resolvedZone = timeZoneRepository.resolve(c.latitude, c.longitude)
+            locationZone = resolvedZone
+            val localDate = LocalDate.now(resolvedZone)
+            val offset = localDate.atTime(12, 0).atZone(resolvedZone).offset.totalSeconds / 3600.0
             prayerTimes = PrayerCalculator.calculate(
-                LocalDate.now(),
+                localDate,
                 Coordinates(c.latitude, c.longitude, offset),
                 PrayerMethod.valueOf(settings.prayerMethod),
                 AsrMadhhab.valueOf(settings.madhhab)
@@ -86,11 +96,11 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
             PrayerCandidate(stringResource(R.string.maghrib), p.maghrib),
             PrayerCandidate(stringResource(R.string.isha), p.isha)
         )
-        val now = ZonedDateTime.now().let { it.hour * 60.0 + it.minute + it.second / 60.0 }
+        val now = ZonedDateTime.now(locationZone).let { it.hour * 60.0 + it.minute + it.second / 60.0 }
         rows.firstOrNull { it.minutes >= now } ?: rows.firstOrNull()
     }
 
-    val date = LocalDate.now()
+    val date = LocalDate.now(locationZone)
     val hijri = HijriCalculator.fromGregorian(date)
 
     LazyColumn(
@@ -166,13 +176,13 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
                         }
 
                         if (candidate != null) {
-                            val now = ZonedDateTime.now()
+                            val now = ZonedDateTime.now(locationZone)
                             var countdown by remember(candidate.name, candidate.minutes) {
                                 mutableStateOf(countdownText(candidate.minutes, now))
                             }
-                            LaunchedEffect(candidate.name, candidate.minutes) {
+                            LaunchedEffect(candidate.name, candidate.minutes, locationZone) {
                                 while (true) {
-                                    countdown = countdownText(candidate.minutes, ZonedDateTime.now())
+                                    countdown = countdownText(candidate.minutes, ZonedDateTime.now(locationZone))
                                     delay(1000)
                                 }
                             }
