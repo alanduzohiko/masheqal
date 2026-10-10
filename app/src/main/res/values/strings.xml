@@ -128,4 +128,5 @@
     <string name="show_tafsir">Show tafsir when an ayah is selected</string>
     <string name="tafsir_loading_or_offline">Tafsir is not cached yet. Connect to the internet and select the ayah again.</string>
     <string name="quran_study_source_note">Translations and tafsir are retrieved by edition from the Al Quran Cloud API. The selected editions are cached for offline reading after first loading.</string>
+    <string name="settings_tafsir_hint">Select a verified tafsir and show it alongside the selected ayah.</string>
 </resources>
