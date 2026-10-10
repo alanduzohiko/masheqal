@@ -54,4 +54,26 @@
     <string name="method_turkey">ديانت / تركيا</string>
     <string name="madhhab_shafi">الشافعي</string>
     <string name="madhhab_hanafi">الحنفي</string>
+    <string name="adhkar_dashboard_title">مساحة يومية للذكر</string>
+    <string name="adhkar_dashboard_subtitle">أذكار وأدعية بمراجعها، مع تتبع هادئ لتقدمك اليومي.</string>
+    <string name="dhikr_sections">استكشف أذكارك اليومية</string>
+    <string name="dhikr_morning_subtitle">ابدأ يومك بأذكار موثقة المصدر</string>
+    <string name="dhikr_evening_subtitle">اختم يومك بأذكار ذات مراجع</string>
+    <string name="after_prayer_title">أذكار بعد الصلاة</string>
+    <string name="dhikr_after_prayer_subtitle">أذكار مأثورة بعد الصلاة</string>
+    <string name="daily_duas_title">أدعية يومية</string>
+    <string name="dhikr_daily_duas_subtitle">أدعية لمواقف الحياة اليومية</string>
+    <string name="dhikr_offline_label">تعمل دون إنترنت</string>
+    <string name="dhikr_total">%1$d ذكرًا ودعاءً</string>
+    <string name="dhikr_count">%1$d عنصرًا</string>
+    <string name="dhikr_reset_count">تصفير العدّاد</string>
+    <string name="dhikr_search_hint">ابحث في النص أو الترجمة أو المصدر</string>
+    <string name="dhikr_no_results">لا توجد نتائج مطابقة</string>
+    <string name="dhikr_no_results_hint">جرّب كلمة أخرى أو اختر قسمًا مختلفًا.</string>
+    <string name="dhikr_load_error_title">تعذّر تحميل الأذكار</string>
+    <string name="dhikr_load_error_body">تعذّر قراءة المحتوى المضمّن. أعد فتح الصفحة وحاول مجددًا.</string>
+    <string name="dhikr_repetition">%1$d / %2$d</string>
+    <string name="dhikr_source_reference">المصدر: %1$s</string>
+    <string name="dhikr_count_action">عدّ هذا الذكر</string>
+    <string name="dhikr_attribution">المصادر: قاعدة أذكار الصباح والمساء Seen-Arabic (MIT)، ومشروع fitrahive/dua-dhikr (MIT). التفاصيل في content/ATTRIBUTIONS.md.</string>
 </resources>
