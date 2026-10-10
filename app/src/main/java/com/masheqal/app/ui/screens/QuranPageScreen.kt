@@ -17,6 +17,7 @@ import androidx.navigation.NavHostController
 import com.masheqal.app.MasheqalApp
 import com.masheqal.app.R
 import com.masheqal.app.data.QuranStudyRepository
+import com.masheqal.app.data.QuranScriptRepository
 import com.masheqal.app.data.QuranTajweedRepository
 import com.masheqal.app.data.QuranVerse
 import com.masheqal.app.data.SettingsState
@@ -28,6 +29,7 @@ fun QuranPageScreen(app: MasheqalApp, nav: NavHostController, page: Int) {
     val context = LocalContext.current
     val settings by app.settings.state.collectAsState(initial = SettingsState())
     val studyRepository = remember(context) { QuranStudyRepository(context) }
+    val scriptRepository = remember(context) { QuranScriptRepository(context) }
     val tajweedRepository = remember(context) { QuranTajweedRepository(context) }
     val scope = rememberCoroutineScope()
 
@@ -39,6 +41,8 @@ fun QuranPageScreen(app: MasheqalApp, nav: NavHostController, page: Int) {
     var translationTexts by remember { mutableStateOf<Map<String, String>>(emptyMap()) }
     var translationUnavailable by remember { mutableStateOf(false) }
     var tajweedTexts by remember { mutableStateOf<Map<String, String>>(emptyMap()) }
+    var scriptTexts by remember { mutableStateOf<Map<String, String>>(emptyMap()) }
+    var scriptUnavailable by remember { mutableStateOf(false) }
 
     LaunchedEffect(page) {
         val loaded = app.quran.versesOfPage(page.coerceIn(1, 604))
@@ -69,6 +73,33 @@ fun QuranPageScreen(app: MasheqalApp, nav: NavHostController, page: Int) {
         }
         translationTexts = loadedTranslations
         translationUnavailable = failed && loadedTranslations.isEmpty()
+    }
+
+    LaunchedEffect(verses, settings.quranScriptEdition) {
+        scriptTexts = emptyMap()
+        scriptUnavailable = false
+        if (settings.quranScriptEdition == QuranScriptRepository.DEFAULT_EDITION || verses.isEmpty()) {
+            return@LaunchedEffect
+        }
+
+        val loadedScripts = mutableMapOf<String, String>()
+        var failed = false
+        verses.groupBy { it.surah }.forEach { (surah, chapterVerses) ->
+            val chapterCount = runCatching { app.quran.versesOfSurah(surah).size }.getOrDefault(0)
+            val tagged = if (chapterCount > 0) {
+                runCatching {
+                    scriptRepository.loadSurah(surah, settings.quranScriptEdition, chapterCount)
+                }.getOrNull()
+            } else null
+            if (tagged == null) failed = true
+            chapterVerses.forEach { verse ->
+                tagged?.getOrNull(verse.ayah - 1)?.let {
+                    loadedScripts["${verse.surah}:${verse.ayah}"] = it
+                }
+            }
+        }
+        scriptTexts = loadedScripts
+        scriptUnavailable = failed && loadedScripts.isEmpty()
     }
 
     LaunchedEffect(verses, settings.showTajweedColors) {
@@ -131,6 +162,15 @@ fun QuranPageScreen(app: MasheqalApp, nav: NavHostController, page: Int) {
             }
         )
 
+        if (scriptUnavailable) {
+            Text(
+                stringResource(R.string.mushaf_script_unavailable_offline),
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+
         if (translationUnavailable) {
             Text(
                 stringResource(R.string.translation_unavailable_offline),
@@ -180,7 +220,7 @@ fun QuranPageScreen(app: MasheqalApp, nav: NavHostController, page: Int) {
                         if (settings.showTajweedColors && taggedText != null) {
                             QuranTajweedText(taggedText, size = 27f, modifier = Modifier.fillMaxWidth())
                         } else {
-                            QuranText(verse.text, size = 27f, modifier = Modifier.fillMaxWidth())
+                            QuranText(scriptTexts[reference] ?: verse.text, size = 27f, modifier = Modifier.fillMaxWidth())
                         }
                         if (showTranslation) {
                             val translation = translationTexts[reference]
