@@ -167,4 +167,6 @@
     <string name="tafsir_search_hint">Search tafsir name, language or edition ID</string>
     <string name="surah_label">Surah</string>
     <string name="translation_unavailable_offline">The selected translation is not cached yet. Connect to the internet to load this edition.</string>
+    <string name="settings_tajweed_colors">Tajweed color rules</string>
+    <string name="settings_tajweed_colors_hint">Color the recitation rules while reading the Quran. Surahs are cached for offline reading.</string>
 </resources>
