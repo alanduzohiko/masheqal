@@ -293,6 +293,7 @@ fun PrayerScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: ()
                                     ?: stringResource(R.string.adhan_open_library)
                             )
                         }
+                    }
                 }
             }
 
