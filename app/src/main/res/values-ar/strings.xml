@@ -155,4 +155,5 @@
     <string name="settings_adhan_play_hint">تشغيل الأذان الكامل المحدد عند حلول وقت الصلاة.</string>
     <string name="translation_search_hint">ابحث باسم الترجمة أو اللغة أو معرّف الإصدار</string>
     <string name="tafsir_search_hint">ابحث باسم التفسير أو اللغة أو معرّف الإصدار</string>
+    <string name="surah_label">سورة</string>
 </resources>
