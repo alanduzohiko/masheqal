@@ -53,9 +53,9 @@ class AdhkarRepository(private val context: Context) {
                     translation = translation?.optString("translation", "").orEmpty(),
                     transliteration = translation?.optString("transliteration", "").orEmpty(),
                     count = count,
-                    countDescription = item.optString("count_description", ""),
-                    benefit = item.optString("fadl", ""),
-                    source = item.optString("source", "")
+                    countDescription = translation?.optString("count_description", item.optString("count_description", "")) ?: item.optString("count_description", ""),
+                    benefit = translation?.optString("fadl", item.optString("fadl", "")) ?: item.optString("fadl", ""),
+                    source = translation?.optString("source", item.optString("source", "")) ?: item.optString("source", "")
                 )
             }
             if (type == 0 || type == 2) {
@@ -67,13 +67,25 @@ class AdhkarRepository(private val context: Context) {
                     translation = translation?.optString("translation", "").orEmpty(),
                     transliteration = translation?.optString("transliteration", "").orEmpty(),
                     count = count,
-                    countDescription = item.optString("count_description", ""),
-                    benefit = item.optString("fadl", ""),
-                    source = item.optString("source", "")
+                    countDescription = translation?.optString("count_description", item.optString("count_description", "")) ?: item.optString("count_description", ""),
+                    benefit = translation?.optString("fadl", item.optString("fadl", "")) ?: item.optString("fadl", ""),
+                    source = translation?.optString("source", item.optString("source", "")) ?: item.optString("source", "")
                 )
             }
         }
 
+        appendGenericEntries(
+            result,
+            readArray("content/morning_duas_en.json"),
+            category = "morning",
+            prefix = "morning-dua"
+        )
+        appendGenericEntries(
+            result,
+            readArray("content/evening_duas_en.json"),
+            category = "evening",
+            prefix = "evening-dua"
+        )
         appendGenericEntries(
             result,
             readArray("content/after_salah_en.json"),
@@ -85,6 +97,12 @@ class AdhkarRepository(private val context: Context) {
             readArray("content/daily_duas_en.json"),
             category = "daily_dua",
             prefix = "daily-dua"
+        )
+        appendGenericEntries(
+            result,
+            readArray("content/selected_duas_en.json"),
+            category = "daily_dua",
+            prefix = "selected-dua"
         )
 
         result
@@ -111,8 +129,8 @@ class AdhkarRepository(private val context: Context) {
                 translation = o.optString("translation", ""),
                 transliteration = o.optString("latin", ""),
                 count = repeat.coerceAtLeast(1),
-                countDescription = note,
-                benefit = o.optString("benefits", ""),
+                countDescription = note.ifBlank { o.optString("count_description", "") },
+                benefit = o.optString("benefits", o.optString("fawaid", "")),
                 source = o.optString("source", "")
             )
         }
