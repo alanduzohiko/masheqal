@@ -21,6 +21,8 @@ import androidx.compose.ui.unit.dp
 import com.masheqal.app.MasheqalApp
 import com.masheqal.app.R
 import com.masheqal.app.data.SettingsState
+import com.masheqal.app.data.FullSurahReciter
+import com.masheqal.app.data.Mp3QuranReciterRepository
 import kotlinx.coroutines.launch
 
 private val setupMethods = listOf(
@@ -40,15 +42,16 @@ private val setupMethods = listOf(
     "DUBAI" to R.string.method_dubai
 )
 
+private data class SetupReciter(val id: String, val name: String)
 private val setupReciters = listOf(
-    "ar.alafasy" to "Mishary Rashid Alafasy",
-    "ar.sudais" to "Abdul Rahman Al-Sudais",
-    "ar.shuraim" to "Saud Al-Shuraim",
-    "ar.husary" to "Mahmoud Khalil Al-Husary",
-    "ar.minshawi" to "Mohamed Siddiq Al-Minshawi",
-    "ar.abdulbasit" to "Abdul Basit Abdul Samad",
-    "ar.ajamy" to "Ahmed Al-Ajamy",
-    "ar.muhammadjibreel" to "Muhammad Jibreel"
+    SetupReciter("ar.alafasy", "Mishary Rashid Alafasy"),
+    SetupReciter("ar.sudais", "Abdul Rahman Al-Sudais"),
+    SetupReciter("ar.shuraim", "Saud Al-Shuraim"),
+    SetupReciter("ar.husary", "Mahmoud Khalil Al-Husary"),
+    SetupReciter("ar.minshawi", "Mohamed Siddiq Al-Minshawi"),
+    SetupReciter("ar.abdulbasit", "Abdul Basit Abdul Samad"),
+    SetupReciter("ar.ajamy", "Ahmed Al-Ajamy"),
+    SetupReciter("ar.muhammadjibreel", "Muhammad Jibreel")
 )
 
 @Composable
@@ -59,7 +62,24 @@ fun OnboardingScreen(
 ) {
     val settings by app.settings.state.collectAsState(initial = SettingsState())
     val scope = rememberCoroutineScope()
+    val context = androidx.compose.ui.platform.LocalContext.current
     var step by remember { mutableIntStateOf(0) }
+    var extraReciters by remember { mutableStateOf(emptyList<FullSurahReciter>()) }
+    var reciterSearch by remember { mutableStateOf("") }
+
+    LaunchedEffect(context) {
+        extraReciters = runCatching { Mp3QuranReciterRepository(context).loadArabicReciters() }
+            .getOrDefault(emptyList())
+    }
+    val selectableReciters = setupReciters + extraReciters.map { reciter ->
+        SetupReciter(
+            reciter.id,
+            reciter.name + " — " + reciter.moshafName + " · " + context.getString(R.string.full_surah_audio_label)
+        )
+    }
+    val filteredReciters = remember(selectableReciters, reciterSearch) {
+        selectableReciters.filter { it.name.contains(reciterSearch.trim(), ignoreCase = true) }
+    }
 
     Column(
         modifier = Modifier
@@ -205,11 +225,28 @@ fun OnboardingScreen(
                                 IconBadge(Icons.Default.RecordVoiceOver, emphasized = true, modifier = Modifier.size(52.dp))
                                 Text(stringResource(R.string.onboarding_reciter_setup), style = MaterialTheme.typography.headlineSmall)
                                 Text(stringResource(R.string.onboarding_reciter_hint), color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                OutlinedTextField(
+                                    value = reciterSearch,
+                                    onValueChange = { reciterSearch = it },
+                                    modifier = Modifier.fillMaxWidth(),
+                                    singleLine = true,
+                                    shape = RoundedCornerShape(16.dp),
+                                    placeholder = { Text(stringResource(R.string.reciter_search_hint)) },
+                                    leadingIcon = { Icon(Icons.Default.Search, null) },
+                                    trailingIcon = {
+                                        if (reciterSearch.isNotEmpty()) IconButton(onClick = { reciterSearch = "" }) {
+                                            Icon(Icons.Default.Close, stringResource(R.string.clear))
+                                        }
+                                    }
+                                )
+                                Text(stringResource(R.string.quran_reciter_sources_note), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                                 LazyColumn(
                                     modifier = Modifier.heightIn(max = 350.dp),
                                     verticalArrangement = Arrangement.spacedBy(6.dp)
                                 ) {
-                                    items(setupReciters) { (id, name) ->
+                                    items(filteredReciters) { voice ->
+                                        val id = voice.id
+                                        val name = voice.name
                                         Card(
                                             onClick = { scope.launch { app.settings.setReciter(id) } },
                                             modifier = Modifier.fillMaxWidth(),
