@@ -119,4 +119,9 @@
     <string name="tafsir_loading_or_offline">لم يُخزّن التفسير بعد. اتصل بالإنترنت ثم اختر الآية مجددًا.</string>
     <string name="quran_study_source_note">تُجلب الترجمات والتفاسير بحسب الإصدار من واجهة Al Quran Cloud API، ثم تُخزّن لقراءتها دون اتصال بعد تحميلها أول مرة.</string>
     <string name="settings_tafsir_hint">اختر تفسيرًا موثقًا واعرضه بجانب الآية المحددة.</string>
+    <string name="full_surah_audio_label">تلاوة السورة كاملة</string>
+    <string name="reciter_missing_surah">هذا القارئ لا يوفّر تسجيلًا لهذه السورة. اختر رواية أخرى.</string>
+    <string name="full_surah_audio_notice">يبدأ هذا القارئ السورة من أولها كاملة، ولا يبدأ من الآية المحددة.</string>
+    <string name="reciter_search_hint">ابحث عن القارئ أو أسلوب التلاوة</string>
+    <string name="quran_reciter_sources_note">القراء الذين يدعمون الآية الواحدة يعملون آيةً بآية. وتتوفر قراءات إضافية للسورة كاملة من MP3Quran.net.</string>
 </resources>
