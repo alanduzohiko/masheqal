@@ -36,7 +36,7 @@
     <string name="onboarding_location">شوێنەکەت دیاری بکە</string>
     <string name="onboarding_location_hint">شوێن یارمەتیدەرە بۆ هەژمارکردنی کاتی نوێژ و ئاراستەی قیبلە.</string>
     <string name="onboarding_location_optional">شوێن ئارەزوومەندانەیە</string>
-    <string name="onboarding_location_privacy">شوێنەکەت لەسەر ئەم ئامێرە بۆ تایبەتمەندییەکانی نوێژ بەکاردێت. دەتوانیت بەبێ پێدانی دەسەڵات بەردەوام بیت و دواتر دیاری بکەیت.</string>
+    <string name="onboarding_location_privacy">شوێنەکەت بۆ تایبەتمەندییەکانی نوێژ بەکاردێت. کاتێک ئینتەرنێت هەیە، هاوردەکان بە نزیکەی ١ کیلۆمەتر وردی کەم دەکرێن و بە پەیوەندییەکی پارێزراو دەنێردرێن بۆ دۆزینەوەی ناوچەی کاتی ناوخۆیی؛ ئەگەر ئەو خزمەتگوزارییە بەردەست نەبێت کاتی ئامێر بەکاردێت. دەتوانیت بەبێ مۆڵەتی شوێن بەردەوام بیت.</string>
     <string name="onboarding_use_location">شوێنی ئێستا بەکاربهێنە</string>
     <string name="onboarding_prayer_setup">هەڵبژاردەکانی نوێژ</string>
     <string name="onboarding_reciter_setup">قارییەک هەڵبژێرە</string>
@@ -83,7 +83,7 @@
     <string name="prayer_preferences">نوێژ و شوێن</string>
     <string name="settings_prayer_hint">شێوازی هەژمارکردنی کاتی نوێژ هەڵبژێرە.</string>
     <string name="settings_location_title">نوێکردنەوەی شوێنی ئێستا</string>
-    <string name="settings_location_hint">شوێنی ئامێر بەکاربهێنە بۆ کاتی نوێژ و قیبلە.</string>
+    <string name="settings_location_hint">شوێنی ئامێر بەکاربهێنە بۆ کاتی نوێژ و قیبلە. بۆ دۆزینەوەی ناوچەی کات هاوردەی نزیکەیی بە پەیوەندی پارێزراو دەنێردرێن؛ ئەگەر نەکرێت کاتی ئامێر بەکاردێت.</string>
     <string name="quran_reading_preferences">خوێندنەوەی قورئان</string>
     <string name="settings_quran_hint">قاری هەڵبژێرە و پیشاندانی وەرگێڕان کۆنترۆڵ بکە.</string>
     <string name="settings_translation_hint">وەرگێڕانی هەڵبژێردراو لەژێر هەر ئایەتێک پیشان بدە.</string>
@@ -94,7 +94,7 @@
     <string name="settings_data">پاڵپشتی و تایبەتمەندی</string>
     <string name="settings_data_hint">کۆنترۆڵی داتای خوێندنەوەی پاشەکەوتکراوت لە دەست خۆتدا بهێڵەوە.</string>
     <string name="settings_restore_hint">ڕێکخستن، نیشانەکان و تێبینییەکان لە فایلێکی پاڵپشتی بگەڕێنەوە.</string>
-    <string name="settings_privacy_hint">بزانە داتای ناوخۆیی و مۆڵەتەکان چۆن بەکاردێن.</string>
+    <string name="settings_privacy_hint">داتای ناوخۆیی، مۆڵەتی شوێن و دۆزینەوەی ئارەزوومەندانەی ناوچەی کات بپشکنە.</string>
     <string name="today_prayer_times">کاتەکانی نوێژی ئەمڕۆ</string>
     <string name="view_all">هەمووی ببینە</string>
     <string name="prayer_grid_location_hint">ڕێگە بدە بە شوێن بۆ پیشاندانی کاتی نوێژی ناوخۆیی.</string>
