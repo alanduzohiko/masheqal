@@ -38,7 +38,6 @@ fun QiblaScreen(nav: NavHostController) {
     val context = androidx.compose.ui.platform.LocalContext.current
     var location by remember { mutableStateOf(LocationUtils.lastKnown(context)) }
     var azimuth by remember { mutableStateOf<Float?>(null) }
-    var accuracy by remember { mutableStateOf(0) }
     val scope = rememberCoroutineScope()
 
     val request = rememberLauncherForActivityResult(
@@ -61,9 +60,7 @@ fun QiblaScreen(nav: NavHostController) {
                 azimuth = ((Math.toDegrees(orientation[0].toDouble()).toFloat() + 360f) % 360f)
             }
 
-            override fun onAccuracyChanged(sensor: Sensor?, value: Int) {
-                accuracy = value
-            }
+            override fun onAccuracyChanged(sensor: Sensor?, value: Int) { }
         }
         if (sensor != null) {
             sensorManager.registerListener(listener, sensor, SensorManager.SENSOR_DELAY_UI)
@@ -217,12 +214,7 @@ fun QiblaScreen(nav: NavHostController) {
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
-                    Spacer(Modifier.height(8.dp))
-                    Text(
-                        "${stringResource(R.string.qibla_accuracy)}: $accuracy",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.70f)
-                    )
+
                 }
             }
         }
