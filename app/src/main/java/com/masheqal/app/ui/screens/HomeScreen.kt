@@ -22,6 +22,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.masheqal.app.MasheqalApp
 import com.masheqal.app.data.QuranStudyRepository
+import com.masheqal.app.data.QuranScriptRepository
+import com.masheqal.app.data.QuranTajweedRepository
 import com.masheqal.app.data.LocationTimeZoneRepository
 import com.masheqal.app.R
 import com.masheqal.app.domain.*
@@ -42,6 +44,10 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
     var daily by remember { mutableStateOf<com.masheqal.app.data.QuranVerse?>(null) }
     var dailyTranslation by remember { mutableStateOf<String?>(null) }
     val studyRepository = remember(context) { QuranStudyRepository(context) }
+    val scriptRepository = remember(context) { QuranScriptRepository(context) }
+    val tajweedRepository = remember(context) { QuranTajweedRepository(context) }
+    var dailyScriptText by remember { mutableStateOf<String?>(null) }
+    var dailyTajweedText by remember { mutableStateOf<String?>(null) }
     val reading by app.personal.reading.collectAsState(initial = com.masheqal.app.data.ReadingPosition())
     val settings by app.settings.state.collectAsState(initial = com.masheqal.app.data.SettingsState())
     var location by remember { mutableStateOf(LocationUtils.lastKnown(context)) }
@@ -55,6 +61,24 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
             daily = verses[(LocalDate.now().dayOfYear - 1) % verses.size]
         }
         location = LocationUtils.lastKnown(context)
+    }
+
+    LaunchedEffect(daily?.surah, daily?.ayah, settings.quranScriptEdition, settings.showTajweedColors) {
+        dailyScriptText = null
+        dailyTajweedText = null
+        val verse = daily ?: return@LaunchedEffect
+        val chapter = runCatching { app.quran.versesOfSurah(verse.surah) }.getOrNull().orEmpty()
+        if (settings.showTajweedColors && chapter.isNotEmpty()) {
+            dailyTajweedText = runCatching {
+                tajweedRepository.loadSurah(verse.surah, chapter.size).getOrNull(verse.ayah - 1)
+            }.getOrNull()
+        }
+        if (settings.quranScriptEdition != QuranScriptRepository.DEFAULT_EDITION && chapter.isNotEmpty()) {
+            dailyScriptText = runCatching {
+                scriptRepository.loadSurah(verse.surah, settings.quranScriptEdition, chapter.size)
+                    .getOrNull(verse.ayah - 1)
+            }.getOrNull()
+        }
     }
 
     LaunchedEffect(daily?.surah, daily?.ayah, settings.translationEdition) {
@@ -327,7 +351,12 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
                     Column(Modifier.padding(20.dp)) {
                         StatPill("${verse.surah}:${verse.ayah}")
                         Spacer(Modifier.height(12.dp))
-                        QuranText(verse.text, size = 26f)
+                        val taggedDailyVerse = dailyTajweedText
+                        if (settings.showTajweedColors && taggedDailyVerse != null) {
+                            QuranTajweedText(taggedDailyVerse, size = 26f)
+                        } else {
+                            QuranText(dailyScriptText ?: verse.text, size = 26f)
+                        }
                         Spacer(Modifier.height(14.dp))
                         if (settings.showEnglishTranslation && !dailyTranslation.isNullOrBlank()) {
                             Text(
