@@ -19,18 +19,20 @@ import java.time.ZoneId
 object PrayerNotificationScheduler {
     private const val PREF="prayer_schedule"
     private const val CHANNEL="prayer"
-    fun scheduleToday(context: Context, times: PrayerTimes) {
+    fun scheduleToday(context: Context, times: PrayerTimes, locationZoneId: String = ZoneId.systemDefault().id) {
         val mgr=context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val locationZone = runCatching { ZoneId.of(locationZoneId) }.getOrDefault(ZoneId.systemDefault())
         cancelPendingAlarms(context)
         val values=doubleArrayOf(times.fajr,times.sunrise,times.dhuhr,times.asr,times.maghrib,times.isha)
         context.getSharedPreferences(PREF,Context.MODE_PRIVATE).edit()
             .putString("date",times.date.toString())
+            .putString("zoneId",locationZone.id)
             .putBoolean("enabled",true)
             .apply()
         values.forEachIndexed { index, minutes ->
             // Sunrise is displayed in the timetable but is not one of the five prayer alarms.
             if (index == 1 || !minutes.isFinite()) return@forEachIndexed
-            val millis=times.date.atStartOfDay(ZoneId.systemDefault()).plusMinutes(minutes.toLong()).toInstant().toEpochMilli()
+            val millis=times.date.atStartOfDay(locationZone).plusMinutes(minutes.toLong()).toInstant().toEpochMilli()
             if (millis <= System.currentTimeMillis()) return@forEachIndexed
             val labelRes=intArrayOf(R.string.fajr,R.string.sunrise,R.string.dhuhr,R.string.asr,R.string.maghrib,R.string.isha)[index]
             val intent=Intent(context,PrayerAlarmReceiver::class.java).putExtra("name",context.getString(labelRes))
@@ -78,10 +80,18 @@ object PrayerNotificationScheduler {
         val lon=p.getString("lon",null)?.toDoubleOrNull() ?: return
         val method=runCatching{PrayerMethod.valueOf(p.getString("method","MWL")!!)}.getOrDefault(PrayerMethod.MWL)
         val madhhab=runCatching{AsrMadhhab.valueOf(p.getString("madhhab","SHAFI")!!)}.getOrDefault(AsrMadhhab.SHAFI)
-        val zone=ZoneId.systemDefault(); val offset=LocalDate.now().atStartOfDay(zone).offset.totalSeconds/3600.0
-        scheduleToday(context,PrayerCalculator.calculate(LocalDate.now(),Coordinates(lat,lon,offset),method,madhhab))
+        val zone=runCatching { ZoneId.of(p.getString("zoneId",ZoneId.systemDefault().id) ?: ZoneId.systemDefault().id) }.getOrDefault(ZoneId.systemDefault())
+        val date=LocalDate.now(zone)
+        val offset=date.atTime(12,0).atZone(zone).offset.totalSeconds/3600.0
+        scheduleToday(context,PrayerCalculator.calculate(date,Coordinates(lat,lon,offset),method,madhhab),zone.id)
     }
-    fun storeConfig(context: Context,lat:Double,lon:Double,method:PrayerMethod,madhhab:AsrMadhhab){context.getSharedPreferences(PREF,Context.MODE_PRIVATE).edit().putString("lat",lat.toString()).putString("lon",lon.toString()).putString("method",method.name).putString("madhhab",madhhab.name).apply()}
+    fun storeConfig(context: Context,lat:Double,lon:Double,method:PrayerMethod,madhhab:AsrMadhhab,zoneId:String = ZoneId.systemDefault().id){
+        val zone=runCatching { ZoneId.of(zoneId) }.getOrDefault(ZoneId.systemDefault())
+        context.getSharedPreferences(PREF,Context.MODE_PRIVATE).edit()
+            .putString("lat",lat.toString()).putString("lon",lon.toString())
+            .putString("method",method.name).putString("madhhab",madhhab.name)
+            .putString("zoneId",zone.id).apply()
+    }
     fun createChannel(context: Context){ val nm=context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager; nm.createNotificationChannel(NotificationChannel(CHANNEL,context.getString(R.string.prayer_notification_channel),NotificationManager.IMPORTANCE_HIGH)) }
 }
 class PrayerAlarmReceiver: BroadcastReceiver(){
