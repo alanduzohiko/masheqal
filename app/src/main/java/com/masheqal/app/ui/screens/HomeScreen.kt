@@ -2,6 +2,7 @@
 package com.masheqal.app.ui.screens
 
 import android.content.Context
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -23,6 +24,8 @@ import com.masheqal.app.R
 import com.masheqal.app.domain.*
 import com.masheqal.app.util.LocationUtils
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 import java.time.ZonedDateTime
 import kotlinx.coroutines.delay
 
@@ -87,13 +90,18 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
                     Text(stringResource(R.string.app_name), style = MaterialTheme.typography.headlineMedium)
                     Spacer(Modifier.height(3.dp))
                     Text(
-                        "§date  •  ${hijri.day}/${hijri.month}/${hijri.year}",
+                        "${date.format(DateTimeFormatter.ofPattern("EEE, d MMM", Locale.getDefault()))}  •  ${hijri.day}/${hijri.month}/${hijri.year}",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
-                FilledTonalIconButton(onClick = { nav.navigate("search") }) {
-                    Icon(Icons.Default.Search, stringResource(R.string.search))
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    FilledTonalIconButton(onClick = { nav.navigate("search") }) {
+                        Icon(Icons.Default.Search, stringResource(R.string.search))
+                    }
+                    FilledTonalIconButton(onClick = { nav.navigate("settings") }) {
+                        Icon(Icons.Default.Settings, stringResource(R.string.settings))
+                    }
                 }
             }
         }
@@ -101,7 +109,7 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
         item {
             Spacer(Modifier.height(16.dp))
             Card(
-                Modifier.padding(horizontal = 16.dp).fillMaxWidth(),
+                Modifier.padding(horizontal = 16.dp).fillMaxWidth().animateContentSize(),
                 shape = RoundedCornerShape(28.dp),
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary)
             ) {
@@ -391,7 +399,7 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
 
 private fun formatMinutes(v: Double): String {
     val total = kotlin.math.round(v).toInt()
-    return "%02d:%02d".format((total / 60) % 24, total % 60)
+    return java.time.LocalTime.of((total / 60) % 24, total % 60).format(java.time.format.DateTimeFormatter.ofPattern("h:mm a", java.util.Locale.getDefault()))
 }
 
 private fun countdownText(prayerMinutes: Double, now: ZonedDateTime): String {
