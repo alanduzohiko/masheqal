@@ -26,7 +26,7 @@
     <string name="play_current_ayah">التشغيل من هذه الآية</string>
     <string name="pause_audio">إيقاف التلاوة مؤقتًا</string>
     <string name="select_reciter">اختر القارئ</string>
-    <string name="english_translation">الترجمة الإنجليزية</string>
+    <string name="english_translation">إظهار الترجمة</string>
     <string name="audio_source_notice">تُبث التلاوات من Al Quran Cloud وتتطلب اتصالًا بالإنترنت.</string>
     <string name="tafsir_unavailable">يتوفر التفسير عند تثبيت حزمة محتوى موثوقة وموثقة.</string>
     <string name="audio_error">تعذّر تشغيل التلاوة. تحقق من اتصال الإنترنت وحاول مجددًا.</string>
@@ -86,7 +86,7 @@
     <string name="settings_location_hint">استخدم موقع الجهاز لحساب الصلاة والقبلة.</string>
     <string name="quran_reading_preferences">قراءة القرآن</string>
     <string name="settings_quran_hint">اختر القارئ وتحكم في عرض الترجمة.</string>
-    <string name="settings_translation_hint">إظهار الترجمة الإنجليزية أسفل كل آية.</string>
+    <string name="settings_translation_hint">إظهار الترجمة المختارة أسفل كل آية.</string>
     <string name="settings_content_hint">افتح الترجمات المتاحة وموارد الدراسة الموثقة.</string>
     <string name="settings_reading_display">عرض القراءة</string>
     <string name="settings_display_hint">إبقاء الشاشة مضاءة أثناء القراءة.</string>
@@ -156,4 +156,5 @@
     <string name="translation_search_hint">ابحث باسم الترجمة أو اللغة أو معرّف الإصدار</string>
     <string name="tafsir_search_hint">ابحث باسم التفسير أو اللغة أو معرّف الإصدار</string>
     <string name="surah_label">سورة</string>
+    <string name="translation_unavailable_offline">لم تُخزّن الترجمة المختارة بعد. اتصل بالإنترنت لتحميل هذا الإصدار.</string>
 </resources>
