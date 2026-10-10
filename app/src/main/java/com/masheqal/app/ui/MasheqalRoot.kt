@@ -128,7 +128,8 @@ fun MasheqalRoot(
     }
     }
 
-    LaunchedEffect(intent) {
+    LaunchedEffect(intent, settings.onboardingCompleted) {
+        if (!settings.onboardingCompleted) return@LaunchedEffect
         val uri = intent?.data
         if (uri != null) {
             when (uri.host) {
