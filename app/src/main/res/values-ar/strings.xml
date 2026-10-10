@@ -161,4 +161,10 @@
     <string name="settings_tajweed_colors_hint">لوّن أحكام التلاوة أثناء قراءة القرآن. تُحفظ السور للقراءة دون اتصال.</string>
     <string name="location_needed_details">اسمح بالوصول إلى الموقع لحساب أوقات الصلاة المحلية واتجاه القبلة. يمكنك تغيير الإذن لاحقًا من إعدادات Android.</string>
     <string name="dhikr_number">الذكر %1$s</string>
+    <string name="content_center_subtitle">اعرف ما يعمل دون إنترنت، وما يُبث عبر الإنترنت، وما يحتاج إلى حزمة موثقة مستقلة.</string>
+    <string name="bundled_sourced_content">مضمّن مع توثيق المصدر للاستخدام دون اتصال</string>
+    <string name="connected_content">المحتوى والوسائط عبر الإنترنت</string>
+    <string name="online_cached_content">يُحمّل من المصدر وتُحفظ السور التي تفتحها للاستخدام دون اتصال</string>
+    <string name="streamed_audio_content">يُبث الصوت من المصدر المذكور ويتطلب الإنترنت للتشغيل</string>
+    <string name="source_dependent_content">غير متوفر بعد — يلزم توفير مجموعة بيانات موثقة ومرخّصة</string>
 </resources>
