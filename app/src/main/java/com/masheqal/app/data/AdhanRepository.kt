@@ -15,7 +15,7 @@ data class AdhanRecording(
     val category: String,
     val featured: Boolean
 ) {
-    fun streamUri(): String = streamUriForFile(fileName)
+    fun streamUri(): String = AdhanRepository.streamUriForFile(fileName)
 
     val displayTitle: String
         get() = if (arabicTitle.isBlank()) title else "$title — $arabicTitle"
