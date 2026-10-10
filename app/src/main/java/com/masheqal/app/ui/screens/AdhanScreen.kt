@@ -364,7 +364,7 @@ fun AdhanScreen(app: MasheqalApp, nav: NavHostController) {
                                     Icon(
                                         when (recording.category) {
                                             "fajr" -> Icons.Default.WbSunny
-                                            "mosque-region" -> Icons.Default.Mosque
+                                            "mosque-region" -> Icons.Default.LocationCity
                                             else -> Icons.Default.RecordVoiceOver
                                         },
                                         null,
