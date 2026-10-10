@@ -31,6 +31,8 @@ import com.masheqal.app.data.QuranEdition
 import com.masheqal.app.data.QuranEditionRepository
 import com.masheqal.app.data.QuranScriptRepository
 import com.masheqal.app.services.PrayerNotificationScheduler
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 private data class ReaderVoice(val id: String, val name: String)
@@ -84,15 +86,29 @@ fun SettingsScreen(
     val fullSurahAudioLabel = stringResource(R.string.full_surah_audio_label)
 
     LaunchedEffect(context) {
-        extraVoices = runCatching { Mp3QuranReciterRepository(context).loadArabicReciters() }
-            .getOrDefault(emptyList())
-        verseByVerseVoices = runCatching { editionRepository.loadAudioReciters() }.getOrDefault(emptyList())
-        availableScripts = runCatching { scriptRepository.loadCatalog() }.getOrDefault(emptyList())
-        val catalogue = runCatching { editionRepository.loadCatalog() }.getOrDefault(emptyList())
-        availableTranslations = (catalogue.filter { it.type == "translation" } + editionRepository.fallbackTranslations())
-            .distinctBy { it.identifier }
-        availableTafsirs = (catalogue.filter { it.type == "tafsir" } + editionRepository.fallbackTafsirs())
-            .distinctBy { it.identifier }
+        coroutineScope {
+            val fullSurahJob = async {
+                runCatching { Mp3QuranReciterRepository(context).loadArabicReciters() }.getOrDefault(emptyList())
+            }
+            val verseByVerseJob = async {
+                runCatching { editionRepository.loadAudioReciters() }.getOrDefault(emptyList())
+            }
+            val scriptJob = async {
+                runCatching { scriptRepository.loadCatalog() }.getOrDefault(emptyList())
+            }
+            val editionsJob = async {
+                runCatching { editionRepository.loadCatalog() }.getOrDefault(emptyList())
+            }
+
+            extraVoices = fullSurahJob.await()
+            verseByVerseVoices = verseByVerseJob.await()
+            availableScripts = scriptJob.await()
+            val catalogue = editionsJob.await()
+            availableTranslations = (catalogue.filter { it.type == "translation" } + editionRepository.fallbackTranslations())
+                .distinctBy { it.identifier }
+            availableTafsirs = (catalogue.filter { it.type == "tafsir" } + editionRepository.fallbackTafsirs())
+                .distinctBy { it.identifier }
+        }
     }
 
     val createBackup = rememberLauncherForActivityResult(
