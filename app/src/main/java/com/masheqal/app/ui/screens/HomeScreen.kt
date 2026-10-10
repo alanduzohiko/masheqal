@@ -63,7 +63,7 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
             studyRepository.loadSurah(verse.surah, settings.translationEdition)
         }.getOrNull()
         dailyTranslation = result?.getOrNull(verse.ayah - 1)?.takeIf { it.isNotBlank() }
-            ?: if (settings.translationEdition == "en.sahih") verse.translationEn.orEmpty().ifBlank { null } else null
+            ?: if (settings.translationEdition == "en.sahih") verse.translationEn?.takeIf { it.isNotBlank() } else null
     }
 
     LaunchedEffect(location, settings.prayerMethod, settings.madhhab) {
