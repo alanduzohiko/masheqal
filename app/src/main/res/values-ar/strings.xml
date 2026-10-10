@@ -36,7 +36,7 @@
     <string name="onboarding_location">تحديد موقعك</string>
     <string name="onboarding_location_hint">يساعد الموقع على حساب أوقات الصلاة واتجاه القبلة محليًا.</string>
     <string name="onboarding_location_optional">الموقع اختياري</string>
-    <string name="onboarding_location_privacy">يُستخدم موقعك على هذا الجهاز لميزات الصلاة. يمكنك المتابعة دون منحه وضبطه لاحقًا.</string>
+    <string name="onboarding_location_privacy">يُستخدم موقعك لميزات الصلاة. عند الاتصال بالإنترنت تُرسل الإحداثيات بعد تقريبها إلى نحو كيلومتر عبر اتصال آمن لمعرفة المنطقة الزمنية المحلية؛ وإذا تعذّر ذلك يُستخدم توقيت الجهاز. يمكنك المتابعة دون منح إذن الموقع.</string>
     <string name="onboarding_use_location">استخدام الموقع الحالي</string>
     <string name="onboarding_prayer_setup">تفضيلات الصلاة</string>
     <string name="onboarding_reciter_setup">اختر القارئ</string>
@@ -83,7 +83,7 @@
     <string name="prayer_preferences">الصلاة والموقع</string>
     <string name="settings_prayer_hint">اختر طريقة حساب أوقات الصلاة.</string>
     <string name="settings_location_title">تحديث الموقع الحالي</string>
-    <string name="settings_location_hint">استخدم موقع الجهاز لحساب الصلاة والقبلة.</string>
+    <string name="settings_location_hint">استخدم موقع الجهاز لحساب الصلاة والقبلة. يُجري التطبيق بحث المنطقة الزمنية بإحداثيات تقريبية عبر اتصال آمن، وإلا يستخدم توقيت الجهاز.</string>
     <string name="quran_reading_preferences">قراءة القرآن</string>
     <string name="settings_quran_hint">اختر القارئ وتحكم في عرض الترجمة.</string>
     <string name="settings_translation_hint">إظهار الترجمة المختارة أسفل كل آية.</string>
@@ -94,7 +94,7 @@
     <string name="settings_data">النسخ الاحتياطي والخصوصية</string>
     <string name="settings_data_hint">احتفظ بالتحكم في بيانات القراءة المحفوظة.</string>
     <string name="settings_restore_hint">استعادة الإعدادات والعلامات والملاحظات من ملف نسخة احتياطية.</string>
-    <string name="settings_privacy_hint">تعرف على كيفية التعامل مع البيانات المحلية والأذونات.</string>
+    <string name="settings_privacy_hint">راجع البيانات المحلية وإذن الموقع والبحث الاختياري عن المنطقة الزمنية.</string>
     <string name="today_prayer_times">أوقات الصلاة اليوم</string>
     <string name="view_all">عرض الكل</string>
     <string name="prayer_grid_location_hint">اسمح بتحديد الموقع لعرض أوقات الصلاة المحلية هنا.</string>
