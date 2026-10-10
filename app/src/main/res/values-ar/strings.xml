@@ -118,4 +118,5 @@
     <string name="show_tafsir">إظهار التفسير عند اختيار الآية</string>
     <string name="tafsir_loading_or_offline">لم يُخزّن التفسير بعد. اتصل بالإنترنت ثم اختر الآية مجددًا.</string>
     <string name="quran_study_source_note">تُجلب الترجمات والتفاسير بحسب الإصدار من واجهة Al Quran Cloud API، ثم تُخزّن لقراءتها دون اتصال بعد تحميلها أول مرة.</string>
+    <string name="settings_tafsir_hint">اختر تفسيرًا موثقًا واعرضه بجانب الآية المحددة.</string>
 </resources>
