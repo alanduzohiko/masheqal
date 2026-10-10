@@ -161,4 +161,6 @@
     <string name="adhan_preview_error">Could not play audio. Check your internet connection.</string>
     <string name="adhan_no_results">No recordings found</string>
     <string name="adhan_no_results_hint">Try a different name or filter.</string>
+    <string name="cancel_reminders">Turn off reminders</string>
+    <string name="settings_adhan_play_hint">Play the selected full Adhan when a prayer alarm fires.</string>
 </resources>
