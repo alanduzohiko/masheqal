@@ -22,8 +22,8 @@ ARCHIVES = (
     {
         "kind": "svg",
         "url": "https://github.com/quran-ws/quran-svg/releases/download/v1.1.1/hafs-kfqc-svg.zip",
-        "size": 113847685,
-        "sha256": "1460746a114a4f797a67ad8aa34e95680b0b025e1c5bad0113a100396764c945",
+        "size": 121647518,
+        "sha256": "5d5e29eae66d9353dd8e0e51af4274c7768f81f722414b538dfd7c8de014fc91",
     },
     {
         "kind": "json",
