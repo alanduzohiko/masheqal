@@ -22,4 +22,12 @@
     <string name="prayer_notification_channel">ئاگادارکردنەوەکانی نوێژ</string>
     <string name="keep_screen_awake">شاشەکە بەبێ خامۆشبوون بهێڵەوە</string>
     <string name="resume">دەستپێکردنەوە</string>
+    <string name="reader_settings">ڕێکخستنەکانی خوێندنەوە</string>
+    <string name="play_current_ayah">لەو ئایەتەوە دەست پێ بکە</string>
+    <string name="pause_audio">خوێندنەوە بوەستێنە</string>
+    <string name="select_reciter">قاری هەڵبژێرە</string>
+    <string name="english_translation">وەرگێڕانی ئینگلیزی</string>
+    <string name="audio_source_notice">دەنگی قورئان لە Al Quran Cloud پەخش دەکرێت و پێویستی بە ئینتەرنێت هەیە.</string>
+    <string name="tafsir_unavailable">تەفسیر دوای دامەزراندنی پەکێجی ناوەڕۆکی پشتڕاستکراو بەردەست دەبێت.</string>
+    <string name="audio_error">نەتوانرا دەنگەکە بخوێندرێتەوە. پەیوەندی ئینتەرنێت بپشکنە و دووبارە هەوڵ بدەوە.</string>
 </resources>
