@@ -2,17 +2,23 @@ package com.masheqal.app.ui.screens
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.horizontalScroll
+import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.masheqal.app.MasheqalApp
@@ -21,8 +27,30 @@ import com.masheqal.app.data.BackupRepository
 import com.masheqal.app.data.SettingsState
 import kotlinx.coroutines.launch
 
+private data class ReaderVoice(val id: String, val name: String)
+private val settingsVoices = listOf(
+    ReaderVoice("ar.alafasy", "Mishary Rashid Alafasy"),
+    ReaderVoice("ar.sudais", "Abdul Rahman Al-Sudais"),
+    ReaderVoice("ar.shuraim", "Saud Al-Shuraim"),
+    ReaderVoice("ar.husary", "Mahmoud Khalil Al-Husary"),
+    ReaderVoice("ar.minshawi", "Mohamed Siddiq Al-Minshawi"),
+    ReaderVoice("ar.minshawimujawwad", "Al-Minshawi — Mujawwad"),
+    ReaderVoice("ar.abdulbasit", "Abdul Basit Abdul Samad"),
+    ReaderVoice("ar.abdulbasitmujawwad", "Abdul Basit — Mujawwad"),
+    ReaderVoice("ar.ajamy", "Ahmed Al-Ajamy"),
+    ReaderVoice("ar.muhammadayoub", "Muhammad Ayyoub"),
+    ReaderVoice("ar.hudhaify", "Ali Al-Hudhaify"),
+    ReaderVoice("ar.muhammadjibreel", "Muhammad Jibreel"),
+    ReaderVoice("ar.parhizgar", "Al-Husary — Muallim")
+)
+
 @Composable
-fun SettingsScreen(app: MasheqalApp, nav: NavHostController, onLanguage: (String) -> Unit) {
+fun SettingsScreen(
+    app: MasheqalApp,
+    nav: NavHostController,
+    onLanguage: (String) -> Unit,
+    onRequestLocation: () -> Unit
+) {
     val settings by app.settings.state.collectAsState(initial = SettingsState())
     val reading by app.personal.reading.collectAsState(initial = com.masheqal.app.data.ReadingPosition())
     val khatmah by app.personal.khatmah.collectAsState(initial = com.masheqal.app.data.KhatmahState())
@@ -30,6 +58,8 @@ fun SettingsScreen(app: MasheqalApp, nav: NavHostController, onLanguage: (String
     val context = androidx.compose.ui.platform.LocalContext.current
     var message by remember { mutableStateOf<String?>(null) }
     var showPrivacy by remember { mutableStateOf(false) }
+    var showPrayerMethods by remember { mutableStateOf(false) }
+    var showReciters by remember { mutableStateOf(false) }
     val backupExported = stringResource(R.string.backup_exported)
     val backupRestored = stringResource(R.string.backup_restored)
 
@@ -37,12 +67,10 @@ fun SettingsScreen(app: MasheqalApp, nav: NavHostController, onLanguage: (String
         ActivityResultContracts.CreateDocument("application/json")
     ) { uri ->
         if (uri != null) {
-            message = BackupRepository.export(
-                context, uri, app.userDb, settings, reading, khatmah
-            ).fold({ backupExported }, { "Backup error: ${it.message}" })
+            message = BackupRepository.export(context, uri, app.userDb, settings, reading, khatmah)
+                .fold({ backupExported }, { "Backup error: ${it.message}" })
         }
     }
-
     val restoreBackup = rememberLauncherForActivityResult(
         ActivityResultContracts.OpenDocument()
     ) { uri ->
@@ -73,28 +101,79 @@ fun SettingsScreen(app: MasheqalApp, nav: NavHostController, onLanguage: (String
         }
     }
 
+    val selectedVoice = settingsVoices.firstOrNull { it.id == settings.reciter } ?: settingsVoices.first()
+    val methodNames = listOf(
+        "MWL" to R.string.method_mwl,
+        "EGYPTIAN" to R.string.method_egyptian,
+        "UMM_AL_QURA" to R.string.method_umm_al_qura,
+        "KARACHI" to R.string.method_karachi,
+        "ISNA" to R.string.method_isna,
+        "TEHRAN" to R.string.method_tehran,
+        "TURKEY" to R.string.method_turkey
+    )
+    val selectedMethod = methodNames.firstOrNull { it.first == settings.prayerMethod } ?: methodNames.first()
+
     Column(
         Modifier.fillMaxSize().verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.spacedBy(10.dp)
+        verticalArrangement = Arrangement.spacedBy(14.dp)
     ) {
-        Row(
-            Modifier.fillMaxWidth().padding(horizontal = 12.dp),
-            verticalAlignment = Alignment.CenterVertically
+        Card(
+            modifier = Modifier.padding(horizontal = 16.dp).fillMaxWidth().animateContentSize(),
+            shape = RoundedCornerShape(30.dp),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary)
         ) {
-            IconButton(onClick = { nav.popBackStack() }) {
-                Icon(Icons.Default.ArrowBack, null)
+            Box(
+                Modifier.fillMaxWidth().background(
+                    Brush.linearGradient(
+                        listOf(
+                            MaterialTheme.colorScheme.primary,
+                            MaterialTheme.colorScheme.primary.copy(alpha = 0.84f),
+                            MaterialTheme.colorScheme.secondary.copy(alpha = 0.58f)
+                        )
+                    )
+                )
+            ) {
+                Column(Modifier.padding(22.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Surface(
+                            shape = RoundedCornerShape(16.dp),
+                            color = Color.White.copy(alpha = 0.16f)
+                        ) {
+                            Icon(Icons.Default.Tune, null, Modifier.padding(12.dp).size(28.dp), tint = Color.White)
+                        }
+                        Spacer(Modifier.width(12.dp))
+                        Column(Modifier.weight(1f)) {
+                            Text(
+                                stringResource(R.string.settings),
+                                style = MaterialTheme.typography.headlineSmall,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.White
+                            )
+                            Text(
+                                stringResource(R.string.settings_subtitle),
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = Color.White.copy(alpha = 0.84f)
+                            )
+                        }
+                        IconButton(onClick = { nav.popBackStack() }) {
+                            Icon(Icons.Default.Close, stringResource(R.string.done), tint = Color.White)
+                        }
+                    }
+                    Text(
+                        stringResource(R.string.settings_personalize),
+                        style = MaterialTheme.typography.labelLarge,
+                        color = Color.White.copy(alpha = 0.92f)
+                    )
+                }
             }
-            Text(
-                stringResource(R.string.settings),
-                style = MaterialTheme.typography.headlineMedium
-            )
         }
 
-        SettingsGroup(title = stringResource(R.string.language)) {
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier.horizontalScroll(rememberScrollState())
-            ) {
+        SettingsSection(
+            title = stringResource(R.string.language),
+            subtitle = stringResource(R.string.settings_language_hint),
+            icon = Icons.Default.Language
+        ) {
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 listOf("ckb" to "کوردی", "ar" to "العربية", "en" to "English").forEach { (code, label) ->
                     FilterChip(
                         selected = settings.language == code,
@@ -103,122 +182,258 @@ fun SettingsScreen(app: MasheqalApp, nav: NavHostController, onLanguage: (String
                             onLanguage(code)
                         },
                         label = { Text(label) },
-                        leadingIcon = { Icon(Icons.Default.Language, null) }
+                        modifier = Modifier.weight(1f),
+                        leadingIcon = if (settings.language == code) {
+                            { Icon(Icons.Default.Check, null, modifier = Modifier.size(16.dp)) }
+                        } else null
                     )
                 }
             }
         }
 
-        SettingsGroup(title = stringResource(R.string.theme)) {
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier.horizontalScroll(rememberScrollState())
-            ) {
-                listOf(
-                    "system" to R.string.system,
-                    "light" to R.string.light,
-                    "dark" to R.string.dark,
-                    "amoled" to R.string.amoled,
-                    "high_contrast" to R.string.high_contrast
-                ).forEach { (code, label) ->
-                    FilterChip(
-                        selected = settings.theme == code,
-                        onClick = { scope.launch { app.settings.setTheme(code) } },
-                        label = { Text(stringResource(label)) },
-                        leadingIcon = { Icon(Icons.Default.SettingsBrightness, null) }
-                    )
-                }
-            }
-        }
-
-        SettingsGroup(title = stringResource(R.string.prayer_method)) {
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier.horizontalScroll(rememberScrollState())
-            ) {
-                listOf("MWL", "EGYPTIAN", "UMM_AL_QURA", "KARACHI", "ISNA", "TEHRAN", "TURKEY").forEach { code ->
-                    FilterChip(
-                        selected = settings.prayerMethod == code,
-                        onClick = { scope.launch { app.settings.setPrayerMethod(code) } },
-                        label = { Text(code.replace("_", " ")) }
-                    )
-                }
-            }
-        }
-
-        SettingsGroup(title = stringResource(R.string.madhhab)) {
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                listOf("SHAFI", "HANAFI").forEach { code ->
-                    FilterChip(
-                        selected = settings.madhhab == code,
-                        onClick = { scope.launch { app.settings.setMadhhab(code) } },
-                        label = { Text(code) }
-                    )
-                }
-            }
-        }
-
-        Card(
-            Modifier.padding(horizontal = 16.dp).fillMaxWidth(),
-            shape = androidx.compose.foundation.shape.RoundedCornerShape(22.dp)
+        SettingsSection(
+            title = stringResource(R.string.theme),
+            subtitle = stringResource(R.string.settings_theme_hint),
+            icon = Icons.Default.Palette
         ) {
+            val themes = listOf(
+                "system" to R.string.system,
+                "light" to R.string.light,
+                "dark" to R.string.dark,
+                "amoled" to R.string.amoled,
+                "high_contrast" to R.string.high_contrast
+            )
+            themes.chunked(3).forEach { rowThemes ->
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    rowThemes.forEach { (code, label) ->
+                        FilterChip(
+                            selected = settings.theme == code,
+                            onClick = { scope.launch { app.settings.setTheme(code) } },
+                            label = { Text(stringResource(label)) },
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
+                    repeat(3 - rowThemes.size) { Spacer(Modifier.weight(1f)) }
+                }
+            }
+        }
+
+        SettingsSection(
+            title = stringResource(R.string.prayer_preferences),
+            subtitle = stringResource(R.string.settings_prayer_hint),
+            icon = Icons.Default.Schedule
+        ) {
+            OutlinedCard(
+                onClick = { showPrayerMethods = true },
+                shape = RoundedCornerShape(18.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Row(
+                    Modifier.fillMaxWidth().padding(14.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(Icons.Default.Calculate, null, tint = MaterialTheme.colorScheme.primary)
+                    Spacer(Modifier.width(12.dp))
+                    Column(Modifier.weight(1f)) {
+                        Text(stringResource(R.string.prayer_method), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text(stringResource(selectedMethod.second), style = MaterialTheme.typography.titleMedium)
+                    }
+                    Icon(Icons.Default.ExpandMore, null)
+                }
+            }
+            Text(stringResource(R.string.madhhab), style = MaterialTheme.typography.titleSmall)
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                FilterChip(
+                    selected = settings.madhhab == "SHAFI",
+                    onClick = { scope.launch { app.settings.setMadhhab("SHAFI") } },
+                    label = { Text(stringResource(R.string.madhhab_shafi)) },
+                    modifier = Modifier.weight(1f)
+                )
+                FilterChip(
+                    selected = settings.madhhab == "HANAFI",
+                    onClick = { scope.launch { app.settings.setMadhhab("HANAFI") } },
+                    label = { Text(stringResource(R.string.madhhab_hanafi)) },
+                    modifier = Modifier.weight(1f)
+                )
+            }
+            OutlinedCard(
+                onClick = onRequestLocation,
+                shape = RoundedCornerShape(18.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Row(Modifier.fillMaxWidth().padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Icon(Icons.Default.MyLocation, null, tint = MaterialTheme.colorScheme.primary)
+                    Spacer(Modifier.width(12.dp))
+                    Column(Modifier.weight(1f)) {
+                        Text(stringResource(R.string.settings_location_title), style = MaterialTheme.typography.titleSmall)
+                        Text(stringResource(R.string.settings_location_hint), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    }
+                    Icon(Icons.Default.ChevronRight, null)
+                }
+            }
+        }
+
+        SettingsSection(
+            title = stringResource(R.string.quran_reading_preferences),
+            subtitle = stringResource(R.string.settings_quran_hint),
+            icon = Icons.Default.MenuBook
+        ) {
+            OutlinedCard(
+                onClick = { showReciters = true },
+                shape = RoundedCornerShape(18.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Row(Modifier.fillMaxWidth().padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Icon(Icons.Default.RecordVoiceOver, null, tint = MaterialTheme.colorScheme.primary)
+                    Spacer(Modifier.width(12.dp))
+                    Column(Modifier.weight(1f)) {
+                        Text(stringResource(R.string.select_reciter), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text(selectedVoice.name, style = MaterialTheme.typography.titleSmall)
+                    }
+                    Icon(Icons.Default.ExpandMore, null)
+                }
+            }
             Row(
-                Modifier.fillMaxWidth().padding(horizontal = 18.dp, vertical = 10.dp),
+                Modifier.fillMaxWidth().padding(vertical = 2.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                IconBadge(Icons.Default.Visibility, emphasized = true)
+                Icon(Icons.Default.Translate, null, tint = MaterialTheme.colorScheme.primary)
                 Spacer(Modifier.width(12.dp))
-                Text(
-                    stringResource(R.string.keep_screen_awake),
-                    Modifier.weight(1f),
-                    style = MaterialTheme.typography.titleMedium
-                )
+                Column(Modifier.weight(1f)) {
+                    Text(stringResource(R.string.english_translation), style = MaterialTheme.typography.titleSmall)
+                    Text(stringResource(R.string.settings_translation_hint), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
                 Switch(
-                    checked = settings.keepScreenAwake,
-                    onCheckedChange = { enabled ->
-                        scope.launch { app.settings.setAwake(enabled) }
-                    }
+                    checked = settings.showEnglishTranslation,
+                    onCheckedChange = { enabled -> scope.launch { app.settings.setShowEnglishTranslation(enabled) } }
                 )
+            }
+            OutlinedCard(
+                onClick = { nav.navigate("content") },
+                shape = RoundedCornerShape(18.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Row(Modifier.fillMaxWidth().padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Icon(Icons.Default.LibraryBooks, null, tint = MaterialTheme.colorScheme.primary)
+                    Spacer(Modifier.width(12.dp))
+                    Column(Modifier.weight(1f)) {
+                        Text(stringResource(R.string.content_center), style = MaterialTheme.typography.titleSmall)
+                        Text(stringResource(R.string.settings_content_hint), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    }
+                    Icon(Icons.Default.ChevronRight, null)
+                }
             }
         }
 
-        SettingsGroup(title = stringResource(R.string.content_center)) {
-            FeatureCard(
-                stringResource(R.string.content_center),
-                stringResource(R.string.source_required),
-                Icons.Default.Inventory2
-            ) { nav.navigate("content") }
+        SettingsSection(
+            title = stringResource(R.string.settings_reading_display),
+            subtitle = stringResource(R.string.settings_display_hint),
+            icon = Icons.Default.Visibility
+        ) {
+            ToggleRow(
+                title = stringResource(R.string.keep_screen_awake),
+                subtitle = stringResource(R.string.settings_keep_awake_hint),
+                checked = settings.keepScreenAwake,
+                icon = Icons.Default.ScreenLockPortrait,
+                onChange = { enabled -> scope.launch { app.settings.setAwake(enabled) }
+                }
+            )
         }
 
-        SettingsGroup(title = stringResource(R.string.export_backup)) {
-            FeatureCard(
-                stringResource(R.string.export_backup),
-                stringResource(R.string.local_only),
-                Icons.Default.FileDownload
-            ) { createBackup.launch("masheqal-backup.json") }
-            Spacer(Modifier.height(8.dp))
-            FeatureCard(
-                stringResource(R.string.restore_backup),
-                stringResource(R.string.local_only),
-                Icons.Default.FileUpload
-            ) { restoreBackup.launch(arrayOf("application/json", "text/*")) }
+        SettingsSection(
+            title = stringResource(R.string.settings_data),
+            subtitle = stringResource(R.string.settings_data_hint),
+            icon = Icons.Default.Security
+        ) {
+            ActionSettingRow(
+                title = stringResource(R.string.export_backup),
+                subtitle = stringResource(R.string.local_only),
+                icon = Icons.Default.FileDownload,
+                onClick = { createBackup.launch("masheqal-backup.json") }
+            )
+            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.6f))
+            ActionSettingRow(
+                title = stringResource(R.string.restore_backup),
+                subtitle = stringResource(R.string.settings_restore_hint),
+                icon = Icons.Default.FileUpload,
+                onClick = { restoreBackup.launch(arrayOf("application/json", "text/*")) }
+            )
+            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.6f))
+            ActionSettingRow(
+                title = stringResource(R.string.privacy),
+                subtitle = stringResource(R.string.settings_privacy_hint),
+                icon = Icons.Default.Lock,
+                onClick = { showPrivacy = true }
+            )
         }
 
-        FeatureCard(
-            stringResource(R.string.privacy),
-            stringResource(R.string.local_only),
-            Icons.Default.Lock
-        ) { showPrivacy = true }
-
-        message?.let { msg ->
+        message?.let {
             Card(
                 Modifier.padding(horizontal = 16.dp).fillMaxWidth(),
-                shape = androidx.compose.foundation.shape.RoundedCornerShape(18.dp)
+                shape = RoundedCornerShape(18.dp)
             ) {
-                Text(msg, Modifier.padding(16.dp))
+                Text(it, Modifier.padding(16.dp))
             }
         }
-        Spacer(Modifier.height(20.dp))
+        Spacer(Modifier.height(18.dp))
+    }
+
+    if (showPrayerMethods) {
+        AlertDialog(
+            onDismissRequest = { showPrayerMethods = false },
+            title = { Text(stringResource(R.string.prayer_method)) },
+            text = {
+                Column(Modifier.heightIn(max = 440.dp).verticalScroll(rememberScrollState())) {
+                    methodNames.forEach { (code, label) ->
+                        Row(
+                            Modifier.fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            RadioButton(
+                                selected = settings.prayerMethod == code,
+                                onClick = {
+                                    scope.launch { app.settings.setPrayerMethod(code) }
+                                    showPrayerMethods = false
+                                }
+                            )
+                            Text(stringResource(label), style = MaterialTheme.typography.bodyMedium)
+                        }
+                    }
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = { showPrayerMethods = false }) { Text(stringResource(R.string.done)) }
+            }
+        )
+    }
+
+    if (showReciters) {
+        AlertDialog(
+            onDismissRequest = { showReciters = false },
+            title = { Text(stringResource(R.string.select_reciter)) },
+            text = {
+                Column(Modifier.heightIn(max = 440.dp).verticalScroll(rememberScrollState())) {
+                    settingsVoices.forEach { voice ->
+                        Row(
+                            Modifier.fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            RadioButton(
+                                selected = settings.reciter == voice.id,
+                                onClick = {
+                                    scope.launch { app.settings.setReciter(voice.id) }
+                                    showReciters = false
+                                }
+                            )
+                            Text(voice.name, style = MaterialTheme.typography.bodyMedium)
+                        }
+                    }
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = { showReciters = false }) { Text(stringResource(R.string.done)) }
+            }
+        )
     }
 
     if (showPrivacy) {
@@ -227,24 +442,79 @@ fun SettingsScreen(app: MasheqalApp, nav: NavHostController, onLanguage: (String
             title = { Text(stringResource(R.string.privacy)) },
             text = { Text(stringResource(R.string.privacy_explanation)) },
             confirmButton = {
-                TextButton(onClick = { showPrivacy = false }) {
-                    Text(stringResource(R.string.done))
-                }
+                TextButton(onClick = { showPrivacy = false }) { Text(stringResource(R.string.done)) }
             }
         )
     }
 }
 
 @Composable
-private fun SettingsGroup(title: String, content: @Composable ColumnScope.() -> Unit) {
-    Column(Modifier.fillMaxWidth()) {
-        Text(
-            title,
-            style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.padding(horizontal = 20.dp, vertical = 4.dp)
-        )
-        Column(Modifier.fillMaxWidth().padding(horizontal = 16.dp)) {
+private fun SettingsSection(
+    title: String,
+    subtitle: String,
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    content: @Composable ColumnScope.() -> Unit
+) {
+    Card(
+        modifier = Modifier.padding(horizontal = 16.dp).fillMaxWidth().animateContentSize(),
+        shape = RoundedCornerShape(24.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+    ) {
+        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Surface(shape = RoundedCornerShape(14.dp), color = MaterialTheme.colorScheme.primaryContainer) {
+                    Icon(icon, null, Modifier.padding(10.dp).size(22.dp), tint = MaterialTheme.colorScheme.primary)
+                }
+                Spacer(Modifier.width(11.dp))
+                Column(Modifier.weight(1f)) {
+                    Text(title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                    Text(subtitle, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
+            }
             content()
+        }
+    }
+}
+
+@Composable
+private fun ToggleRow(
+    title: String,
+    subtitle: String,
+    checked: Boolean,
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    onChange: (Boolean) -> Unit
+) {
+    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+        Icon(icon, null, tint = MaterialTheme.colorScheme.primary)
+        Spacer(Modifier.width(12.dp))
+        Column(Modifier.weight(1f)) {
+            Text(title, style = MaterialTheme.typography.titleSmall)
+            Text(subtitle, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        }
+        Switch(checked = checked, onCheckedChange = onChange)
+    }
+}
+
+@Composable
+private fun ActionSettingRow(
+    title: String,
+    subtitle: String,
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    onClick: () -> Unit
+) {
+    OutlinedCard(
+        onClick = onClick,
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(17.dp)
+    ) {
+        Row(Modifier.fillMaxWidth().padding(13.dp), verticalAlignment = Alignment.CenterVertically) {
+            Icon(icon, null, tint = MaterialTheme.colorScheme.primary)
+            Spacer(Modifier.width(12.dp))
+            Column(Modifier.weight(1f)) {
+                Text(title, style = MaterialTheme.typography.titleSmall)
+                Text(subtitle, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+            Icon(Icons.Default.ChevronRight, null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
         }
     }
 }
