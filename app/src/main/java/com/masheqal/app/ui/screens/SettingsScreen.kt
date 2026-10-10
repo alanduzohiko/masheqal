@@ -27,6 +27,7 @@ import com.masheqal.app.data.BackupRepository
 import com.masheqal.app.data.SettingsState
 import com.masheqal.app.data.FullSurahReciter
 import com.masheqal.app.data.Mp3QuranReciterRepository
+import com.masheqal.app.services.PrayerNotificationScheduler
 import com.masheqal.app.data.QuranEdition
 import com.masheqal.app.data.QuranEditionRepository
 import kotlinx.coroutines.launch
@@ -362,7 +363,10 @@ fun SettingsScreen(
                 subtitle = stringResource(R.string.settings_adhan_play_hint),
                 checked = settings.playFullAdhan,
                 icon = Icons.Default.NotificationsActive,
-                onChange = { enabled -> scope.launch { app.settings.setPlayFullAdhan(enabled) } }
+                onChange = { enabled ->
+                    scope.launch { app.settings.setPlayFullAdhan(enabled) }
+                    PrayerNotificationScheduler.setPlayAdhan(context, enabled)
+                }
             )
             OutlinedCard(
                 onClick = { nav.navigate("prayer") },
