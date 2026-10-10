@@ -119,4 +119,9 @@
     <string name="tafsir_loading_or_offline">تەفسیر هێشتا پاشەکەوت نەکراوە. پەیوەندی ئینتەرنێت بکە و دووبارە ئایەتەکە هەڵبژێرە.</string>
     <string name="quran_study_source_note">وەرگێڕان و تەفسیر لە ڕێگەی Al Quran Cloud API و بەپێی وەشانەوە وەردەگیرێت و دوای یەکەم بارکردن بۆ خوێندنەوەی بەبێ ئینتەرنێت پاشەکەوت دەکرێت.</string>
     <string name="settings_tafsir_hint">تەفسیری پشتڕاستکراو هەڵبژێرە و لەگەڵ ئایەتی هەڵبژێردراو پیشانی بدە.</string>
+    <string name="full_surah_audio_label">دەنگی سورەت بە تەواوی</string>
+    <string name="reciter_missing_surah">ئەم قارییە تۆماری ئەم سورەتەی نییە. وەشانێکی تر هەڵبژێرە.</string>
+    <string name="full_surah_audio_notice">ئەم قارییە سورەتەکە لە سەرەتایەوە بە تەواوی پەخش دەکات، نەک لە ئایەتی هەڵبژێردراوەوە.</string>
+    <string name="reciter_search_hint">بەدوای قاری یان شێوازی خوێندنەوەدا بگەڕێ</string>
+    <string name="quran_reciter_sources_note">قارییەکانی ئایەت بە ئایەت هەر ئایەتێک بە جیاواز پەخش دەکەن. خوێندنەوەی سورەت بە تەواویش لە MP3Quran.net بەردەستە.</string>
 </resources>
