@@ -29,6 +29,7 @@ import com.masheqal.app.data.FullSurahReciter
 import com.masheqal.app.data.Mp3QuranReciterRepository
 import com.masheqal.app.data.QuranEdition
 import com.masheqal.app.data.QuranEditionRepository
+import com.masheqal.app.data.QuranScriptRepository
 import com.masheqal.app.services.PrayerNotificationScheduler
 import kotlinx.coroutines.launch
 
