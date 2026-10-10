@@ -160,4 +160,5 @@
     <string name="settings_tajweed_colors">إظهار ألوان أحكام التجويد</string>
     <string name="settings_tajweed_colors_hint">لوّن أحكام التلاوة أثناء قراءة القرآن. تُحفظ السور للقراءة دون اتصال.</string>
     <string name="location_needed_details">اسمح بالوصول إلى الموقع لحساب أوقات الصلاة المحلية واتجاه القبلة. يمكنك تغيير الإذن لاحقًا من إعدادات Android.</string>
+    <string name="dhikr_number">الذكر %1$s</string>
 </resources>
