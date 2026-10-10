@@ -735,6 +735,50 @@ fun SettingsScreen(
         )
     }
 
+    if (showQuranScripts) {
+        AlertDialog(
+            onDismissRequest = { showQuranScripts = false },
+            title = { Text(stringResource(R.string.select_mushaf_script)) },
+            text = {
+                Column(Modifier.heightIn(max = 420.dp).verticalScroll(rememberScrollState())) {
+                    Text(
+                        stringResource(R.string.mushaf_script_source_note),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Spacer(Modifier.height(8.dp))
+                    availableScripts.forEach { edition ->
+                        Row(
+                            Modifier.fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            RadioButton(
+                                selected = settings.quranScriptEdition == edition.identifier,
+                                onClick = {
+                                    scope.launch { app.settings.setQuranScriptEdition(edition.identifier) }
+                                    showQuranScripts = false
+                                }
+                            )
+                            Column(Modifier.weight(1f)) {
+                                Text(edition.englishName, style = MaterialTheme.typography.bodyMedium)
+                                Text(
+                                    edition.name,
+                                    style = MaterialTheme.typography.labelSmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                        }
+                    }
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = { showQuranScripts = false }) {
+                    Text(stringResource(R.string.done))
+                }
+            }
+        )
+    }
+
     if (showPrivacy) {
         AlertDialog(
             onDismissRequest = { showPrivacy = false },
