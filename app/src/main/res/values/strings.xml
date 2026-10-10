@@ -163,4 +163,6 @@
     <string name="adhan_no_results_hint">Try a different name or filter.</string>
     <string name="cancel_reminders">Turn off reminders</string>
     <string name="settings_adhan_play_hint">Play the selected full Adhan when a prayer alarm fires.</string>
+    <string name="translation_search_hint">Search translation name, language or edition ID</string>
+    <string name="tafsir_search_hint">Search tafsir name, language or edition ID</string>
 </resources>
