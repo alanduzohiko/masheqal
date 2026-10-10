@@ -14,7 +14,7 @@ object BackupRepository {
             .put("schema", SCHEMA)
             .put("product", "مەشخەڵ")
             .put("exportedAt", System.currentTimeMillis())
-            .put("settings", JSONObject().put("theme", settings.theme).put("language", settings.language).put("tasbihCount", settings.tasbihCount).put("prayerMethod", settings.prayerMethod).put("madhhab", settings.madhhab).put("awake", settings.keepScreenAwake).put("reciter", settings.reciter).put("showEnglishTranslation", settings.showEnglishTranslation).put("translationEdition", settings.translationEdition).put("tafsirEdition", settings.tafsirEdition).put("showTafsir", settings.showTafsir).put("adhanRecordingId", settings.adhanRecordingId).put("prayerRemindersEnabled", settings.prayerRemindersEnabled).put("playFullAdhan", settings.playFullAdhan))
+            .put("settings", JSONObject().put("theme", settings.theme).put("language", settings.language).put("tasbihCount", settings.tasbihCount).put("prayerMethod", settings.prayerMethod).put("madhhab", settings.madhhab).put("awake", settings.keepScreenAwake).put("reciter", settings.reciter).put("showEnglishTranslation", settings.showEnglishTranslation).put("translationEdition", settings.translationEdition).put("tafsirEdition", settings.tafsirEdition).put("showTafsir", settings.showTafsir).put("adhanRecordingId", settings.adhanRecordingId).put("prayerRemindersEnabled", settings.prayerRemindersEnabled).put("playFullAdhan", settings.playFullAdhan).put("showTajweedColors", settings.showTajweedColors))
             .put("reading", JSONObject().put("surah", reading.surah).put("ayah", reading.ayah))
             .put("khatmah", JSONObject().put("days", khatmah.days).put("targetPages", khatmah.targetPages).put("readPages", khatmah.readPages).put("active", khatmah.active))
         val bookmarks = JSONArray()
@@ -41,7 +41,7 @@ object BackupRepository {
         val r = o.optJSONObject("reading") ?: JSONObject()
         val k = o.optJSONObject("khatmah") ?: JSONObject()
         BackupPayload(
-            SettingsState(s.optString("theme","system"), s.optString("language","ckb"), s.optInt("tasbihCount",0), s.optString("prayerMethod","MWL"), s.optString("madhhab","SHAFI"), s.optBoolean("awake",false), s.optString("reciter","ar.alafasy"), s.optBoolean("showEnglishTranslation",true), false, s.optString("translationEdition","en.sahih"), s.optString("tafsirEdition","ar.muyassar"), s.optBoolean("showTafsir",false), s.optString("adhanRecordingId","adhan-198"), s.optBoolean("prayerRemindersEnabled",false), s.optBoolean("playFullAdhan",true)),
+            SettingsState(s.optString("theme","system"), s.optString("language","ckb"), s.optInt("tasbihCount",0), s.optString("prayerMethod","MWL"), s.optString("madhhab","SHAFI"), s.optBoolean("awake",false), s.optString("reciter","ar.alafasy"), s.optBoolean("showEnglishTranslation",true), false, s.optString("translationEdition","en.sahih"), s.optString("tafsirEdition","ar.muyassar"), s.optBoolean("showTafsir",false), s.optString("adhanRecordingId","adhan-198"), s.optBoolean("prayerRemindersEnabled",false), s.optBoolean("playFullAdhan",true), s.optBoolean("showTajweedColors",false)),
             ReadingPosition(r.optInt("surah",1), r.optInt("ayah",1)),
             KhatmahState(k.optInt("days",30), k.optInt("targetPages",604), k.optInt("readPages",0), k.optBoolean("active",false))
         )
