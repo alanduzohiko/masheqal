@@ -24,6 +24,8 @@ import androidx.navigation.NavHostController
 import com.masheqal.app.MasheqalApp
 import com.masheqal.app.R
 import com.masheqal.app.data.QuranStudyRepository
+import com.masheqal.app.data.QuranEdition
+import com.masheqal.app.data.QuranEditionRepository
 import com.masheqal.app.data.FullSurahReciter
 import com.masheqal.app.data.Mp3QuranReciterRepository
 import kotlinx.coroutines.launch
@@ -86,6 +88,10 @@ fun QuranReaderScreen(
     var reciterSearch by remember { mutableStateOf("") }
     var translationTexts by remember { mutableStateOf(emptyList<String>()) }
     var tafsirTexts by remember { mutableStateOf(emptyList<String>()) }
+    var availableTranslations by remember { mutableStateOf(emptyList<QuranEdition>()) }
+    var availableTafsirs by remember { mutableStateOf(emptyList<QuranEdition>()) }
+    var translationSearch by remember { mutableStateOf("") }
+    var tafsirSearch by remember { mutableStateOf("") }
     val settings by app.settings.state.collectAsState(initial = com.masheqal.app.data.SettingsState())
     val listState = rememberLazyListState()
     val snackbar = remember { SnackbarHostState() }
@@ -99,6 +105,12 @@ fun QuranReaderScreen(
     LaunchedEffect(context) {
         externalReciters = runCatching { Mp3QuranReciterRepository(context).loadArabicReciters() }
             .getOrDefault(emptyList())
+        val editionRepository = QuranEditionRepository(context)
+        val catalogue = runCatching { editionRepository.loadCatalog() }.getOrDefault(emptyList())
+        availableTranslations = (catalogue.filter { it.type == "translation" } + editionRepository.fallbackTranslations())
+            .distinctBy { it.identifier }
+        availableTafsirs = (catalogue.filter { it.type == "tafsir" } + editionRepository.fallbackTafsirs())
+            .distinctBy { it.identifier }
     }
     val selectableReciters = quranReciters + externalReciters.map { reciter ->
         ReciterChoice(
@@ -110,6 +122,22 @@ fun QuranReaderScreen(
     }
     val filteredReciters = remember(selectableReciters, reciterSearch) {
         selectableReciters.filter { it.name.contains(reciterSearch.trim(), ignoreCase = true) }
+    }
+    val filteredTranslations = remember(availableTranslations, translationSearch) {
+        availableTranslations.filter { edition ->
+            translationSearch.isBlank() || edition.name.contains(translationSearch.trim(), ignoreCase = true) ||
+                edition.englishName.contains(translationSearch.trim(), ignoreCase = true) ||
+                edition.language.contains(translationSearch.trim(), ignoreCase = true) ||
+                edition.identifier.contains(translationSearch.trim(), ignoreCase = true)
+        }
+    }
+    val filteredTafsirs = remember(availableTafsirs, tafsirSearch) {
+        availableTafsirs.filter { edition ->
+            tafsirSearch.isBlank() || edition.name.contains(tafsirSearch.trim(), ignoreCase = true) ||
+                edition.englishName.contains(tafsirSearch.trim(), ignoreCase = true) ||
+                edition.language.contains(tafsirSearch.trim(), ignoreCase = true) ||
+                edition.identifier.contains(tafsirSearch.trim(), ignoreCase = true)
+        }
     }
 
     DisposableEffect(player) {
@@ -419,13 +447,34 @@ fun QuranReaderScreen(
                     }
                     HorizontalDivider(Modifier.padding(vertical = 8.dp))
                     Text(stringResource(R.string.select_translation), style = MaterialTheme.typography.titleSmall)
-                    quranTranslations.forEach { (edition, labelId) ->
+                    OutlinedTextField(
+                        value = translationSearch,
+                        onValueChange = { translationSearch = it },
+                        modifier = Modifier.fillMaxWidth(),
+                        singleLine = true,
+                        shape = RoundedCornerShape(16.dp),
+                        placeholder = { Text(stringResource(R.string.translation_search_hint)) },
+                        leadingIcon = { Icon(Icons.Default.Search, null) },
+                        trailingIcon = {
+                            if (translationSearch.isNotEmpty()) IconButton(onClick = { translationSearch = "" }) {
+                                Icon(Icons.Default.Close, stringResource(R.string.clear))
+                            }
+                        }
+                    )
+                    filteredTranslations.forEach { edition ->
                         Row(Modifier.fillMaxWidth(), verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
                             RadioButton(
-                                selected = settings.translationEdition == edition,
-                                onClick = { scope.launch { app.settings.setTranslationEdition(edition) } }
+                                selected = settings.translationEdition == edition.identifier,
+                                onClick = { scope.launch { app.settings.setTranslationEdition(edition.identifier) } }
                             )
-                            Text(stringResource(labelId), style = MaterialTheme.typography.bodyMedium)
+                            Column(Modifier.weight(1f)) {
+                                Text(edition.englishName, style = MaterialTheme.typography.bodyMedium)
+                                Text(
+                                    "${edition.language.uppercase()} · ${edition.name}",
+                                    style = MaterialTheme.typography.labelSmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
                         }
                     }
                     Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
@@ -436,13 +485,34 @@ fun QuranReaderScreen(
                     }
                     HorizontalDivider(Modifier.padding(vertical = 8.dp))
                     Text(stringResource(R.string.select_tafsir), style = MaterialTheme.typography.titleSmall)
-                    quranTafsirs.forEach { (edition, labelId) ->
+                    OutlinedTextField(
+                        value = tafsirSearch,
+                        onValueChange = { tafsirSearch = it },
+                        modifier = Modifier.fillMaxWidth(),
+                        singleLine = true,
+                        shape = RoundedCornerShape(16.dp),
+                        placeholder = { Text(stringResource(R.string.tafsir_search_hint)) },
+                        leadingIcon = { Icon(Icons.Default.Search, null) },
+                        trailingIcon = {
+                            if (tafsirSearch.isNotEmpty()) IconButton(onClick = { tafsirSearch = "" }) {
+                                Icon(Icons.Default.Close, stringResource(R.string.clear))
+                            }
+                        }
+                    )
+                    filteredTafsirs.forEach { edition ->
                         Row(Modifier.fillMaxWidth(), verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
                             RadioButton(
-                                selected = settings.tafsirEdition == edition,
-                                onClick = { scope.launch { app.settings.setTafsirEdition(edition) } }
+                                selected = settings.tafsirEdition == edition.identifier,
+                                onClick = { scope.launch { app.settings.setTafsirEdition(edition.identifier) } }
                             )
-                            Text(stringResource(labelId), style = MaterialTheme.typography.bodyMedium)
+                            Column(Modifier.weight(1f)) {
+                                Text(edition.englishName, style = MaterialTheme.typography.bodyMedium)
+                                Text(
+                                    "${edition.language.uppercase()} · ${edition.name}",
+                                    style = MaterialTheme.typography.labelSmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
                         }
                     }
                     Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
