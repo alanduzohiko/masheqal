@@ -65,6 +65,12 @@ object PrayerNotificationScheduler {
             .putBoolean("playAdhan",enabled)
             .apply()
     }
+
+    fun setPlayAdhan(context: Context, enabled: Boolean) {
+        context.getSharedPreferences(PREF,Context.MODE_PRIVATE).edit()
+            .putBoolean("playAdhan",enabled)
+            .apply()
+    }
     fun rescheduleFromPreferences(context: Context) {
         val p=context.getSharedPreferences(PREF,Context.MODE_PRIVATE)
         if (!p.getBoolean("enabled",false)) return
