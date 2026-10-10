@@ -63,6 +63,7 @@ fun OnboardingScreen(
     val settings by app.settings.state.collectAsState(initial = SettingsState())
     val scope = rememberCoroutineScope()
     val context = androidx.compose.ui.platform.LocalContext.current
+    val fullSurahAudioLabel = stringResource(R.string.full_surah_audio_label)
     var step by remember { mutableIntStateOf(0) }
     var extraReciters by remember { mutableStateOf(emptyList<FullSurahReciter>()) }
     var reciterSearch by remember { mutableStateOf("") }
@@ -74,7 +75,7 @@ fun OnboardingScreen(
     val selectableReciters = setupReciters + extraReciters.map { reciter ->
         SetupReciter(
             reciter.id,
-            reciter.name + " — " + reciter.moshafName + " · " + context.getString(R.string.full_surah_audio_label)
+            reciter.name + " — " + reciter.moshafName + " · " + fullSurahAudioLabel
         )
     }
     val filteredReciters = remember(selectableReciters, reciterSearch) {
