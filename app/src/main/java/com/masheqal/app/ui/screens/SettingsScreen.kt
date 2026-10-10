@@ -67,12 +67,15 @@ fun SettingsScreen(
     var showReciters by remember { mutableStateOf(false) }
     var showTranslations by remember { mutableStateOf(false) }
     var showTafsirs by remember { mutableStateOf(false) }
+    var showQuranScripts by remember { mutableStateOf(false) }
     var reciterSearch by remember { mutableStateOf("") }
     var extraVoices by remember { mutableStateOf(emptyList<FullSurahReciter>()) }
     var verseByVerseVoices by remember { mutableStateOf(emptyList<QuranEdition>()) }
     var translationSearch by remember { mutableStateOf("") }
     var tafsirSearch by remember { mutableStateOf("") }
+    var availableScripts by remember(context) { mutableStateOf(emptyList<QuranEdition>()) }
     val editionRepository = remember(context) { QuranEditionRepository(context) }
+    val scriptRepository = remember(context) { QuranScriptRepository(context) }
     var availableTranslations by remember(context) { mutableStateOf(editionRepository.fallbackTranslations()) }
     var availableTafsirs by remember(context) { mutableStateOf(editionRepository.fallbackTafsirs()) }
     val backupExported = stringResource(R.string.backup_exported)
@@ -83,6 +86,7 @@ fun SettingsScreen(
         extraVoices = runCatching { Mp3QuranReciterRepository(context).loadArabicReciters() }
             .getOrDefault(emptyList())
         verseByVerseVoices = runCatching { editionRepository.loadAudioReciters() }.getOrDefault(emptyList())
+        availableScripts = runCatching { scriptRepository.loadCatalog() }.getOrDefault(emptyList())
         val catalogue = runCatching { editionRepository.loadCatalog() }.getOrDefault(emptyList())
         availableTranslations = (catalogue.filter { it.type == "translation" } + editionRepository.fallbackTranslations())
             .distinctBy { it.identifier }
@@ -119,6 +123,8 @@ fun SettingsScreen(
                         app.settings.setAdhanRecordingId(backup.settings.adhanRecordingId)
                         app.settings.setPrayerRemindersEnabled(backup.settings.prayerRemindersEnabled)
                         app.settings.setPlayFullAdhan(backup.settings.playFullAdhan)
+                        app.settings.setShowTajweedColors(backup.settings.showTajweedColors)
+                        app.settings.setQuranScriptEdition(backup.settings.quranScriptEdition)
                         app.personal.setReading(backup.reading.surah, backup.reading.ayah)
                         app.personal.setKhatmah(
                             backup.khatmah.days,
@@ -183,6 +189,8 @@ fun SettingsScreen(
     }
     val selectedTranslation = availableTranslations.firstOrNull { it.identifier == settings.translationEdition } ?: availableTranslations.first()
     val selectedTafsir = availableTafsirs.firstOrNull { it.identifier == settings.tafsirEdition } ?: availableTafsirs.first()
+    val selectedScript = availableScripts.firstOrNull { it.identifier == settings.quranScriptEdition }
+        ?: QuranEdition(settings.quranScriptEdition, settings.quranScriptEdition, settings.quranScriptEdition, "ar", "quran", "text")
 
     Column(
         Modifier.fillMaxSize().verticalScroll(rememberScrollState()),
@@ -400,6 +408,22 @@ fun SettingsScreen(
             subtitle = stringResource(R.string.settings_quran_hint),
             icon = Icons.Default.MenuBook
         ) {
+            OutlinedCard(
+                onClick = { showQuranScripts = true },
+                shape = RoundedCornerShape(18.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Row(Modifier.fillMaxWidth().padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Icon(Icons.Default.MenuBook, null, tint = MaterialTheme.colorScheme.primary)
+                    Spacer(Modifier.width(12.dp))
+                    Column(Modifier.weight(1f)) {
+                        Text(stringResource(R.string.select_mushaf_script), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text(selectedScript.englishName, style = MaterialTheme.typography.titleSmall)
+                        Text(stringResource(R.string.mushaf_script_hint), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    }
+                    Icon(Icons.Default.ExpandMore, null)
+                }
+            }
             OutlinedCard(
                 onClick = { showReciters = true },
                 shape = RoundedCornerShape(18.dp),
