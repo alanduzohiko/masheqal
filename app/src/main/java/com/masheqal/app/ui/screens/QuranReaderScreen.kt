@@ -86,6 +86,7 @@ fun QuranReaderScreen(
     var showReaderSettings by remember { mutableStateOf(false) }
     var isPlaying by remember { mutableStateOf(false) }
     var externalReciters by remember { mutableStateOf(emptyList<FullSurahReciter>()) }
+    var verseByVerseReciters by remember { mutableStateOf(emptyList<QuranEdition>()) }
     var reciterSearch by remember { mutableStateOf("") }
     var translationTexts by remember { mutableStateOf(emptyList<String>()) }
     var translationUnavailable by remember { mutableStateOf(false) }
@@ -113,20 +114,30 @@ fun QuranReaderScreen(
         externalReciters = runCatching { Mp3QuranReciterRepository(context).loadArabicReciters() }
             .getOrDefault(emptyList())
         val editionRepository = QuranEditionRepository(context)
+        verseByVerseReciters = runCatching { editionRepository.loadAudioReciters() }.getOrDefault(emptyList())
         val catalogue = runCatching { editionRepository.loadCatalog() }.getOrDefault(emptyList())
         availableTranslations = (catalogue.filter { it.type == "translation" } + editionRepository.fallbackTranslations())
             .distinctBy { it.identifier }
         availableTafsirs = (catalogue.filter { it.type == "tafsir" } + editionRepository.fallbackTafsirs())
             .distinctBy { it.identifier }
     }
-    val selectableReciters = quranReciters + externalReciters.map { reciter ->
-        ReciterChoice(
-            id = reciter.id,
-            name = reciter.name + " — " + reciter.moshafName + " · " + fullSurahAudioLabel,
-            fullSurahServer = reciter.server,
-            availableSurahs = reciter.availableSurahs
-        )
-    }
+    val selectableReciters = (
+        quranReciters +
+            verseByVerseReciters.map { edition ->
+                ReciterChoice(
+                    id = edition.identifier,
+                    name = edition.englishName + " — " + edition.name
+                )
+            } +
+            externalReciters.map { reciter ->
+                ReciterChoice(
+                    id = reciter.id,
+                    name = reciter.name + " — " + reciter.moshafName + " · " + fullSurahAudioLabel,
+                    fullSurahServer = reciter.server,
+                    availableSurahs = reciter.availableSurahs
+                )
+            }
+        ).distinctBy { it.id }
     val filteredReciters = remember(selectableReciters, reciterSearch) {
         selectableReciters.filter { it.name.contains(reciterSearch.trim(), ignoreCase = true) }
     }
@@ -192,10 +203,20 @@ fun QuranReaderScreen(
             return
         }
 
+        val audioEditionId = when (settings.reciter) {
+            // Preserve compatibility with older saved selections; the aliases below are current catalogue IDs.
+            "ar.sudais" -> "ar.abdurrahmaansudais"
+            "ar.shuraim" -> "ar.saoodshuraym"
+            "ar.ajamy" -> "ar.ahmedajamy"
+            "ar.muhammadayoub" -> "ar.muhammadayyoub"
+            "ar.abdulbasit" -> "ar.abdulsamad"
+            "ar.abdulbasitmujawwad" -> "ar.abdulsamad"
+            else -> settings.reciter
+        }
         val queue = verses.filter { it.ayah >= verse.ayah }.map { item ->
             MediaItem.Builder()
                 .setMediaId(item.surah.toString() + ":" + item.ayah.toString())
-                .setUri("https:" + "/" + "/cdn.islamic.network/quran/audio/128/" + settings.reciter + "/" + item.id + ".mp3")
+                .setUri("https:" + "/" + "/cdn.islamic.network/quran/audio/128/" + audioEditionId + "/" + item.id + ".mp3")
                 .build()
         }
         if (queue.isEmpty()) return
