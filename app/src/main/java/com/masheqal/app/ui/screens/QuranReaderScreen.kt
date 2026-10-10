@@ -1,10 +1,17 @@
 package com.masheqal.app.ui.screens
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.media3.common.MediaItem
+import androidx.media3.common.PlaybackException
+import androidx.media3.common.Player
+import androidx.media3.exoplayer.ExoPlayer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
@@ -17,6 +24,25 @@ import androidx.navigation.NavHostController
 import com.masheqal.app.MasheqalApp
 import com.masheqal.app.R
 import kotlinx.coroutines.launch
+
+private data class ReciterChoice(val id: String, val name: String)
+
+// Edition identifiers follow the published Al Quran Cloud audio catalog.
+private val quranReciters = listOf(
+    ReciterChoice("ar.alafasy", "Mishary Rashid Alafasy"),
+    ReciterChoice("ar.sudais", "Abdul Rahman Al-Sudais"),
+    ReciterChoice("ar.shuraim", "Saud Al-Shuraim"),
+    ReciterChoice("ar.husary", "Mahmoud Khalil Al-Husary"),
+    ReciterChoice("ar.minshawi", "Mohamed Siddiq Al-Minshawi"),
+    ReciterChoice("ar.minshawimujawwad", "Al-Minshawi — Mujawwad"),
+    ReciterChoice("ar.abdulbasit", "Abdul Basit Abdul Samad"),
+    ReciterChoice("ar.abdulbasitmujawwad", "Abdul Basit — Mujawwad"),
+    ReciterChoice("ar.ajamy", "Ahmed Al-Ajamy"),
+    ReciterChoice("ar.muhammadayoub", "Muhammad Ayyoub"),
+    ReciterChoice("ar.hudhaify", "Ali Al-Hudhaify"),
+    ReciterChoice("ar.muhammadjibreel", "Muhammad Jibreel"),
+    ReciterChoice("ar.parhizgar", "Mahmoud Khalil Al-Husary — Muallim")
+)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -32,12 +58,53 @@ fun QuranReaderScreen(
     var showNote by remember { mutableStateOf(false) }
     var noteText by remember { mutableStateOf("") }
     var page by remember { mutableStateOf(1) }
+    var currentAyah by remember(surah, initialAyah) { mutableIntStateOf(initialAyah) }
+    var showReaderSettings by remember { mutableStateOf(false) }
+    var isPlaying by remember { mutableStateOf(false) }
+    val settings by app.settings.state.collectAsState(initial = com.masheqal.app.data.SettingsState())
     val listState = rememberLazyListState()
     val snackbar = remember { SnackbarHostState() }
     val context = androidx.compose.ui.platform.LocalContext.current
     val scope = rememberCoroutineScope()
     val bookmarkLabel = stringResource(R.string.bookmark)
     val noteLabel = stringResource(R.string.note)
+    val player = remember(context) { ExoPlayer.Builder(context).build() }
+
+    DisposableEffect(player) {
+        val listener = object : Player.Listener {
+            override fun onIsPlayingChanged(playing: Boolean) { isPlaying = playing }
+            override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
+                val nextAyah = mediaItem?.mediaId?.substringAfter(":")?.toIntOrNull()
+                if (nextAyah != null) {
+                    currentAyah = nextAyah
+                    scope.launch { app.personal.setReading(surah, nextAyah) }
+                }
+            }
+            override fun onPlayerError(error: PlaybackException) {
+                scope.launch { snackbar.showSnackbar(context.getString(R.string.audio_error)) }
+            }
+        }
+        player.addListener(listener)
+        onDispose {
+            player.removeListener(listener)
+            player.release()
+        }
+    }
+
+    fun playFrom(verse: com.masheqal.app.data.QuranVerse) {
+        val queue = verses.filter { it.ayah >= verse.ayah }.map { item ->
+            MediaItem.Builder()
+                .setMediaId(item.surah.toString() + ":" + item.ayah.toString())
+                .setUri("https://cdn.islamic.network/quran/audio/128/" + settings.reciter + "/" + item.id + ".mp3")
+                .build()
+        }
+        if (queue.isEmpty()) return
+        currentAyah = verse.ayah
+        scope.launch { app.personal.setReading(surah, verse.ayah) }
+        player.setMediaItems(queue)
+        player.prepare()
+        player.play()
+    }
 
     LaunchedEffect(surah) {
         verses = app.quran.versesOfSurah(surah)
@@ -75,6 +142,20 @@ fun QuranReaderScreen(
                     IconButton(onClick = { nav.navigate("quran/page/$page") }) {
                         Icon(Icons.Default.MenuBook, stringResource(R.string.page_view))
                     }
+                    IconButton(onClick = {
+                        if (isPlaying) player.pause() else {
+                            val target = verses.firstOrNull { it.ayah == currentAyah } ?: verses.firstOrNull()
+                            target?.let(::playFrom)
+                        }
+                    }) {
+                        Icon(
+                            if (isPlaying) Icons.Default.Pause else Icons.Default.PlayArrow,
+                            stringResource(if (isPlaying) R.string.pause_audio else R.string.play_current_ayah)
+                        )
+                    }
+                    IconButton(onClick = { showReaderSettings = true }) {
+                        Icon(Icons.Default.Tune, stringResource(R.string.reader_settings))
+                    }
                     IconButton(onClick = { nav.navigate("search") }) {
                         Icon(Icons.Default.Search, stringResource(R.string.search))
                     }
@@ -92,6 +173,7 @@ fun QuranReaderScreen(
                 Card(
                     onClick = {
                         selected = verse
+                        currentAyah = verse.ayah
                         scope.launch { app.personal.setReading(surah, verse.ayah) }
                     },
                     modifier = Modifier.fillMaxWidth(),
@@ -111,7 +193,7 @@ fun QuranReaderScreen(
                         }
                         Spacer(Modifier.height(10.dp))
                         QuranText(verse.text, size = 27f)
-                        if (!verse.translationEn.isNullOrBlank()) {
+                        if (settings.showEnglishTranslation && !verse.translationEn.isNullOrBlank()) {
                             Spacer(Modifier.height(12.dp))
                             Text(
                                 verse.translationEn.orEmpty(),
@@ -137,11 +219,20 @@ fun QuranReaderScreen(
                 )
                 Spacer(Modifier.height(8.dp))
                 QuranText(verse.text, size = 23f)
+                if (settings.showEnglishTranslation && !verse.translationEn.isNullOrBlank()) {
+                    Spacer(Modifier.height(10.dp))
+                    Text(verse.translationEn.orEmpty(), style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
                 Spacer(Modifier.height(14.dp))
                 Row(
                     Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
+                    IconButton(onClick = {
+                        if (isPlaying) player.pause() else playFrom(verse)
+                    }) {
+                        Icon(if (isPlaying) Icons.Default.Pause else Icons.Default.PlayArrow, stringResource(if (isPlaying) R.string.pause_audio else R.string.play_current_ayah))
+                    }
                     IconButton(onClick = {
                         app.userDb.addBookmark("ayah", "$surah:${verse.ayah}", "$surah:${verse.ayah}")
                         selected = null
@@ -179,6 +270,49 @@ fun QuranReaderScreen(
                 Spacer(Modifier.height(14.dp))
             }
         }
+    }
+
+    if (showReaderSettings) {
+        AlertDialog(
+            onDismissRequest = { showReaderSettings = false },
+            title = { Text(stringResource(R.string.reader_settings)) },
+            text = {
+                Column(Modifier.fillMaxWidth().heightIn(max = 420.dp).verticalScroll(rememberScrollState())) {
+                    Text(stringResource(R.string.select_reciter), style = MaterialTheme.typography.titleSmall)
+                    quranReciters.forEach { reciter ->
+                        Row(
+                            Modifier.fillMaxWidth().clickable {
+                                scope.launch { app.settings.setReciter(reciter.id) }
+                                player.stop()
+                            },
+                            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
+                        ) {
+                            RadioButton(
+                                selected = settings.reciter == reciter.id,
+                                onClick = {
+                                    scope.launch { app.settings.setReciter(reciter.id) }
+                                    player.stop()
+                                }
+                            )
+                            Text(reciter.name, style = MaterialTheme.typography.bodyMedium)
+                        }
+                    }
+                    HorizontalDivider(Modifier.padding(vertical = 8.dp))
+                    Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
+                        Text(stringResource(R.string.english_translation), Modifier.weight(1f))
+                        Switch(checked = settings.showEnglishTranslation, onCheckedChange = { enabled ->
+                            scope.launch { app.settings.setShowEnglishTranslation(enabled) }
+                        })
+                    }
+                    Spacer(Modifier.height(8.dp))
+                    Text(stringResource(R.string.audio_source_notice), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Spacer(Modifier.height(8.dp))
+                    Text(stringResource(R.string.tafsir_unavailable), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
+            },
+            confirmButton = { TextButton(onClick = { showReaderSettings = false }) { Text(stringResource(R.string.done)) } },
+            dismissButton = { TextButton(onClick = { showReaderSettings = false; nav.navigate("content") }) { Text(stringResource(R.string.content_center)) } }
+        )
     }
 
     if (showNote) {
