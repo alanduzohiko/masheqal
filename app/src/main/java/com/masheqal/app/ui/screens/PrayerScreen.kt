@@ -19,6 +19,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -32,12 +33,16 @@ import com.masheqal.app.domain.*
 import com.masheqal.app.services.PrayerNotificationScheduler
 import com.masheqal.app.util.LocationUtils
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
+import java.util.Locale
 import java.time.ZonedDateTime
 import kotlinx.coroutines.delay
 
 @Composable
 fun PrayerScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -> Unit) {
     val context = androidx.compose.ui.platform.LocalContext.current
+    val deviceLocale = LocalConfiguration.current.locales[0] ?: Locale.getDefault()
     var location by remember { mutableStateOf(LocationUtils.lastKnown(context)) }
     var times by remember { mutableStateOf<PrayerTimes?>(null) }
     val settings by app.settings.state.collectAsState(initial = com.masheqal.app.data.SettingsState())
@@ -174,7 +179,7 @@ fun PrayerScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: ()
                 Column {
                     Text(stringResource(R.string.prayer), style = MaterialTheme.typography.headlineMedium)
                     Text(
-                        LocalDate.now().toString(),
+                        LocalDate.now().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL).withLocale(deviceLocale)),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -242,7 +247,7 @@ fun PrayerScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: ()
                         )
                         Row(verticalAlignment = Alignment.Bottom) {
                             Text(
-                                next?.second?.let(::formatMinutes).orEmpty(),
+                                next?.second?.let { formatMinutes(it, deviceLocale) }.orEmpty(),
                                 style = MaterialTheme.typography.displaySmall,
                                 fontWeight = FontWeight.Bold,
                                 color = MaterialTheme.colorScheme.onPrimaryContainer
@@ -341,7 +346,7 @@ fun PrayerScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: ()
                             }
                         }
                         Text(
-                            formatMinutes(row.second),
+                            formatMinutes(row.second, deviceLocale),
                             style = MaterialTheme.typography.titleLarge,
                             color = if (isNext) {
                                 MaterialTheme.colorScheme.primary
@@ -357,9 +362,9 @@ fun PrayerScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: ()
     }
 }
 
-private fun formatMinutes(v: Double): String {
+private fun formatMinutes(v: Double, locale: Locale = Locale.getDefault()): String {
     val total = kotlin.math.round(v).toInt()
-    return java.time.LocalTime.of((total / 60) % 24, total % 60).format(java.time.format.DateTimeFormatter.ofPattern("h:mm a", java.util.Locale.getDefault()))
+    return java.time.LocalTime.of((total / 60) % 24, total % 60).format(java.time.format.DateTimeFormatter.ofPattern("h:mm a", locale))
 }
 
 private fun countdownText(target: Double): String {
