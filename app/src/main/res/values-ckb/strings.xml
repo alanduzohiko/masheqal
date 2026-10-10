@@ -167,4 +167,6 @@
     <string name="online_cached_content">لە سەرچاوەوە بار دەکرێت و سوورەتە کراوەکان بۆ بەکارهێنانی بەبێ ئینتەرنێت پاشەکەوت دەکرێن</string>
     <string name="streamed_audio_content">دەنگ لە سەرچاوەی دیاریکراوەوە پەخش دەکرێت و بۆ پەخشکردن ئینتەرنێت پێویستە</string>
     <string name="source_dependent_content">هێشتا بەردەست نییە — کۆمەڵەداتای پشتڕاستکراو و بە مەجوز پێویستە</string>
+    <string name="previous_page">پەڕەی پێشوو</string>
+    <string name="next_page">پەڕەی دواتر</string>
 </resources>
