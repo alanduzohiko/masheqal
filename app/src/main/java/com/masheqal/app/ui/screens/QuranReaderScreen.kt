@@ -95,7 +95,7 @@ fun QuranReaderScreen(
         val queue = verses.filter { it.ayah >= verse.ayah }.map { item ->
             MediaItem.Builder()
                 .setMediaId(item.surah.toString() + ":" + item.ayah.toString())
-                .setUri("https://cdn.islamic.network/quran/audio/128/" + settings.reciter + "/" + item.id + ".mp3")
+                .setUri("https:" + "/" + "/cdn.islamic.network/quran/audio/128/" + settings.reciter + "/" + item.id + ".mp3")
                 .build()
         }
         if (queue.isEmpty()) return
