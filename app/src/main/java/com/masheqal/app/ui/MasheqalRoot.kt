@@ -121,7 +121,7 @@ fun MasheqalRoot(
             composable("saved") { SavedScreen(app, nav) }
             composable("notes") { NotesScreen(app, nav) }
             composable("khatmah") { KhatmahScreen(app, nav) }
-            composable("settings") { SettingsScreen(app, nav, onLanguage) }
+            composable("settings") { SettingsScreen(app, nav, onLanguage, onRequestLocation) }
             composable("content") { ContentCenterScreen(nav) }
             composable("calendar") { CalendarScreen(nav) }
         }
