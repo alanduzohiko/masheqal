@@ -60,6 +60,8 @@ fun SettingsScreen(
     var showPrivacy by remember { mutableStateOf(false) }
     var showPrayerMethods by remember { mutableStateOf(false) }
     var showReciters by remember { mutableStateOf(false) }
+    var showTranslations by remember { mutableStateOf(false) }
+    var showTafsirs by remember { mutableStateOf(false) }
     val backupExported = stringResource(R.string.backup_exported)
     val backupRestored = stringResource(R.string.backup_restored)
 
@@ -86,6 +88,9 @@ fun SettingsScreen(
                         app.settings.setAwake(backup.settings.keepScreenAwake)
                         app.settings.setReciter(backup.settings.reciter)
                         app.settings.setShowEnglishTranslation(backup.settings.showEnglishTranslation)
+                        app.settings.setTranslationEdition(backup.settings.translationEdition)
+                        app.settings.setTafsirEdition(backup.settings.tafsirEdition)
+                        app.settings.setShowTafsir(backup.settings.showTafsir)
                         app.personal.setReading(backup.reading.surah, backup.reading.ayah)
                         app.personal.setKhatmah(
                             backup.khatmah.days,
@@ -119,6 +124,20 @@ fun SettingsScreen(
         "DUBAI" to R.string.method_dubai
     )
     val selectedMethod = methodNames.firstOrNull { it.first == settings.prayerMethod } ?: methodNames.first()
+    val translationNames = listOf(
+        "en.sahih" to R.string.translation_sahih,
+        "en.pickthall" to R.string.translation_pickthall,
+        "en.yusufali" to R.string.translation_yusufali,
+        "en.asad" to R.string.translation_asad,
+        "en.hilali" to R.string.translation_hilali,
+        "en.itani" to R.string.translation_itani
+    )
+    val selectedTranslation = translationNames.firstOrNull { it.first == settings.translationEdition } ?: translationNames.first()
+    val tafsirNames = listOf(
+        "ar.muyassar" to R.string.tafsir_muyassar,
+        "ar.jalalayn" to R.string.tafsir_jalalayn
+    )
+    val selectedTafsir = tafsirNames.firstOrNull { it.first == settings.tafsirEdition } ?: tafsirNames.first()
 
     Column(
         Modifier.fillMaxSize().verticalScroll(rememberScrollState()),
@@ -316,6 +335,43 @@ fun SettingsScreen(
                 )
             }
             OutlinedCard(
+                onClick = { showTranslations = true },
+                shape = RoundedCornerShape(18.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Row(Modifier.fillMaxWidth().padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Icon(Icons.Default.Translate, null, tint = MaterialTheme.colorScheme.primary)
+                    Spacer(Modifier.width(12.dp))
+                    Column(Modifier.weight(1f)) {
+                        Text(stringResource(R.string.select_translation), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text(stringResource(selectedTranslation.second), style = MaterialTheme.typography.titleSmall)
+                    }
+                    Icon(Icons.Default.ExpandMore, null)
+                }
+            }
+            OutlinedCard(
+                onClick = { showTafsirs = true },
+                shape = RoundedCornerShape(18.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Row(Modifier.fillMaxWidth().padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Icon(Icons.Default.AutoStories, null, tint = MaterialTheme.colorScheme.primary)
+                    Spacer(Modifier.width(12.dp))
+                    Column(Modifier.weight(1f)) {
+                        Text(stringResource(R.string.select_tafsir), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text(stringResource(selectedTafsir.second), style = MaterialTheme.typography.titleSmall)
+                    }
+                    Icon(Icons.Default.ExpandMore, null)
+                }
+            }
+            ToggleRow(
+                title = stringResource(R.string.show_tafsir),
+                subtitle = stringResource(R.string.settings_tafsir_hint),
+                checked = settings.showTafsir,
+                icon = Icons.Default.AutoStories,
+                onChange = { enabled -> scope.launch { app.settings.setShowTafsir(enabled) } }
+            )
+            OutlinedCard(
                 onClick = { nav.navigate("content") },
                 shape = RoundedCornerShape(18.dp),
                 modifier = Modifier.fillMaxWidth()
@@ -440,6 +496,54 @@ fun SettingsScreen(
             confirmButton = {
                 TextButton(onClick = { showReciters = false }) { Text(stringResource(R.string.done)) }
             }
+        )
+    }
+
+    if (showTranslations) {
+        AlertDialog(
+            onDismissRequest = { showTranslations = false },
+            title = { Text(stringResource(R.string.select_translation)) },
+            text = {
+                Column(Modifier.heightIn(max = 420.dp).verticalScroll(rememberScrollState())) {
+                    translationNames.forEach { (edition, labelId) ->
+                        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                            RadioButton(
+                                selected = settings.translationEdition == edition,
+                                onClick = {
+                                    scope.launch { app.settings.setTranslationEdition(edition) }
+                                    showTranslations = false
+                                }
+                            )
+                            Text(stringResource(labelId), style = MaterialTheme.typography.bodyMedium)
+                        }
+                    }
+                }
+            },
+            confirmButton = { TextButton(onClick = { showTranslations = false }) { Text(stringResource(R.string.done)) } }
+        )
+    }
+
+    if (showTafsirs) {
+        AlertDialog(
+            onDismissRequest = { showTafsirs = false },
+            title = { Text(stringResource(R.string.select_tafsir)) },
+            text = {
+                Column(Modifier.heightIn(max = 300.dp).verticalScroll(rememberScrollState())) {
+                    tafsirNames.forEach { (edition, labelId) ->
+                        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                            RadioButton(
+                                selected = settings.tafsirEdition == edition,
+                                onClick = {
+                                    scope.launch { app.settings.setTafsirEdition(edition) }
+                                    showTafsirs = false
+                                }
+                            )
+                            Text(stringResource(labelId), style = MaterialTheme.typography.bodyMedium)
+                        }
+                    }
+                }
+            },
+            confirmButton = { TextButton(onClick = { showTafsirs = false }) { Text(stringResource(R.string.done)) } }
         )
     }
 
