@@ -24,6 +24,7 @@ import androidx.navigation.NavHostController
 import com.masheqal.app.MasheqalApp
 import com.masheqal.app.R
 import com.masheqal.app.data.QuranStudyRepository
+import com.masheqal.app.data.QuranTajweedRepository
 import com.masheqal.app.data.QuranEdition
 import com.masheqal.app.data.QuranEditionRepository
 import com.masheqal.app.data.FullSurahReciter
