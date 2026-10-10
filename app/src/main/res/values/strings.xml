@@ -62,7 +62,7 @@
     <string name="method_isna">ISNA</string>
     <string name="method_tehran">Institute of Geophysics, Tehran</string>
     <string name="method_turkey">Diyanet / Turkey</string>
-    <string name="madhhab_shafi">Shafi'i</string>
+    <string name="madhhab_shafi">Shafi\'i</string>
     <string name="madhhab_hanafi">Hanafi</string>
     <string name="adhkar_dashboard_title">Make space for remembrance</string>
     <string name="adhkar_dashboard_subtitle">Verified texts, clear references, and gentle progress tracking for your daily worship.</string>
