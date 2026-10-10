@@ -95,4 +95,7 @@
     <string name="settings_data_hint">کۆنترۆڵی داتای خوێندنەوەی پاشەکەوتکراوت لە دەست خۆتدا بهێڵەوە.</string>
     <string name="settings_restore_hint">ڕێکخستن، نیشانەکان و تێبینییەکان لە فایلێکی پاڵپشتی بگەڕێنەوە.</string>
     <string name="settings_privacy_hint">بزانە داتای ناوخۆیی و مۆڵەتەکان چۆن بەکاردێن.</string>
+    <string name="today_prayer_times">کاتەکانی نوێژی ئەمڕۆ</string>
+    <string name="view_all">هەمووی ببینە</string>
+    <string name="prayer_grid_location_hint">ڕێگە بدە بە شوێن بۆ پیشاندانی کاتی نوێژی ناوخۆیی.</string>
 </resources>
