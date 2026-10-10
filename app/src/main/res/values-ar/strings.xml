@@ -169,4 +169,8 @@
     <string name="source_dependent_content">غير متوفر بعد — يلزم توفير مجموعة بيانات موثقة ومرخّصة</string>
     <string name="previous_page">الصفحة السابقة</string>
     <string name="next_page">الصفحة التالية</string>
+    <string name="select_mushaf_script">اختيار رسم المصحف</string>
+    <string name="mushaf_script_hint">اختر طريقة كتابة النص العربي. يغيّر هذا رسم النص، وليس صور صفحات المصحف الورقية.</string>
+    <string name="mushaf_script_source_note">تُحمّل رسوم النص البديلة من Al Quran Cloud وتُحفظ كل سورة للاستخدام دون اتصال بعد تحميلها أول مرة.</string>
+    <string name="mushaf_script_unavailable_offline">لم يُحمّل هذا الرسم بعد. يُعرض نص الرسم العثماني المضمّن بدلًا منه.</string>
 </resources>
