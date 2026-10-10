@@ -42,7 +42,7 @@ import kotlinx.coroutines.delay
 @Composable
 fun PrayerScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -> Unit) {
     val context = androidx.compose.ui.platform.LocalContext.current
-    val deviceLocale = LocalConfiguration.current.locales[0] ?: Locale.getDefault()
+    val deviceLocale = LocalConfiguration.current.locales[0] ?: Locale.ROOT
     var location by remember { mutableStateOf(LocationUtils.lastKnown(context)) }
     var times by remember { mutableStateOf<PrayerTimes?>(null) }
     val settings by app.settings.state.collectAsState(initial = com.masheqal.app.data.SettingsState())
