@@ -59,7 +59,7 @@ fun AdhkarScreen(nav: NavHostController) {
     val categories = listOf(
         DhikrCategory("morning", R.string.morning, R.string.dhikr_morning_subtitle, Icons.Default.WbSunny),
         DhikrCategory("evening", R.string.evening, R.string.dhikr_evening_subtitle, Icons.Default.NightsStay),
-        DhikrCategory("after_prayer", R.string.after_prayer_title, R.string.dhikr_after_prayer_subtitle, Icons.Default.Mosque),
+        DhikrCategory("after_prayer", R.string.after_prayer_title, R.string.dhikr_after_prayer_subtitle, Icons.Default.Schedule),
         DhikrCategory("daily_dua", R.string.daily_duas_title, R.string.dhikr_daily_duas_subtitle, Icons.Default.Favorite)
     )
     val currentCategory = categories.first { it.key == selectedCategory }
@@ -121,7 +121,7 @@ fun AdhkarScreen(nav: NavHostController) {
                                     Modifier.padding(horizontal = 12.dp, vertical = 7.dp),
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
-                                    Icon(Icons.Default.OfflinePin, null, tint = Color.White, modifier = Modifier.size(16.dp))
+                                    Icon(Icons.Default.CloudOff, null, tint = Color.White, modifier = Modifier.size(16.dp))
                                     Spacer(Modifier.width(5.dp))
                                     Text(stringResource(R.string.dhikr_offline_label), color = Color.White, style = MaterialTheme.typography.labelMedium)
                                 }
@@ -261,7 +261,7 @@ fun AdhkarScreen(nav: NavHostController) {
                         preferences.edit().remove(item.id).apply()
                     }
                 }) {
-                    Icon(Icons.Default.RestartAlt, stringResource(R.string.dhikr_reset_count))
+                    Icon(Icons.Default.Refresh, stringResource(R.string.dhikr_reset_count))
                 }
             }
         }
@@ -302,7 +302,7 @@ fun AdhkarScreen(nav: NavHostController) {
                 EmptyState(
                     title = stringResource(R.string.dhikr_no_results),
                     details = stringResource(R.string.dhikr_no_results_hint),
-                    icon = Icons.Default.SearchOff
+                    icon = Icons.Default.Search
                 )
             }
         } else {
