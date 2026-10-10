@@ -95,4 +95,7 @@
     <string name="settings_data_hint">احتفظ بالتحكم في بيانات القراءة المحفوظة.</string>
     <string name="settings_restore_hint">استعادة الإعدادات والعلامات والملاحظات من ملف نسخة احتياطية.</string>
     <string name="settings_privacy_hint">تعرف على كيفية التعامل مع البيانات المحلية والأذونات.</string>
+    <string name="today_prayer_times">أوقات الصلاة اليوم</string>
+    <string name="view_all">عرض الكل</string>
+    <string name="prayer_grid_location_hint">اسمح بتحديد الموقع لعرض أوقات الصلاة المحلية هنا.</string>
 </resources>
