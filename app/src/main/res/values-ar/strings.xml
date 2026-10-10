@@ -153,4 +153,6 @@
     <string name="adhan_no_results_hint">جرّب اسمًا آخر أو غيّر التصفية.</string>
     <string name="cancel_reminders">إيقاف التذكيرات</string>
     <string name="settings_adhan_play_hint">تشغيل الأذان الكامل المحدد عند حلول وقت الصلاة.</string>
+    <string name="translation_search_hint">ابحث باسم الترجمة أو اللغة أو معرّف الإصدار</string>
+    <string name="tafsir_search_hint">ابحث باسم التفسير أو اللغة أو معرّف الإصدار</string>
 </resources>
