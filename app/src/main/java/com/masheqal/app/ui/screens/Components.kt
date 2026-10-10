@@ -181,7 +181,7 @@ fun QuranText(
 }
 
 private const val TAJWEED_CLOSE = "</tajweed>"
-private val tajweedOpenPattern = Regex("""<tajweed\\s+class=["']([^"']+)["']\\s*>""")
+private val tajweedOpenPattern = Regex("""<tajweed\s+class=["']([^"']+)["']\s*>""")
 
 private fun tajweedColor(rule: String, dark: Boolean): Color? = when (rule.lowercase()) {
     "madda_normal", "madda_permissible", "madda_necessary", "madda_obligatory" ->
