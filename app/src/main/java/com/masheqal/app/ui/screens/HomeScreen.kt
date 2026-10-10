@@ -179,7 +179,7 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
                             Spacer(Modifier.height(10.dp))
                             Row(verticalAlignment = Alignment.Bottom) {
                                 Text(
-                                    formatMinutes(candidate.minutes),
+                                    formatMinutes(candidate.minutes, deviceLocale),
                                     style = MaterialTheme.typography.displaySmall,
                                     color = Color.White,
                                     fontWeight = FontWeight.Bold
@@ -268,7 +268,7 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
                                             maxLines = 1
                                         )
                                         Text(
-                                            formatMinutes(time),
+                                            formatMinutes(time, deviceLocale),
                                             style = MaterialTheme.typography.titleMedium,
                                             fontWeight = FontWeight.Bold,
                                             color = MaterialTheme.colorScheme.primary,
@@ -461,9 +461,9 @@ fun HomeScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: () -
     }
 }
 
-private fun formatMinutes(v: Double): String {
+private fun formatMinutes(v: Double, locale: Locale = Locale.getDefault()): String {
     val total = kotlin.math.round(v).toInt()
-    return java.time.LocalTime.of((total / 60) % 24, total % 60).format(java.time.format.DateTimeFormatter.ofPattern("h:mm a", java.util.Locale.getDefault()))
+    return java.time.LocalTime.of((total / 60) % 24, total % 60).format(java.time.format.DateTimeFormatter.ofPattern("h:mm a", locale))
 }
 
 private fun countdownText(prayerMinutes: Double, now: ZonedDateTime): String {
