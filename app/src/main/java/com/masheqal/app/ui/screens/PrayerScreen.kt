@@ -221,7 +221,7 @@ fun PrayerScreen(app: MasheqalApp, nav: NavHostController, onRequestLocation: ()
                         )
                         Spacer(Modifier.height(8.dp))
                         Text(
-                            stringResource(R.string.location_needed),
+                            stringResource(R.string.location_needed_details),
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
