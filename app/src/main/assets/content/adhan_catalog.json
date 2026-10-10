@@ -1,0 +1,2319 @@
+{
+  "version": 1,
+  "source": "Kiwifu/adhan-mp3",
+  "sourceUrl": "https://github.com/Kiwifu/adhan-mp3",
+  "rawBase": "https://raw.githubusercontent.com/Kiwifu/adhan-mp3/main/",
+  "note": "The upstream repository README says its Adhan MP3 collection is free for Islamic apps, prayer-time software, and personal use. Audio files are streamed from upstream; binary recordings are not bundled in this app.",
+  "recordings": [
+    {
+      "id": "adhan-001",
+      "fileName": "Abd_Alrazaq_Saleh_-_Lebanon_(عبد_الرزاق_صالح_-_لبنان).mp3",
+      "title": "Abd Alrazaq Saleh — Lebanon",
+      "arabicTitle": "عبد الرزاق صالح — لبنان",
+      "sizeBytes": 501720,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Abd_Alrazaq_Saleh_-_Lebanon_(عبد_الرزاق_صالح_-_لبنان).mp3"
+    },
+    {
+      "id": "adhan-002",
+      "fileName": "Abdel_Moneim_Abdel_Mobdi_(عبد_المنعم_عبد_المبدي).mp3",
+      "title": "Abdel Moneim Abdel Mobdi",
+      "arabicTitle": "عبد المنعم عبد المبدي",
+      "sizeBytes": 712147,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Abdel_Moneim_Abdel_Mobdi_(عبد_المنعم_عبد_المبدي).mp3"
+    },
+    {
+      "id": "adhan-003",
+      "fileName": "Abdu_Al_Karem_Jabare_(عبد_الكريم_جابري).mp3",
+      "title": "Abdu Al Karem Jabare",
+      "arabicTitle": "عبد الكريم جابري",
+      "sizeBytes": 1634867,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Abdu_Al_Karem_Jabare_(عبد_الكريم_جابري).mp3"
+    },
+    {
+      "id": "adhan-004",
+      "fileName": "Abdul_Majid_Al_Surehi_1_(عبدالمجيد_السريحي).mp3",
+      "title": "Abdul Majid Al Surehi 1",
+      "arabicTitle": "عبدالمجيد السريحي",
+      "sizeBytes": 828962,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Abdul_Majid_Al_Surehi_1_(عبدالمجيد_السريحي).mp3"
+    },
+    {
+      "id": "adhan-005",
+      "fileName": "Abdul_Majid_Al_Surehi_2_(عبدالمجيد_السريحي).mp3",
+      "title": "Abdul Majid Al Surehi 2",
+      "arabicTitle": "عبدالمجيد السريحي",
+      "sizeBytes": 538407,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Abdul_Majid_Al_Surehi_2_(عبدالمجيد_السريحي).mp3"
+    },
+    {
+      "id": "adhan-006",
+      "fileName": "Abdul_Majid_Al_Surehi_3_(عبدالمجيد_السريحي).mp3",
+      "title": "Abdul Majid Al Surehi 3",
+      "arabicTitle": "عبدالمجيد السريحي",
+      "sizeBytes": 3372557,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Abdul_Majid_Al_Surehi_3_(عبدالمجيد_السريحي).mp3"
+    },
+    {
+      "id": "adhan-007",
+      "fileName": "Abdul_Rahman_Al_Arake_1_(عبدالرحمن_العراقي).mp3",
+      "title": "Abdul Rahman Al Arake 1",
+      "arabicTitle": "عبدالرحمن العراقي",
+      "sizeBytes": 3331445,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Abdul_Rahman_Al_Arake_1_(عبدالرحمن_العراقي).mp3"
+    },
+    {
+      "id": "adhan-008",
+      "fileName": "Abdul_Rahman_Al_Arake_2_(عبدالرحمن_العراقي).mp3",
+      "title": "Abdul Rahman Al Arake 2",
+      "arabicTitle": "عبدالرحمن العراقي",
+      "sizeBytes": 3834703,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Abdul_Rahman_Al_Arake_2_(عبدالرحمن_العراقي).mp3"
+    },
+    {
+      "id": "adhan-009",
+      "fileName": "Abdul_Rahman_Al_Arake_3_(عبدالرحمن_العراقي).mp3",
+      "title": "Abdul Rahman Al Arake 3",
+      "arabicTitle": "عبدالرحمن العراقي",
+      "sizeBytes": 4518049,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Abdul_Rahman_Al_Arake_3_(عبدالرحمن_العراقي).mp3"
+    },
+    {
+      "id": "adhan-010",
+      "fileName": "Abdul_Rahman_Kassab_1_(عبدالرحمن_كساب).mp3",
+      "title": "Abdul Rahman Kassab 1",
+      "arabicTitle": "عبدالرحمن كساب",
+      "sizeBytes": 2348776,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Abdul_Rahman_Kassab_1_(عبدالرحمن_كساب).mp3"
+    },
+    {
+      "id": "adhan-011",
+      "fileName": "Abdul_Rahman_Kassab_2_(عبدالرحمن_كساب).mp3",
+      "title": "Abdul Rahman Kassab 2",
+      "arabicTitle": "عبدالرحمن كساب",
+      "sizeBytes": 6632093,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Abdul_Rahman_Kassab_2_(عبدالرحمن_كساب).mp3"
+    },
+    {
+      "id": "adhan-012",
+      "fileName": "Abdul_Rahman_Majde_(عبدالرحمن_ماجد).mp3",
+      "title": "Abdul Rahman Majde",
+      "arabicTitle": "عبدالرحمن ماجد",
+      "sizeBytes": 6566058,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Abdul_Rahman_Majde_(عبدالرحمن_ماجد).mp3"
+    },
+    {
+      "id": "adhan-013",
+      "fileName": "Abdul_Wali_Al_Arkani_(عبدالولي_الأركاني).mp3",
+      "title": "Abdul Wali Al Arkani",
+      "arabicTitle": "عبدالولي الأركاني",
+      "sizeBytes": 2539982,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Abdul_Wali_Al_Arkani_(عبدالولي_الأركاني).mp3"
+    },
+    {
+      "id": "adhan-014",
+      "fileName": "Abdulah_Al_Dahbe_-_Egypt_(عبدالله_الذهبي_-_مصر).mp3",
+      "title": "Abdulah Al Dahbe — Egypt",
+      "arabicTitle": "عبدالله الذهبي — مصر",
+      "sizeBytes": 4352156,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Abdulah_Al_Dahbe_-_Egypt_(عبدالله_الذهبي_-_مصر).mp3"
+    },
+    {
+      "id": "adhan-015",
+      "fileName": "Abdulah_Al_Maknawe_(عبدالله_المكناوي).mp3",
+      "title": "Abdulah Al Maknawe",
+      "arabicTitle": "عبدالله المكناوي",
+      "sizeBytes": 5569239,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Abdulah_Al_Maknawe_(عبدالله_المكناوي).mp3"
+    },
+    {
+      "id": "adhan-016",
+      "fileName": "Abdulah_Al_Sabaawe_(عبدالله_الصباوي).mp3",
+      "title": "Abdulah Al Sabaawe",
+      "arabicTitle": "عبدالله الصباوي",
+      "sizeBytes": 2994542,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Abdulah_Al_Sabaawe_(عبدالله_الصباوي).mp3"
+    },
+    {
+      "id": "adhan-017",
+      "fileName": "Abdulbasit_Abdusamad_1_-_Egypt_(عبد_الباسط_عبد_الصمد_-_مصر).mp3",
+      "title": "Abdulbasit Abdusamad 1 — Egypt",
+      "arabicTitle": "عبد الباسط عبد الصمد — مصر",
+      "sizeBytes": 489872,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Abdulbasit_Abdusamad_1_-_Egypt_(عبد_الباسط_عبد_الصمد_-_مصر).mp3"
+    },
+    {
+      "id": "adhan-018",
+      "fileName": "Abdulbasit_Abdusamad_2_-_Egypt_(عبد_الباسط_عبد_الصمد_-_مصر).mp3",
+      "title": "Abdulbasit Abdusamad 2 — Egypt",
+      "arabicTitle": "عبد الباسط عبد الصمد — مصر",
+      "sizeBytes": 494336,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Abdulbasit_Abdusamad_2_-_Egypt_(عبد_الباسط_عبد_الصمد_-_مصر).mp3"
+    },
+    {
+      "id": "adhan-019",
+      "fileName": "Abdulbasit_Abdusamad_3_-_Egypt_(عبد_الباسط_عبد_الصمد_-_مصر).mp3",
+      "title": "Abdulbasit Abdusamad 3 — Egypt",
+      "arabicTitle": "عبد الباسط عبد الصمد — مصر",
+      "sizeBytes": 4495998,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Abdulbasit_Abdusamad_3_-_Egypt_(عبد_الباسط_عبد_الصمد_-_مصر).mp3"
+    },
+    {
+      "id": "adhan-020",
+      "fileName": "Abdulbasit_Abdusamad_4_-_Egypt_(عبد_الباسط_عبد_الصمد_-_مصر).mp3",
+      "title": "Abdulbasit Abdusamad 4 — Egypt",
+      "arabicTitle": "عبد الباسط عبد الصمد — مصر",
+      "sizeBytes": 4539857,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Abdulbasit_Abdusamad_4_-_Egypt_(عبد_الباسط_عبد_الصمد_-_مصر).mp3"
+    },
+    {
+      "id": "adhan-021",
+      "fileName": "Abdulbasit_Abdusamad_5_-_Cairo_(عبد_الباسط_عبد_الصمد_-_القاهرة).mp3",
+      "title": "Abdulbasit Abdusamad 5 — Cairo",
+      "arabicTitle": "عبد الباسط عبد الصمد — القاهرة",
+      "sizeBytes": 405582,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Abdulbasit_Abdusamad_5_-_Cairo_(عبد_الباسط_عبد_الصمد_-_القاهرة).mp3"
+    },
+    {
+      "id": "adhan-022",
+      "fileName": "Abdulbasit_Abdusamad_6_-_Fajr_Egypt_(عبد_الباسط_عبد_الصمد_-_فجر_مصر).mp3",
+      "title": "Abdulbasit Abdusamad 6 — Fajr Egypt",
+      "arabicTitle": "عبد الباسط عبد الصمد — فجر مصر",
+      "sizeBytes": 11744593,
+      "category": "fajr",
+      "featured": false,
+      "playbackPath": "Abdulbasit_Abdusamad_6_-_Fajr_Egypt_(عبد_الباسط_عبد_الصمد_-_فجر_مصر).mp3"
+    },
+    {
+      "id": "adhan-023",
+      "fileName": "Abdulbasit_Abdusamad_7_-_Fajr_Egypt_(عبد_الباسط_عبد_الصمد_-_فجر_مصر).mp3",
+      "title": "Abdulbasit Abdusamad 7 — Fajr Egypt",
+      "arabicTitle": "عبد الباسط عبد الصمد — فجر مصر",
+      "sizeBytes": 3095800,
+      "category": "fajr",
+      "featured": false,
+      "playbackPath": "Abdulbasit_Abdusamad_7_-_Fajr_Egypt_(عبد_الباسط_عبد_الصمد_-_فجر_مصر).mp3"
+    },
+    {
+      "id": "adhan-024",
+      "fileName": "Abul_Ainain_Shuaisha_-_Cairo_(أبو_العينين_شعيشع_-_القاهرة).mp3",
+      "title": "Abul Ainain Shuaisha — Cairo",
+      "arabicTitle": "أبو العينين شعيشع — القاهرة",
+      "sizeBytes": 477002,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Abul_Ainain_Shuaisha_-_Cairo_(أبو_العينين_شعيشع_-_القاهرة).mp3"
+    },
+    {
+      "id": "adhan-025",
+      "fileName": "Aby_Yasser_Al_Jazaire_(أبو_ياسر_الجزائري).mp3",
+      "title": "Aby Yasser Al Jazaire",
+      "arabicTitle": "أبو ياسر الجزائري",
+      "sizeBytes": 2123971,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Aby_Yasser_Al_Jazaire_(أبو_ياسر_الجزائري).mp3"
+    },
+    {
+      "id": "adhan-026",
+      "fileName": "Adal_Malek_Abdulah_Al_Massre_(عادل_مالك_عبدالله_المصري).mp3",
+      "title": "Adal Malek Abdulah Al Massre",
+      "arabicTitle": "عادل مالك عبدالله المصري",
+      "sizeBytes": 3869426,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Adal_Malek_Abdulah_Al_Massre_(عادل_مالك_عبدالله_المصري).mp3"
+    },
+    {
+      "id": "adhan-027",
+      "fileName": "Adam_Abu_Sakhra_(آدم_أبو_سخرة).mp3",
+      "title": "Adam Abu Sakhra",
+      "arabicTitle": "آدم أبو سخرة",
+      "sizeBytes": 1736363,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Adam_Abu_Sakhra_(آدم_أبو_سخرة).mp3"
+    },
+    {
+      "id": "adhan-028",
+      "fileName": "Adham_Al_Sharqawe_(أدهم_الشرقاوي).mp3",
+      "title": "Adham Al Sharqawe",
+      "arabicTitle": "أدهم الشرقاوي",
+      "sizeBytes": 6157422,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Adham_Al_Sharqawe_(أدهم_الشرقاوي).mp3"
+    },
+    {
+      "id": "adhan-029",
+      "fileName": "Adhan_Ajman_UAE_(أذان_عجمان_الإمارات).mp3",
+      "title": "Adhan Ajman UAE",
+      "arabicTitle": "أذان عجمان الإمارات",
+      "sizeBytes": 283676,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Adhan_Ajman_UAE_(أذان_عجمان_الإمارات).mp3"
+    },
+    {
+      "id": "adhan-030",
+      "fileName": "Adhan_Al_Aqsa_-_Jerusalem_(أذان_المسجد_الأقصى_-_القدس).mp3",
+      "title": "Adhan Al Aqsa — Jerusalem",
+      "arabicTitle": "أذان المسجد الأقصى — القدس",
+      "sizeBytes": 307298,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Adhan_Al_Aqsa_-_Jerusalem_(أذان_المسجد_الأقصى_-_القدس).mp3"
+    },
+    {
+      "id": "adhan-031",
+      "fileName": "Adhan_Al_Haram_Al_Madani_-_Al_Madinah_1_(أذان_الحرم_المدني_-_المدينة_المنورة).mp3",
+      "title": "Adhan Al Haram Al Madani — Al Madinah 1",
+      "arabicTitle": "أذان الحرم المدني — المدينة المنورة",
+      "sizeBytes": 379784,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Adhan_Al_Haram_Al_Madani_-_Al_Madinah_1_(أذان_الحرم_المدني_-_المدينة_المنورة).mp3"
+    },
+    {
+      "id": "adhan-032",
+      "fileName": "Adhan_Al_Haram_Al_Madani_-_Al_Madinah_2_(أذان_الحرم_المدني_-_المدينة_المنورة).mp3",
+      "title": "Adhan Al Haram Al Madani — Al Madinah 2",
+      "arabicTitle": "أذان الحرم المدني — المدينة المنورة",
+      "sizeBytes": 475556,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Adhan_Al_Haram_Al_Madani_-_Al_Madinah_2_(أذان_الحرم_المدني_-_المدينة_المنورة).mp3"
+    },
+    {
+      "id": "adhan-033",
+      "fileName": "Adhan_Brunei_1_(أذان_بروناي).mp3",
+      "title": "Adhan Brunei 1",
+      "arabicTitle": "أذان بروناي",
+      "sizeBytes": 415958,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Adhan_Brunei_1_(أذان_بروناي).mp3"
+    },
+    {
+      "id": "adhan-034",
+      "fileName": "Adhan_Brunei_2_(أذان_بروناي).mp3",
+      "title": "Adhan Brunei 2",
+      "arabicTitle": "أذان بروناي",
+      "sizeBytes": 380678,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Adhan_Brunei_2_(أذان_بروناي).mp3"
+    },
+    {
+      "id": "adhan-035",
+      "fileName": "Adhan_Brunei_3_(أذان_بروناي).mp3",
+      "title": "Adhan Brunei 3",
+      "arabicTitle": "أذان بروناي",
+      "sizeBytes": 421358,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Adhan_Brunei_3_(أذان_بروناي).mp3"
+    },
+    {
+      "id": "adhan-036",
+      "fileName": "Adhan_Dubai_UAE_(أذان_دبي_الإمارات).mp3",
+      "title": "Adhan Dubai UAE",
+      "arabicTitle": "أذان دبي الإمارات",
+      "sizeBytes": 475184,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Adhan_Dubai_UAE_(أذان_دبي_الإمارات).mp3"
+    },
+    {
+      "id": "adhan-037",
+      "fileName": "Adhan_Fajr_Al_Haram_Al_Madani_(أذان_الفجر_الحرم_المدني).mp3",
+      "title": "Adhan Fajr Al Haram Al Madani",
+      "arabicTitle": "أذان الفجر الحرم المدني",
+      "sizeBytes": 561776,
+      "category": "fajr",
+      "featured": false,
+      "playbackPath": "Adhan_Fajr_Al_Haram_Al_Madani_(أذان_الفجر_الحرم_المدني).mp3"
+    },
+    {
+      "id": "adhan-038",
+      "fileName": "Adhan_Fajr_Al_Haram_Al_Maki_(أذان_الفجر_الحرم_المكي).mp3",
+      "title": "Adhan Fajr Al Haram Al Maki",
+      "arabicTitle": "أذان الفجر الحرم المكي",
+      "sizeBytes": 450002,
+      "category": "fajr",
+      "featured": false,
+      "playbackPath": "Adhan_Fajr_Al_Haram_Al_Maki_(أذان_الفجر_الحرم_المكي).mp3"
+    },
+    {
+      "id": "adhan-039",
+      "fileName": "Adhan_Fajr_Algeria_(أذان_الفجر_الجزائر).mp3",
+      "title": "Adhan Fajr Algeria",
+      "arabicTitle": "أذان الفجر الجزائر",
+      "sizeBytes": 358472,
+      "category": "fajr",
+      "featured": false,
+      "playbackPath": "Adhan_Fajr_Algeria_(أذان_الفجر_الجزائر).mp3"
+    },
+    {
+      "id": "adhan-040",
+      "fileName": "Adhan_Fajr_Cairo_Egypt_(أذان_الفجر_القاهرة_مصر).mp3",
+      "title": "Adhan Fajr Cairo Egypt",
+      "arabicTitle": "أذان الفجر القاهرة مصر",
+      "sizeBytes": 495158,
+      "category": "fajr",
+      "featured": false,
+      "playbackPath": "Adhan_Fajr_Cairo_Egypt_(أذان_الفجر_القاهرة_مصر).mp3"
+    },
+    {
+      "id": "adhan-041",
+      "fileName": "Adhan_Fajr_Kuwait_1_(أذان_الفجر_الكويت).mp3",
+      "title": "Adhan Fajr Kuwait 1",
+      "arabicTitle": "أذان الفجر الكويت",
+      "sizeBytes": 423698,
+      "category": "fajr",
+      "featured": false,
+      "playbackPath": "Adhan_Fajr_Kuwait_1_(أذان_الفجر_الكويت).mp3"
+    },
+    {
+      "id": "adhan-042",
+      "fileName": "Adhan_Fajr_Kuwait_2_(أذان_الفجر_الكويت).mp3",
+      "title": "Adhan Fajr Kuwait 2",
+      "arabicTitle": "أذان الفجر الكويت",
+      "sizeBytes": 379202,
+      "category": "fajr",
+      "featured": false,
+      "playbackPath": "Adhan_Fajr_Kuwait_2_(أذان_الفجر_الكويت).mp3"
+    },
+    {
+      "id": "adhan-043",
+      "fileName": "Adhan_Fajr_Umm_Al_Quwain_(أذان_الفجر_أم_القيوين).mp3",
+      "title": "Adhan Fajr Umm Al Quwain",
+      "arabicTitle": "أذان الفجر أم القيوين",
+      "sizeBytes": 384686,
+      "category": "fajr",
+      "featured": false,
+      "playbackPath": "Adhan_Fajr_Umm_Al_Quwain_(أذان_الفجر_أم_القيوين).mp3"
+    },
+    {
+      "id": "adhan-044",
+      "fileName": "Adhan_Georgia_(أذان_جورجيا).mp3",
+      "title": "Adhan Georgia",
+      "arabicTitle": "أذان جورجيا",
+      "sizeBytes": 5044181,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Adhan_Georgia_(أذان_جورجيا).mp3"
+    },
+    {
+      "id": "adhan-045",
+      "fileName": "Adhan_India_(أذان_الهند).mp3",
+      "title": "Adhan India",
+      "arabicTitle": "أذان الهند",
+      "sizeBytes": 220904,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Adhan_India_(أذان_الهند).mp3"
+    },
+    {
+      "id": "adhan-046",
+      "fileName": "Adhan_Indonesia_(أذان_إندونيسيا).mp3",
+      "title": "Adhan Indonesia",
+      "arabicTitle": "أذان إندونيسيا",
+      "sizeBytes": 399128,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Adhan_Indonesia_(أذان_إندونيسيا).mp3"
+    },
+    {
+      "id": "adhan-047",
+      "fileName": "Adhan_Kenya_(أذان_كينيا).mp3",
+      "title": "Adhan Kenya",
+      "arabicTitle": "أذان كينيا",
+      "sizeBytes": 3366832,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Adhan_Kenya_(أذان_كينيا).mp3"
+    },
+    {
+      "id": "adhan-048",
+      "fileName": "Adhan_Kuwait_(أذان_الكويت).mp3",
+      "title": "Adhan Kuwait",
+      "arabicTitle": "أذان الكويت",
+      "sizeBytes": 288590,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Adhan_Kuwait_(أذان_الكويت).mp3"
+    },
+    {
+      "id": "adhan-049",
+      "fileName": "Adhan_Malaysia_1_(أذان_ماليزيا).mp3",
+      "title": "Adhan Malaysia 1",
+      "arabicTitle": "أذان ماليزيا",
+      "sizeBytes": 400340,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Adhan_Malaysia_1_(أذان_ماليزيا).mp3"
+    },
+    {
+      "id": "adhan-050",
+      "fileName": "Adhan_Malaysia_2_(أذان_ماليزيا).mp3",
+      "title": "Adhan Malaysia 2",
+      "arabicTitle": "أذان ماليزيا",
+      "sizeBytes": 401132,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Adhan_Malaysia_2_(أذان_ماليزيا).mp3"
+    },
+    {
+      "id": "adhan-051",
+      "fileName": "Adhan_Maldives_(أذان_جزر_المالديف).mp3",
+      "title": "Adhan Maldives",
+      "arabicTitle": "أذان جزر المالديف",
+      "sizeBytes": 375818,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Adhan_Maldives_(أذان_جزر_المالديف).mp3"
+    },
+    {
+      "id": "adhan-052",
+      "fileName": "Adhan_Masjid_Al_Rajehe_Saudi_Arabia_1_(أذان_مسجد_الراجحي_السعودية).mp3",
+      "title": "Adhan Masjid Al Rajehe Saudi Arabia 1",
+      "arabicTitle": "أذان مسجد الراجحي السعودية",
+      "sizeBytes": 494336,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Adhan_Masjid_Al_Rajehe_Saudi_Arabia_1_(أذان_مسجد_الراجحي_السعودية).mp3"
+    },
+    {
+      "id": "adhan-053",
+      "fileName": "Adhan_Masjid_Al_Rajehe_Saudi_Arabia_2_(أذان_مسجد_الراجحي_السعودية).mp3",
+      "title": "Adhan Masjid Al Rajehe Saudi Arabia 2",
+      "arabicTitle": "أذان مسجد الراجحي السعودية",
+      "sizeBytes": 289280,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Adhan_Masjid_Al_Rajehe_Saudi_Arabia_2_(أذان_مسجد_الراجحي_السعودية).mp3"
+    },
+    {
+      "id": "adhan-054",
+      "fileName": "Adhan_Masjid_Al_Rajehe_Saudi_Arabia_3_(أذان_مسجد_الراجحي_السعودية).mp3",
+      "title": "Adhan Masjid Al Rajehe Saudi Arabia 3",
+      "arabicTitle": "أذان مسجد الراجحي السعودية",
+      "sizeBytes": 298136,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Adhan_Masjid_Al_Rajehe_Saudi_Arabia_3_(أذان_مسجد_الراجحي_السعودية).mp3"
+    },
+    {
+      "id": "adhan-055",
+      "fileName": "Adhan_Muscat_Oman_(أذان_مسقط_عُمان).mp3",
+      "title": "Adhan Muscat Oman",
+      "arabicTitle": "أذان مسقط عُمان",
+      "sizeBytes": 307190,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Adhan_Muscat_Oman_(أذان_مسقط_عُمان).mp3"
+    },
+    {
+      "id": "adhan-056",
+      "fileName": "Adhan_Pakistan_(أذان_باكستان).mp3",
+      "title": "Adhan Pakistan",
+      "arabicTitle": "أذان باكستان",
+      "sizeBytes": 369236,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Adhan_Pakistan_(أذان_باكستان).mp3"
+    },
+    {
+      "id": "adhan-057",
+      "fileName": "Adhan_Riyadh_Saudi_Arabia_(أذان_الرياض_السعودية).mp3",
+      "title": "Adhan Riyadh Saudi Arabia",
+      "arabicTitle": "أذان الرياض السعودية",
+      "sizeBytes": 2938812,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Adhan_Riyadh_Saudi_Arabia_(أذان_الرياض_السعودية).mp3"
+    },
+    {
+      "id": "adhan-058",
+      "fileName": "Adhan_Syria_(أذان_سوريا).mp3",
+      "title": "Adhan Syria",
+      "arabicTitle": "أذان سوريا",
+      "sizeBytes": 446624,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Adhan_Syria_(أذان_سوريا).mp3"
+    },
+    {
+      "id": "adhan-059",
+      "fileName": "Adhan_Tunisia_(أذان_تونس).mp3",
+      "title": "Adhan Tunisia",
+      "arabicTitle": "أذان تونس",
+      "sizeBytes": 291746,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Adhan_Tunisia_(أذان_تونس).mp3"
+    },
+    {
+      "id": "adhan-060",
+      "fileName": "Adhan_Turkey_1_(أذان_تركيا).mp3",
+      "title": "Adhan Turkey 1",
+      "arabicTitle": "أذان تركيا",
+      "sizeBytes": 360584,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Adhan_Turkey_1_(أذان_تركيا).mp3"
+    },
+    {
+      "id": "adhan-061",
+      "fileName": "Adhan_Turkey_2_(أذان_تركيا).mp3",
+      "title": "Adhan Turkey 2",
+      "arabicTitle": "أذان تركيا",
+      "sizeBytes": 98792,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Adhan_Turkey_2_(أذان_تركيا).mp3"
+    },
+    {
+      "id": "adhan-062",
+      "fileName": "Ahmad_Aamer_Muhammad_(أحمد_عامر_محمد).mp3",
+      "title": "Ahmad Aamer Muhammad",
+      "arabicTitle": "أحمد عامر محمد",
+      "sizeBytes": 2868342,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Ahmad_Aamer_Muhammad_(أحمد_عامر_محمد).mp3"
+    },
+    {
+      "id": "adhan-063",
+      "fileName": "Ahmad_Al_Aane_(أحمد_العاني).mp3",
+      "title": "Ahmad Al Aane",
+      "arabicTitle": "أحمد العاني",
+      "sizeBytes": 4240918,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Ahmad_Al_Aane_(أحمد_العاني).mp3"
+    },
+    {
+      "id": "adhan-064",
+      "fileName": "Ahmad_Al_Amade_1_-_Qatar_(أحمد_العمادي_-_قطر).mp3",
+      "title": "Ahmad Al Amade 1 — Qatar",
+      "arabicTitle": "أحمد العمادي — قطر",
+      "sizeBytes": 381080,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Ahmad_Al_Amade_1_-_Qatar_(أحمد_العمادي_-_قطر).mp3"
+    },
+    {
+      "id": "adhan-065",
+      "fileName": "Ahmad_Al_Amade_2_-_Qatar_(أحمد_العمادي_-_قطر).mp3",
+      "title": "Ahmad Al Amade 2 — Qatar",
+      "arabicTitle": "أحمد العمادي — قطر",
+      "sizeBytes": 7230102,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Ahmad_Al_Amade_2_-_Qatar_(أحمد_العمادي_-_قطر).mp3"
+    },
+    {
+      "id": "adhan-066",
+      "fileName": "Ahmad_Al_Batal_(أحمد_البطل).mp3",
+      "title": "Ahmad Al Batal",
+      "arabicTitle": "أحمد البطل",
+      "sizeBytes": 1199539,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Ahmad_Al_Batal_(أحمد_البطل).mp3"
+    },
+    {
+      "id": "adhan-067",
+      "fileName": "Ahmad_Al_Harasses_(أحمد_الحراسيس).mp3",
+      "title": "Ahmad Al Harasses",
+      "arabicTitle": "أحمد الحراسيس",
+      "sizeBytes": 5866437,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Ahmad_Al_Harasses_(أحمد_الحراسيس).mp3"
+    },
+    {
+      "id": "adhan-068",
+      "fileName": "Ahmad_Al_Nafees_(أحمد_النفيس).mp3",
+      "title": "Ahmad Al Nafees",
+      "arabicTitle": "أحمد النفيس",
+      "sizeBytes": 3409337,
+      "category": "muezzin",
+      "featured": true,
+      "playbackPath": "Ahmad_Al_Nafees_(أحمد_النفيس).mp3"
+    },
+    {
+      "id": "adhan-069",
+      "fileName": "Ahmad_Ali_1_(أحمد_علي).mp3",
+      "title": "Ahmad Ali 1",
+      "arabicTitle": "أحمد علي",
+      "sizeBytes": 1589801,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Ahmad_Ali_1_(أحمد_علي).mp3"
+    },
+    {
+      "id": "adhan-070",
+      "fileName": "Ahmad_Ali_2_-_Egypt_(أحمد_علي_-_مصر).mp3",
+      "title": "Ahmad Ali 2 — Egypt",
+      "arabicTitle": "أحمد علي — مصر",
+      "sizeBytes": 3370652,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Ahmad_Ali_2_-_Egypt_(أحمد_علي_-_مصر).mp3"
+    },
+    {
+      "id": "adhan-071",
+      "fileName": "Ahmad_Ali_Murtada_(أحمد_علي_مرتضى).mp3",
+      "title": "Ahmad Ali Murtada",
+      "arabicTitle": "أحمد علي مرتضى",
+      "sizeBytes": 1504130,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Ahmad_Ali_Murtada_(أحمد_علي_مرتضى).mp3"
+    },
+    {
+      "id": "adhan-072",
+      "fileName": "Ahmad_Fakhru_-_Qatar_(أحمد_فخرو_-_قطر).mp3",
+      "title": "Ahmad Fakhru — Qatar",
+      "arabicTitle": "أحمد فخرو — قطر",
+      "sizeBytes": 6237325,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Ahmad_Fakhru_-_Qatar_(أحمد_فخرو_-_قطر).mp3"
+    },
+    {
+      "id": "adhan-073",
+      "fileName": "Ahmad_Nawaf_Al_Mejlad_1_(أحمد_نواف_المجلد).mp3",
+      "title": "Ahmad Nawaf Al Mejlad 1",
+      "arabicTitle": "أحمد نواف المجلد",
+      "sizeBytes": 1378902,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Ahmad_Nawaf_Al_Mejlad_1_(أحمد_نواف_المجلد).mp3"
+    },
+    {
+      "id": "adhan-074",
+      "fileName": "Ahmad_Nawaf_Al_Mejlad_2_-_Fajr_(أحمد_نواف_المجلد_-_الفجر).mp3",
+      "title": "Ahmad Nawaf Al Mejlad 2 — Fajr",
+      "arabicTitle": "أحمد نواف المجلد — الفجر",
+      "sizeBytes": 1557417,
+      "category": "fajr",
+      "featured": false,
+      "playbackPath": "Ahmad_Nawaf_Al_Mejlad_2_-_Fajr_(أحمد_نواف_المجلد_-_الفجر).mp3"
+    },
+    {
+      "id": "adhan-075",
+      "fileName": "Ahmd_At-Trablsy_-_Fajr_Kuwait_(أحمد_الطرابلسي_-_فجر_الكويت).mp3",
+      "title": "Ahmd At-Trablsy — Fajr Kuwait",
+      "arabicTitle": "أحمد الطرابلسي — فجر الكويت",
+      "sizeBytes": 1038532,
+      "category": "fajr",
+      "featured": false,
+      "playbackPath": "Ahmd_At-Trablsy_-_Fajr_Kuwait_(أحمد_الطرابلسي_-_فجر_الكويت).mp3"
+    },
+    {
+      "id": "adhan-076",
+      "fileName": "Ahmd_At-Trablsy_1_(أحمد_الطرابلسي).mp3",
+      "title": "Ahmd At-Trablsy 1",
+      "arabicTitle": "أحمد الطرابلسي",
+      "sizeBytes": 5702213,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Ahmd_At-Trablsy_1_(أحمد_الطرابلسي).mp3"
+    },
+    {
+      "id": "adhan-077",
+      "fileName": "Ahmd_At-Trablsy_2_(أحمد_الطرابلسي).mp3",
+      "title": "Ahmd At-Trablsy 2",
+      "arabicTitle": "أحمد الطرابلسي",
+      "sizeBytes": 7779102,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Ahmd_At-Trablsy_2_(أحمد_الطرابلسي).mp3"
+    },
+    {
+      "id": "adhan-078",
+      "fileName": "Ahmd_At-Trablsy_3_(أحمد_الطرابلسي).mp3",
+      "title": "Ahmd At-Trablsy 3",
+      "arabicTitle": "أحمد الطرابلسي",
+      "sizeBytes": 6352398,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Ahmd_At-Trablsy_3_(أحمد_الطرابلسي).mp3"
+    },
+    {
+      "id": "adhan-079",
+      "fileName": "Ahmd_At-Trablsy_4_(أحمد_الطرابلسي).mp3",
+      "title": "Ahmd At-Trablsy 4",
+      "arabicTitle": "أحمد الطرابلسي",
+      "sizeBytes": 4109008,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Ahmd_At-Trablsy_4_(أحمد_الطرابلسي).mp3"
+    },
+    {
+      "id": "adhan-080",
+      "fileName": "Ahmd_At-Trablsy_5_(أحمد_الطرابلسي).mp3",
+      "title": "Ahmd At-Trablsy 5",
+      "arabicTitle": "أحمد الطرابلسي",
+      "sizeBytes": 1038532,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Ahmd_At-Trablsy_5_(أحمد_الطرابلسي).mp3"
+    },
+    {
+      "id": "adhan-081",
+      "fileName": "Ahmed_Al-Haddad_(أحمد_الحداد).mp3",
+      "title": "Ahmed Al-Haddad",
+      "arabicTitle": "أحمد الحداد",
+      "sizeBytes": 2477560,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Ahmed_Al-Haddad_(أحمد_الحداد).mp3"
+    },
+    {
+      "id": "adhan-082",
+      "fileName": "Ahmed_El_Kourdi_(أحمد_الكردي).mp3",
+      "title": "Ahmed El Kourdi",
+      "arabicTitle": "أحمد الكردي",
+      "sizeBytes": 3164421,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Ahmed_El_Kourdi_(أحمد_الكردي).mp3"
+    },
+    {
+      "id": "adhan-083",
+      "fileName": "Ahmed_Nuinaa_1_-_Egypt_(أحمد_نعينع_-_مصر).mp3",
+      "title": "Ahmed Nuinaa 1 — Egypt",
+      "arabicTitle": "أحمد نعينع — مصر",
+      "sizeBytes": 409592,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Ahmed_Nuinaa_1_-_Egypt_(أحمد_نعينع_-_مصر).mp3"
+    },
+    {
+      "id": "adhan-084",
+      "fileName": "Ahmed_Nuinaa_2_-_Cairo_(أحمد_نعينع_-_القاهرة).mp3",
+      "title": "Ahmed Nuinaa 2 — Cairo",
+      "arabicTitle": "أحمد نعينع — القاهرة",
+      "sizeBytes": 424140,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Ahmed_Nuinaa_2_-_Cairo_(أحمد_نعينع_-_القاهرة).mp3"
+    },
+    {
+      "id": "adhan-085",
+      "fileName": "Akhdam_Bnu_Al_Madane_(أخدام_بن_المداني).mp3",
+      "title": "Akhdam Bnu Al Madane",
+      "arabicTitle": "أخدام بن المداني",
+      "sizeBytes": 7133527,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Akhdam_Bnu_Al_Madane_(أخدام_بن_المداني).mp3"
+    },
+    {
+      "id": "adhan-086",
+      "fileName": "Al_Ameen_Muhammad_Qanyouh_(الأمين_محمد_قانيوح).mp3",
+      "title": "Al Ameen Muhammad Qanyouh",
+      "arabicTitle": "الأمين محمد قانيوح",
+      "sizeBytes": 3173849,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Al_Ameen_Muhammad_Qanyouh_(الأمين_محمد_قانيوح).mp3"
+    },
+    {
+      "id": "adhan-087",
+      "fileName": "Al_Bahlul_Abu_Arqub_1_(البهلول_أبو_عرقوب).mp3",
+      "title": "Al Bahlul Abu Arqub 1",
+      "arabicTitle": "البهلول أبو عرقوب",
+      "sizeBytes": 1672056,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Al_Bahlul_Abu_Arqub_1_(البهلول_أبو_عرقوب).mp3"
+    },
+    {
+      "id": "adhan-088",
+      "fileName": "Al_Bahlul_Abu_Arqub_2_(البهلول_أبو_عرقوب).mp3",
+      "title": "Al Bahlul Abu Arqub 2",
+      "arabicTitle": "البهلول أبو عرقوب",
+      "sizeBytes": 1801428,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Al_Bahlul_Abu_Arqub_2_(البهلول_أبو_عرقوب).mp3"
+    },
+    {
+      "id": "adhan-089",
+      "fileName": "Al_Duqale_Muhammad_Al_Alam_(الدقالي_محمد_العلام).mp3",
+      "title": "Al Duqale Muhammad Al Alam",
+      "arabicTitle": "الدقالي محمد العلام",
+      "sizeBytes": 1044857,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Al_Duqale_Muhammad_Al_Alam_(الدقالي_محمد_العلام).mp3"
+    },
+    {
+      "id": "adhan-090",
+      "fileName": "Al_Saed_Metwale_AL_Aal_(السيد_متولي_الآل).mp3",
+      "title": "Al Saed Metwale AL Aal",
+      "arabicTitle": "السيد متولي الآل",
+      "sizeBytes": 342244,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Al_Saed_Metwale_AL_Aal_(السيد_متولي_الآل).mp3"
+    },
+    {
+      "id": "adhan-091",
+      "fileName": "Al_Sayed_Muslim_(السيد_مسلم).mp3",
+      "title": "Al Sayed Muslim",
+      "arabicTitle": "السيد مسلم",
+      "sizeBytes": 5180032,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Al_Sayed_Muslim_(السيد_مسلم).mp3"
+    },
+    {
+      "id": "adhan-092",
+      "fileName": "Ali_Hassan_Abd_Al_Khaliq_-_Qatar_(علي_حسن_عبد_الخالق_-_قطر).mp3",
+      "title": "Ali Hassan Abd Al Khaliq — Qatar",
+      "arabicTitle": "علي حسن عبد الخالق — قطر",
+      "sizeBytes": 5379519,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Ali_Hassan_Abd_Al_Khaliq_-_Qatar_(علي_حسن_عبد_الخالق_-_قطر).mp3"
+    },
+    {
+      "id": "adhan-093",
+      "fileName": "Ali_Ibn_Ahmad_Mala_-_HQ_(علي_بن_أحمد_ملا).mp3",
+      "title": "Ali Ibn Ahmad Mala — HQ",
+      "arabicTitle": "علي بن أحمد ملا",
+      "sizeBytes": 3914232,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Ali_Ibn_Ahmad_Mala_-_HQ_(علي_بن_أحمد_ملا).mp3"
+    },
+    {
+      "id": "adhan-094",
+      "fileName": "Ali_Ibn_Ahmad_Mala_1_-_Al_Haram_Al_Maki_(علي_بن_أحمد_ملا_-_الحرم_المكي).mp3",
+      "title": "Ali Ibn Ahmad Mala 1 — Al Haram Al Maki",
+      "arabicTitle": "علي بن أحمد ملا — الحرم المكي",
+      "sizeBytes": 492824,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Ali_Ibn_Ahmad_Mala_1_-_Al_Haram_Al_Maki_(علي_بن_أحمد_ملا_-_الحرم_المكي).mp3"
+    },
+    {
+      "id": "adhan-095",
+      "fileName": "Ali_Ibn_Ahmad_Mala_2_-_Al_Haram_Al_Maki_(علي_بن_أحمد_ملا_-_الحرم_المكي).mp3",
+      "title": "Ali Ibn Ahmad Mala 2 — Al Haram Al Maki",
+      "arabicTitle": "علي بن أحمد ملا — الحرم المكي",
+      "sizeBytes": 429968,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Ali_Ibn_Ahmad_Mala_2_-_Al_Haram_Al_Maki_(علي_بن_أحمد_ملا_-_الحرم_المكي).mp3"
+    },
+    {
+      "id": "adhan-096",
+      "fileName": "Ali_Ibn_Ahmad_Mala_3_-_Al_Haram_Al_Maki_(علي_بن_أحمد_ملا_-_الحرم_المكي).mp3",
+      "title": "Ali Ibn Ahmad Mala 3 — Al Haram Al Maki",
+      "arabicTitle": "علي بن أحمد ملا — الحرم المكي",
+      "sizeBytes": 409088,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Ali_Ibn_Ahmad_Mala_3_-_Al_Haram_Al_Maki_(علي_بن_أحمد_ملا_-_الحرم_المكي).mp3"
+    },
+    {
+      "id": "adhan-097",
+      "fileName": "Ali_Ibn_Ahmad_Mala_4_-_Al_Haram_Al_Maki_(علي_بن_أحمد_ملا_-_الحرم_المكي).mp3",
+      "title": "Ali Ibn Ahmad Mala 4 — Al Haram Al Maki",
+      "arabicTitle": "علي بن أحمد ملا — الحرم المكي",
+      "sizeBytes": 317576,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Ali_Ibn_Ahmad_Mala_4_-_Al_Haram_Al_Maki_(علي_بن_أحمد_ملا_-_الحرم_المكي).mp3"
+    },
+    {
+      "id": "adhan-098",
+      "fileName": "Ali_Ibn_Ahmad_Mala_5_-_Al_Haram_Al_Maki_(علي_بن_أحمد_ملا_-_الحرم_المكي).mp3",
+      "title": "Ali Ibn Ahmad Mala 5 — Al Haram Al Maki",
+      "arabicTitle": "علي بن أحمد ملا — الحرم المكي",
+      "sizeBytes": 409092,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Ali_Ibn_Ahmad_Mala_5_-_Al_Haram_Al_Maki_(علي_بن_أحمد_ملا_-_الحرم_المكي).mp3"
+    },
+    {
+      "id": "adhan-099",
+      "fileName": "Ali_Ibn_Ahmad_Mala_6_-_Al_Haram_Al_Maki_(علي_بن_أحمد_ملا_-_الحرم_المكي).mp3",
+      "title": "Ali Ibn Ahmad Mala 6 — Al Haram Al Maki",
+      "arabicTitle": "علي بن أحمد ملا — الحرم المكي",
+      "sizeBytes": 354804,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Ali_Ibn_Ahmad_Mala_6_-_Al_Haram_Al_Maki_(علي_بن_أحمد_ملا_-_الحرم_المكي).mp3"
+    },
+    {
+      "id": "adhan-100",
+      "fileName": "Ali_Ibn_Ahmad_Mala_HQ.mp3",
+      "title": "Ali Ibn Ahmad Mala HQ",
+      "arabicTitle": "",
+      "sizeBytes": 3171055,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Ali_Ibn_Ahmad_Mala_HQ.mp3"
+    },
+    {
+      "id": "adhan-101",
+      "fileName": "Anuar_Duman_-_Turkey_(أنوار_دومان_-_تركيا).mp3",
+      "title": "Anuar Duman — Turkey",
+      "arabicTitle": "أنوار دومان — تركيا",
+      "sizeBytes": 4716557,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Anuar_Duman_-_Turkey_(أنوار_دومان_-_تركيا).mp3"
+    },
+    {
+      "id": "adhan-102",
+      "fileName": "Assem_Bukhrare_-_Al_Haram_Al_Maki_(عاصم_بخراري_-_الحرم_المكي).mp3",
+      "title": "Assem Bukhrare — Al Haram Al Maki",
+      "arabicTitle": "عاصم بخراري — الحرم المكي",
+      "sizeBytes": 563672,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Assem_Bukhrare_-_Al_Haram_Al_Maki_(عاصم_بخراري_-_الحرم_المكي).mp3"
+    },
+    {
+      "id": "adhan-103",
+      "fileName": "Azan_nakshabandi.mp3",
+      "title": "Azan nakshabandi",
+      "arabicTitle": "",
+      "sizeBytes": 2305043,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Azan_nakshabandi.mp3"
+    },
+    {
+      "id": "adhan-104",
+      "fileName": "Badee_Jadu_1_(بديع_جادو).mp3",
+      "title": "Badee Jadu 1",
+      "arabicTitle": "بديع جادو",
+      "sizeBytes": 3308288,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Badee_Jadu_1_(بديع_جادو).mp3"
+    },
+    {
+      "id": "adhan-105",
+      "fileName": "Badee_Jadu_2_(بديع_جادو).mp3",
+      "title": "Badee Jadu 2",
+      "arabicTitle": "بديع جادو",
+      "sizeBytes": 3706189,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Badee_Jadu_2_(بديع_جادو).mp3"
+    },
+    {
+      "id": "adhan-106",
+      "fileName": "Badee_Jadu_3_(بديع_جادو).mp3",
+      "title": "Badee Jadu 3",
+      "arabicTitle": "بديع جادو",
+      "sizeBytes": 3122718,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Badee_Jadu_3_(بديع_جادو).mp3"
+    },
+    {
+      "id": "adhan-107",
+      "fileName": "BalBaSher_Abdel_Qadir_(بلباشر_عبد_القادر).mp3",
+      "title": "BalBaSher Abdel Qadir",
+      "arabicTitle": "بلباشر عبد القادر",
+      "sizeBytes": 1871462,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "BalBaSher_Abdel_Qadir_(بلباشر_عبد_القادر).mp3"
+    },
+    {
+      "id": "adhan-108",
+      "fileName": "Bnu_Sawana_1_(بن_سوانة).mp3",
+      "title": "Bnu Sawana 1",
+      "arabicTitle": "بن سوانة",
+      "sizeBytes": 3572596,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Bnu_Sawana_1_(بن_سوانة).mp3"
+    },
+    {
+      "id": "adhan-109",
+      "fileName": "Bnu_Sawana_2_(بن_سوانة).mp3",
+      "title": "Bnu Sawana 2",
+      "arabicTitle": "بن سوانة",
+      "sizeBytes": 3489224,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Bnu_Sawana_2_(بن_سوانة).mp3"
+    },
+    {
+      "id": "adhan-110",
+      "fileName": "Ezzedine_Amarna_(عز_الدين_عمارنة).mp3",
+      "title": "Ezzedine Amarna",
+      "arabicTitle": "عز الدين عمارنة",
+      "sizeBytes": 2429885,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Ezzedine_Amarna_(عز_الدين_عمارنة).mp3"
+    },
+    {
+      "id": "adhan-111",
+      "fileName": "Fajr_Adhan_by_Nasreddine_Toubar_(اذان_الفجر_بصوت_نصر_الدين_طوبار).mp3",
+      "title": "Fajr Adhan by Nasreddine Toubar",
+      "arabicTitle": "اذان الفجر بصوت نصر الدين طوبار",
+      "sizeBytes": 4653465,
+      "category": "fajr",
+      "featured": false,
+      "playbackPath": "Fajr_Adhan_by_Nasreddine_Toubar_(اذان_الفجر_بصوت_نصر_الدين_طوبار).mp3"
+    },
+    {
+      "id": "adhan-112",
+      "fileName": "Fares_Abdul_Ghane_(فارس_عبد_الغني).mp3",
+      "title": "Fares Abdul Ghane",
+      "arabicTitle": "فارس عبد الغني",
+      "sizeBytes": 4164823,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Fares_Abdul_Ghane_(فارس_عبد_الغني).mp3"
+    },
+    {
+      "id": "adhan-113",
+      "fileName": "Faruq_Abdul_Rahman_Hadrawe_-_Al_Haram_Al_Maki_(فاروق_عبدالرحمن_حضراوي_-_الحرم_المكي).mp3",
+      "title": "Faruq Abdul Rahman Hadrawe — Al Haram Al Maki",
+      "arabicTitle": "فاروق عبدالرحمن حضراوي — الحرم المكي",
+      "sizeBytes": 559496,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Faruq_Abdul_Rahman_Hadrawe_-_Al_Haram_Al_Maki_(فاروق_عبدالرحمن_حضراوي_-_الحرم_المكي).mp3"
+    },
+    {
+      "id": "adhan-114",
+      "fileName": "Fawaz_Farhan_Al_Dumane_(فواز_فرحان_الدماني).mp3",
+      "title": "Fawaz Farhan Al Dumane",
+      "arabicTitle": "فواز فرحان الدماني",
+      "sizeBytes": 2378528,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Fawaz_Farhan_Al_Dumane_(فواز_فرحان_الدماني).mp3"
+    },
+    {
+      "id": "adhan-115",
+      "fileName": "Fayz_Abd_Al_Salam_(فايز_عبد_السلام).mp3",
+      "title": "Fayz Abd Al Salam",
+      "arabicTitle": "فايز عبد السلام",
+      "sizeBytes": 2123088,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Fayz_Abd_Al_Salam_(فايز_عبد_السلام).mp3"
+    },
+    {
+      "id": "adhan-116",
+      "fileName": "Gharm_Al_Bishi_(غرم_البيشي).mp3",
+      "title": "Gharm Al Bishi",
+      "arabicTitle": "غرم البيشي",
+      "sizeBytes": 2950836,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Gharm_Al_Bishi_(غرم_البيشي).mp3"
+    },
+    {
+      "id": "adhan-117",
+      "fileName": "Ghazi_Al_Saadoun_(غازي_السعدون).mp3",
+      "title": "Ghazi Al Saadoun",
+      "arabicTitle": "غازي السعدون",
+      "sizeBytes": 3486242,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Ghazi_Al_Saadoun_(غازي_السعدون).mp3"
+    },
+    {
+      "id": "adhan-118",
+      "fileName": "Hafed_Hessen_Erq_(حافظ_حسين_عرق).mp3",
+      "title": "Hafed Hessen Erq",
+      "arabicTitle": "حافظ حسين عرق",
+      "sizeBytes": 225914,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Hafed_Hessen_Erq_(حافظ_حسين_عرق).mp3"
+    },
+    {
+      "id": "adhan-119",
+      "fileName": "Haj_Sulaiman_Mukhtar_-_Algeria_(حاج_سليمان_مختار_-_الجزائر).mp3",
+      "title": "Haj Sulaiman Mukhtar — Algeria",
+      "arabicTitle": "حاج سليمان مختار — الجزائر",
+      "sizeBytes": 1368557,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Haj_Sulaiman_Mukhtar_-_Algeria_(حاج_سليمان_مختار_-_الجزائر).mp3"
+    },
+    {
+      "id": "adhan-120",
+      "fileName": "Hamad_Al_Daghriri_(حمد_الدغريري).mp3",
+      "title": "Hamad Al Daghriri",
+      "arabicTitle": "حمد الدغريري",
+      "sizeBytes": 3078763,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Hamad_Al_Daghriri_(حمد_الدغريري).mp3"
+    },
+    {
+      "id": "adhan-121",
+      "fileName": "Hamad_Al_Daghriri_-_HQ_(حمد_الدغريري).mp3",
+      "title": "Hamad Al Daghriri — HQ",
+      "arabicTitle": "حمد الدغريري",
+      "sizeBytes": 619042,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Hamad_Al_Daghriri_-_HQ_(حمد_الدغريري).mp3"
+    },
+    {
+      "id": "adhan-122",
+      "fileName": "Hamdan_Al_Maleke_-_Najran_Saudi_Arabia_(حمدان_الملكي_-_نجران_السعودية).mp3",
+      "title": "Hamdan Al Maleke — Najran Saudi Arabia",
+      "arabicTitle": "حمدان الملكي — نجران السعودية",
+      "sizeBytes": 4271573,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Hamdan_Al_Maleke_-_Najran_Saudi_Arabia_(حمدان_الملكي_-_نجران_السعودية).mp3"
+    },
+    {
+      "id": "adhan-123",
+      "fileName": "Hamza_Al_Halabea_(حمزة_الحلبي).mp3",
+      "title": "Hamza Al Halabea",
+      "arabicTitle": "حمزة الحلبي",
+      "sizeBytes": 969110,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Hamza_Al_Halabea_(حمزة_الحلبي).mp3"
+    },
+    {
+      "id": "adhan-124",
+      "fileName": "Hamza_Al_Majale_(حمزة_المجالي).mp3",
+      "title": "Hamza Al Majale",
+      "arabicTitle": "حمزة المجالي",
+      "sizeBytes": 5587265,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Hamza_Al_Majale_(حمزة_المجالي).mp3"
+    },
+    {
+      "id": "adhan-125",
+      "fileName": "Hassan_Khalfan_-_Qatar_(حسن_خلفان_-_قطر).mp3",
+      "title": "Hassan Khalfan — Qatar",
+      "arabicTitle": "حسن خلفان — قطر",
+      "sizeBytes": 2867044,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Hassan_Khalfan_-_Qatar_(حسن_خلفان_-_قطر).mp3"
+    },
+    {
+      "id": "adhan-126",
+      "fileName": "Hassan_Mahmud_Bare_(حسن_محمود_باره).mp3",
+      "title": "Hassan Mahmud Bare",
+      "arabicTitle": "حسن محمود باره",
+      "sizeBytes": 6570850,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Hassan_Mahmud_Bare_(حسن_محمود_باره).mp3"
+    },
+    {
+      "id": "adhan-127",
+      "fileName": "Hassan_Salah_Baalul_(حسن_صالح_بعلول).mp3",
+      "title": "Hassan Salah Baalul",
+      "arabicTitle": "حسن صالح بعلول",
+      "sizeBytes": 2975109,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Hassan_Salah_Baalul_(حسن_صالح_بعلول).mp3"
+    },
+    {
+      "id": "adhan-128",
+      "fileName": "Hecham_Khalel_(هشام_خليل).mp3",
+      "title": "Hecham Khalel",
+      "arabicTitle": "هشام خليل",
+      "sizeBytes": 3121511,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Hecham_Khalel_(هشام_خليل).mp3"
+    },
+    {
+      "id": "adhan-129",
+      "fileName": "Hussain_Afifi_(حسين_عفيفي).mp3",
+      "title": "Hussain Afifi",
+      "arabicTitle": "حسين عفيفي",
+      "sizeBytes": 3574161,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Hussain_Afifi_(حسين_عفيفي).mp3"
+    },
+    {
+      "id": "adhan-130",
+      "fileName": "Hussam_Al_Deen_Obade_(حسام_الدين_عبادة).mp3",
+      "title": "Hussam Al Deen Obade",
+      "arabicTitle": "حسام الدين عبادة",
+      "sizeBytes": 3503245,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Hussam_Al_Deen_Obade_(حسام_الدين_عبادة).mp3"
+    },
+    {
+      "id": "adhan-131",
+      "fileName": "Ibraheem_Al_Jumayle_(إبراهيم_الجميل).mp3",
+      "title": "Ibraheem Al Jumayle",
+      "arabicTitle": "إبراهيم الجميل",
+      "sizeBytes": 2462513,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Ibraheem_Al_Jumayle_(إبراهيم_الجميل).mp3"
+    },
+    {
+      "id": "adhan-132",
+      "fileName": "Ibraheem_Jabar_1_(إبراهيم_جابر).mp3",
+      "title": "Ibraheem Jabar 1",
+      "arabicTitle": "إبراهيم جابر",
+      "sizeBytes": 1697041,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Ibraheem_Jabar_1_(إبراهيم_جابر).mp3"
+    },
+    {
+      "id": "adhan-133",
+      "fileName": "Ibraheem_Jabar_2_(إبراهيم_جابر).mp3",
+      "title": "Ibraheem Jabar 2",
+      "arabicTitle": "إبراهيم جابر",
+      "sizeBytes": 1753442,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Ibraheem_Jabar_2_(إبراهيم_جابر).mp3"
+    },
+    {
+      "id": "adhan-134",
+      "fileName": "Ibraheem_Jabr_Abu_Raheq_(إبراهيم_جبر_أبو_رحيق).mp3",
+      "title": "Ibraheem Jabr Abu Raheq",
+      "arabicTitle": "إبراهيم جبر أبو رحيق",
+      "sizeBytes": 4708955,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Ibraheem_Jabr_Abu_Raheq_(إبراهيم_جبر_أبو_رحيق).mp3"
+    },
+    {
+      "id": "adhan-135",
+      "fileName": "Ibraheem_Jabr_Abu_Raheq_-_Fajr_(إبراهيم_جبر_أبو_رحيق_-_الفجر).mp3",
+      "title": "Ibraheem Jabr Abu Raheq — Fajr",
+      "arabicTitle": "إبراهيم جبر أبو رحيق — الفجر",
+      "sizeBytes": 2341317,
+      "category": "fajr",
+      "featured": false,
+      "playbackPath": "Ibraheem_Jabr_Abu_Raheq_-_Fajr_(إبراهيم_جبر_أبو_رحيق_-_الفجر).mp3"
+    },
+    {
+      "id": "adhan-136",
+      "fileName": "Ihssan_Hamed_Al_Dulayme_(إحسان_حامد_الدليمي).mp3",
+      "title": "Ihssan Hamed Al Dulayme",
+      "arabicTitle": "إحسان حامد الدليمي",
+      "sizeBytes": 3416533,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Ihssan_Hamed_Al_Dulayme_(إحسان_حامد_الدليمي).mp3"
+    },
+    {
+      "id": "adhan-137",
+      "fileName": "Islam_Yassen_(إسلام_ياسين).mp3",
+      "title": "Islam Yassen",
+      "arabicTitle": "إسلام ياسين",
+      "sizeBytes": 1856766,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Islam_Yassen_(إسلام_ياسين).mp3"
+    },
+    {
+      "id": "adhan-138",
+      "fileName": "Ismail_Al_Sheikh_(إسماعيل_الشيخ).mp3",
+      "title": "Ismail Al Sheikh",
+      "arabicTitle": "إسماعيل الشيخ",
+      "sizeBytes": 1609060,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Ismail_Al_Sheikh_(إسماعيل_الشيخ).mp3"
+    },
+    {
+      "id": "adhan-139",
+      "fileName": "Issa_Al_Hajlawe_(عيسى_الهجلاوي).mp3",
+      "title": "Issa Al Hajlawe",
+      "arabicTitle": "عيسى الهجلاوي",
+      "sizeBytes": 2300307,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Issa_Al_Hajlawe_(عيسى_الهجلاوي).mp3"
+    },
+    {
+      "id": "adhan-140",
+      "fileName": "Jamal_Abu_Al_Hamed_Al_Jaafare_(جمال_أبو_الحامد_الجعفري).mp3",
+      "title": "Jamal Abu Al Hamed Al Jaafare",
+      "arabicTitle": "جمال أبو الحامد الجعفري",
+      "sizeBytes": 2616215,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Jamal_Abu_Al_Hamed_Al_Jaafare_(جمال_أبو_الحامد_الجعفري).mp3"
+    },
+    {
+      "id": "adhan-141",
+      "fileName": "Kamal_Muhammad_Al_Marush_1_(كمال_محمد_المرعوش).mp3",
+      "title": "Kamal Muhammad Al Marush 1",
+      "arabicTitle": "كمال محمد المرعوش",
+      "sizeBytes": 5088335,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Kamal_Muhammad_Al_Marush_1_(كمال_محمد_المرعوش).mp3"
+    },
+    {
+      "id": "adhan-142",
+      "fileName": "Kamal_Muhammad_Al_Marush_2_-_Morocco_(كمال_محمد_المرعوش_-_المغرب).mp3",
+      "title": "Kamal Muhammad Al Marush 2 — Morocco",
+      "arabicTitle": "كمال محمد المرعوش — المغرب",
+      "sizeBytes": 3354741,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Kamal_Muhammad_Al_Marush_2_-_Morocco_(كمال_محمد_المرعوش_-_المغرب).mp3"
+    },
+    {
+      "id": "adhan-143",
+      "fileName": "Lafi_Al_Awni_(لافي_العوني).mp3",
+      "title": "Lafi Al Awni",
+      "arabicTitle": "لافي العوني",
+      "sizeBytes": 2241429,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Lafi_Al_Awni_(لافي_العوني).mp3"
+    },
+    {
+      "id": "adhan-144",
+      "fileName": "Mahde_Al_Bechee_(مهدي_البشي).mp3",
+      "title": "Mahde Al Bechee",
+      "arabicTitle": "مهدي البشي",
+      "sizeBytes": 442496,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Mahde_Al_Bechee_(مهدي_البشي).mp3"
+    },
+    {
+      "id": "adhan-145",
+      "fileName": "Mahmoud_Al_Fawazi_(محمود_الفوازي).mp3",
+      "title": "Mahmoud Al Fawazi",
+      "arabicTitle": "محمود الفوازي",
+      "sizeBytes": 5944936,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Mahmoud_Al_Fawazi_(محمود_الفوازي).mp3"
+    },
+    {
+      "id": "adhan-146",
+      "fileName": "Mahmoud_Ali_Al_Banna_-_Cairo_(محمود_علي_البنا_-_القاهرة).mp3",
+      "title": "Mahmoud Ali Al Banna — Cairo",
+      "arabicTitle": "محمود علي البنا — القاهرة",
+      "sizeBytes": 335954,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Mahmoud_Ali_Al_Banna_-_Cairo_(محمود_علي_البنا_-_القاهرة).mp3"
+    },
+    {
+      "id": "adhan-147",
+      "fileName": "Mahmoud_Hijazi_(محمود_حجازي).mp3",
+      "title": "Mahmoud Hijazi",
+      "arabicTitle": "محمود حجازي",
+      "sizeBytes": 3434415,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Mahmoud_Hijazi_(محمود_حجازي).mp3"
+    },
+    {
+      "id": "adhan-148",
+      "fileName": "Mahmoud_Khalil_Al_Hussary_-_Cairo_(محمود_خليل_الحصري_-_القاهرة).mp3",
+      "title": "Mahmoud Khalil Al Hussary — Cairo",
+      "arabicTitle": "محمود خليل الحصري — القاهرة",
+      "sizeBytes": 258926,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Mahmoud_Khalil_Al_Hussary_-_Cairo_(محمود_خليل_الحصري_-_القاهرة).mp3"
+    },
+    {
+      "id": "adhan-149",
+      "fileName": "Mahmud_Al_Tawakh_1_(محمود_الطواخ).mp3",
+      "title": "Mahmud Al Tawakh 1",
+      "arabicTitle": "محمود الطواخ",
+      "sizeBytes": 2653025,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Mahmud_Al_Tawakh_1_(محمود_الطواخ).mp3"
+    },
+    {
+      "id": "adhan-150",
+      "fileName": "Mahmud_Al_Tawakh_2_-_Masjid_Al_Rifai_Cairo_(محمود_الطواخ_-_مسجد_الرفاعي_القاهرة).mp3",
+      "title": "Mahmud Al Tawakh 2 — Masjid Al Rifai Cairo",
+      "arabicTitle": "محمود الطواخ — مسجد الرفاعي القاهرة",
+      "sizeBytes": 3174554,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Mahmud_Al_Tawakh_2_-_Masjid_Al_Rifai_Cairo_(محمود_الطواخ_-_مسجد_الرفاعي_القاهرة).mp3"
+    },
+    {
+      "id": "adhan-151",
+      "fileName": "Mahmud_Mustafa_Al_Najar_(محمود_مصطفى_النجار).mp3",
+      "title": "Mahmud Mustafa Al Najar",
+      "arabicTitle": "محمود مصطفى النجار",
+      "sizeBytes": 2439950,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Mahmud_Mustafa_Al_Najar_(محمود_مصطفى_النجار).mp3"
+    },
+    {
+      "id": "adhan-152",
+      "fileName": "Majid_Al_Zamel_(ماجد_الزامل).mp3",
+      "title": "Majid Al Zamel",
+      "arabicTitle": "ماجد الزامل",
+      "sizeBytes": 2774457,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Majid_Al_Zamel_(ماجد_الزامل).mp3"
+    },
+    {
+      "id": "adhan-153",
+      "fileName": "Mansur_Al_Zahrane_(منصور_الزهراني).mp3",
+      "title": "Mansur Al Zahrane",
+      "arabicTitle": "منصور الزهراني",
+      "sizeBytes": 2959028,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Mansur_Al_Zahrane_(منصور_الزهراني).mp3"
+    },
+    {
+      "id": "adhan-154",
+      "fileName": "Mansur_Al_Zahrane_-_HQ_(منصور_الزهراني).mp3",
+      "title": "Mansur Al Zahrane — HQ",
+      "arabicTitle": "منصور الزهراني",
+      "sizeBytes": 763133,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Mansur_Al_Zahrane_-_HQ_(منصور_الزهراني).mp3"
+    },
+    {
+      "id": "adhan-155",
+      "fileName": "Mishary_Al_Afasy_-_HQ_(مشاري_العفاسي).mp3",
+      "title": "Mishary Al Afasy — HQ",
+      "arabicTitle": "مشاري العفاسي",
+      "sizeBytes": 621967,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Mishary_Al_Afasy_-_HQ_(مشاري_العفاسي).mp3"
+    },
+    {
+      "id": "adhan-156",
+      "fileName": "Mishary_Rashid_Alafasy_1_-_Kuwait_(مشاري_راشد_العفاسي_-_الكويت).mp3",
+      "title": "Mishary Rashid Alafasy 1 — Kuwait",
+      "arabicTitle": "مشاري راشد العفاسي — الكويت",
+      "sizeBytes": 1931082,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Mishary_Rashid_Alafasy_1_-_Kuwait_(مشاري_راشد_العفاسي_-_الكويت).mp3"
+    },
+    {
+      "id": "adhan-157",
+      "fileName": "Mishary_Rashid_Alafasy_2_-_Kuwait_(مشاري_راشد_العفاسي_-_الكويت).mp3",
+      "title": "Mishary Rashid Alafasy 2 — Kuwait",
+      "arabicTitle": "مشاري راشد العفاسي — الكويت",
+      "sizeBytes": 2062113,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Mishary_Rashid_Alafasy_2_-_Kuwait_(مشاري_راشد_العفاسي_-_الكويت).mp3"
+    },
+    {
+      "id": "adhan-158",
+      "fileName": "Mishary_Rashid_Alafasy_3_-_Fajr_Kuwait_(مشاري_راشد_العفاسي_-_فجر_الكويت).mp3",
+      "title": "Mishary Rashid Alafasy 3 — Fajr Kuwait",
+      "arabicTitle": "مشاري راشد العفاسي — فجر الكويت",
+      "sizeBytes": 1503337,
+      "category": "fajr",
+      "featured": false,
+      "playbackPath": "Mishary_Rashid_Alafasy_3_-_Fajr_Kuwait_(مشاري_راشد_العفاسي_-_فجر_الكويت).mp3"
+    },
+    {
+      "id": "adhan-159",
+      "fileName": "Mishary_Rashid_Alafasy_4_-_Fajr_Kuwait_(مشاري_راشد_العفاسي_-_فجر_الكويت).mp3",
+      "title": "Mishary Rashid Alafasy 4 — Fajr Kuwait",
+      "arabicTitle": "مشاري راشد العفاسي — فجر الكويت",
+      "sizeBytes": 2312715,
+      "category": "fajr",
+      "featured": false,
+      "playbackPath": "Mishary_Rashid_Alafasy_4_-_Fajr_Kuwait_(مشاري_راشد_العفاسي_-_فجر_الكويت).mp3"
+    },
+    {
+      "id": "adhan-160",
+      "fileName": "Mohamed_Siddiq_El-Minshawi_-_Afghanistan_(محمد_صديق_المنشاوي_-_أفغانستان).mp3",
+      "title": "Mohamed Siddiq El-Minshawi — Afghanistan",
+      "arabicTitle": "محمد صديق المنشاوي — أفغانستان",
+      "sizeBytes": 2619286,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Mohamed_Siddiq_El-Minshawi_-_Afghanistan_(محمد_صديق_المنشاوي_-_أفغانستان).mp3"
+    },
+    {
+      "id": "adhan-161",
+      "fileName": "Mohamed_Siddiq_El-Minshawi_-_Egypt_1_(محمد_صديق_المنشاوي_-_مصر).mp3",
+      "title": "Mohamed Siddiq El-Minshawi — Egypt 1",
+      "arabicTitle": "محمد صديق المنشاوي — مصر",
+      "sizeBytes": 503264,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Mohamed_Siddiq_El-Minshawi_-_Egypt_1_(محمد_صديق_المنشاوي_-_مصر).mp3"
+    },
+    {
+      "id": "adhan-162",
+      "fileName": "Mohamed_Siddiq_El-Minshawi_-_Egypt_2_(محمد_صديق_المنشاوي_-_مصر).mp3",
+      "title": "Mohamed Siddiq El-Minshawi — Egypt 2",
+      "arabicTitle": "محمد صديق المنشاوي — مصر",
+      "sizeBytes": 3955074,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Mohamed_Siddiq_El-Minshawi_-_Egypt_2_(محمد_صديق_المنشاوي_-_مصر).mp3"
+    },
+    {
+      "id": "adhan-163",
+      "fileName": "Mohamed_Tarek_Reciting_Azan.mp3",
+      "title": "Mohamed Tarek Reciting Azan",
+      "arabicTitle": "",
+      "sizeBytes": 2403264,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Mohamed_Tarek_Reciting_Azan.mp3"
+    },
+    {
+      "id": "adhan-164",
+      "fileName": "Mohammed_Salahuddin_Kabbara_1_(محمد_صلاح_الدين_كبارة).mp3",
+      "title": "Mohammed Salahuddin Kabbara 1",
+      "arabicTitle": "محمد صلاح الدين كبارة",
+      "sizeBytes": 6204909,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Mohammed_Salahuddin_Kabbara_1_(محمد_صلاح_الدين_كبارة).mp3"
+    },
+    {
+      "id": "adhan-165",
+      "fileName": "Mohammed_Salahuddin_Kabbara_2_(محمد_صلاح_الدين_كبارة).mp3",
+      "title": "Mohammed Salahuddin Kabbara 2",
+      "arabicTitle": "محمد صلاح الدين كبارة",
+      "sizeBytes": 5816207,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Mohammed_Salahuddin_Kabbara_2_(محمد_صلاح_الدين_كبارة).mp3"
+    },
+    {
+      "id": "adhan-166",
+      "fileName": "Muad_Al_Qaseme_-_Qatar_(معاذ_القاسمي_-_قطر).mp3",
+      "title": "Muad Al Qaseme — Qatar",
+      "arabicTitle": "معاذ القاسمي — قطر",
+      "sizeBytes": 9108675,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Muad_Al_Qaseme_-_Qatar_(معاذ_القاسمي_-_قطر).mp3"
+    },
+    {
+      "id": "adhan-167",
+      "fileName": "Muhammad_Abd_Al_Hakem_(محمد_عبد_الحكم).mp3",
+      "title": "Muhammad Abd Al Hakem",
+      "arabicTitle": "محمد عبد الحكم",
+      "sizeBytes": 2167043,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Muhammad_Abd_Al_Hakem_(محمد_عبد_الحكم).mp3"
+    },
+    {
+      "id": "adhan-168",
+      "fileName": "Muhammad_Abu_Al_Maqarem_(محمد_أبو_المقارم).mp3",
+      "title": "Muhammad Abu Al Maqarem",
+      "arabicTitle": "محمد أبو المقارم",
+      "sizeBytes": 1265080,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Muhammad_Abu_Al_Maqarem_(محمد_أبو_المقارم).mp3"
+    },
+    {
+      "id": "adhan-169",
+      "fileName": "Muhammad_Adel_(محمد_عادل).mp3",
+      "title": "Muhammad Adel",
+      "arabicTitle": "محمد عادل",
+      "sizeBytes": 1746800,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Muhammad_Adel_(محمد_عادل).mp3"
+    },
+    {
+      "id": "adhan-170",
+      "fileName": "Muhammad_Al_Damradash_(محمد_الدمرداش).mp3",
+      "title": "Muhammad Al Damradash",
+      "arabicTitle": "محمد الدمرداش",
+      "sizeBytes": 2820682,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Muhammad_Al_Damradash_(محمد_الدمرداش).mp3"
+    },
+    {
+      "id": "adhan-171",
+      "fileName": "Muhammad_Al_Kurayne_Al_Maluke_1_(محمد_القرين_الملوكي).mp3",
+      "title": "Muhammad Al Kurayne Al Maluke 1",
+      "arabicTitle": "محمد القرين الملوكي",
+      "sizeBytes": 8280719,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Muhammad_Al_Kurayne_Al_Maluke_1_(محمد_القرين_الملوكي).mp3"
+    },
+    {
+      "id": "adhan-172",
+      "fileName": "Muhammad_Al_Kurayne_Al_Maluke_2_(محمد_القرين_الملوكي).mp3",
+      "title": "Muhammad Al Kurayne Al Maluke 2",
+      "arabicTitle": "محمد القرين الملوكي",
+      "sizeBytes": 5011441,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Muhammad_Al_Kurayne_Al_Maluke_2_(محمد_القرين_الملوكي).mp3"
+    },
+    {
+      "id": "adhan-173",
+      "fileName": "Muhammad_Al_Saed_Maher_(محمد_السيد_ماهر).mp3",
+      "title": "Muhammad Al Saed Maher",
+      "arabicTitle": "محمد السيد ماهر",
+      "sizeBytes": 1516957,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Muhammad_Al_Saed_Maher_(محمد_السيد_ماهر).mp3"
+    },
+    {
+      "id": "adhan-174",
+      "fileName": "Muhammad_Al_Zahid_(محمد_الزاهد).mp3",
+      "title": "Muhammad Al Zahid",
+      "arabicTitle": "محمد الزاهد",
+      "sizeBytes": 3882467,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Muhammad_Al_Zahid_(محمد_الزاهد).mp3"
+    },
+    {
+      "id": "adhan-175",
+      "fileName": "Muhammad_Ashraf_Aawad_(محمد_أشرف_عوض).mp3",
+      "title": "Muhammad Ashraf Aawad",
+      "arabicTitle": "محمد أشرف عوض",
+      "sizeBytes": 2894643,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Muhammad_Ashraf_Aawad_(محمد_أشرف_عوض).mp3"
+    },
+    {
+      "id": "adhan-176",
+      "fileName": "Muhammad_Ben_Mussa_(محمد_بن_موسى).mp3",
+      "title": "Muhammad Ben Mussa",
+      "arabicTitle": "محمد بن موسى",
+      "sizeBytes": 1306236,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Muhammad_Ben_Mussa_(محمد_بن_موسى).mp3"
+    },
+    {
+      "id": "adhan-177",
+      "fileName": "Muhammad_Fathe_Hantur_(محمد_فتحي_حنتور).mp3",
+      "title": "Muhammad Fathe Hantur",
+      "arabicTitle": "محمد فتحي حنتور",
+      "sizeBytes": 3113105,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Muhammad_Fathe_Hantur_(محمد_فتحي_حنتور).mp3"
+    },
+    {
+      "id": "adhan-178",
+      "fileName": "Muhammad_Hamud_(محمد_حمود).mp3",
+      "title": "Muhammad Hamud",
+      "arabicTitle": "محمد حمود",
+      "sizeBytes": 3466898,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Muhammad_Hamud_(محمد_حمود).mp3"
+    },
+    {
+      "id": "adhan-179",
+      "fileName": "Muhammad_Hamud_-_Colombia_(محمد_حمود_-_كولومبيا).mp3",
+      "title": "Muhammad Hamud — Colombia",
+      "arabicTitle": "محمد حمود — كولومبيا",
+      "sizeBytes": 2788240,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Muhammad_Hamud_-_Colombia_(محمد_حمود_-_كولومبيا).mp3"
+    },
+    {
+      "id": "adhan-180",
+      "fileName": "Muhammad_Hessen_Al_Shahawe_(محمد_حسن_الشهاوي).mp3",
+      "title": "Muhammad Hessen Al Shahawe",
+      "arabicTitle": "محمد حسن الشهاوي",
+      "sizeBytes": 2541089,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Muhammad_Hessen_Al_Shahawe_(محمد_حسن_الشهاوي).mp3"
+    },
+    {
+      "id": "adhan-181",
+      "fileName": "Muhammad_Khaleel_Raml_-_Al_Haram_Al_Maki_(محمد_خليل_رمل_-_الحرم_المكي).mp3",
+      "title": "Muhammad Khaleel Raml — Al Haram Al Maki",
+      "arabicTitle": "محمد خليل رمل — الحرم المكي",
+      "sizeBytes": 383744,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Muhammad_Khaleel_Raml_-_Al_Haram_Al_Maki_(محمد_خليل_رمل_-_الحرم_المكي).mp3"
+    },
+    {
+      "id": "adhan-182",
+      "fileName": "Muhammad_Najee_1_(محمد_ناجي).mp3",
+      "title": "Muhammad Najee 1",
+      "arabicTitle": "محمد ناجي",
+      "sizeBytes": 1690531,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Muhammad_Najee_1_(محمد_ناجي).mp3"
+    },
+    {
+      "id": "adhan-183",
+      "fileName": "Muhammad_Najee_2_(محمد_ناجي).mp3",
+      "title": "Muhammad Najee 2",
+      "arabicTitle": "محمد ناجي",
+      "sizeBytes": 3524964,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Muhammad_Najee_2_(محمد_ناجي).mp3"
+    },
+    {
+      "id": "adhan-184",
+      "fileName": "Muhammad_Najee_3_(محمد_ناجي).mp3",
+      "title": "Muhammad Najee 3",
+      "arabicTitle": "محمد ناجي",
+      "sizeBytes": 3277322,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Muhammad_Najee_3_(محمد_ناجي).mp3"
+    },
+    {
+      "id": "adhan-185",
+      "fileName": "Muhammad_Nasser_Al_Dine_Al_Albane_-_Jordan_(محمد_ناصر_الدين_الألباني_-_الأردن).mp3",
+      "title": "Muhammad Nasser Al Dine Al Albane — Jordan",
+      "arabicTitle": "محمد ناصر الدين الألباني — الأردن",
+      "sizeBytes": 1276793,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Muhammad_Nasser_Al_Dine_Al_Albane_-_Jordan_(محمد_ناصر_الدين_الألباني_-_الأردن).mp3"
+    },
+    {
+      "id": "adhan-186",
+      "fileName": "Muhammad_Ramadan_Saad_-_Al_Haram_Al_Maki_(محمد_رمضان_سعد_-_الحرم_المكي).mp3",
+      "title": "Muhammad Ramadan Saad — Al Haram Al Maki",
+      "arabicTitle": "محمد رمضان سعد — الحرم المكي",
+      "sizeBytes": 3515711,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Muhammad_Ramadan_Saad_-_Al_Haram_Al_Maki_(محمد_رمضان_سعد_-_الحرم_المكي).mp3"
+    },
+    {
+      "id": "adhan-187",
+      "fileName": "Muhammad_Refaat_-_Cairo_(محمد_رفعت_-_القاهرة).mp3",
+      "title": "Muhammad Refaat — Cairo",
+      "arabicTitle": "محمد رفعت — القاهرة",
+      "sizeBytes": 411318,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Muhammad_Refaat_-_Cairo_(محمد_رفعت_-_القاهرة).mp3"
+    },
+    {
+      "id": "adhan-188",
+      "fileName": "Muhammed_Ibrahem_Ismael_Abd_Allah_(محمد_إبراهيم_إسماعيل_عبدالله).mp3",
+      "title": "Muhammed Ibrahem Ismael Abd Allah",
+      "arabicTitle": "محمد إبراهيم إسماعيل عبدالله",
+      "sizeBytes": 2911433,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Muhammed_Ibrahem_Ismael_Abd_Allah_(محمد_إبراهيم_إسماعيل_عبدالله).mp3"
+    },
+    {
+      "id": "adhan-189",
+      "fileName": "Mukhtar_Abelhamed_Hafed_(مختار_عبد_الحميد_حافظ).mp3",
+      "title": "Mukhtar Abelhamed Hafed",
+      "arabicTitle": "مختار عبد الحميد حافظ",
+      "sizeBytes": 2987997,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Mukhtar_Abelhamed_Hafed_(مختار_عبد_الحميد_حافظ).mp3"
+    },
+    {
+      "id": "adhan-190",
+      "fileName": "Mustafa_Ismail_-_Egypt_(مصطفى_إسماعيل_-_مصر).mp3",
+      "title": "Mustafa Ismail — Egypt",
+      "arabicTitle": "مصطفى إسماعيل — مصر",
+      "sizeBytes": 739896,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Mustafa_Ismail_-_Egypt_(مصطفى_إسماعيل_-_مصر).mp3"
+    },
+    {
+      "id": "adhan-191",
+      "fileName": "Mustafa_Waled_(مصطفى_وليد).mp3",
+      "title": "Mustafa Waled",
+      "arabicTitle": "مصطفى وليد",
+      "sizeBytes": 8273830,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Mustafa_Waled_(مصطفى_وليد).mp3"
+    },
+    {
+      "id": "adhan-192",
+      "fileName": "Najee_Qazaz_-_Al_Aqsa_Jerusalem_(ناجي_قزاز_-_المسجد_الأقصى_القدس).mp3",
+      "title": "Najee Qazaz — Al Aqsa Jerusalem",
+      "arabicTitle": "ناجي قزاز — المسجد الأقصى القدس",
+      "sizeBytes": 452864,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Najee_Qazaz_-_Al_Aqsa_Jerusalem_(ناجي_قزاز_-_المسجد_الأقصى_القدس).mp3"
+    },
+    {
+      "id": "adhan-193",
+      "fileName": "Nasreddine_Toubar_(نصر_الدين_طوبار).mp3",
+      "title": "Nasreddine Toubar",
+      "arabicTitle": "نصر الدين طوبار",
+      "sizeBytes": 4231673,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Nasreddine_Toubar_(نصر_الدين_طوبار).mp3"
+    },
+    {
+      "id": "adhan-194",
+      "fileName": "Nasser_Al_Abd_Al_Jabar_-_Qatar_(ناصر_عبد_الجبار_-_قطر).mp3",
+      "title": "Nasser Al Abd Al Jabar — Qatar",
+      "arabicTitle": "ناصر عبد الجبار — قطر",
+      "sizeBytes": 6865607,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Nasser_Al_Abd_Al_Jabar_-_Qatar_(ناصر_عبد_الجبار_-_قطر).mp3"
+    },
+    {
+      "id": "adhan-195",
+      "fileName": "Nasser_Al_Obaid_1_(ناصر_العبيد).mp3",
+      "title": "Nasser Al Obaid 1",
+      "arabicTitle": "ناصر العبيد",
+      "sizeBytes": 4810608,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Nasser_Al_Obaid_1_(ناصر_العبيد).mp3"
+    },
+    {
+      "id": "adhan-196",
+      "fileName": "Nasser_Al_Obaid_2_(ناصر_العبيد).mp3",
+      "title": "Nasser Al Obaid 2",
+      "arabicTitle": "ناصر العبيد",
+      "sizeBytes": 2593990,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Nasser_Al_Obaid_2_(ناصر_العبيد).mp3"
+    },
+    {
+      "id": "adhan-197",
+      "fileName": "Nasser_Al_Obaid_3_(ناصر_العبيد).mp3",
+      "title": "Nasser Al Obaid 3",
+      "arabicTitle": "ناصر العبيد",
+      "sizeBytes": 3518117,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Nasser_Al_Obaid_3_(ناصر_العبيد).mp3"
+    },
+    {
+      "id": "adhan-198",
+      "fileName": "Nasser_Al_Qatami_-_HQ_(ناصر_القطامي).mp3",
+      "title": "Nasser Al Qatami — HQ",
+      "arabicTitle": "ناصر القطامي",
+      "sizeBytes": 530748,
+      "category": "muezzin",
+      "featured": true,
+      "playbackPath": "Nasser_Al_Qatami_-_HQ_(ناصر_القطامي).mp3"
+    },
+    {
+      "id": "adhan-199",
+      "fileName": "Nasser_Al_Qatami_1_-_Saudi_Arabia_(ناصر_القطامي_-_المملكة_العربية_السعودية).mp3",
+      "title": "Nasser Al Qatami 1 — Saudi Arabia",
+      "arabicTitle": "ناصر القطامي — المملكة العربية السعودية",
+      "sizeBytes": 2117341,
+      "category": "mosque-region",
+      "featured": true,
+      "playbackPath": "Nasser_Al_Qatami_1_-_Saudi_Arabia_(ناصر_القطامي_-_المملكة_العربية_السعودية).mp3"
+    },
+    {
+      "id": "adhan-200",
+      "fileName": "Nasser_Al_Qatami_2_-_Riyadh_(ناصر_القطامي_-_الرياض).mp3",
+      "title": "Nasser Al Qatami 2 — Riyadh",
+      "arabicTitle": "ناصر القطامي — الرياض",
+      "sizeBytes": 2176705,
+      "category": "muezzin",
+      "featured": true,
+      "playbackPath": "Nasser_Al_Qatami_2_-_Riyadh_(ناصر_القطامي_-_الرياض).mp3"
+    },
+    {
+      "id": "adhan-201",
+      "fileName": "Nayf_Fedah_-_Al_Haram_Al_Maki_(نايف_فداح_-_الحرم_المكي).mp3",
+      "title": "Nayf Fedah — Al Haram Al Maki",
+      "arabicTitle": "نايف فداح — الحرم المكي",
+      "sizeBytes": 421256,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Nayf_Fedah_-_Al_Haram_Al_Maki_(نايف_فداح_-_الحرم_المكي).mp3"
+    },
+    {
+      "id": "adhan-202",
+      "fileName": "NurDin_Hamza_Al_Maghriby_-_Al_Aqsa_Jerusalem_(نور_الدين_حمزة_المغربي_-_المسجد_الأقصى_القدس).mp3",
+      "title": "NurDin Hamza Al Maghriby — Al Aqsa Jerusalem",
+      "arabicTitle": "نور الدين حمزة المغربي — المسجد الأقصى القدس",
+      "sizeBytes": 370280,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "NurDin_Hamza_Al_Maghriby_-_Al_Aqsa_Jerusalem_(نور_الدين_حمزة_المغربي_-_المسجد_الأقصى_القدس).mp3"
+    },
+    {
+      "id": "adhan-203",
+      "fileName": "Omar_Al_Kazabri_(عمر_القزابري).mp3",
+      "title": "Omar Al Kazabri",
+      "arabicTitle": "عمر القزابري",
+      "sizeBytes": 1897034,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Omar_Al_Kazabri_(عمر_القزابري).mp3"
+    },
+    {
+      "id": "adhan-204",
+      "fileName": "Omar_Al_Omayr_(عمر_العمير).mp3",
+      "title": "Omar Al Omayr",
+      "arabicTitle": "عمر العمير",
+      "sizeBytes": 611101,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Omar_Al_Omayr_(عمر_العمير).mp3"
+    },
+    {
+      "id": "adhan-205",
+      "fileName": "Omran_Mansur_-_Egypt_(عمران_منصور_-_مصر).mp3",
+      "title": "Omran Mansur — Egypt",
+      "arabicTitle": "عمران منصور — مصر",
+      "sizeBytes": 654560,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Omran_Mansur_-_Egypt_(عمران_منصور_-_مصر).mp3"
+    },
+    {
+      "id": "adhan-206",
+      "fileName": "Omru_Sobhe_(عمرو_صبحي).mp3",
+      "title": "Omru Sobhe",
+      "arabicTitle": "عمرو صبحي",
+      "sizeBytes": 3314680,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Omru_Sobhe_(عمرو_صبحي).mp3"
+    },
+    {
+      "id": "adhan-207",
+      "fileName": "Othman_Al_Masseme_(عثمان_المسعمي).mp3",
+      "title": "Othman Al Masseme",
+      "arabicTitle": "عثمان المسعمي",
+      "sizeBytes": 2810994,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Othman_Al_Masseme_(عثمان_المسعمي).mp3"
+    },
+    {
+      "id": "adhan-208",
+      "fileName": "Rabee_Abdul_Raheem_Essa_(ربيع_عبد_الرحيم_عيسى).mp3",
+      "title": "Rabee Abdul Raheem Essa",
+      "arabicTitle": "ربيع عبد الرحيم عيسى",
+      "sizeBytes": 3659977,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Rabee_Abdul_Raheem_Essa_(ربيع_عبد_الرحيم_عيسى).mp3"
+    },
+    {
+      "id": "adhan-209",
+      "fileName": "Rabeh_Ibn_Darah_Al_Jazairi_(رابح_بن_دراح_الجزائري).mp3",
+      "title": "Rabeh Ibn Darah Al Jazairi",
+      "arabicTitle": "رابح بن دراح الجزائري",
+      "sizeBytes": 4174784,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Rabeh_Ibn_Darah_Al_Jazairi_(رابح_بن_دراح_الجزائري).mp3"
+    },
+    {
+      "id": "adhan-210",
+      "fileName": "Riad_Al_Djazairi_-_Algeria_(رياض_الجزائري_-_الجزائر).mp3",
+      "title": "Riad Al Djazairi — Algeria",
+      "arabicTitle": "رياض الجزائري — الجزائر",
+      "sizeBytes": 2885125,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Riad_Al_Djazairi_-_Algeria_(رياض_الجزائري_-_الجزائر).mp3"
+    },
+    {
+      "id": "adhan-211",
+      "fileName": "Saheb_Hane_Khatab_-_Palestine_(صاحب_هاني_خطاب_-_فلسطين).mp3",
+      "title": "Saheb Hane Khatab — Palestine",
+      "arabicTitle": "صاحب هاني خطاب — فلسطين",
+      "sizeBytes": 736254,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Saheb_Hane_Khatab_-_Palestine_(صاحب_هاني_خطاب_-_فلسطين).mp3"
+    },
+    {
+      "id": "adhan-212",
+      "fileName": "Saleh_Al_Nabet_-_Qatar_(صالح_النابت_-_قطر).mp3",
+      "title": "Saleh Al Nabet — Qatar",
+      "arabicTitle": "صالح النابت — قطر",
+      "sizeBytes": 7652293,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Saleh_Al_Nabet_-_Qatar_(صالح_النابت_-_قطر).mp3"
+    },
+    {
+      "id": "adhan-213",
+      "fileName": "Salem_Hamde_(سالم_حمدة).mp3",
+      "title": "Salem Hamde",
+      "arabicTitle": "سالم حمدة",
+      "sizeBytes": 1049247,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Salem_Hamde_(سالم_حمدة).mp3"
+    },
+    {
+      "id": "adhan-214",
+      "fileName": "Samer_Al_Sagher_(سامر_الصغير).mp3",
+      "title": "Samer Al Sagher",
+      "arabicTitle": "سامر الصغير",
+      "sizeBytes": 3040091,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Samer_Al_Sagher_(سامر_الصغير).mp3"
+    },
+    {
+      "id": "adhan-215",
+      "fileName": "Sheikh_Al_Naqshbandi_(الشيخ_النقشبندى).mp3",
+      "title": "Sheikh Al Naqshbandi",
+      "arabicTitle": "الشيخ النقشبندى",
+      "sizeBytes": 2219550,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Sheikh_Al_Naqshbandi_(الشيخ_النقشبندى).mp3"
+    },
+    {
+      "id": "adhan-216",
+      "fileName": "Sheikh_Tariq_Muhammad_(الشيخ_طارق_محمد).mp3",
+      "title": "Sheikh Tariq Muhammad",
+      "arabicTitle": "الشيخ طارق محمد",
+      "sizeBytes": 10402822,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Sheikh_Tariq_Muhammad_(الشيخ_طارق_محمد).mp3"
+    },
+    {
+      "id": "adhan-217",
+      "fileName": "Taha_Al_Junayd_(طه_الجنيد).mp3",
+      "title": "Taha Al Junayd",
+      "arabicTitle": "طه الجنيد",
+      "sizeBytes": 3639215,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Taha_Al_Junayd_(طه_الجنيد).mp3"
+    },
+    {
+      "id": "adhan-218",
+      "fileName": "Taleb_Al_Qanube_(طالب_القنوبي).mp3",
+      "title": "Taleb Al Qanube",
+      "arabicTitle": "طالب القنوبي",
+      "sizeBytes": 3015877,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Taleb_Al_Qanube_(طالب_القنوبي).mp3"
+    },
+    {
+      "id": "adhan-219",
+      "fileName": "Tamer_Islam_(تامر_إسلام).mp3",
+      "title": "Tamer Islam",
+      "arabicTitle": "تامر إسلام",
+      "sizeBytes": 4385073,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Tamer_Islam_(تامر_إسلام).mp3"
+    },
+    {
+      "id": "adhan-220",
+      "fileName": "Tareq_Fathe_Ahmad_(طارق_فتح_أحمد).mp3",
+      "title": "Tareq Fathe Ahmad",
+      "arabicTitle": "طارق فتح أحمد",
+      "sizeBytes": 2629435,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Tareq_Fathe_Ahmad_(طارق_فتح_أحمد).mp3"
+    },
+    {
+      "id": "adhan-221",
+      "fileName": "Wadi_Al_Yamani_(وديع_اليمني).mp3",
+      "title": "Wadi Al Yamani",
+      "arabicTitle": "وديع اليمني",
+      "sizeBytes": 3203702,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Wadi_Al_Yamani_(وديع_اليمني).mp3"
+    },
+    {
+      "id": "adhan-222",
+      "fileName": "Wadi_Hamad_Al-Yamani_(وادي_حمد_اليماني).mp3",
+      "title": "Wadi Hamad Al-Yamani",
+      "arabicTitle": "وادي حمد اليماني",
+      "sizeBytes": 3206036,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Wadi_Hamad_Al-Yamani_(وادي_حمد_اليماني).mp3"
+    },
+    {
+      "id": "adhan-223",
+      "fileName": "Waled_Mahsas_1_(وليد_محساس).mp3",
+      "title": "Waled Mahsas 1",
+      "arabicTitle": "وليد محساس",
+      "sizeBytes": 8662123,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Waled_Mahsas_1_(وليد_محساس).mp3"
+    },
+    {
+      "id": "adhan-224",
+      "fileName": "Waled_Mahsas_2_-_Algeria_(وليد_محساس_-_الجزائر).mp3",
+      "title": "Waled Mahsas 2 — Algeria",
+      "arabicTitle": "وليد محساس — الجزائر",
+      "sizeBytes": 1854437,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Waled_Mahsas_2_-_Algeria_(وليد_محساس_-_الجزائر).mp3"
+    },
+    {
+      "id": "adhan-225",
+      "fileName": "Yaseen_Al_Aassaf_1_(ياسين_الأسف).mp3",
+      "title": "Yaseen Al Aassaf 1",
+      "arabicTitle": "ياسين الأسف",
+      "sizeBytes": 1382675,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Yaseen_Al_Aassaf_1_(ياسين_الأسف).mp3"
+    },
+    {
+      "id": "adhan-226",
+      "fileName": "Yaseen_Al_Aassaf_2_-_Fajr_Iraq_(ياسين_الأسف_-_فجر_العراق).mp3",
+      "title": "Yaseen Al Aassaf 2 — Fajr Iraq",
+      "arabicTitle": "ياسين الأسف — فجر العراق",
+      "sizeBytes": 5165716,
+      "category": "fajr",
+      "featured": false,
+      "playbackPath": "Yaseen_Al_Aassaf_2_-_Fajr_Iraq_(ياسين_الأسف_-_فجر_العراق).mp3"
+    },
+    {
+      "id": "adhan-227",
+      "fileName": "Yasser_Abdu_Allah_Al_Hawre_-_Qatar_(ياسر_عبدالله_الهوري_-_قطر).mp3",
+      "title": "Yasser Abdu Allah Al Hawre — Qatar",
+      "arabicTitle": "ياسر عبدالله الهوري — قطر",
+      "sizeBytes": 3882513,
+      "category": "mosque-region",
+      "featured": false,
+      "playbackPath": "Yasser_Abdu_Allah_Al_Hawre_-_Qatar_(ياسر_عبدالله_الهوري_-_قطر).mp3"
+    },
+    {
+      "id": "adhan-228",
+      "fileName": "Yasser_Al-Dosari_-_Saudi_Arabia_(ياسر_الدوسري_-_المملكة_العربية_السعودية).mp3",
+      "title": "Yasser Al-Dosari — Saudi Arabia",
+      "arabicTitle": "ياسر الدوسري — المملكة العربية السعودية",
+      "sizeBytes": 1462921,
+      "category": "mosque-region",
+      "featured": true,
+      "playbackPath": "Yasser_Al-Dosari_-_Saudi_Arabia_(ياسر_الدوسري_-_المملكة_العربية_السعودية).mp3"
+    },
+    {
+      "id": "adhan-229",
+      "fileName": "Yasser_Al_Filkawi_(ياسر_الفيلكاوي).mp3",
+      "title": "Yasser Al Filkawi",
+      "arabicTitle": "ياسر الفيلكاوي",
+      "sizeBytes": 863966,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Yasser_Al_Filkawi_(ياسر_الفيلكاوي).mp3"
+    },
+    {
+      "id": "adhan-230",
+      "fileName": "Zaher_Muhammad_Taresh_(زاهر_محمد_طريش).mp3",
+      "title": "Zaher Muhammad Taresh",
+      "arabicTitle": "زاهر محمد طريش",
+      "sizeBytes": 369560,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Zaher_Muhammad_Taresh_(زاهر_محمد_طريش).mp3"
+    },
+    {
+      "id": "adhan-231",
+      "fileName": "Zayd_Al_Aatya_(زيد_العاطية).mp3",
+      "title": "Zayd Al Aatya",
+      "arabicTitle": "زيد العاطية",
+      "sizeBytes": 1435597,
+      "category": "muezzin",
+      "featured": false,
+      "playbackPath": "Zayd_Al_Aatya_(زيد_العاطية).mp3"
+    }
+  ]
+}
