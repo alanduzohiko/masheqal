@@ -5,14 +5,37 @@ import kotlin.math.*
 
 data class Coordinates(val latitude: Double, val longitude: Double, val timezoneOffsetHours: Double)
 
-enum class PrayerMethod(val label: String, val fajrAngle: Double, val ishaAngle: Double, val ishaOffset: Int? = null) {
+enum class PrayerMethod(
+    val label: String,
+    val fajrAngle: Double,
+    val ishaAngle: Double,
+    val ishaOffset: Int? = null,
+    val fajrOffsetMinutes: Int = 0,
+    val sunriseOffsetMinutes: Int = 0,
+    val dhuhrOffsetMinutes: Int = 0,
+    val asrOffsetMinutes: Int = 0,
+    val maghribOffsetMinutes: Int = 0
+) {
     MWL("Muslim World League", 18.0, 17.0),
-    EGYPTIAN("Egyptian", 19.5, 17.5),
+    EGYPTIAN("Egyptian General Authority", 19.5, 17.5),
     UMM_AL_QURA("Umm al-Qura", 18.5, 17.0, 90),
-    KARACHI("Karachi", 18.0, 18.0),
-    ISNA("ISNA", 15.0, 15.0),
-    TEHRAN("Tehran", 17.7, 14.0),
-    TURKEY("Turkey", 18.0, 17.0)
+    KARACHI("University of Islamic Sciences, Karachi", 18.0, 18.0),
+    ISNA("Islamic Society of North America", 15.0, 15.0),
+    TEHRAN("Institute of Geophysics, Tehran", 17.7, 14.0),
+    TURKEY("Diyanet / Turkey", 18.0, 17.0),
+    GULF("Gulf Region", 19.5, 17.0, 90),
+    KUWAIT("Kuwait", 18.0, 17.5),
+    QATAR("Qatar", 18.0, 17.0, 90),
+    SINGAPORE("MUIS / Singapore", 20.0, 18.0),
+    FRANCE("France (UOIF)", 12.0, 12.0),
+    RUSSIA("Spiritual Administration of Muslims of Russia", 18.0, 17.0),
+    DUBAI(
+        "Dubai, UAE", 18.2, 18.2,
+        sunriseOffsetMinutes = 3,
+        dhuhrOffsetMinutes = 3,
+        asrOffsetMinutes = 3,
+        maghribOffsetMinutes = 3
+    )
 }
 
 enum class AsrMadhhab { SHAFI, HANAFI }
@@ -72,11 +95,11 @@ object PrayerCalculator {
 
         return PrayerTimes(
             date = date,
-            fajr = normalize(fajr),
-            sunrise = normalize(sunrise),
-            dhuhr = normalize(noonMinutes),
-            asr = normalize(asr),
-            maghrib = normalize(sunset),
+            fajr = normalize(fajr + method.fajrOffsetMinutes),
+            sunrise = normalize(sunrise + method.sunriseOffsetMinutes),
+            dhuhr = normalize(noonMinutes + method.dhuhrOffsetMinutes),
+            asr = normalize(asr + method.asrOffsetMinutes),
+            maghrib = normalize(sunset + method.maghribOffsetMinutes),
             isha = normalize(isha)
         )
     }
