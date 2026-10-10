@@ -100,6 +100,9 @@ fun SettingsScreen(
                         app.settings.setTranslationEdition(backup.settings.translationEdition)
                         app.settings.setTafsirEdition(backup.settings.tafsirEdition)
                         app.settings.setShowTafsir(backup.settings.showTafsir)
+                        app.settings.setAdhanRecordingId(backup.settings.adhanRecordingId)
+                        app.settings.setPrayerRemindersEnabled(backup.settings.prayerRemindersEnabled)
+                        app.settings.setPlayFullAdhan(backup.settings.playFullAdhan)
                         app.personal.setReading(backup.reading.surah, backup.reading.ayah)
                         app.personal.setKhatmah(
                             backup.khatmah.days,
@@ -311,6 +314,54 @@ fun SettingsScreen(
                     Column(Modifier.weight(1f)) {
                         Text(stringResource(R.string.settings_location_title), style = MaterialTheme.typography.titleSmall)
                         Text(stringResource(R.string.settings_location_hint), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    }
+                    Icon(Icons.Default.ChevronRight, null)
+                }
+            }
+        }
+
+        SettingsSection(
+            title = stringResource(R.string.adhan_library),
+            subtitle = stringResource(R.string.adhan_library_subtitle),
+            icon = Icons.Default.GraphicEq
+        ) {
+            OutlinedCard(
+                onClick = { nav.navigate("adhan") },
+                shape = RoundedCornerShape(18.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Row(Modifier.fillMaxWidth().padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Icon(Icons.Default.RecordVoiceOver, null, tint = MaterialTheme.colorScheme.primary)
+                    Spacer(Modifier.width(12.dp))
+                    Column(Modifier.weight(1f)) {
+                        Text(stringResource(R.string.adhan_open_library), style = MaterialTheme.typography.titleSmall)
+                        Text(stringResource(R.string.adhan_play_full), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    }
+                    Icon(Icons.Default.ChevronRight, null)
+                }
+            }
+            ToggleRow(
+                title = stringResource(R.string.adhan_play_full),
+                subtitle = stringResource(R.string.settings_adhan_play_hint),
+                checked = settings.playFullAdhan,
+                icon = Icons.Default.NotificationsActive,
+                onChange = { enabled -> scope.launch { app.settings.setPlayFullAdhan(enabled) } }
+            )
+            OutlinedCard(
+                onClick = { nav.navigate("prayer") },
+                shape = RoundedCornerShape(18.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Row(Modifier.fillMaxWidth().padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Icon(Icons.Default.Schedule, null, tint = MaterialTheme.colorScheme.primary)
+                    Spacer(Modifier.width(12.dp))
+                    Column(Modifier.weight(1f)) {
+                        Text(stringResource(R.string.prayer), style = MaterialTheme.typography.titleSmall)
+                        Text(
+                            stringResource(if (settings.prayerRemindersEnabled) R.string.adhan_reminders_enabled else R.string.adhan_reminders_disabled),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
                     }
                     Icon(Icons.Default.ChevronRight, null)
                 }
