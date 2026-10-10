@@ -203,15 +203,19 @@ fun QuranReaderScreen(
             return
         }
 
-        val audioEditionId = when (settings.reciter) {
-            // Preserve compatibility with older saved selections; the aliases below are current catalogue IDs.
-            "ar.sudais" -> "ar.abdurrahmaansudais"
-            "ar.shuraim" -> "ar.saoodshuraym"
-            "ar.ajamy" -> "ar.ahmedajamy"
-            "ar.muhammadayoub" -> "ar.muhammadayyoub"
-            "ar.abdulbasit" -> "ar.abdulsamad"
-            "ar.abdulbasitmujawwad" -> "ar.abdulsamad"
-            else -> settings.reciter
+        val audioEditionId = if (verseByVerseReciters.any { it.identifier == settings.reciter }) {
+            settings.reciter
+        } else {
+            // Preserve compatibility with older saved selections if the live audio catalogue is unavailable.
+            when (settings.reciter) {
+                "ar.sudais" -> "ar.abdurrahmaansudais"
+                "ar.shuraim" -> "ar.saoodshuraym"
+                "ar.ajamy" -> "ar.ahmedajamy"
+                "ar.muhammadayoub" -> "ar.muhammadayyoub"
+                "ar.abdulbasit" -> "ar.abdulsamad"
+                "ar.abdulbasitmujawwad" -> "ar.abdulsamad"
+                else -> settings.reciter
+            }
         }
         val queue = verses.filter { it.ayah >= verse.ayah }.map { item ->
             MediaItem.Builder()
