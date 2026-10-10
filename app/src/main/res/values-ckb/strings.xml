@@ -26,7 +26,7 @@
     <string name="play_current_ayah">لەو ئایەتەوە دەست پێ بکە</string>
     <string name="pause_audio">خوێندنەوە بوەستێنە</string>
     <string name="select_reciter">قاری هەڵبژێرە</string>
-    <string name="english_translation">وەرگێڕانی ئینگلیزی</string>
+    <string name="english_translation">پیشاندانی وەرگێڕان</string>
     <string name="audio_source_notice">دەنگی قورئان لە Al Quran Cloud پەخش دەکرێت و پێویستی بە ئینتەرنێت هەیە.</string>
     <string name="tafsir_unavailable">تەفسیر دوای دامەزراندنی پەکێجی ناوەڕۆکی پشتڕاستکراو بەردەست دەبێت.</string>
     <string name="audio_error">نەتوانرا دەنگەکە بخوێندرێتەوە. پەیوەندی ئینتەرنێت بپشکنە و دووبارە هەوڵ بدەوە.</string>
@@ -86,7 +86,7 @@
     <string name="settings_location_hint">شوێنی ئامێر بەکاربهێنە بۆ کاتی نوێژ و قیبلە.</string>
     <string name="quran_reading_preferences">خوێندنەوەی قورئان</string>
     <string name="settings_quran_hint">قاری هەڵبژێرە و پیشاندانی وەرگێڕان کۆنترۆڵ بکە.</string>
-    <string name="settings_translation_hint">وەرگێڕانی ئینگلیزی لەژێر هەر ئایەتێک پیشان بدە.</string>
+    <string name="settings_translation_hint">وەرگێڕانی هەڵبژێردراو لەژێر هەر ئایەتێک پیشان بدە.</string>
     <string name="settings_content_hint">وەرگێڕان و سەرچاوە پشتڕاستکراوەکانی خوێندنەوە بکەرەوە.</string>
     <string name="settings_reading_display">ڕووکاری خوێندنەوە</string>
     <string name="settings_display_hint">لە کاتی خوێندنەوەدا شاشەکە ڕوون بهێڵەرەوە.</string>
@@ -156,4 +156,5 @@
     <string name="translation_search_hint">بەدوای ناوی وەرگێڕان، زمان یان ناسنامەی وەشان بگەڕێ</string>
     <string name="tafsir_search_hint">بەدوای ناوی تەفسیر، زمان یان ناسنامەی وەشان بگەڕێ</string>
     <string name="surah_label">سورەت</string>
+    <string name="translation_unavailable_offline">وەرگێڕانی هەڵبژێردراو هێشتا پاشەکەوت نەکراوە. بۆ بارکردنی ئەم وەشانە پەیوەندی ئینتەرنێت بکە.</string>
 </resources>
