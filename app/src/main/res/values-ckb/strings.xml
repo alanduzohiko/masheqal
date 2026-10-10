@@ -76,4 +76,23 @@
     <string name="dhikr_source_reference">سەرچاوە: %1$s</string>
     <string name="dhikr_count_action">ئەم زیکرە بشمێرە</string>
     <string name="dhikr_attribution">سەرچاوەکان: Seen-Arabic Morning and Evening Adhkar DB (MIT) و fitrahive/dua-dhikr (MIT). وردەکاری لە content/ATTRIBUTIONS.md.</string>
+    <string name="settings_subtitle">شوێنی تایبەتی خۆت بە ڕێکخستنی دڵخواز</string>
+    <string name="settings_personalize">هەڵبژاردەی بچووک، ئەزموونێکی ڕۆژانەی تایبەتتر.</string>
+    <string name="settings_language_hint">زمانی بەکارهاتوو لە هەموو ئەپەکە هەڵبژێرە.</string>
+    <string name="settings_theme_hint">ڕووکارێک هەڵبژێرە کە بۆ ڕۆژ یان شەو ئارام بێت.</string>
+    <string name="prayer_preferences">نوێژ و شوێن</string>
+    <string name="settings_prayer_hint">شێوازی هەژمارکردنی کاتی نوێژ هەڵبژێرە.</string>
+    <string name="settings_location_title">نوێکردنەوەی شوێنی ئێستا</string>
+    <string name="settings_location_hint">شوێنی ئامێر بەکاربهێنە بۆ کاتی نوێژ و قیبلە.</string>
+    <string name="quran_reading_preferences">خوێندنەوەی قورئان</string>
+    <string name="settings_quran_hint">قاری هەڵبژێرە و پیشاندانی وەرگێڕان کۆنترۆڵ بکە.</string>
+    <string name="settings_translation_hint">وەرگێڕانی ئینگلیزی لەژێر هەر ئایەتێک پیشان بدە.</string>
+    <string name="settings_content_hint">وەرگێڕان و سەرچاوە پشتڕاستکراوەکانی خوێندنەوە بکەرەوە.</string>
+    <string name="settings_reading_display">ڕووکاری خوێندنەوە</string>
+    <string name="settings_display_hint">لە کاتی خوێندنەوەدا شاشەکە ڕوون بهێڵەرەوە.</string>
+    <string name="settings_keep_awake_hint">ڕێگری بکە شاشەکە لە ماوەی خوێندنەوەی درێژدا بخەوێت.</string>
+    <string name="settings_data">پاڵپشتی و تایبەتمەندی</string>
+    <string name="settings_data_hint">کۆنترۆڵی داتای خوێندنەوەی پاشەکەوتکراوت لە دەست خۆتدا بهێڵەوە.</string>
+    <string name="settings_restore_hint">ڕێکخستن، نیشانەکان و تێبینییەکان لە فایلێکی پاڵپشتی بگەڕێنەوە.</string>
+    <string name="settings_privacy_hint">بزانە داتای ناوخۆیی و مۆڵەتەکان چۆن بەکاردێن.</string>
 </resources>
