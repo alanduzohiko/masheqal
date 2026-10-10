@@ -7,10 +7,15 @@ License: MIT. Copyright (c) 2024 Seen Arabic.
 The source dataset includes Arabic wording, English translation/transliteration, repetition counts, benefits and references. These were bundled as supplied; no new religious wording or references were invented.
 
 ## Daily duas and after-salah dhikr
-Source: fitrahive/dua-dhikr, `data/dua-dhikr/daily-dua/en.json` and `data/dua-dhikr/dhikr-after-salah/en.json`.
+Source: fitrahive/dua-dhikr, files:
+- `data/dua-dhikr/daily-dua/en.json`
+- `data/dua-dhikr/morning-dhikr/en.json`
+- `data/dua-dhikr/evening-dhikr/en.json`
+- `data/dua-dhikr/dhikr-after-salah/en.json`
+- `data/dua-dhikr/selected-dua/en.json`
 Repository: https://github.com/fitrahive/dua-dhikr
 License: MIT. Copyright (c) 2023 Fitrahive.
-The dataset includes Arabic, English translation, transliteration, notes and source fields. Displayed citations are taken from the supplied source fields.
+The data contains Arabic text, English translation, transliteration, notes/benefits, repetition counts and source references. Displayed citations and explanatory notes are taken from the source fields.
 
 Both repositories license their software/data packages under MIT. The app should retain these attributions and associated license files with any redistributed derivative build. Religious content remains source-attributed and should be reviewed before making scholarly accuracy guarantees.
 
