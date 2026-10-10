@@ -25,6 +25,8 @@ import com.masheqal.app.MasheqalApp
 import com.masheqal.app.R
 import com.masheqal.app.data.BackupRepository
 import com.masheqal.app.data.SettingsState
+import com.masheqal.app.data.FullSurahReciter
+import com.masheqal.app.data.Mp3QuranReciterRepository
 import kotlinx.coroutines.launch
 
 private data class ReaderVoice(val id: String, val name: String)
@@ -41,7 +43,7 @@ private val settingsVoices = listOf(
     ReaderVoice("ar.muhammadayoub", "Muhammad Ayyoub"),
     ReaderVoice("ar.hudhaify", "Ali Al-Hudhaify"),
     ReaderVoice("ar.muhammadjibreel", "Muhammad Jibreel"),
-    ReaderVoice("ar.parhizgar", "Al-Husary — Muallim")
+    ReaderVoice("ar.parhizgar", "Shahriar Parhizgar")
 )
 
 @Composable
@@ -62,8 +64,15 @@ fun SettingsScreen(
     var showReciters by remember { mutableStateOf(false) }
     var showTranslations by remember { mutableStateOf(false) }
     var showTafsirs by remember { mutableStateOf(false) }
+    var reciterSearch by remember { mutableStateOf("") }
+    var extraVoices by remember { mutableStateOf(emptyList<FullSurahReciter>()) }
     val backupExported = stringResource(R.string.backup_exported)
     val backupRestored = stringResource(R.string.backup_restored)
+
+    LaunchedEffect(context) {
+        extraVoices = runCatching { Mp3QuranReciterRepository(context).loadArabicReciters() }
+            .getOrDefault(emptyList())
+    }
 
     val createBackup = rememberLauncherForActivityResult(
         ActivityResultContracts.CreateDocument("application/json")
@@ -106,7 +115,16 @@ fun SettingsScreen(
         }
     }
 
-    val selectedVoice = settingsVoices.firstOrNull { it.id == settings.reciter } ?: settingsVoices.first()
+    val selectableVoices = settingsVoices + extraVoices.map { voice ->
+        ReaderVoice(
+            voice.id,
+            voice.name + " — " + voice.moshafName + " · " + context.getString(R.string.full_surah_audio_label)
+        )
+    }
+    val filteredVoices = remember(selectableVoices, reciterSearch) {
+        selectableVoices.filter { it.name.contains(reciterSearch.trim(), ignoreCase = true) }
+    }
+    val selectedVoice = selectableVoices.firstOrNull { it.id == settings.reciter } ?: settingsVoices.first()
     val methodNames = listOf(
         "MWL" to R.string.method_mwl,
         "EGYPTIAN" to R.string.method_egyptian,
@@ -476,7 +494,22 @@ fun SettingsScreen(
             title = { Text(stringResource(R.string.select_reciter)) },
             text = {
                 Column(Modifier.heightIn(max = 440.dp).verticalScroll(rememberScrollState())) {
-                    settingsVoices.forEach { voice ->
+                    OutlinedTextField(
+                        value = reciterSearch,
+                        onValueChange = { reciterSearch = it },
+                        modifier = Modifier.fillMaxWidth(),
+                        singleLine = true,
+                        shape = RoundedCornerShape(16.dp),
+                        placeholder = { Text(stringResource(R.string.reciter_search_hint)) },
+                        leadingIcon = { Icon(Icons.Default.Search, null) },
+                        trailingIcon = {
+                            if (reciterSearch.isNotEmpty()) IconButton(onClick = { reciterSearch = "" }) {
+                                Icon(Icons.Default.Close, stringResource(R.string.clear))
+                            }
+                        }
+                    )
+                    Text(stringResource(R.string.quran_reciter_sources_note), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    filteredVoices.forEach { voice ->
                         Row(
                             Modifier.fillMaxWidth(),
                             verticalAlignment = Alignment.CenterVertically
@@ -485,6 +518,7 @@ fun SettingsScreen(
                                 selected = settings.reciter == voice.id,
                                 onClick = {
                                     scope.launch { app.settings.setReciter(voice.id) }
+                                    reciterSearch = ""
                                     showReciters = false
                                 }
                             )
