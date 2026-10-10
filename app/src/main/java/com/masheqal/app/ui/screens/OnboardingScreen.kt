@@ -241,7 +241,7 @@ fun OnboardingScreen(
                                 )
                                 Text(stringResource(R.string.quran_reciter_sources_note), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                                 LazyColumn(
-                                    modifier = Modifier.heightIn(max = 350.dp),
+                                    modifier = Modifier.heightIn(max = 260.dp),
                                     verticalArrangement = Arrangement.spacedBy(6.dp)
                                 ) {
                                     items(filteredReciters) { voice ->
