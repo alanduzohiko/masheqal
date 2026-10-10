@@ -31,7 +31,7 @@ fun LibraryScreen(app: MasheqalApp, nav: NavHostController) {
         LibraryRow(R.string.prayer, R.string.today_prayer_times, Icons.Default.Schedule, "prayer"),
         LibraryRow(R.string.adhan_library, R.string.streamed_audio_content, Icons.Default.RecordVoiceOver, "adhan"),
         LibraryRow(R.string.adhkar, R.string.bundled_sourced_content, Icons.Default.Spa, "adhkar"),
-        LibraryRow(R.string.dua, R.string.bundled_sourced_content, Icons.Default.FavoriteBorder, "adhkar"),
+        LibraryRow(R.string.dua, R.string.bundled_sourced_content, Icons.Default.FavoriteBorder, "duas"),
         LibraryRow(R.string.qibla, R.string.qibla, Icons.Default.Explore, "qibla"),
         LibraryRow(R.string.saved, R.string.bookmarks, Icons.Default.Bookmark, "saved"),
         LibraryRow(R.string.notes, R.string.notes, Icons.Default.Notes, "notes"),
