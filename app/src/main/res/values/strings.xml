@@ -177,4 +177,6 @@
     <string name="online_cached_content">Loads from the source and caches opened surahs for offline use</string>
     <string name="streamed_audio_content">Audio streams from the credited source; internet is required to play</string>
     <string name="source_dependent_content">Not included yet — a verified, licensed dataset is still required</string>
+    <string name="previous_page">Previous page</string>
+    <string name="next_page">Next page</string>
 </resources>
