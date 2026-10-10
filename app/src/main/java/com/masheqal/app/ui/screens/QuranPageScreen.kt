@@ -44,7 +44,6 @@ fun QuranPageScreen(app: MasheqalApp, nav: NavHostController, page: Int) {
         val loaded = app.quran.versesOfPage(page.coerceIn(1, 604))
         verses = loaded
         currentJuz = loaded.firstOrNull()?.let { app.quran.juzForVerse(it.surah, it.ayah) } ?: 1
-        loaded.firstOrNull()?.let { app.personal.setReading(it.surah, it.ayah) }
     }
 
     LaunchedEffect(verses, showTranslation, settings.translationEdition) {
