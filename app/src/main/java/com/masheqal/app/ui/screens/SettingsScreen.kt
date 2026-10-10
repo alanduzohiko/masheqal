@@ -27,6 +27,8 @@ import com.masheqal.app.data.BackupRepository
 import com.masheqal.app.data.SettingsState
 import com.masheqal.app.data.FullSurahReciter
 import com.masheqal.app.data.Mp3QuranReciterRepository
+import com.masheqal.app.data.QuranEdition
+import com.masheqal.app.data.QuranEditionRepository
 import kotlinx.coroutines.launch
 
 private data class ReaderVoice(val id: String, val name: String)
@@ -66,12 +68,22 @@ fun SettingsScreen(
     var showTafsirs by remember { mutableStateOf(false) }
     var reciterSearch by remember { mutableStateOf("") }
     var extraVoices by remember { mutableStateOf(emptyList<FullSurahReciter>()) }
+    var translationSearch by remember { mutableStateOf("") }
+    var tafsirSearch by remember { mutableStateOf("") }
+    val editionRepository = remember(context) { QuranEditionRepository(context) }
+    var availableTranslations by remember(context) { mutableStateOf(editionRepository.fallbackTranslations()) }
+    var availableTafsirs by remember(context) { mutableStateOf(editionRepository.fallbackTafsirs()) }
     val backupExported = stringResource(R.string.backup_exported)
     val backupRestored = stringResource(R.string.backup_restored)
 
     LaunchedEffect(context) {
         extraVoices = runCatching { Mp3QuranReciterRepository(context).loadArabicReciters() }
             .getOrDefault(emptyList())
+        val catalogue = runCatching { editionRepository.loadCatalog() }.getOrDefault(emptyList())
+        availableTranslations = (catalogue.filter { it.type == "translation" } + editionRepository.fallbackTranslations())
+            .distinctBy { it.identifier }
+        availableTafsirs = (catalogue.filter { it.type == "tafsir" } + editionRepository.fallbackTafsirs())
+            .distinctBy { it.identifier }
     }
 
     val createBackup = rememberLauncherForActivityResult(
@@ -145,20 +157,24 @@ fun SettingsScreen(
         "DUBAI" to R.string.method_dubai
     )
     val selectedMethod = methodNames.firstOrNull { it.first == settings.prayerMethod } ?: methodNames.first()
-    val translationNames = listOf(
-        "en.sahih" to R.string.translation_sahih,
-        "en.pickthall" to R.string.translation_pickthall,
-        "en.yusufali" to R.string.translation_yusufali,
-        "en.asad" to R.string.translation_asad,
-        "en.hilali" to R.string.translation_hilali,
-        "en.itani" to R.string.translation_itani
-    )
-    val selectedTranslation = translationNames.firstOrNull { it.first == settings.translationEdition } ?: translationNames.first()
-    val tafsirNames = listOf(
-        "ar.muyassar" to R.string.tafsir_muyassar,
-        "ar.jalalayn" to R.string.tafsir_jalalayn
-    )
-    val selectedTafsir = tafsirNames.firstOrNull { it.first == settings.tafsirEdition } ?: tafsirNames.first()
+    val filteredTranslations = remember(availableTranslations, translationSearch) {
+        availableTranslations.filter { edition ->
+            translationSearch.isBlank() || edition.name.contains(translationSearch.trim(), ignoreCase = true) ||
+                edition.englishName.contains(translationSearch.trim(), ignoreCase = true) ||
+                edition.language.contains(translationSearch.trim(), ignoreCase = true) ||
+                edition.identifier.contains(translationSearch.trim(), ignoreCase = true)
+        }
+    }
+    val filteredTafsirs = remember(availableTafsirs, tafsirSearch) {
+        availableTafsirs.filter { edition ->
+            tafsirSearch.isBlank() || edition.name.contains(tafsirSearch.trim(), ignoreCase = true) ||
+                edition.englishName.contains(tafsirSearch.trim(), ignoreCase = true) ||
+                edition.language.contains(tafsirSearch.trim(), ignoreCase = true) ||
+                edition.identifier.contains(tafsirSearch.trim(), ignoreCase = true)
+        }
+    }
+    val selectedTranslation = availableTranslations.firstOrNull { it.identifier == settings.translationEdition } ?: availableTranslations.first()
+    val selectedTafsir = availableTafsirs.firstOrNull { it.identifier == settings.tafsirEdition } ?: availableTafsirs.first()
 
     Column(
         Modifier.fillMaxSize().verticalScroll(rememberScrollState()),
@@ -413,7 +429,7 @@ fun SettingsScreen(
                     Spacer(Modifier.width(12.dp))
                     Column(Modifier.weight(1f)) {
                         Text(stringResource(R.string.select_translation), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                        Text(stringResource(selectedTranslation.second), style = MaterialTheme.typography.titleSmall)
+                        Text(selectedTranslation.englishName, style = MaterialTheme.typography.titleSmall)
                     }
                     Icon(Icons.Default.ExpandMore, null)
                 }
@@ -428,7 +444,7 @@ fun SettingsScreen(
                     Spacer(Modifier.width(12.dp))
                     Column(Modifier.weight(1f)) {
                         Text(stringResource(R.string.select_tafsir), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                        Text(stringResource(selectedTafsir.second), style = MaterialTheme.typography.titleSmall)
+                        Text(selectedTafsir.englishName, style = MaterialTheme.typography.titleSmall)
                     }
                     Icon(Icons.Default.ExpandMore, null)
                 }
@@ -590,16 +606,38 @@ fun SettingsScreen(
             title = { Text(stringResource(R.string.select_translation)) },
             text = {
                 Column(Modifier.heightIn(max = 420.dp).verticalScroll(rememberScrollState())) {
-                    translationNames.forEach { (edition, labelId) ->
+                    OutlinedTextField(
+                        value = translationSearch,
+                        onValueChange = { translationSearch = it },
+                        modifier = Modifier.fillMaxWidth(),
+                        singleLine = true,
+                        shape = RoundedCornerShape(16.dp),
+                        placeholder = { Text(stringResource(R.string.translation_search_hint)) },
+                        leadingIcon = { Icon(Icons.Default.Search, null) },
+                        trailingIcon = {
+                            if (translationSearch.isNotEmpty()) IconButton(onClick = { translationSearch = "" }) {
+                                Icon(Icons.Default.Close, stringResource(R.string.clear))
+                            }
+                        }
+                    )
+                    filteredTranslations.forEach { edition ->
                         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                             RadioButton(
-                                selected = settings.translationEdition == edition,
+                                selected = settings.translationEdition == edition.identifier,
                                 onClick = {
-                                    scope.launch { app.settings.setTranslationEdition(edition) }
+                                    scope.launch { app.settings.setTranslationEdition(edition.identifier) }
                                     showTranslations = false
+                                    translationSearch = ""
                                 }
                             )
-                            Text(stringResource(labelId), style = MaterialTheme.typography.bodyMedium)
+                            Column(Modifier.weight(1f)) {
+                                Text(edition.englishName, style = MaterialTheme.typography.bodyMedium)
+                                Text(
+                                    "${edition.language.uppercase()} · ${edition.name}",
+                                    style = MaterialTheme.typography.labelSmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
                         }
                     }
                 }
@@ -614,16 +652,38 @@ fun SettingsScreen(
             title = { Text(stringResource(R.string.select_tafsir)) },
             text = {
                 Column(Modifier.heightIn(max = 300.dp).verticalScroll(rememberScrollState())) {
-                    tafsirNames.forEach { (edition, labelId) ->
+                    OutlinedTextField(
+                        value = tafsirSearch,
+                        onValueChange = { tafsirSearch = it },
+                        modifier = Modifier.fillMaxWidth(),
+                        singleLine = true,
+                        shape = RoundedCornerShape(16.dp),
+                        placeholder = { Text(stringResource(R.string.tafsir_search_hint)) },
+                        leadingIcon = { Icon(Icons.Default.Search, null) },
+                        trailingIcon = {
+                            if (tafsirSearch.isNotEmpty()) IconButton(onClick = { tafsirSearch = "" }) {
+                                Icon(Icons.Default.Close, stringResource(R.string.clear))
+                            }
+                        }
+                    )
+                    filteredTafsirs.forEach { edition ->
                         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                             RadioButton(
-                                selected = settings.tafsirEdition == edition,
+                                selected = settings.tafsirEdition == edition.identifier,
                                 onClick = {
-                                    scope.launch { app.settings.setTafsirEdition(edition) }
+                                    scope.launch { app.settings.setTafsirEdition(edition.identifier) }
                                     showTafsirs = false
+                                    tafsirSearch = ""
                                 }
                             )
-                            Text(stringResource(labelId), style = MaterialTheme.typography.bodyMedium)
+                            Column(Modifier.weight(1f)) {
+                                Text(edition.englishName, style = MaterialTheme.typography.bodyMedium)
+                                Text(
+                                    "${edition.language.uppercase()} · ${edition.name}",
+                                    style = MaterialTheme.typography.labelSmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
                         }
                     }
                 }
