@@ -54,4 +54,26 @@
     <string name="method_turkey">دیانەت / تورکیا</string>
     <string name="madhhab_shafi">شافعی</string>
     <string name="madhhab_hanafi">حەنەفی</string>
+    <string name="adhkar_dashboard_title">شوێنێک بۆ زیکری ڕۆژانە</string>
+    <string name="adhkar_dashboard_subtitle">زیکر و دوعاکانی سەرچاوەدار، لەگەڵ بەدواداچوونی ئارامی پێشکەوتنت.</string>
+    <string name="dhikr_sections">زیکرە ڕۆژانەکانت هەڵبژێرە</string>
+    <string name="dhikr_morning_subtitle">ڕۆژەکەت بە زیکری سەرچاوەدار دەست پێ بکە</string>
+    <string name="dhikr_evening_subtitle">ڕۆژەکەت بە زیکری سەرچاوەدار کۆتایی پێ بهێنە</string>
+    <string name="after_prayer_title">زیکرەکانی دوای نوێژ</string>
+    <string name="dhikr_after_prayer_subtitle">زیکرەکان دوای نوێژ</string>
+    <string name="daily_duas_title">دوعاکانی ڕۆژانە</string>
+    <string name="dhikr_daily_duas_subtitle">دوعاکان بۆ کات و بارودۆخی ڕۆژانە</string>
+    <string name="dhikr_offline_label">بەبێ ئینتەرنێت کار دەکات</string>
+    <string name="dhikr_total">%1$d زیکر و دوعا</string>
+    <string name="dhikr_count">%1$d دانە</string>
+    <string name="dhikr_reset_count">ژمێرەر سفر بکەوە</string>
+    <string name="dhikr_search_hint">لە دەق، وەرگێڕان یان سەرچاوە بگەڕێ</string>
+    <string name="dhikr_no_results">هیچ ئەنجامێک نەدۆزرایەوە</string>
+    <string name="dhikr_no_results_hint">وشەیەکی تر تاقی بکەرەوە یان بەشێکی تر هەڵبژێرە.</string>
+    <string name="dhikr_load_error_title">نەتوانرا زیکرەکان بخوێندرێنەوە</string>
+    <string name="dhikr_load_error_body">نەتوانرا ناوەڕۆکی ناوخۆیی بخوێندرێتەوە. پەڕەکە دووبارە بکەرەوە.</string>
+    <string name="dhikr_repetition">%1$d / %2$d</string>
+    <string name="dhikr_source_reference">سەرچاوە: %1$s</string>
+    <string name="dhikr_count_action">ئەم زیکرە بشمێرە</string>
+    <string name="dhikr_attribution">سەرچاوەکان: Seen-Arabic Morning and Evening Adhkar DB (MIT) و fitrahive/dua-dhikr (MIT). وردەکاری لە content/ATTRIBUTIONS.md.</string>
 </resources>
