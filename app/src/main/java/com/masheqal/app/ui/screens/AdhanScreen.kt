@@ -449,7 +449,7 @@ fun AdhanScreen(app: MasheqalApp, nav: NavHostController) {
                                                     recording.displayTitle,
                                                     settings.playFullAdhan
                                                 )
-                                                snackbar.showSnackbar(context.getString(R.string.adhan_select_success))
+                                                snackbar.showSnackbar(selectionSuccessMessage)
                                             }
                                         },
                                         modifier = Modifier.weight(1f)
