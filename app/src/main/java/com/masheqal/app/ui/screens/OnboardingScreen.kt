@@ -23,6 +23,8 @@ import com.masheqal.app.R
 import com.masheqal.app.data.SettingsState
 import com.masheqal.app.data.FullSurahReciter
 import com.masheqal.app.data.Mp3QuranReciterRepository
+import com.masheqal.app.data.QuranEdition
+import com.masheqal.app.data.QuranEditionRepository
 import kotlinx.coroutines.launch
 
 private val setupMethods = listOf(
@@ -66,18 +68,25 @@ fun OnboardingScreen(
     val fullSurahAudioLabel = stringResource(R.string.full_surah_audio_label)
     var step by remember { mutableIntStateOf(0) }
     var extraReciters by remember { mutableStateOf(emptyList<FullSurahReciter>()) }
+    var verseByVerseReciters by remember { mutableStateOf(emptyList<QuranEdition>()) }
     var reciterSearch by remember { mutableStateOf("") }
 
     LaunchedEffect(context) {
         extraReciters = runCatching { Mp3QuranReciterRepository(context).loadArabicReciters() }
             .getOrDefault(emptyList())
+        verseByVerseReciters = runCatching { QuranEditionRepository(context).loadAudioReciters() }
+            .getOrDefault(emptyList())
     }
-    val selectableReciters = setupReciters + extraReciters.map { reciter ->
-        SetupReciter(
-            reciter.id,
-            reciter.name + " — " + reciter.moshafName + " · " + fullSurahAudioLabel
-        )
-    }
+    val selectableReciters = (
+        verseByVerseReciters.map { voice -> SetupReciter(voice.identifier, voice.englishName + " — " + voice.name) } +
+            setupReciters +
+            extraReciters.map { reciter ->
+                SetupReciter(
+                    reciter.id,
+                    reciter.name + " — " + reciter.moshafName + " · " + fullSurahAudioLabel
+                )
+            }
+        ).distinctBy { it.id }
     val filteredReciters = remember(selectableReciters, reciterSearch) {
         selectableReciters.filter { it.name.contains(reciterSearch.trim(), ignoreCase = true) }
     }
