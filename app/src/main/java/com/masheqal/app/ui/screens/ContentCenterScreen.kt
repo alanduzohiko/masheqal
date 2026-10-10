@@ -90,7 +90,7 @@ fun ContentCenterScreen(nav: NavHostController) {
                     ListItem(
                         headlineContent = { Text(pack.title) },
                         supportingContent = { Text("${pack.type} • ${pack.version} • ${pack.license}") },
-                        leadingContent = { Icon(Icons.Default.Verified, null, tint = MaterialTheme.colorScheme.primary) }
+                        leadingContent = { Icon(Icons.Default.CheckCircle, null, tint = MaterialTheme.colorScheme.primary) }
                     )
                 }
             }
