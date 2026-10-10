@@ -467,6 +467,13 @@ fun SettingsScreen(
                 icon = Icons.Default.AutoStories,
                 onChange = { enabled -> scope.launch { app.settings.setShowTafsir(enabled) } }
             )
+            ToggleRow(
+                title = stringResource(R.string.settings_tajweed_colors),
+                subtitle = stringResource(R.string.settings_tajweed_colors_hint),
+                checked = settings.showTajweedColors,
+                icon = Icons.Default.Palette,
+                onChange = { enabled -> scope.launch { app.settings.setShowTajweedColors(enabled) } }
+            )
             OutlinedCard(
                 onClick = { nav.navigate("content") },
                 shape = RoundedCornerShape(18.dp),
