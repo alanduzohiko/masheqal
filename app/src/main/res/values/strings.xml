@@ -64,4 +64,26 @@
     <string name="method_turkey">Diyanet / Turkey</string>
     <string name="madhhab_shafi">Shafi'i</string>
     <string name="madhhab_hanafi">Hanafi</string>
+    <string name="adhkar_dashboard_title">Make space for remembrance</string>
+    <string name="adhkar_dashboard_subtitle">Verified texts, clear references, and gentle progress tracking for your daily worship.</string>
+    <string name="dhikr_sections">Explore your daily remembrance</string>
+    <string name="dhikr_morning_subtitle">Begin the day with sourced adhkar</string>
+    <string name="dhikr_evening_subtitle">Close the day with sourced adhkar</string>
+    <string name="after_prayer_title">After prayer</string>
+    <string name="dhikr_after_prayer_subtitle">Remembrances after salah</string>
+    <string name="daily_duas_title">Daily duas</string>
+    <string name="dhikr_daily_duas_subtitle">Supplications for everyday moments</string>
+    <string name="dhikr_offline_label">Available offline</string>
+    <string name="dhikr_total">%1$d sourced items</string>
+    <string name="dhikr_count">%1$d items</string>
+    <string name="dhikr_reset_count">Reset count</string>
+    <string name="dhikr_search_hint">Search Arabic, translation, or source</string>
+    <string name="dhikr_no_results">Nothing matched</string>
+    <string name="dhikr_no_results_hint">Try another word or switch to a different category.</string>
+    <string name="dhikr_load_error_title">Could not load remembrance</string>
+    <string name="dhikr_load_error_body">The bundled content could not be read. Retry by reopening this screen.</string>
+    <string name="dhikr_repetition">%1$d / %2$d</string>
+    <string name="dhikr_source_reference">Source: %1$s</string>
+    <string name="dhikr_count_action">Count this remembrance</string>
+    <string name="dhikr_attribution">Sources: Seen-Arabic Morning and Evening Adhkar DB (MIT); fitrahive/dua-dhikr (MIT). See bundled content/ATTRIBUTIONS.md.</string>
 </resources>
