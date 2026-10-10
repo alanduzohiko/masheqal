@@ -152,7 +152,8 @@ class QuranScriptRepository(private val context: Context) {
         option(DEFAULT_EDITION, "الرسم العثماني", "Uthmani script"),
         option("quran-simple", "الرسم العربي المبسط", "Simple Arabic script"),
         option("quran-simple-clean", "الرسم المبسط دون حركات", "Simple script without diacritics"),
-        option("quran-simple-enhanced", "الرسم المبسط المحسّن", "Enhanced simple script")
+        option("quran-simple-enhanced", "الرسم المبسط المحسّن", "Enhanced simple script"),
+        option("quran-uthmani-quran-academy", "الرسم العثماني — أكاديمية القرآن", "Uthmani script — Quran Academy")
     )
 
     private fun option(id: String, name: String, englishName: String) =
