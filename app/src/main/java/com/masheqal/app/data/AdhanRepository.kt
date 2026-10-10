@@ -15,17 +15,21 @@ data class AdhanRecording(
     val category: String,
     val featured: Boolean
 ) {
-    fun streamUri(): String = Uri.parse("https:" + "/" + "/raw.githubusercontent.com/Kiwifu/adhan-mp3/main/")
-        .buildUpon()
-        .appendPath(fileName)
-        .build()
-        .toString()
+    fun streamUri(): String = streamUriForFile(fileName)
 
     val displayTitle: String
         get() = if (arabicTitle.isBlank()) title else "$title — $arabicTitle"
 }
 
 class AdhanRepository(private val context: Context) {
+    companion object {
+        fun streamUriForFile(fileName: String): String = Uri.parse("https:" + "/" + "/raw.githubusercontent.com/Kiwifu/adhan-mp3/main/")
+            .buildUpon()
+            .appendPath(fileName)
+            .build()
+            .toString()
+    }
+
     suspend fun loadCatalog(): List<AdhanRecording> = withContext(Dispatchers.IO) {
         val source = context.assets.open("content/adhan_catalog.json")
             .bufferedReader(Charsets.UTF_8).use { it.readText() }
