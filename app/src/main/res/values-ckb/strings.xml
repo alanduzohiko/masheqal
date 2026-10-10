@@ -105,4 +105,17 @@
     <string name="method_france">فەڕەنسا (UOIF)</string>
     <string name="method_russia">بەڕێوەبەرایەتی ئایینی موسڵمانانی ڕووسیا</string>
     <string name="method_dubai">دووبەی، ئیمارات</string>
+    <string name="select_translation">وەرگێڕانێک هەڵبژێرە</string>
+    <string name="translation_sahih">Saheeh International</string>
+    <string name="translation_pickthall">وەرگێڕانی Pickthall</string>
+    <string name="translation_yusufali">وەرگێڕانی Yusuf Ali</string>
+    <string name="translation_asad">وەرگێڕانی Muhammad Asad</string>
+    <string name="translation_hilali">Hilali و Khan</string>
+    <string name="translation_itani">Talal Itani — Clear Qur'an</string>
+    <string name="select_tafsir">تەفسیرێک هەڵبژێرە</string>
+    <string name="tafsir_muyassar">تەفسیری ئەلمەیسر</string>
+    <string name="tafsir_jalalayn">تەفسیری جەلالەین</string>
+    <string name="show_tafsir">کاتێک ئایەت هەڵدەبژێریت تەفسیر پیشان بدە</string>
+    <string name="tafsir_loading_or_offline">تەفسیر هێشتا پاشەکەوت نەکراوە. پەیوەندی ئینتەرنێت بکە و دووبارە ئایەتەکە هەڵبژێرە.</string>
+    <string name="quran_study_source_note">وەرگێڕان و تەفسیر لە ڕێگەی Al Quran Cloud API و بەپێی وەشانەوە وەردەگیرێت و دوای یەکەم بارکردن بۆ خوێندنەوەی بەبێ ئینتەرنێت پاشەکەوت دەکرێت.</string>
 </resources>
