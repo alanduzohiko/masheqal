@@ -44,19 +44,20 @@ class AdhkarRepository(private val context: Context) {
             val arabicText = item.optString("content", "").trim()
             if (arabicText.isBlank()) continue
 
-            result += AdhkarItem(
-                id = "morning:$order",
-                category = "morning",
-                title = "ذكر $order",
-                arabic = arabicText,
-                translation = translation?.optString("translation", "").orEmpty(),
-                transliteration = translation?.optString("transliteration", "").orEmpty(),
-                count = count,
-                countDescription = item.optString("count_description", ""),
-                benefit = item.optString("fadl", ""),
-                source = item.optString("source", "")
-            ).takeIf { type == 0 || type == 1 } ?: continue
-
+            if (type == 0 || type == 1) {
+                result += AdhkarItem(
+                    id = "morning:$order",
+                    category = "morning",
+                    title = "ذكر $order",
+                    arabic = arabicText,
+                    translation = translation?.optString("translation", "").orEmpty(),
+                    transliteration = translation?.optString("transliteration", "").orEmpty(),
+                    count = count,
+                    countDescription = item.optString("count_description", ""),
+                    benefit = item.optString("fadl", ""),
+                    source = item.optString("source", "")
+                )
+            }
             if (type == 0 || type == 2) {
                 result += AdhkarItem(
                     id = "evening:$order",
@@ -70,8 +71,6 @@ class AdhkarRepository(private val context: Context) {
                     benefit = item.optString("fadl", ""),
                     source = item.optString("source", "")
                 )
-            } else if (type == 1) {
-                // This item belongs to morning only; evening copy is intentionally omitted.
             }
         }
 
