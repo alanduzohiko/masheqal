@@ -14,7 +14,7 @@ object BackupRepository {
             .put("schema", SCHEMA)
             .put("product", "مەشخەڵ")
             .put("exportedAt", System.currentTimeMillis())
-            .put("settings", JSONObject().put("theme", settings.theme).put("language", settings.language).put("tasbihCount", settings.tasbihCount).put("prayerMethod", settings.prayerMethod).put("madhhab", settings.madhhab).put("awake", settings.keepScreenAwake))
+            .put("settings", JSONObject().put("theme", settings.theme).put("language", settings.language).put("tasbihCount", settings.tasbihCount).put("prayerMethod", settings.prayerMethod).put("madhhab", settings.madhhab).put("awake", settings.keepScreenAwake).put("reciter", settings.reciter).put("showEnglishTranslation", settings.showEnglishTranslation))
             .put("reading", JSONObject().put("surah", reading.surah).put("ayah", reading.ayah))
             .put("khatmah", JSONObject().put("days", khatmah.days).put("targetPages", khatmah.targetPages).put("readPages", khatmah.readPages).put("active", khatmah.active))
         val bookmarks = JSONArray()
@@ -41,7 +41,7 @@ object BackupRepository {
         val r = o.optJSONObject("reading") ?: JSONObject()
         val k = o.optJSONObject("khatmah") ?: JSONObject()
         BackupPayload(
-            SettingsState(s.optString("theme","system"), s.optString("language","ckb"), s.optInt("tasbihCount",0), s.optString("prayerMethod","MWL"), s.optString("madhhab","SHAFI"), s.optBoolean("awake",false)),
+            SettingsState(s.optString("theme","system"), s.optString("language","ckb"), s.optInt("tasbihCount",0), s.optString("prayerMethod","MWL"), s.optString("madhhab","SHAFI"), s.optBoolean("awake",false), s.optString("reciter","ar.alafasy"), s.optBoolean("showEnglishTranslation",true)),
             ReadingPosition(r.optInt("surah",1), r.optInt("ayah",1)),
             KhatmahState(k.optInt("days",30), k.optInt("targetPages",604), k.optInt("readPages",0), k.optBoolean("active",false))
         )
