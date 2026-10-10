@@ -12,9 +12,15 @@ import androidx.compose.material.icons.filled.Inventory2
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Color
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -165,6 +171,67 @@ fun QuranText(
 ) {
     Text(
         text = text,
+        modifier = modifier.fillMaxWidth(),
+        fontSize = size.sp,
+        lineHeight = (size * 1.78f).sp,
+        fontFamily = QuranFont,
+        textAlign = TextAlign.Center,
+        color = MaterialTheme.colorScheme.onSurface
+    )
+}
+
+private const val TAJWEED_CLOSE = "</tajweed>"
+private val tajweedOpenPattern = Regex("""<tajweed\\s+class=["']([^"']+)["']\\s*>""")
+
+private fun tajweedColor(rule: String, dark: Boolean): Color? = when (rule.lowercase()) {
+    "madda_normal", "madda_permissible", "madda_necessary", "madda_obligatory" ->
+        if (dark) Color(0xFF82B1FF) else Color(0xFF0D47A1)
+    "ikhafa", "ikhafa_shafawi", "ghunnah" ->
+        if (dark) Color(0xFF81C784) else Color(0xFF1B5E20)
+    "idgham_ghunnah", "idgham_wo_ghunnah", "idgham_shafawi" ->
+        if (dark) Color(0xFF80CBC4) else Color(0xFF00695C)
+    "qalqalah" ->
+        if (dark) Color(0xFFFFAB91) else Color(0xFFBF360C)
+    "iqlab" ->
+        if (dark) Color(0xFFCE93D8) else Color(0xFF6A1B9A)
+    "ham_wasl", "laam_shamsiyah" ->
+        if (dark) Color(0xFFFFD180) else Color(0xFF8D4C00)
+    "silent" ->
+        if (dark) Color(0xFFB0BEC5) else Color(0xFF546E7A)
+    else -> null
+}
+
+private fun parseTajweedText(raw: String, dark: Boolean): AnnotatedString = buildAnnotatedString {
+    var cursor = 0
+    while (cursor < raw.length) {
+        val opening = tajweedOpenPattern.find(raw, cursor)
+        if (opening == null) {
+            append(raw.substring(cursor).replace(TAJWEED_CLOSE, ""))
+            break
+        }
+        append(raw.substring(cursor, opening.range.first))
+        val closingIndex = raw.indexOf(TAJWEED_CLOSE, opening.range.last + 1)
+        if (closingIndex < 0) {
+            append(raw.substring(opening.range.first).replace(tajweedOpenPattern, "").replace(TAJWEED_CLOSE, ""))
+            break
+        }
+        val segment = raw.substring(opening.range.last + 1, closingIndex)
+        val color = tajweedColor(opening.groupValues[1], dark)
+        if (color == null) append(segment) else withStyle(SpanStyle(color = color)) { append(segment) }
+        cursor = closingIndex + TAJWEED_CLOSE.length
+    }
+}
+
+@Composable
+fun QuranTajweedText(
+    taggedText: String,
+    modifier: Modifier = Modifier,
+    size: Float = 28f
+) {
+    val dark = isSystemInDarkTheme()
+    val annotated = remember(taggedText, dark) { parseTajweedText(taggedText, dark) }
+    Text(
+        text = annotated,
         modifier = modifier.fillMaxWidth(),
         fontSize = size.sp,
         lineHeight = (size * 1.78f).sp,
