@@ -11,7 +11,7 @@
     <string name="word_analysis">Word Analysis</string><string name="tajweed">Tajweed</string><string name="transliteration">Transliteration</string><string name="khatmah">Khatmah</string>
     <string name="language">Language</string><string name="theme">Theme</string><string name="light">Light</string><string name="dark">Dark</string><string name="system">System</string><string name="privacy">Privacy</string>
     <string name="share">Share</string><string name="copy">Copy</string><string name="bookmark">Bookmark</string><string name="note">Note</string>
-    <string name="qibla_accuracy">Accuracy</string><string name="calibrate">Calibrate</string><string name="sensor_unavailable">Compass sensor unavailable</string>
+    <string name="calibrate">Calibrate</string><string name="sensor_unavailable">Compass sensor unavailable</string>
     <string name="search_hint">Search Quran, saved content, or enter 2:255</string><string name="no_results">No results</string>
     <string name="reading">Reading</string><string name="ayah">Ayah</string><string name="page">Page</string><string name="juz">Juz</string>
     <string name="remove">Remove</string><string name="clear">Clear</string><string name="cancel">Cancel</string><string name="done">Done</string>
