@@ -76,4 +76,23 @@
     <string name="dhikr_source_reference">المصدر: %1$s</string>
     <string name="dhikr_count_action">عدّ هذا الذكر</string>
     <string name="dhikr_attribution">المصادر: قاعدة أذكار الصباح والمساء Seen-Arabic (MIT)، ومشروع fitrahive/dua-dhikr (MIT). التفاصيل في content/ATTRIBUTIONS.md.</string>
+    <string name="settings_subtitle">مساحتك الشخصية بإعدادات تناسبك</string>
+    <string name="settings_personalize">اختيارات بسيطة لتجربة يومية أقرب إليك.</string>
+    <string name="settings_language_hint">اختر اللغة المستخدمة في أنحاء التطبيق.</string>
+    <string name="settings_theme_hint">اختر مظهرًا مريحًا للنهار أو الليل.</string>
+    <string name="prayer_preferences">الصلاة والموقع</string>
+    <string name="settings_prayer_hint">اختر طريقة حساب أوقات الصلاة.</string>
+    <string name="settings_location_title">تحديث الموقع الحالي</string>
+    <string name="settings_location_hint">استخدم موقع الجهاز لحساب الصلاة والقبلة.</string>
+    <string name="quran_reading_preferences">قراءة القرآن</string>
+    <string name="settings_quran_hint">اختر القارئ وتحكم في عرض الترجمة.</string>
+    <string name="settings_translation_hint">إظهار الترجمة الإنجليزية أسفل كل آية.</string>
+    <string name="settings_content_hint">افتح الترجمات المتاحة وموارد الدراسة الموثقة.</string>
+    <string name="settings_reading_display">عرض القراءة</string>
+    <string name="settings_display_hint">إبقاء الشاشة مضاءة أثناء القراءة.</string>
+    <string name="settings_keep_awake_hint">منع الشاشة من الانطفاء أثناء جلسات القراءة الطويلة.</string>
+    <string name="settings_data">النسخ الاحتياطي والخصوصية</string>
+    <string name="settings_data_hint">احتفظ بالتحكم في بيانات القراءة المحفوظة.</string>
+    <string name="settings_restore_hint">استعادة الإعدادات والعلامات والملاحظات من ملف نسخة احتياطية.</string>
+    <string name="settings_privacy_hint">تعرف على كيفية التعامل مع البيانات المحلية والأذونات.</string>
 </resources>
