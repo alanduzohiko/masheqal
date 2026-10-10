@@ -19,12 +19,23 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.core.content.ContextCompat
 import androidx.core.os.LocaleListCompat
+import androidx.lifecycle.lifecycleScope
+import com.masheqal.app.util.LocationUtils
+import kotlinx.coroutines.launch
 import com.masheqal.app.data.SettingsState
 import com.masheqal.app.ui.MasheqalTheme
 import com.masheqal.app.ui.MasheqalRoot
 
 class MainActivity : ComponentActivity() {
-    private val locationLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { }
+    private val locationLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { grants ->
+        if (grants[Manifest.permission.ACCESS_COARSE_LOCATION] == true ||
+            grants[Manifest.permission.ACCESS_FINE_LOCATION] == true
+        ) {
+            lifecycleScope.launch { LocationUtils.current(this@MainActivity) }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +57,11 @@ class MainActivity : ComponentActivity() {
 
     private fun requestLocation() {
         val permissions = arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
-        if (permissions.any { ContextCompat.checkSelfPermission(this, it) != PackageManager.PERMISSION_GRANTED }) locationLauncher.launch(permissions)
+        if (permissions.any { ContextCompat.checkSelfPermission(this, it) != PackageManager.PERMISSION_GRANTED }) {
+            locationLauncher.launch(permissions)
+        } else {
+            lifecycleScope.launch { LocationUtils.current(this) }
+        }
     }
 
     private fun applyLanguage(code: String) {
