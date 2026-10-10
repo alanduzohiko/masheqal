@@ -38,7 +38,7 @@ def fetch_verified_archive(archive: dict, folder: Path) -> Path:
     target = folder / f"hafs-kfqc-{archive['kind']}.zip"
     request = urllib.request.Request(
         archive["url"],
-        headers={"Accept": "application/octet-stream", "User-Agent": USER_AGENT},
+        headers={"Accept": "application/octet-stream", "Accept-Encoding": "identity", "User-Agent": USER_AGENT},
     )
     digest = hashlib.sha256()
     received = 0
@@ -50,8 +50,12 @@ def fetch_verified_archive(archive: dict, folder: Path) -> Path:
             if not block:
                 break
             received += len(block)
-            if received > archive["size"]:
-                raise RuntimeError(f"Upstream archive exceeds the pinned size: {archive['kind']}")
+            if received > archive["size"] + 8 * 1024 * 1024:
+                raise RuntimeError(
+                    f"Upstream archive exceeds the safety cap: kind={archive['kind']}, "
+                    f"received={received}, pinned_size={archive['size']}, "
+                    f"content_length={response.headers.get('Content-Length')}, url={response.geturl()}"
+                )
             digest.update(block)
             output.write(block)
 
@@ -59,7 +63,8 @@ def fetch_verified_archive(archive: dict, folder: Path) -> Path:
     if received != archive["size"] or actual != archive["sha256"]:
         raise RuntimeError(
             f"Upstream {archive['kind']} archive integrity mismatch: "
-            f"size={received}, sha256={actual}"
+            f"size={received}, expected_size={archive['size']}, sha256={actual}, "
+            f"expected_sha256={archive['sha256']}, url={archive['url']}"
         )
     return target
 
