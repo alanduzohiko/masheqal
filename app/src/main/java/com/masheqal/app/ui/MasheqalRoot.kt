@@ -125,6 +125,7 @@ fun MasheqalRoot(
             composable("khatmah") { KhatmahScreen(app, nav) }
             composable("settings") { SettingsScreen(app, nav, onLanguage, onRequestLocation) }
             composable("content") { ContentCenterScreen(nav) }
+            composable("names") { NamesOfAllahScreen(app, nav) }
             composable("calendar") { CalendarScreen(nav) }
         }
     }
