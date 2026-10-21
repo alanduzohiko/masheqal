@@ -9,6 +9,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.masheqal.app.R
@@ -92,7 +93,20 @@ object PrayerNotificationScheduler {
             .putString("method",method.name).putString("madhhab",madhhab.name)
             .putString("zoneId",zone.id).apply()
     }
-    fun createChannel(context: Context){ val nm=context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager; nm.createNotificationChannel(NotificationChannel(CHANNEL,context.getString(R.string.prayer_notification_channel),NotificationManager.IMPORTANCE_HIGH)) }
+    fun createChannel(context: Context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            if (nm.getNotificationChannel(CHANNEL) == null) {
+                nm.createNotificationChannel(
+                    NotificationChannel(
+                        CHANNEL,
+                        context.getString(R.string.prayer_notification_channel),
+                        NotificationManager.IMPORTANCE_HIGH
+                    )
+                )
+            }
+        }
+    }
 }
 class PrayerAlarmReceiver: BroadcastReceiver(){
     override fun onReceive(context: Context,intent: Intent){
