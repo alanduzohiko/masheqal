@@ -58,16 +58,28 @@ jobs:
       - name: Build installable debug APK
         run: gradle :app:assembleDebug --no-daemon
 
-      - name: Build unsigned release artifacts
-        run: gradle :app:assembleRelease :app:bundleRelease --no-daemon
-
-      - name: Upload APK/AAB artifacts
+      - name: Upload installable debug APK
         uses: actions/upload-artifact@v4
         with:
-          name: masheqal-android-artifacts
+          name: mashxall-debug-apk
+          if-no-files-found: error
+          path: app/build/outputs/apk/debug/*.apk
+          retention-days: 30
+
+      # Release outputs are optional and can be requested manually. Debug builds
+      # on pull requests should still publish the installable APK without waiting
+      # for resource shrinking / bundle generation.
+      - name: Build unsigned release artifacts
+        if: github.event_name == 'workflow_dispatch'
+        run: gradle :app:assembleRelease :app:bundleRelease --no-daemon
+
+      - name: Upload release artifacts and reports
+        if: github.event_name == 'workflow_dispatch'
+        uses: actions/upload-artifact@v4
+        with:
+          name: mashxall-release-artifacts
           if-no-files-found: error
           path: |
-            app/build/outputs/apk/debug/*.apk
             app/build/outputs/apk/release/*.apk
             app/build/outputs/bundle/release/*.aab
             app/build/reports/**
