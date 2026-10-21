@@ -33,7 +33,8 @@ fun ContentCenterScreen(nav: NavHostController) {
         ContentLine(R.string.quran_english, R.string.bundled_sourced_content, Icons.Default.Translate, "quran"),
         ContentLine(R.string.quran_font, R.string.installed, Icons.Default.TextFields, "quran"),
         ContentLine(R.string.adhkar, R.string.bundled_sourced_content, Icons.Default.Spa, "adhkar"),
-        ContentLine(R.string.dua, R.string.bundled_sourced_content, Icons.Default.FavoriteBorder, "adhkar")
+        ContentLine(R.string.dua, R.string.bundled_sourced_content, Icons.Default.FavoriteBorder, "adhkar"),
+        ContentLine(R.string.names_of_allah, R.string.bundled_sourced_content, Icons.Default.AutoAwesome, "names")
     )
     val connected = listOf(
         ContentLine(R.string.tafsir, R.string.online_cached_content, Icons.Default.AutoStories, "quran"),
@@ -45,7 +46,6 @@ fun ContentCenterScreen(nav: NavHostController) {
         ContentLine(R.string.quran_sorani, R.string.source_required, Icons.Default.Translate),
         ContentLine(R.string.hadith, R.string.source_required, Icons.Default.LibraryBooks),
         ContentLine(R.string.hisn, R.string.source_required, Icons.Default.MenuBook),
-        ContentLine(R.string.names_of_allah, R.string.source_required, Icons.Default.AutoAwesome),
         ContentLine(R.string.word_analysis, R.string.source_required, Icons.Default.Search)
     )
 
