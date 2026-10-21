@@ -10,11 +10,11 @@ android {
     compileSdk = 37
 
     defaultConfig {
-        applicationId = "com.masheqal.app"
+        applicationId = "com.mashxall.app"
         minSdk = 30
         targetSdk = 36
         versionCode = 1
-        versionName = "0.1.0-foundation"
+        versionName = "0.1.0-mashxall"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
@@ -34,7 +34,7 @@ android {
     }
 
     buildTypes {
-        debug { applicationIdSuffix = ".debug"; versionNameSuffix = "-debug" }
+        debug { versionNameSuffix = "-debug" }
         release { isMinifyEnabled = true; isShrinkResources = true; proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro") }
     }
 
@@ -56,6 +56,7 @@ dependencies {
     implementation(libs.androidx.work.runtime)
     implementation(libs.androidx.media3.exoplayer)
     implementation(libs.androidx.media3.session)
+    implementation("dev.kosrat:muslimdata:2.7.1")
 
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.ui)
