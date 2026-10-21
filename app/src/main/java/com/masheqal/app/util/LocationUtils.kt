@@ -4,7 +4,11 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
+import android.location.LocationListener
 import android.location.LocationManager
+import android.os.Build
+import android.os.Bundle
+import android.os.Looper
 import androidx.core.content.ContextCompat
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
@@ -52,21 +56,51 @@ object LocationUtils {
             ?: return lastKnown(context)
 
         return suspendCancellableCoroutine { continuation ->
-            runCatching {
-                manager.getCurrentLocation(
-                    provider,
-                    null,
-                    context.mainExecutor
-                ) { location ->
-                    val result = location?.toCurrentLocation()
-                    if (result != null) persist(context, result)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                runCatching {
+                    manager.getCurrentLocation(
+                        provider,
+                        null,
+                        context.mainExecutor
+                    ) { location ->
+                        val result = location?.toCurrentLocation()
+                        if (result != null) persist(context, result)
+                        if (continuation.isActive) {
+                            continuation.resume(result ?: lastKnown(context))
+                        }
+                    }
+                }.onFailure {
                     if (continuation.isActive) {
-                        continuation.resume(result ?: lastKnown(context))
+                        continuation.resume(lastKnown(context))
                     }
                 }
-            }.onFailure {
-                if (continuation.isActive) {
-                    continuation.resume(lastKnown(context))
+            } else {
+                val listener = object : LocationListener {
+                    override fun onLocationChanged(location: Location) {
+                        manager.removeUpdates(this)
+                        val result = location.toCurrentLocation()
+                        persist(context, result)
+                        if (continuation.isActive) continuation.resume(result)
+                    }
+
+                    @Deprecated("Deprecated in API 29")
+                    override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) = Unit
+
+                    override fun onProviderEnabled(provider: String) = Unit
+
+                    override fun onProviderDisabled(provider: String) {
+                        manager.removeUpdates(this)
+                        if (continuation.isActive) continuation.resume(lastKnown(context))
+                    }
+                }
+                continuation.invokeOnCancellation {
+                    runCatching { manager.removeUpdates(listener) }
+                }
+                runCatching {
+                    @Suppress("DEPRECATION")
+                    manager.requestSingleUpdate(provider, listener, Looper.getMainLooper())
+                }.onFailure {
+                    if (continuation.isActive) continuation.resume(lastKnown(context))
                 }
             }
         }
