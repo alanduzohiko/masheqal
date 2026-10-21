@@ -1,7 +1,7 @@
 # مەشخەڵ — Native Android Foundation
 
 **Identity:** `com.masheqal.app`  
-**Minimum Android:** 11 / API 30  
+**Minimum Android:** 7.0 / API 24 (matching the original app's minimum; Java time APIs are desugared for older Android versions)  
 **Compile/Target:** API 36  
 **UI:** Kotlin + Jetpack Compose + Material 3  
 **Data:** SQLite user store + DataStore preferences + versioned content assets  
