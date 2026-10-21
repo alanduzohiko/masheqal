@@ -40,7 +40,7 @@ fun LibraryScreen(app: MasheqalApp, nav: NavHostController) {
         LibraryRow(R.string.calendar, R.string.calendar, Icons.Default.CalendarMonth, "calendar"),
         LibraryRow(R.string.tafsir, R.string.online_cached_content, Icons.Default.MenuBook, "quran"),
         LibraryRow(R.string.hadith, R.string.source_required, Icons.Default.LibraryBooks, "content"),
-        LibraryRow(R.string.names_of_allah, R.string.source_required, Icons.Default.AutoAwesome, "content"),
+        LibraryRow(R.string.names_of_allah, R.string.bundled_sourced_content, Icons.Default.AutoAwesome, "names"),
         LibraryRow(R.string.content_center, R.string.content_center_subtitle, Icons.Default.Inventory2, "content"),
         LibraryRow(R.string.settings, R.string.settings, Icons.Default.Settings, "settings")
     )
